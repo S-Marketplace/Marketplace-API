@@ -32,6 +32,8 @@ class Login extends BaseController
 
     public function index()
     {
+        return $this->response->setJSON(['work']);
+
         if ($this->request->isAJAX()) {
 
             $username = $this->request->getPost('username');
