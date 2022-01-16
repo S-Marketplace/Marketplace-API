@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Login');
+$routes->setDefaultController('Welcome');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->cli('generator/run/(:any)', 'Generator::run/$1');
 
-$routes->get('/', 'Login::index');
+$routes->get('/', 'Welcome::index');
 
 $routes->post("api/auth", 'Api\Auth::create', ['filter' => 'apiKeyFilter']);
 $routes->put("api/auth/refresh", "Api\Auth::update", ['filter' => 'apiKeyFilter']);

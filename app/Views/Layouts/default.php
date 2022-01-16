@@ -8,7 +8,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
-    <title>SILAKI</title>
+    <title>Menyambang.id</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -112,7 +112,7 @@ $username = @$session['username'];
                     </div>
                 </form>
                 <div class="header-logo-wrapper col-auto p-0">
-                    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="<?= $logo ?>" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" width="40" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
                 </div>
                 <div class="left-header col horizontal-wrapper ps-0">
@@ -141,8 +141,8 @@ $username = @$session['username'];
                 <div>
                     <div class="logo-wrapper" style="padding: 20px 30px;">
                         <a href="index.html">
-                            <img class="img-fluid for-light" src="<?= $logo; ?>" alt="Logo SILAKI" width="85%">
-                            <!-- <span class="font-medium-3 text-bold-300" >SILAKI</span> -->
+                            <img class="img-fluid for-light" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
+                            <span class="font-medium-3 text-bold-300" >Menyambang.id</span>
                         </a>
                         <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                         <!-- <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div> -->
