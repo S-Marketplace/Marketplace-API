@@ -32,7 +32,7 @@ class Login extends BaseController
 
     public function index()
     {
-        return $this->response->setJSON(['work']);
+        return $this->response->setJSON(['test']);
 
         if ($this->request->isAJAX()) {
 
