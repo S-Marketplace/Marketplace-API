@@ -36,20 +36,20 @@ class Login extends BaseController
 
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
-            $token_captcha = $this->request->getPost('token_captcha');
-            $server = $this->request->getServer(['SERVER_NAME']);
-            $ipAdress = $this->request->getIPAddress();
+            $response = $this->_loginSession($username, $password);
+            // $token_captcha = $this->request->getPost('token_captcha');
+            // $server = $this->request->getServer(['SERVER_NAME']);
+            // $ipAdress = $this->request->getIPAddress();
 
-            $recaptcha = new ReCaptcha(self::SECRET_KEY);
-            $resp = $recaptcha->setExpectedHostname($server['SERVER_NAME'])
-                ->setExpectedAction('login')
-                ->setScoreThreshold(0.9)
-                ->verify($token_captcha, $ipAdress);
-            if ($resp->isSuccess()) {
-                $response = $this->_loginSession($username, $password);
-            } else {
-                $response = $this->response(null, 400, 'Login gagal, harap refresh atau gunakan browser lain');
-            }
+            // $recaptcha = new ReCaptcha(self::SECRET_KEY);
+            // $resp = $recaptcha->setExpectedHostname($server['SERVER_NAME'])
+            //     ->setExpectedAction('login')
+            //     ->setScoreThreshold(0.9)
+            //     ->verify($token_captcha, $ipAdress);
+            // if ($resp->isSuccess()) {
+            // } else {
+            //     $response = $this->response(null, 400, 'Login gagal, harap refresh atau gunakan browser lain');
+            // }
 
             return $this->response->setJSON($response);
         } else if ($this->session->has('role')) {
