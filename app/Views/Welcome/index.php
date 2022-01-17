@@ -64,7 +64,7 @@
                     <li class="nav-item"><a class="nav-link" href="#components">Components</a></li>
                     <li class="nav-item"><a class="nav-link" href="#applications">Applications</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://docs.pixelstrap.com/cuba/all_in_one/document/index.html" target="_blank">Documentation</a></li>
-                    <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="https://1.envato.market/3GVzd" target="_blank">Purchase</a></li>
+                    <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="https://1.envato.market/3GVzd" target="_blank">Purchasess</a></li>
                   </ul>
                 </div>
               </nav>
