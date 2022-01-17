@@ -10,18 +10,18 @@
  * @var $updatedAt
  * @var $prefixCount
  */
-echo "<?php namespace App\Controllers\\$folder;
+echo "<?php namespace App\Controllers;
 
 use App\Controllers\MyResourceController;
 /**
  * Class $filename
  * @note Resource untuk mengelola data $tablename
  * @dataDescription $tablename
- * @package App\Controllers\\$folder
+ * @package App\Controllers
  */
 class $filename extends MyResourceController
 {
-    protected \$modelName = 'App\Models\\$folder\\$filename" . "Model';
+    protected \$modelName = 'App\Models\\$filename" . "Model';
     protected \$format    = 'json';
 
     protected \$rulesCreate = [\n";

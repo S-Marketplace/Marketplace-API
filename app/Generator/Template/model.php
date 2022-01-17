@@ -8,7 +8,7 @@
  * @var $createdAt
  * @var $updatedAt
  */
-echo "<?php namespace App\Models\\$folder;\n\n";
+echo "<?php namespace App\Models;\n\n";
 echo "use App\Models\MyModel;\n\n";
 
 echo 'class ' . $filename . 'Model extends MyModel
@@ -17,7 +17,7 @@ echo 'class ' . $filename . 'Model extends MyModel
     protected $primaryKey = "' . $primaryKey . '";
     protected $createdField = "' . $createdAt . '";
     protected $updatedField = "' . $updatedAt . '";
-    protected $returnType = "App\Entities\\' . $folder . '\\' . $filename . '";
+    protected $returnType = "App\Entities\\' . $filename . '";
     protected $allowedFields = ["' . implode('","', $allowedFields) . '"];
 
     public function getReturnType()

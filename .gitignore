@@ -6,7 +6,6 @@
 .DS_Store
 .AppleDouble
 .LSOverride
-.idea
 
 # OS X Thumbnails
 ._*
@@ -60,17 +59,6 @@ writable/session/*
 
 writable/uploads/*
 !writable/uploads/index.html
-!writable/uploads/foto_beranda
-!writable/uploads/foto_mekanisme
-
-writable/file_history/*
-!writable/file_history/index.html
-
-writable/history_import/*
-!writable/history_import/index.html
-
-writable/preimport/*
-!writable/preimport/index.html
 
 writable/debugbar/*
 
@@ -95,8 +83,8 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-/vendor/
-composer.lock
+vendor/
+app/Generator/Output
 
 #-------------------------
 # IDE / Development Files

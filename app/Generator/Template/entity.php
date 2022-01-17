@@ -6,7 +6,7 @@
  * @var $tableDescription
  * @var $prefixCount
  */
-echo "<?php namespace App\Entities\\$folder;
+echo "<?php namespace App\Entities;
 use App\Entities\MyEntitiy;
 
 class $filename extends MyEntitiy

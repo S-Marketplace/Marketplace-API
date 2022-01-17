@@ -44,7 +44,7 @@ class Beranda extends BaseController
 
     public function __construct()
     {
-        $this->model = new BerandaModel();
+        // $this->model = new BerandaModel();
     }
 
     /**

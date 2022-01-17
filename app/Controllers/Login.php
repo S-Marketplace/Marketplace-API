@@ -65,38 +65,6 @@ class Login extends BaseController
         }
     }
 
-    public function indexTest()
-    {
-        if ($this->request->isAJAX()) {
-
-            $username = $this->request->getPost('username');
-            $password = $this->request->getPost('password');
-            $token_captcha = $this->request->getPost('token_captcha');
-
-            $recaptcha = new ReCaptcha('6LcsuMIaAAAAAJ0e2CrTQzpNJKgoG6H-QzI5Eneo');
-            $resp = $recaptcha->setExpectedHostname('http://localhost/Marketplace-API/public/')
-                ->setExpectedAction('login')
-                ->setScoreThreshold(0.9)
-                ->verify($token_captcha);
-            if ($resp->isSuccess()) {
-                $response = $this->_loginSession($username, $password);
-            } else {
-                $response = $this->response(null, 400, 'Login gagal, harap refresh atau gunakan browser lain');
-            }
-
-            return $this->response->setJSON($response);
-        } else if ($this->session->has('role')) {
-            return redirect()->to(base_url('Beranda'));
-        } else {
-
-            $img = base_url('assets/images/silaki/logo-lapas_ya.png');
-            $imgData = base64_encode(file_get_contents($img));
-
-            $data['logo'] = 'data:image/png;base64,' . $imgData;
-            return view('Login/index_test', $data);
-        }
-    }
-
     public function session()
     {
         echo "<pre>";
@@ -115,7 +83,7 @@ class Login extends BaseController
      */
     private function _loginSession($username, $password)
     {
-        $model = new UserModel();
+        // $model = new UserModel();
         if ($this->validate($this->rulesCreate)) {
             try {
                

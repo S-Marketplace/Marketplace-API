@@ -51,7 +51,7 @@
                     <div>
                         <div class="row">
                             <a class="logo pull-left" style="text-align: left;" href="index.html">
-                                <img class="img-fluid for-light" src="<?= $logo ?>" alt="looginpage" width="300px">
+                                <!-- <img class="img-fluid for-light" src="<?= $logo ?>" alt="looginpage" width="300px"> -->
                             </a>
                         </div>
                         <div class="login-main">
@@ -66,7 +66,7 @@
                                     <label class="col-form-label">Password</label>
                                     <div class="form-input position-relative">
                                         <input class="form-control" type="password" name="password" placeholder="Password">
-                                        <div class="show-hide"><span class="show"> </span></div>
+                                        <!-- <div class="show-hide"><span class="show"> </span></div> -->
                                     </div>
                                 </div>
                                 <div class="alert alert-danger errorMessage" style="display: none"></div>

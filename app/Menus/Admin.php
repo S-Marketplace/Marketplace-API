@@ -25,7 +25,7 @@ class Admin implements MenuInterface
                 'children' => [
                     [
                         'title' => 'Produk',
-                        'url' => 'ComingSoon'
+                        'url' => 'Produk'
                     ],
                     [
                         'title' => 'Kategori',
