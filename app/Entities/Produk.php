@@ -3,6 +3,10 @@ use App\Entities\MyEntitiy;
 
 class Produk extends MyEntity
 {
+    protected $casts = [
+        'kategori' => 'json',
+    ];
+
     protected $datamap = [
         'id' => 'produkId',
         'nama' => 'produkNama',
@@ -28,6 +32,7 @@ class Produk extends MyEntity
 'berat',
 'dilihat',
 'kategoriId',
+'kategori',
 'createdAt',
 'updatedAt',
 'deletedAt',

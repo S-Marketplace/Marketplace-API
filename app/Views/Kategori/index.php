@@ -62,21 +62,10 @@
     var dataRow;
     $(document).ready(function() {
 
-        $('#isActive').change(function(e) {
-            e.preventDefault();
-            let val = 0;
-            let label = 'Tidak Aktif';
-            if ($(this).prop('checked')) {
-                val = 1
-                label = 'Aktif';
-            }
-            $('[name="isActive"]').val(val);
-        });
-
         $('#btnTambah').click(function(e) {
             e.preventDefault();
             $('#aksi').html('Tambah');
-
+            $('input').val('');
             krajeeConfig('[name="icon"]', {
                 type: 'image'
             });
@@ -213,7 +202,7 @@
                     data: 'icon',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/icon_kategori/${val}`;
-                        return `<a href="${link}" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}" width="150px" alt="Foto Mekanisme"></a>`;
+                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}" alt="Foto Mekanisme"></a>`;
                     }
                 },
                 

@@ -197,7 +197,7 @@ function krajeeConfig(selector, data = []) {
         reversePreviewOrder: true,
         initialPreviewAsData: true,
         // autoReplace: true,
-        maxFileCount: 1,
+        maxFileCount: 20,
         maxImageWidth: 200,
         resizeImage: true,
         initialPreviewFileType: "image",

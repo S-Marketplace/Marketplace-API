@@ -40,6 +40,7 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/responsive.css">
 
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/custom/vendors.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/file-upload/file-upload-with-preview.min.css">
 
     <!-- BEGIN : PAGE CSS -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/sweetalert2.min.css">
@@ -81,7 +82,7 @@ $nama = @$session['nama'];
 $username = @$session['username'];
 ?>
 
-<body onload="startTime()">
+<body>
     <div class="loader-wrapper">
         <div class="loader-index"><span></span></div>
         <svg>
@@ -147,7 +148,7 @@ $username = @$session['username'];
                         <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                         <!-- <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div> -->
                     </div>
-                    <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url('assets'); ?>/images/logo/logo-icon.png" alt=""></a></div>
+                    <!-- <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url('assets'); ?>/images/logo/logo-icon.png" alt=""></a></div> -->
                     <nav class="sidebar-main">
                         <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
                         <div id="sidebar-menu">
@@ -241,6 +242,7 @@ $username = @$session['username'];
     <!-- Bootstrap js-->
     <!-- <script src="<?= base_url('assets'); ?>/js/bootstrap/bootstrap.bundle.min.js"></script> -->
     <!-- feather icon js-->
+    <script src="<?= base_url('assets'); ?>/file-upload/file-upload-with-preview.min.js"></script>
     <script src="<?= base_url('assets'); ?>/js/icons/feather-icon/feather.min.js"></script>
     <script src="<?= base_url('assets'); ?>/js/icons/feather-icon/feather-icon.js"></script>
     <!-- scrollbar js-->
@@ -261,7 +263,7 @@ $username = @$session['username'];
     <!-- Plugin used-->
 
     <!-- Preloader -->
-    <script src="<?= base_url('assets'); ?>/js/dashboard/default.js"></script>
+    <!-- <script src="<?= base_url('assets'); ?>/js/dashboard/default.js"></script> -->
 
     <!-- BEGIN : PAGE JS -->
     <script src="<?= base_url('assets'); ?>/vendors/moment.js"></script>

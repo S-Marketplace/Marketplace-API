@@ -140,7 +140,7 @@
 
             var key = '';
             if(isEdit){
-                var key = 'username';
+                key = '/username';
             }
 
             $.ajax({

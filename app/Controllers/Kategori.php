@@ -24,7 +24,7 @@ class Kategori extends BaseController
            ->view("Kategori/index");
    }
 
-   protected function uploadFile()
+   protected function uploadFile($id)
     {
         helper("myfile");
 

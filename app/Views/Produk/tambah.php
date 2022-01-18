@@ -1,0 +1,168 @@
+<?= $this->extend('Layouts/default'); ?>
+<?= $this->section('content'); ?>
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Produk</h3>
+                </div>
+                <div class="col-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+            <div class="card">
+                  <div class="card-header">
+                    <h5>Data Produk</h5>
+                  </div>
+                  <form class="form theme-form" id="form">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Nama</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="nama" id="nama" class="form-control readonly-background" value="<?= $produk->produkNama ?? ''; ?>" placeholder="Nama">
+                                <p class="text-danger" id="er_nama"></p>
+                            </div>
+                          </div>
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Harga</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="harga" id="harga" class="form-control readonly-background" value="<?= $produk->produkHarga ?? ''; ?>" placeholder="Harga">
+                                <p class="text-danger" id="er_harga"></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" name="hargaPer" id="hargaPer" class="form-control readonly-background" value="<?= $produk->produkHargaPer ?? ''; ?>" placeholder="pcs">
+                                <p class="text-danger" id="er_hargaPer"></p>
+                            </div>
+                          </div>
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Stok</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="stok" id="stok" class="form-control readonly-background" value="<?= $produk->produkStok ?? ''; ?>" placeholder="Stok">
+                                <p class="text-danger" id="er_stok"></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" name="berat" id="berat" class="form-control readonly-background" value="<?= $produk->produkBerat ?? ''; ?>" placeholder="Berat (gram)">
+                                <p class="text-danger" id="er_berat"></p>
+                            </div>
+                          </div>
+                        
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Deskripsi</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"><?= $produk->produkDeskripsi ?? ''; ?></textarea>
+                                <p class="text-danger" id="er_deskripsi"></p>
+                            </div>
+                          </div>
+
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Kategori</label>
+                            <div class="col-sm-9">
+                                <?= form_dropdown('kategoriId', $kategori, $produk->produkKategoriId ?? '', ['class' => 'form-control kategoriId select2', 'id' => 'kategoriId']); ?>
+                                <p class="text-danger" id="er_kategoriId"></p>
+                            </div>
+                          </div>
+
+                          <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Gambar</label>
+                            <div class="col-sm-9">
+                                <input class="form-control gambar" type="file" name="gambar[]" multiple placeholder="icon">
+                                <p class="text-danger" id="er_gambar"></p>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-end">
+                      <div class="col-12">
+                        <button class="btn btn-primary pull-right" id="btnSimpan" type="submit" >Simpan</button>
+                        <a class="btn btn-light" href="<?= base_url('Produk')?>" data-bs-original-title="" title="">Kembali</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+    <?= $this->include('Produk/modal'); ?>
+</div>
+<?= $this->endSection(); ?>
+
+<?= $this->section('css'); ?>
+<style>
+    .readonly-background[readonly] {
+        background-color: white !important;
+    }
+</style>
+<?= $this->endSection(); ?>
+
+<?= $this->section('js'); ?>
+<script>
+    var grid = null;
+    var dataRow;
+    $(document).ready(function() {
+
+        var id = '<?= $id ?? '';?>';
+
+        krajeeConfig('.gambar', {
+            type: 'image'
+        });
+
+        $('[name="kategoriId"]').select2().trigger('change');
+
+       
+        $('#form').submit(function(e) {
+            e.preventDefault();
+
+            var data = new FormData(this);
+            data.append('id', id);
+
+            $.ajax({
+                type: "POST",
+                url: `<?= base_url('Produk') ?>/simpan/id`,
+                data: data,
+                dataType: "JSON",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if (res.code == 200) {
+                        Swal.fire('Berhasil!', 'Data berhasil disimpan', 'success');
+
+                        setTimeout(() => {
+                            window.location = '<?= base_url('Produk')?>';
+                        }, 400);
+                    } else {
+                        $.each(res.message, function(index, val) {
+                            if(index == 'gambar[]') index = 'gambar';
+                            $('#er_' + index).html(val);
+                        });
+                    }
+                },
+                fail: function(xhr) {
+                    Swal.fire('Error', "Server gagal merespon", 'error');
+                },
+                beforeSend: function() {
+                    $("[id^='er_']").html('');
+                    $('#btnSimpan').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                },
+                complete: function(res) {
+                    $('#btnSimpan').removeAttr('disabled').html('Simpan');
+                }
+            });
+        });
+
+      
+    });
+</script>
+<?= $this->endSection(); ?>

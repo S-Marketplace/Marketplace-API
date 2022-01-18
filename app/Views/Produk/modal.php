@@ -8,34 +8,24 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="form">
+            <form id="form">
+                <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="">Tanggal</label>
-                        <input type="text" name="tanggal" id="tanggal" class="form-control readonly-background" placeholder="Tanggal">
-                        <p class="block-tag text-left" id="er_tanggal"></p>
+                        <label for="">Nama</label>
+                        <input type="text" name="nama" id="nama" class="form-control readonly-background" placeholder="Nama">
+                        <p class="text-danger" id="er_nama"></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="">Jam Mulai</label>
-                        <input type="text" name="jamMulai" id="jamMulai" class="form-control readonly-background" placeholder="Jam Mulai">
-                        <p class="block-tag text-left" id="er_jamMulai"></p>
+                    <div class="form-group mb-2">
+                        <label for="">Icon</label>
+                        <input class="form-control" type="file" name="icon" placeholder="icon">
+                        <p class="text-danger" id="er_icon"></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="">Jam Selesai</label>
-                        <input type="text" name="jamSelesai" id="jamSelesai" class="form-control readonly-background" placeholder="Jam Selesai">
-                        <p class="block-tag text-left" id="er_jamSelesai"></p>
-                    </div>
-                    <div class="form-group mb-0">
-                        <label for="">Keterangan</label>
-                        <textarea id="keterangan" class="form-control" name="keterangan" placeholder="Keterangan"></textarea>
-                        <p class="block-tag text-left" id="er_keterangan"></p>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm grey btn-outline-secondary" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-sm grey btn-primary" id="btnSimpan">Simpan</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-sm grey btn-primary" id="btnSimpan">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

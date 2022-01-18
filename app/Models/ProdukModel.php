@@ -19,4 +19,11 @@ class ProdukModel extends MyModel
     public function getPrimaryKeyName(){
         return $this->primaryKey;
     }
+
+    protected function relationships()
+    {
+        return [
+            'kategori' => ['table' => 'm_kategori', 'condition' => 'produkKategoriId = ktgId', 'entity' => 'App\Entities\Kategori'],
+        ];
+    }
 }

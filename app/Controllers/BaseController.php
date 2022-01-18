@@ -32,6 +32,7 @@ class BaseController extends Controller
 	 */
 	protected $helpers = [];
 	protected $rules = [];
+	protected $isUploadWithId = false;
 
 	/**
 	 * Constructor.
@@ -93,7 +94,7 @@ class BaseController extends Controller
 		return $this->response->setJSON($response);
 	}
 
-	protected function uploadFile()
+	protected function uploadFile($id)
 	{
 	}
 
@@ -103,11 +104,13 @@ class BaseController extends Controller
 
 			helper('form');
 			if ($this->validate($this->rules)) {
-				try {
-					$this->uploadFile();
-				} catch (\Exception $ex) {
-					$response =  $this->response(null, 500, $ex->getMessage());
-					return $this->response->setJSON($response);
+				if(!$this->isUploadWithId){
+					try {
+						$this->uploadFile(null);
+					} catch (\Exception $ex) {
+						$response =  $this->response(null, 500, $ex->getMessage());
+						return $this->response->setJSON($response);
+					}
 				}
 
 				try {
@@ -128,6 +131,15 @@ class BaseController extends Controller
 
 					$this->model->transComplete();
 					$status = $this->model->transStatus();
+
+					if($this->isUploadWithId){
+						try {
+							$this->uploadFile($this->model->getInsertID());
+						} catch (\Exception $ex) {
+							$response =  $this->response(null, 500, $ex->getMessage());
+							return $this->response->setJSON($response);
+						}
+					}
 
 					$response = $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
 					return $this->response->setJSON($response);
