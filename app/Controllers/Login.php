@@ -5,6 +5,7 @@ namespace App\Controllers;
 use ReCaptcha\ReCaptcha;
 use App\Models\UserModel;
 use App\Controllers\BaseController;
+use App\Models\UserWebModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Login extends BaseController
@@ -55,13 +56,7 @@ class Login extends BaseController
         } else if ($this->session->has('role')) {
             return redirect()->to(base_url('Beranda'));
         } else {
-
-
-            $img = base_url('assets/images/silaki/logo-lapas_ya.png');
-            $imgData = base64_encode(file_get_contents($img));
-
-            $data['logo'] = 'data:image/png;base64,' . $imgData;
-            return view('Login/index', $data);
+            return view('Login/index2');
         }
     }
 
@@ -83,14 +78,16 @@ class Login extends BaseController
      */
     private function _loginSession($username, $password)
     {
-        // $model = new UserModel();
+        $model = new UserWebModel();
         if ($this->validate($this->rulesCreate)) {
             try {
-               
-                // if (isset($user) && $user->verifyPassword($password)) {
+                $model->select('*');
+                $user = $model->find($username);
+
+                if (isset($user) && $user->verifyPassword($password)) {
                     $dataUser = [
-                        'nama' => 'Admin',
-                        'username' => 'admin',
+                        'nama' => $user->nama,
+                        'username' => $user->username,
                         'role' => 'admin',
                     ];
 
@@ -98,9 +95,9 @@ class Login extends BaseController
 
                     $response['redirect'] = base_url('Beranda');
                     return $this->response($response, 200);
-                // } else {
-                //     return $this->response(null, 401, 'User tidak ditemukan');
-                // }
+                } else {
+                    return $this->response(null, 401, 'User tidak ditemukan');
+                }
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {

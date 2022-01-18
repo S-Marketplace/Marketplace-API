@@ -39,8 +39,8 @@ class Admin implements MenuInterface
                     'icon' => 'box',
                     'children' => [
                         [
-                            'title' => 'User',
-                            'url' => 'ComingSoon'
+                            'title' => 'User Aplikasi Web',
+                            'url' => 'UserWeb'
                         ],
                     ]
                 ],

@@ -17,9 +17,9 @@ foreach ($tableDescription as $row) {
 }
 echo "    ];
 
-    protected \$show = [\n\t\t";
+    protected \$show = [\n";
 foreach ($tableDescription as $row) {
-    echo "'" . lcfirst(substr($row['Field'], $prefixCount)) . "',\n";
+    echo "\t\t'" . lcfirst(substr($row['Field'], $prefixCount)) . "',\n";
 }
-echo "\n    ];
+echo "    ];
 }";
