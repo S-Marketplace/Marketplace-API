@@ -7,9 +7,9 @@
  * @var $prefixCount
  */
 echo "<?php namespace App\Entities;
-use App\Entities\MyEntitiy;
+use App\Entities\MyEntity;
 
-class $filename extends MyEntitiy
+class $filename extends MyEntity
 {
     protected \$datamap = [\n";
 foreach ($tableDescription as $row) {

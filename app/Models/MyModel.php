@@ -164,4 +164,27 @@ class MyModel extends Model
     {
         return $this->primaryKey;
     }
+
+    
+    public function setEntity($newEntity){
+        $this->tempReturnType = $newEntity;
+        return $this;
+    }
+    
+    protected function hasMany($tableName,$relations,$entity,$alias,$key,$type ="left"){
+        $entityInstance = new $entity;
+        $jsonEntity = [];
+        foreach($entityInstance->getDatamap(true) as $name=>$field){
+            $jsonEntity[] = "'$name',$field";
+        }
+        if(count($this->hasAddedInJoin) == 0){
+            $this->select($this->getTableName().".*");
+        }else{
+            $this->hasAddedInJoin[] = $tableName;
+        }
+        $this->select("IF($field IS NOT NULL,JSON_OBJECTAGG(COALESCE($key,'-'),JSON_OBJECT(".implode(",",$jsonEntity).")),'[]') as $alias")
+        ->join($tableName,$relations,$type)
+        ->groupBy($this->table.".".$this->primaryKey);
+        return $this;
+    }
 }

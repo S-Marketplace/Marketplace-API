@@ -7,8 +7,8 @@ use App\Controllers\BaseController;
 
 class Produk extends BaseController
 {
+    protected $modelName = 'App\Models\ProdukModel';
     protected $activeUrl = 'Produk';
-    protected $model = '';
 
     protected $rules = [
         'tanggal' => ['label' => 'Hari', 'rules' => 'required'],
@@ -16,11 +16,6 @@ class Produk extends BaseController
         'jamSelesai' => ['label' => 'Jam Selesai', 'rules' => 'required'],
         'keterangan' => ['label' => 'Keterangan', 'rules' => 'required'],
     ];
-
-    public function __construct()
-    {
-        $this->model = new ProdukModel();
-    }
 
     public function index()
     {

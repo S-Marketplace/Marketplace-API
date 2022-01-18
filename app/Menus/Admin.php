@@ -29,7 +29,7 @@ class Admin implements MenuInterface
                     ],
                     [
                         'title' => 'Kategori',
-                        'url' => 'ComingSoon'
+                        'url' => 'Kategori'
                     ],
                 ]
             ],

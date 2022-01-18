@@ -54,6 +54,9 @@ class BaseController extends Controller
 		$this->template = Services::template([], true);
 
 		date_default_timezone_set('Asia/Kuala_Lumpur');
+
+		if(isset($this->modelName))
+		$this->model = new $this->modelName() ?? '';
 	}
 
 	/**

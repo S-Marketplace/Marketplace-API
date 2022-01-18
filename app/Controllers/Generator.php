@@ -55,12 +55,12 @@ class Generator extends Controller
             mkdir(APPPATH . "Models");
         }
 
-        if ($file = fopen(APPPATH . "/Config/Routes.php", 'a')) {
-            fwrite($file, "\n\$route->resource(\"$routelink\",['controller'=>'{$folder}\\$classname','only'=>['index','show','create','update','delete']]);" . PHP_EOL);
-            fwrite($file, "\$route->put(\"$routelink\",'{$folder}\\$classname::update');" . PHP_EOL);
-            fwrite($file, "\$route->delete(\"$routelink\",'{$folder}\\$classname::delete');" . PHP_EOL);
-            fclose($file);
-        }
+        // if ($file = fopen(APPPATH . "/Config/Routes.php", 'a')) {
+        //     fwrite($file, "\n\$route->resource(\"$routelink\",['controller'=>'{$folder}\\$classname','only'=>['index','show','create','update','delete']]);" . PHP_EOL);
+        //     fwrite($file, "\$route->put(\"$routelink\",'{$folder}\\$classname::update');" . PHP_EOL);
+        //     fwrite($file, "\$route->delete(\"$routelink\",'{$folder}\\$classname::delete');" . PHP_EOL);
+        //     fclose($file);
+        // }
 
         if (!file_exists(APPPATH . "Controllers/$classname.php"))
             rename2(APPPATH . "Generator/Output/Controllers/$classname.php", APPPATH . "Controllers/$classname.php");
