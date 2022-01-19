@@ -202,7 +202,7 @@
                     data: 'icon',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/icon_kategori/${val}`;
-                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}" alt="Foto Mekanisme"></a>`;
+                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
                 

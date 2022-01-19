@@ -38,14 +38,14 @@
                                 <p class="text-danger" id="er_harga"></p>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" name="hargaPer" id="hargaPer" class="form-control readonly-background" value="<?= $produk->produkHargaPer ?? ''; ?>" placeholder="pcs">
+                                <input type="text" name="hargaPer" id="hargaPer" class="form-control readonly-background" value="<?= $produk->produkHargaPer ?? ''; ?>" placeholder="/ pcs">
                                 <p class="text-danger" id="er_hargaPer"></p>
                             </div>
                           </div>
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Diskon</label>
                             <div class="col-sm-9">
-                                <input type="text" name="diskon" id="diskon" class="form-control readonly-background" value="<?= $produk->produkDiskon ?? ''; ?>" placeholder="diskon">
+                                <input type="text" name="diskon" id="diskon" class="form-control readonly-background" value="<?= $produk->produkDiskon ?? ''; ?>" placeholder="Diskon %">
                                 <p class="text-danger" id="er_diskon"></p>
                             </div>
                           </div>

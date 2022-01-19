@@ -28,8 +28,8 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Nama</th>
-                                        <th width="20%">Icon</th>
+                                        <th width="20%">Deskripsi</th>
+                                        <th width="20%">Gambar</th>
                                         <th width="15%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -204,7 +204,7 @@
                     data: 'gambar',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/banner_gambar/${val}`;
-                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}" alt="Foto Mekanisme"></a>`;
+                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
                 

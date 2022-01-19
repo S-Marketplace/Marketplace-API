@@ -17,5 +17,10 @@ class Welcome extends BaseController
         return view('Welcome/index');
     }
 
+    public function coming_soon()
+    {
+        return view('Welcome/coming-soon');
+    }
+
     
 }
