@@ -40,9 +40,9 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/responsive.css">
 
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/custom/vendors.css">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/file-upload/file-upload-with-preview.min.css">
 
     <!-- BEGIN : PAGE CSS -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/owlcarousel.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/select2.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/vendors/flatpickr/flatpickr.min.css">
@@ -242,7 +242,6 @@ $username = @$session['username'];
     <!-- Bootstrap js-->
     <!-- <script src="<?= base_url('assets'); ?>/js/bootstrap/bootstrap.bundle.min.js"></script> -->
     <!-- feather icon js-->
-    <script src="<?= base_url('assets'); ?>/file-upload/file-upload-with-preview.min.js"></script>
     <script src="<?= base_url('assets'); ?>/js/icons/feather-icon/feather.min.js"></script>
     <script src="<?= base_url('assets'); ?>/js/icons/feather-icon/feather-icon.js"></script>
     <!-- scrollbar js-->
@@ -281,6 +280,7 @@ $username = @$session['username'];
     <script src="<?= base_url('assets'); ?>/js/datepicker/date-picker/datepicker.js"></script>
     <script src="<?= base_url('assets'); ?>/js/datepicker/date-picker/datepicker.id.js"></script>
     <script src="<?= base_url('assets'); ?>/js/datepicker/date-picker/datepicker.custom.js"></script>
+    <script src="<?= base_url('assets'); ?>/js/owlcarousel/owl.carousel.js"></script>
     <!-- <script src="?= base_url('assets'); ?>/js/tooltip-init.js"></script> -->
     <!-- END : PAGE JS -->
 

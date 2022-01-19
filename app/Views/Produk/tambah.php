@@ -75,6 +75,22 @@
                             <div class="col-sm-9">
                                 <input class="form-control gambar" type="file" name="gambar[]" multiple placeholder="icon">
                                 <p class="text-danger" id="er_gambar"></p>
+                                <div class="row">
+                                    <?php foreach($produkGambar ?? [] as $value):?>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="card cardGambar">
+                                            <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
+                                                <div class="blog-details">
+                                                    <ul class="blog-social">
+                                                        <li class="btnHapus" data-id="<?= $value->prdgbrId?>"><i class="feather icon-trash"></i>Hapus Gambar</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <img class="img-fluid" alt="" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>"> -->
+                                    </div>
+                                    <?php endforeach;?>
+                                </div>
                             </div>
                           </div>
                           
@@ -120,6 +136,50 @@
 
         $('[name="kategoriId"]').select2().trigger('change');
 
+        $(document).on('click', '.btnHapus', function(e) {
+            e.preventDefault();
+            let btn = $(e.currentTarget);
+            let gambarId = $(this).data('id');
+            let ini = $(this);
+
+            Swal.fire({
+                title: 'Anda Yakin ?',
+                text: "Data yang terhapus tidak dapat dikembalikan!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: `<?= base_url('Produk') ?>/hapusGambar/${gambarId}`,
+                        dataType: "JSON",
+                        success: function(res) {
+                            if (res.code == 200) {
+                                ini.parents('.cardGambar').remove();
+                                Swal.fire('Terhapus!', 'Data berhasil dihapus', 'success')
+                            } else {
+                                Swal.fire('Info!', res.message, 'warning')
+                            }
+                        },
+                        fail: function(xhr) {
+                            Swal.fire('Error', "Server gagal merespon", 'error');
+                        },
+                        beforeSend: function() {
+                            btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Hapus Gambar');
+                        },
+                        complete: function(res) {
+                            btn.removeAttr('disabled').html('<i class="feather icon-trash"></i> Hapus Gambar');
+                        }
+                    });
+
+                }
+            });
+
+        });
        
         $('#form').submit(function(e) {
             e.preventDefault();

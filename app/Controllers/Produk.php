@@ -2,9 +2,10 @@
 
 use App\Models\KategoriModel;
 use CodeIgniter\Config\Config;
+use App\Models\ProdukGambarModel;
 use App\Controllers\BaseController;
 use App\Controllers\MyResourceController;
-use App\Models\ProdukGambarModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
  * Class Produk
@@ -59,9 +60,12 @@ class Produk extends BaseController
 
     public function ubah($produkId)
     {
+        $produkGambar = new ProdukGambarModel();
+
         $data = [
            'kategori' => $this->getKategori(),
            'produk' => $this->model->asObject()->find($produkId),
+           'produkGambar' => $produkGambar->where(['prdgbrProdukId' => $produkId])->asObject()->find(),
            'id' => $produkId,
        ];
 
@@ -69,16 +73,40 @@ class Produk extends BaseController
            ->view("Produk/tambah", $data);
     }
 
+    public function hapusGambar($id){
+        try {
+            $produkGambar = new ProdukGambarModel();
+            $status = $produkGambar->delete($id);
+
+			$response = $this->response(null, ($status ? 200 : 500));
+			return $this->response->setJSON($response);
+		} catch (DatabaseException $ex) {
+			$response =  $this->response(null, 500, $ex->getMessage());
+			return $this->response->setJSON($response);
+		} catch (\mysqli_sql_exception $ex) {
+			$response =  $this->response(null, 500, $ex->getMessage());
+			return $this->response->setJSON($response);
+		} catch (\Exception $ex) {
+			$response =  $this->response(null, 500, $ex->getMessage());
+			return $this->response->setJSON($response);
+		}
+    }
+
     protected function uploadFile($id)
     {
         $produkGambarModel = new ProdukGambarModel();
         foreach($this->request->getFileMultiple('gambar') as $file)
         {   
-            $file->move(WRITEPATH . 'uploads/produk_gambar');
+            if($file->getClientName() == ''){
+                continue;
+            }
+
+            $newName = $file->getRandomName();
+            $file->move(WRITEPATH . 'uploads/produk_gambar', $newName);
 
             $data = [
                 'prdgbrProdukId' =>  $id,
-                'prdgbrFile' =>  $file->getClientName(),
+                'prdgbrFile' =>  $newName,
             ];
 
             $save = $produkGambarModel->insert($data);
@@ -99,13 +127,21 @@ class Produk extends BaseController
 
     public function simpan($primary = '')
     {
-        // $id = $this->request->getVar('id');
-        // if ($id != '') {
-        //     $checkData = $this->checkData($id);
-        //     if (!empty($checkData) && $checkData->icon != '') {
-        //     }
-        // }
-        unset($this->rules['gambar[]']);
+        $file = current($this->request->getFileMultiple("gambar"));
+        if ($file && $file->getError() == 0) {
+            $post = $this->request->getVar();
+            $post['gambar[]'] = '-';
+            $this->request->setGlobal("request", $post);
+        }
+
+        $id = $this->request->getVar('id');
+        if ($id != '') {
+            $checkData = $this->checkData($id);
+           
+            if (!empty($checkData)) {
+                unset($this->rules['gambar[]']);
+            }
+        }
 
         $this->isUploadWithId = true;
         return parent::simpan($primary);

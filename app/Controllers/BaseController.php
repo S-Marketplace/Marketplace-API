@@ -114,19 +114,21 @@ class BaseController extends Controller
 				}
 
 				try {
+					$primaryId = $this->request->getVar($primary);
 					$entityClass = $this->model->getReturnType();
 					$entity = new $entityClass();
 					$entity->fill($this->request->getVar());
 
 					$this->model->transStart();
-					if ($this->request->getVar($primary) == '') {
+					if ($primaryId == '') {
 						$this->model->insert($entity, false);
 						if ($this->model->getInsertID() > 0) {
+							$primaryId = $this->model->getInsertID();
 							$entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
 						}
 					} else {
 						$this->model->set($entity->toRawArray())
-							->update($this->request->getVar($primary));
+							->update($primaryId);
 					}
 
 					$this->model->transComplete();
@@ -134,7 +136,7 @@ class BaseController extends Controller
 
 					if($this->isUploadWithId){
 						try {
-							$this->uploadFile($this->model->getInsertID());
+							$this->uploadFile($primaryId);
 						} catch (\Exception $ex) {
 							$response =  $this->response(null, 500, $ex->getMessage());
 							return $this->response->setJSON($response);
