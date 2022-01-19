@@ -31,6 +31,10 @@ class Admin implements MenuInterface
                         'title' => 'Kategori',
                         'url' => 'Kategori'
                     ],
+                    [
+                        'title' => 'Banner',
+                        'url' => 'Banner'
+                    ],
                 ]
             ],
             [

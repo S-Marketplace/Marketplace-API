@@ -43,6 +43,13 @@
                             </div>
                           </div>
                           <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Diskon</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="diskon" id="diskon" class="form-control readonly-background" value="<?= $produk->produkDiskon ?? ''; ?>" placeholder="diskon">
+                                <p class="text-danger" id="er_diskon"></p>
+                            </div>
+                          </div>
+                          <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Stok</label>
                             <div class="col-sm-6">
                                 <input type="text" name="stok" id="stok" class="form-control readonly-background" value="<?= $produk->produkStok ?? ''; ?>" placeholder="Stok">

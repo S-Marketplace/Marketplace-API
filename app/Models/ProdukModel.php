@@ -9,7 +9,7 @@ class ProdukModel extends MyModel
     protected $createdField = "produkCreatedAt";
     protected $updatedField = "produkUpdatedAt";
     protected $returnType = "App\Entities\Produk";
-    protected $allowedFields = ["produkNama","produkDeskripsi","produkHarga","produkStok","produkHargaPer","produkBerat","produkDilihat","produkKategoriId","produkDeletedAt"];
+    protected $allowedFields = ["produkNama","produkDeskripsi","produkHarga","produkStok","produkHargaPer","produkBerat","produkDilihat","produkKategoriId","produkDiskon", "produkDeletedAt"];
 
     public function getReturnType()
     {
