@@ -8,6 +8,7 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class MyModel extends Model
 {
+    protected $hasAddedInJoin = [];
 
     public function update($id = null, $data = null): bool
     {
@@ -38,7 +39,7 @@ class MyModel extends Model
         $debut = [];
         $entitiyList = [];
 
-        $this->select($this->table . ".*");
+        // $this->select($this->table . ".*");
 
         if (isset($datatableParams['with'])) {
             $this->with($datatableParams['with']);
@@ -103,6 +104,7 @@ class MyModel extends Model
             'recordsFiltered' => $recordsFiltered,
             'data' => $data,
             'debug' => $debug,
+            'query' => $this->getLastQuery()->getQuery(),
         ];
     }
 
@@ -178,13 +180,14 @@ class MyModel extends Model
             $jsonEntity[] = "'$name',$field";
         }
         if(count($this->hasAddedInJoin) == 0){
-            $this->select($this->getTableName().".*");
+            // $this->select($this->getTableName().".*");
         }else{
             $this->hasAddedInJoin[] = $tableName;
         }
-        $this->select("IF($field IS NOT NULL,JSON_OBJECTAGG(COALESCE($key,'-'),JSON_OBJECT(".implode(",",$jsonEntity).")),'[]') as $alias")
-        ->join($tableName,$relations,$type)
-        ->groupBy($this->table.".".$this->primaryKey);
+        $this->select("CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']') as $alias")
+        ->join($tableName,$relations,$type);
+        $this->groupBy($this->table.".".$this->primaryKey);
+
         return $this;
     }
 }

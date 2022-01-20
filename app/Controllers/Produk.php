@@ -29,7 +29,7 @@ class Produk extends BaseController
        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
        'gambar[]' => ['label' => 'Gambar', 'rules' => 'required'],
    ];
-
+   
     public function index()
     {
         return $this->template->setActiveUrl('Produk')
@@ -122,6 +122,7 @@ class Produk extends BaseController
     {
         $this->model->select('*');
         $this->model->with(['kategori']);
+        $this->model->withGambarProduk();
 
         return parent::grid();
     }
