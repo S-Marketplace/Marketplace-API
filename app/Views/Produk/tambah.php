@@ -85,7 +85,20 @@
                                 <div class="row">
                                     <?php foreach($produkGambar ?? [] as $value):?>
                                     <div class="col-md-6 col-sm-12">
-                                        <div class="card cardGambar">
+                                        <div class="card cardGambar" >
+                                            <div class="product-box">
+                                                <div class="product-img"  style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
+                                                <div class="product-hover">
+                                                    <ul>
+                                                    <li>
+                                                        <button  data-id="<?= $value->prdgbrId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
+                                                    </li>
+                                                    </ul>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="card cardGambar">
                                             <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
                                                 <div class="blog-details">
                                                     <ul class="blog-social">
@@ -93,7 +106,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <img class="img-fluid" alt="" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>"> -->
                                     </div>
                                     <?php endforeach;?>
