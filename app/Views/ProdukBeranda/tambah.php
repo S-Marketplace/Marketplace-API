@@ -27,7 +27,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">Judul</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="judul" id="judul" class="form-control readonly-background" value="<?= $produk->pbJudul ?? ''; ?>" placeholder="Judul">
+                                            <input type="text" name="judul" id="judul" class="form-control readonly-background" value="<?= $data->pbJudul ?? ''; ?>" placeholder="Judul">
                                             <p class="text-danger" id="er_judul"></p>
                                         </div>
                                     </div>
@@ -35,7 +35,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">Deskripsi</label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"><?= $produk->pbDeskripsi ?? ''; ?></textarea>
+                                            <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"><?= $data->pbDeskripsi ?? ''; ?></textarea>
                                             <p class="text-danger" id="er_deskripsi"></p>
                                         </div>
                                     </div>
@@ -43,14 +43,16 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">Banner</label>
                                         <div class="col-sm-9">
+                                            <?php if(isset($data->pbBanner)):?>
                                             <div class="card cardGambar">
-                                                <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?= base_url('File/get/banner_gambar/' . $produk->pbBanner) ?>" alt="">
+                                                <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?= base_url('File/get/banner_gambar/' . $data->pbBanner ?? '') ?>" alt="">
                                                     <div class="blog-details">
                                                         <ul class="blog-social">
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php endif;?>
                                             <input class="form-control banner" type="file" name="banner" placeholder="Banner">
                                             <p class="text-danger" id="er_banner"></p>
                                         </div>
@@ -61,11 +63,11 @@
                                         <div class="col-sm-9">
 
                                             <div class="row">
-                                                <?php foreach($products ?? [] as $value):?>
+                                                <?php foreach($data->products ?? [] as $value):?>
                                                     <div class="col-xl-3 col-sm-6 xl-4">
                                                         <div class="card">
                                                             <div class="product-box">
-                                                                <div class="product-img"><img class="img-fluid" src="<?=base_url()?>/assets/images/ecommerce/01.jpg" alt="">
+                                                                <div class="product-img"  style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->gambar[0]->file ?? '')?>" alt="">
                                                                     <div class="product-hover">
                                                                         <ul>
                                                                             <li>
@@ -91,7 +93,7 @@
                                                     <div class="col-xl-3 col-sm-6 xl-4">
                                                         <div class="card">
                                                             <div class="product-box">
-                                                                <div class="product-img"><img class="img-fluid" src="<?=base_url()?>/assets/images/ecommerce/01.jpg" alt="">
+                                                                <div class="product-img" style="min-height: 220px;"><img class="img-fluid" src="<?=base_url()?>/assets/images/ecommerce/01.jpg" alt="">
                                                                     <div class="product-hover">
                                                                         <ul>
                                                                             <li>
@@ -103,9 +105,6 @@
                                                                 <div class="product-details">
                                                                     <h4>Man's Shirt</h4>
                                                                     <p>Simply dummy text of the printing.</p>
-                                                                    <div class="product-price">$26.00
-                                                                        <del>$350.00 </del>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

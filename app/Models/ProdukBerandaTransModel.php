@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Models\MyModel;
+use App\Entities\ProdukGambar;
 
 class ProdukBerandaTransModel extends MyModel
 {
@@ -25,5 +26,9 @@ class ProdukBerandaTransModel extends MyModel
         return [
             'produk' => ['table' => 'm_produk', 'condition' => 'tpbProdukId = produkId', 'entity' => 'App\Entities\Produk'],
         ];
+    }
+
+    public function withGambarProduk(){
+        return $this->hasMany("t_produk_gambar","produkId = prdgbrProdukId",ProdukGambar::class,"gambar",'prdgbrId');
     }
 }

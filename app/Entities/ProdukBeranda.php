@@ -5,6 +5,7 @@ class ProdukBeranda extends MyEntity
 {
     protected $casts = [
         'products'=>'json',
+        'anjay'=>'json',
     ];
 
     protected $datamap = [
@@ -22,6 +23,7 @@ class ProdukBeranda extends MyEntity
 		'banner',
 		'judul',
 		'products',
+		'anjay',
 		'deskripsi',
 		'updatedAt',
 		'deletedAt',

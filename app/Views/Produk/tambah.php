@@ -91,7 +91,7 @@
                                                 <div class="product-hover">
                                                     <ul>
                                                     <li>
-                                                        <button  data-id="<?= $value->prdgbrId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
+                                                        <button  data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
                                                     </li>
                                                     </ul>
                                                 </div>
@@ -160,6 +160,7 @@
             e.preventDefault();
             let btn = $(e.currentTarget);
             let gambarId = $(this).data('id');
+            let produkId = $(this).data('produkid');
             let ini = $(this);
 
             Swal.fire({
@@ -175,7 +176,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: `<?= base_url('Produk') ?>/hapusGambar/${gambarId}`,
+                        url: `<?= base_url('Produk') ?>/hapusGambar/${gambarId}/${produkId}`,
                         dataType: "JSON",
                         success: function(res) {
                             if (res.code == 200) {
@@ -189,10 +190,10 @@
                             Swal.fire('Error', "Server gagal merespon", 'error');
                         },
                         beforeSend: function() {
-                            btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Hapus Gambar');
+                            btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i>');
                         },
                         complete: function(res) {
-                            btn.removeAttr('disabled').html('<i class="feather icon-trash"></i> Hapus Gambar');
+                            btn.removeAttr('disabled').html('<i class="icofont icofont-trash"></i>');
                         }
                     });
 

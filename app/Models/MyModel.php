@@ -184,7 +184,7 @@ class MyModel extends Model
         }else{
             $this->hasAddedInJoin[] = $tableName;
         }
-        $this->select("CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']') as $alias")
+        $this->select("IF($field IS NOT NULL, CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']'), '[]') as $alias")
         ->join($tableName,$relations,$type);
         $this->groupBy($this->table.".".$this->primaryKey);
 

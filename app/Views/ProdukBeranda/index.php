@@ -29,8 +29,8 @@
                                     <tr>
                                         <th width="1%">No</th>
                                         <th width="20%">Judul</th>
-                                        <th width="20%">Deskripsi</th>
-                                        <th width="15%">Aksi</th>
+                                        <th width="60%">Deskripsi</th>
+                                        <th width="5%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -211,9 +211,8 @@
                             show: true
                         });
                         var btnEdit = `<a style="margin:1px" href="<?=base_url('ProdukBeranda/ubah')?>/${row.id}" class="btn btn-xs btn-outline-warning waves-effect waves-light" data-container="body" data-toggle="tooltip" data-placement="top" data-original-title="Ubah" data-row="1"><i class="feather icon-edit"></i></a>`
-                        var btnTambahProduk = `<a style="margin:1px" href="<?=base_url('ProdukBeranda/tambahProduk')?>/${row.id}" class="btn btn-xs btn-outline-primary waves-effect waves-light" data-container="body" data-toggle="tooltip" data-placement="top" data-original-title="Tambahkan Produk" data-row="1"><i class="feather icon-plus"></i></a>`
 
-                        return `${btnTambahProduk} ${btnEdit} ${btnHapus}`;
+                        return ` ${btnEdit} ${btnHapus}`;
                     }
                 }
             ]

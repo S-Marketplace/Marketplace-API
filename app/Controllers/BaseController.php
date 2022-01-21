@@ -195,7 +195,7 @@ class BaseController extends Controller
 	 *
 	 * @return void
 	 */
-	private function _applyFillter(&$request)
+	protected function _applyFillter(&$request)
 	{
 		parse_str($this->request->getGet("filter"), $filter);
 		unset($request['filter']);

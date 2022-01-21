@@ -74,9 +74,16 @@ class Produk extends BaseController
            ->view("Produk/tambah", $data);
     }
 
-    public function hapusGambar($id){
+    public function hapusGambar($id, $produkId){
         try {
             $produkGambar = new ProdukGambarModel();
+            $length = $produkGambar->where(['prdgbrProdukId' => $produkId])->asObject()->find();
+
+            if(count($length) <= 1){
+			    $response = $this->response(null, '500', 'Tidak bisa dihapus, setidaknya minimal ada 1 gambar');
+    			return $this->response->setJSON($response);
+            }
+
             $status = $produkGambar->delete($id);
 
 			$response = $this->response(null, ($status ? 200 : 500));

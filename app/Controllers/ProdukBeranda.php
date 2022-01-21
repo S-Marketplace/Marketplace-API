@@ -1,7 +1,9 @@
 <?php namespace App\Controllers;
 
+use App\Models\ProdukBerandaModel;
 use CodeIgniter\Config\Config;
 use App\Models\ProdukBerandaTransModel;
+use App\Models\ProdukGambarModel;
 
 /**
  * Class ProdukBeranda
@@ -35,6 +37,11 @@ class ProdukBeranda extends BaseController
         return parent::grid();
     }
 
+    public function test(){
+        $data = $this->model->getDetailProdukBeranda(1);
+        return $this->response->setJSON($data);
+    }
+
     public function tambah()
     {
         $data = [
@@ -46,18 +53,8 @@ class ProdukBeranda extends BaseController
 
     public function ubah($produkId)
     {
-        $produk = new ProdukBerandaTransModel();
-        $produk->with(['produk']);
-        $produk = $produk->where(['tpbPbId' => $produkId])->asObject()->find();
-
-        $products = [];
-        foreach ($produk as $value) {
-            $products[] = json_decode($value->produk);
-        }
-
         $data = [
-           'produk' => $this->model->asObject()->find($produkId),
-           'products' => $products,
+           'data' => $this->model->getDetailProdukBeranda($produkId),
            'id' => $produkId,
        ];
 
