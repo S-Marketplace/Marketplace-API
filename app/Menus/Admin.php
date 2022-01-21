@@ -36,8 +36,8 @@ class Admin implements MenuInterface
                         'url' => 'Banner'
                     ],
                     [
-                        'title' => 'Home Produk Mobile',
-                        'url' => 'Welcome/coming_soon'
+                        'title' => 'Produk Beranda',
+                        'url' => 'ProdukBeranda'
                     ],
                 ]
             ],
