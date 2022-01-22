@@ -176,15 +176,19 @@ class MyModel extends Model
     protected function hasMany($tableName,$relations,$entity,$alias,$key,$type ="left"){
         $entityInstance = new $entity;
         $jsonEntity = [];
+        $primaryId = '';
+        $i = 0;
         foreach($entityInstance->getDatamap(true) as $name=>$field){
+            if($i == 0) $primaryId = $field;
             $jsonEntity[] = "'$name',$field";
+            $i++;
         }
         if(count($this->hasAddedInJoin) == 0){
             // $this->select($this->getTableName().".*");
         }else{
             $this->hasAddedInJoin[] = $tableName;
         }
-        $this->select("IF($field IS NOT NULL, CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']'), '[]') as $alias")
+        $this->select("IF($primaryId IS NOT NULL, CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']'), '[]') as $alias")
         ->join($tableName,$relations,$type);
         $this->groupBy($this->table.".".$this->primaryKey);
 

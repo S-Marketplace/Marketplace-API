@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>Produk</h3>
+                    <h3>ProdukBeranda</h3>
                 </div>
                 <div class="col-6">
                 </div>
@@ -18,7 +18,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Data Produk</h5>
+                        <h5>Data ProdukBeranda</h5>
                     </div>
                     <form class="form theme-form" id="form">
                         <div class="card-body">
@@ -62,54 +62,21 @@
                                         <label class="col-sm-3 col-form-label">Produk</label>
                                         <div class="col-sm-9">
 
-                                            <div class="row">
-                                                <?php foreach($data->products ?? [] as $value):?>
-                                                    <div class="col-xl-3 col-sm-6 xl-4">
-                                                        <div class="card">
-                                                            <div class="product-box">
-                                                                <div class="product-img"  style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->gambar[0]->file ?? '')?>" alt="">
-                                                                    <div class="product-hover">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button class="btn" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-details">
-                                                                    <p>ID.<?= $value->id?></p>
-                                                                    <h4><?= $value->nama?></h4>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php endforeach;?>
+                                            <div class="row dataProduk">
+                                               
                                             </div>
 
-                                            <input type="text" name="cari" id="cari" class="form-control readonly-background mb-3" placeholder="Cari...">
+                                           <div class="row pr-3">
+                                               <div class="col-10">
+                                                    <input type="text" name="cari" id="cari" class="form-control readonly-background mb-3" placeholder="Cari...">
+                                               </div>
+                                               <div class="col-2">
+                                                     <button class="btn btn-primary" id="btnCariProduk" >Cari</button>
+                                               </div>
+                                           </div>
 
-                                            <div class="row">
-                                                <?php foreach(range(1,5) as $value):?>
-                                                    <div class="col-xl-3 col-sm-6 xl-4">
-                                                        <div class="card">
-                                                            <div class="product-box">
-                                                                <div class="product-img" style="min-height: 220px;"><img class="img-fluid" src="<?=base_url()?>/assets/images/ecommerce/01.jpg" alt="">
-                                                                    <div class="product-hover">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button class="btn" type="button" data-bs-original-title="" title=""><i class="icofont icofont-plus"></i></button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product-details">
-                                                                    <h4>Man's Shirt</h4>
-                                                                    <p>Simply dummy text of the printing.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php endforeach;?>
+                                            <div class="row dataPencarian">
+                                             
                                             </div>
 
                                         </div>
@@ -146,7 +113,12 @@
 <script>
     var grid = null;
     var dataRow;
+    
     $(document).ready(function() {
+        var productData = <?= json_encode($data->products ?? [])?>;
+        $('.dataProduk').html(templateDataProduk(productData));
+
+        var productDataSearch = [];
 
         var id = '<?= $id ?? ''; ?>';
 
@@ -154,56 +126,123 @@
             type: 'image'
         });
 
-        $(document).on('click', '.btnHapus', function(e) {
-            e.preventDefault();
-            let btn = $(e.currentTarget);
-            let gambarId = $(this).data('id');
-            let ini = $(this);
-
-            Swal.fire({
-                title: 'Anda Yakin ?',
-                text: "Data yang terhapus tidak dapat dikembalikan!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Tidak',
-                confirmButtonText: 'Ya'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        type: "POST",
-                        url: `<?= base_url('ProdukBeranda') ?>/hapusGambar/${gambarId}`,
-                        dataType: "JSON",
-                        success: function(res) {
-                            if (res.code == 200) {
-                                ini.parents('.cardGambar').remove();
-                                Swal.fire('Terhapus!', 'Data berhasil dihapus', 'success')
-                            } else {
-                                Swal.fire('Info!', res.message, 'warning')
-                            }
-                        },
-                        fail: function(xhr) {
-                            Swal.fire('Error', "Server gagal merespon", 'error');
-                        },
-                        beforeSend: function() {
-                            btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Hapus Gambar');
-                        },
-                        complete: function(res) {
-                            btn.removeAttr('disabled').html('<i class="feather icon-trash"></i> Hapus Gambar');
-                        }
-                    });
-
-                }
+        function templateDataProduk(){
+            let text = '';
+            productData.forEach(produk => {
+                text += `
+                <div class="col-xl-3 col-sm-6 xl-4">
+                    <div class="card">
+                        <div class="product-box">
+                            <div class="product-img" style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar')?>/${produk.gambar[0].file}" alt="">
+                                <div class="product-hover">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btnHapus" data-id="${produk.id}" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-details">
+                                <p>ID.${produk.id}</p>
+                                <h4>${produk.nama}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
             });
 
+            return text;
+        }
+
+        function templateProdukPencarian(){
+            let text = '';
+            productDataSearch.forEach(produk => {
+                text += `
+                <div class="col-xl-3 col-sm-6 xl-4">
+                    <div class="card">
+                        <div class="product-box">
+                            <div class="product-img" style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar')?>/${produk.gambar[0].file}" alt="">
+                                <div class="product-hover">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btnTambah" data-id="${produk.id}" type="button" data-bs-original-title="" title=""><i class="icofont icofont-plus"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-details">
+                                <p>ID.${produk.id}</p>
+                                <h4>${produk.nama}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            return text;
+        }
+
+        $(document).on('click',".btnTambah",function () {
+            let id = $(this).data('id');
+
+            let dataInsert = productDataSearch.find(data => data.id == id);
+
+            let find = productData.find(data => data.id == id);
+            if(find == null){
+                productData.push(dataInsert);
+                $('.dataProduk').html(templateDataProduk(productData));
+            }
         });
 
+        $(document).on('click',".btnHapus",function () {
+            let id = $(this).data('id');
+
+            productData = productData.filter(data => data.id != id);
+            $('.dataProduk').html(templateDataProduk(productData));
+        });
+
+        $("#btnCariProduk").click(function () {
+            let cari = $('[name="cari"]').val();
+            let btn = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: `<?= base_url('ProdukBeranda') ?>/cari`,
+                data:{
+                    cari: cari
+                },
+                dataType: "JSON",
+                success: function(res) {
+                    productDataSearch = res;
+                    $('.dataPencarian').html(templateProdukPencarian());
+                },
+                fail: function(xhr) {
+                    Swal.fire('Error', "Server gagal merespon", 'error');
+                },
+                beforeSend: function() {
+                    btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Cari');
+                },
+                complete: function(res) {
+                    btn.removeAttr('disabled').html('Cari');
+                }
+            });
+        });
+
+        $('[name="cari"]').on('keyup', function(e) {
+            var key = e.which;
+            if (key == 13) 
+            { 
+                $("#btnCariProduk").trigger('click');
+            }
+        });
+
+      
         $('#form').submit(function(e) {
             e.preventDefault();
 
             var data = new FormData(this);
             data.append('id', id);
+            data.append('produkId', productData.map( el => el.id ));
 
             $.ajax({
                 type: "POST",

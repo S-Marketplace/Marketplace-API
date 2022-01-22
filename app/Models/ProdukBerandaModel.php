@@ -30,9 +30,11 @@ class ProdukBerandaModel extends MyModel
 
     public function getDetailProdukBeranda($idProdukBeranda = null){
         $this->select('*');
-        $this->with(['anjay']);
         $this->withProduk();
         $data = $this->find($idProdukBeranda);
+        // echo '<pre>';
+        // print_r($this->getLastQuery()->getQuery());
+        // echo '</pre>';exit;
         
         if(is_array($data)){
             $data = array_map(function($e){
