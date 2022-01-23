@@ -12,7 +12,6 @@ class Welcome extends BaseController
 {
     protected $modelName = 'App\Models\ProdukModel';
 
-
     public function index()
     {   
         $kategoriModel = new KategoriModel();
