@@ -3,7 +3,7 @@
 namespace App\Menus;
 
 
-class Admin implements MenuInterface
+class Superadmin implements MenuInterface
 {
 
     public function getMenu()
@@ -41,6 +41,21 @@ class Admin implements MenuInterface
                     ],
                 ]
             ],
+            [
+                    'title' => 'User',
+                    'url' => '#',
+                    'icon' => 'user',
+                    'children' => [
+                        [
+                            'title' => 'User Aplikasi Web',
+                            'url' => 'UserWeb'
+                        ],
+                        [
+                            'title' => 'User Terdaftar',
+                            'url' => 'Welcome/coming_soon'
+                        ],
+                    ]
+                ],
             // [
             //     'title' => 'Jadwal Kunjungan',
             //     'url' => '#',

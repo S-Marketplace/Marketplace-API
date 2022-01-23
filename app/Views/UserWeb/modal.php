@@ -21,6 +21,11 @@
                         <p class="text-danger" id="er_nama"></p>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="">Role</label>
+                        <?= form_dropdown('role', $role, '', ['class' => 'form-control role select2', 'id' => 'role']); ?>
+                        <p class="text-danger" id="er_role"></p>
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="">Password</label>
                         <input type="text" name="password" id="password" class="form-control readonly-background" placeholder="Password">
                         <p class="text-danger" id="er_password"></p>

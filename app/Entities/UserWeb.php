@@ -7,6 +7,7 @@ class UserWeb extends MyEntity
         'username' => 'usrwebUsername',
         'nama' => 'usrwebNama',
         'password' => 'usrwebPassword',
+        'role' => 'usrwebRole',
         'createdAt' => 'usrwebCreatedAt',
         'updatedAt' => 'usrwebUpdatedAt',
         'deletedAt' => 'usrwebDeletedAt',
@@ -15,6 +16,7 @@ class UserWeb extends MyEntity
     protected $show = [
 			'username',
 			'nama',
+			'role',
 			'password',
 			'createdAt',
 			'updatedAt',

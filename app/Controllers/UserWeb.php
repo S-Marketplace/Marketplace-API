@@ -18,13 +18,20 @@ class UserWeb extends BaseController
     protected $rules = [
        'username' => ['label' => 'Username', 'rules' => 'required'],
        'nama' => ['label' => 'Nama', 'rules' => 'required'],
+       'role' => ['label' => 'Role', 'rules' => 'required'],
        'password' => ['label' => 'Password', 'rules' => 'required'],
    ];
 
     public function index()
     {
+        $data = [
+            'role' => [
+                'admin' => 'Admin',
+                'superadmin' => 'Superadmin',
+            ]
+        ];
         return $this->template->setActiveUrl('UserWeb')
-            ->view("UserWeb/index");
+            ->view("UserWeb/index", $data);
     }
 
    public function simpan($primary = '')

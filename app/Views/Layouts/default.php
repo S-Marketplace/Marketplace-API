@@ -143,7 +143,7 @@ $username = @$session['username'];
                     <div class="logo-wrapper" style="padding: 20px 30px;">
                         <a href="<?=base_url()?>">
                             <img class="img-fluid for-light" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
-                            <span class="font-medium-3 text-bold-300" >Menyambang.id</span>
+                            <h5 style="display: inline; vertical-align: middle">Menyambang.id</h5>
                         </a>
                         <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                         <!-- <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div> -->
@@ -232,7 +232,7 @@ $username = @$session['username'];
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 footer-copyright text-center">
-                            <p class="mb-0">Copyright 2021 © Cuba theme by pixelstrap </p>
+                            <p class="mb-0">Copyright <?= date('Y')?> © Menyambang.id </p>
                         </div>
                     </div>
                 </div>

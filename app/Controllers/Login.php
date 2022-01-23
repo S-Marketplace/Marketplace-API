@@ -60,13 +60,6 @@ class Login extends BaseController
         }
     }
 
-    public function session()
-    {
-        echo "<pre>";
-        print_r($this->session->get());
-        echo "</pre>";
-    }
-
 
     /**
      * Aksi untuk menambahkan session
@@ -88,7 +81,7 @@ class Login extends BaseController
                     $dataUser = [
                         'nama' => $user->nama,
                         'username' => $user->username,
-                        'role' => 'admin',
+                        'role' => $user->role,
                     ];
 
                     $this->session->set($dataUser);

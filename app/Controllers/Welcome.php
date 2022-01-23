@@ -6,6 +6,7 @@ use ReCaptcha\ReCaptcha;
 use App\Models\UserModel;
 use App\Models\KategoriModel;
 use App\Controllers\BaseController;
+use App\Libraries\Notification;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Welcome extends BaseController
@@ -41,6 +42,5 @@ class Welcome extends BaseController
     {
         return view('Welcome/coming-soon');
     }
-
     
 }

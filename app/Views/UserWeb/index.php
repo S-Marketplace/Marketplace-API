@@ -30,6 +30,7 @@
                                         <th width="1%">No</th>
                                         <th width="20%">Username</th>
                                         <th width="20%">Nama</th>
+                                        <th width="20%">Role</th>
                                         <th width="15%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -62,6 +63,9 @@
     var dataRow;
     var isEdit = true;
     $(document).ready(function() {
+
+        $('[name="role"]').select2().trigger('change');
+
         $('#btnTambah').click(function(e) {
             e.preventDefault();
             $('#aksi').html('Tambah');
@@ -83,6 +87,7 @@
 
             $('[name="nama"]').val(dataRow.nama);
             $('[name="username"]').val(dataRow.username);
+            $('[name="password"]').val('');
         });
 
         $(document).on('click', '#btnHapus', function(e) {
@@ -195,6 +200,9 @@
                 },
                 {
                     data: 'nama',
+                },
+                {
+                    data: 'role',
                 },
                 {
                     data: 'username',

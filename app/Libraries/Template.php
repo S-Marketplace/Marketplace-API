@@ -27,7 +27,9 @@ class Template
         $session = Services::session();
         if ($session->has('role')) {
             $role = strtolower($session->get('role'));
-            if ($role == 'admin') {
+            if ($role == 'superadmin') {
+                $this->menuFile = "Superadmin";
+            }else if($role == "admin"){
                 $this->menuFile = "Admin";
             }
         }

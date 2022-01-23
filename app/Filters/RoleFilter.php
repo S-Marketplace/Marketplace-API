@@ -24,13 +24,19 @@ class RoleFilter implements FilterInterface
         $list = [
             'ADMIN' => [
                 'Beranda',
+                'Produk',
+                'ProdukBeranda',
+                'Kategori',
+                'Banner',
             ],
         ];
 
-        $accessRole = array_keys($list[$role]);
-
-        if (!in_array($currentFolder, $accessRole)) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        if($role != 'SUPERADMIN'){
+            $accessRole = array_values($list[$role]);
+    
+            if (!in_array($currentFolder, $accessRole)) {
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            }
         }
     }
 

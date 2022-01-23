@@ -24,16 +24,16 @@ class Notification
      * 
      * @return bool
      */
-    public static function sendEmail($email, $subject, $pesan, $debug = false)
+    public static function sendEmail($email, $subject, $pesan, $debug = true)
     {
         $mail = new PHPMailer(true);
 
         try {
 
-            $host       = 'smtp.gmail.com';
-            $username   = 'silaki0007@gmail.com';
-            $password   = 'S1L4K1007';
-            $name       = 'SILAKI';
+            $host       = 'mail.menyambang.id';
+            $username   = 'notification@menyambang.id';
+            $password   = 'menyambang007';
+            $name       = 'Menyambang.id';
             
             //Server settings
             if ($debug) {
