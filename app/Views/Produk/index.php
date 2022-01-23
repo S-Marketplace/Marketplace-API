@@ -9,6 +9,7 @@
                 </div>
                 <div class="col-6">
                     <a class="btn btn-sm btn-primary pull-right" href="<?=base_url('Produk')?>/tambah"><i class="fa fa-plus"></i> Tambah</a>
+                    <button class="btn btn-sm btn-primary pull-right mr-1" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-pencil"></i> Bulk Update</button>
                 </div>
             </div>
         </div>
@@ -68,32 +69,22 @@
             e.preventDefault();
             $('#aksi').html('Tambah');
             $('input').val('');
-            krajeeConfig('[name="icon"]', {
-                type: 'image'
+            krajeeConfig('[name="file"]', {
+                type: 'excel'
             });
         });
 
-        $(document).on('click', '#btnEdit', function(e) {
+        $(document).on('click', '.btnDownloadTemplate', function(e) {
             e.preventDefault();
-            let row = $(this).data('row');
-            dataRow = grid.row(row).data();
-            $('#modal').modal('show');
-            $('#aksi').html('Ubah');
+            
+            let stok = $('[name="stok"]').val();
+            console.log('test', stok)
 
-            $('[name="nama"]').val(dataRow.nama);
-
-            if (dataRow.icon != '') {
-                krajeeConfig('[name="icon"]', {
-                    url: `<?= base_url('File/get/icon_kategori') ?>/${dataRow.icon}`,
-                    filename: dataRow.icon,
-                    caption: `Icon Kategori`,
-                    action: true,
-                    type: 'image',
-                });
-            } else {
-                krajeeConfig('[name="icon"]', {
-                    type: 'image'
-                });
+            if(stok <= 0){
+                $('#er_stok').html('Stok tidak boleh kosong');
+            }else{
+                $('#er_stok').html('');
+                window.open('<?=base_url('Produk/downloadTemplate')?>/'+stok, '_blank');
             }
         });
 
@@ -148,11 +139,10 @@
             e.preventDefault();
 
             var data = new FormData(this);
-            data.append('id', dataRow ? dataRow.id : '');
 
             $.ajax({
                 type: "POST",
-                url: `<?= current_url() ?>/simpan/id`,
+                url: `<?= current_url() ?>/bulkUpdate`,
                 data: data,
                 dataType: "JSON",
                 cache: false,
@@ -162,7 +152,7 @@
                     if (res.code == 200) {
                         grid.draw(false);
                         $('.modal').modal('hide');
-                        Swal.fire('Berhasil!', 'Data berhasil disimpan', 'success');
+                        Swal.fire('Berhasil!', res.message, 'success');
                     } else {
                         $.each(res.message, function(index, val) {
                             $('#er_' + index).html(val);
@@ -174,10 +164,10 @@
                 },
                 beforeSend: function() {
                     $("[id^='er_']").html('');
-                    $('#btnSimpan').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                    $('#btnUpdate').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
                 },
                 complete: function(res) {
-                    $('#btnSimpan').removeAttr('disabled').html('Simpan');
+                    $('#btnUpdate').removeAttr('disabled').html('Update');
                 }
             });
         });

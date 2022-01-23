@@ -59,12 +59,12 @@
                 <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
                 <div class="navbar-collapse justify-content-end collapse hidenav" id="navbarDefault">
                   <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
-                    <li class="nav-item"><a class="nav-link" href="#layout">Layouts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#frameworks">Frameworks</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#components">Components</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#applications">Applications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://docs.pixelstrap.com/cuba/all_in_one/document/index.html" target="_blank">Documentation</a></li>
-                    <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="<?= base_url('Login')?>" >Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#frameworks">Frameworks</a></li> -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="#components">Components</a></li> -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="#applications">Applications</a></li> -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="https://docs.pixelstrap.com/cuba/all_in_one/document/index.html" target="_blank">Documentation</a></li> -->
+                    <!-- <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="<?= base_url('Login')?>" >Login</a></li> -->
                   </ul>
                 </div>
               </nav>
@@ -74,24 +74,23 @@
             <div class="col-xl-5 col-lg-6">
               <div class="content">
                 <div>
-                  <h1 class="wow fadeIn">One stop  </h1>
-                  <h1 class="wow fadeIn">For all admin template</h1>
-                  <h2 class="txt-secondary wow fadeIn">Faster, Lighter & Dev. Friendly</h2>
+                  <h1 class="wow fadeIn">Menyambang.id  </h1>
+                  <h2 class="txt-secondary wow fadeIn">Belanja mudah dan cepat</h2>
                   <p class="mt-3 wow fadeIn">Cuba Admin Design makes your project modern, clean and reduce your project integration time. cuba comes with 10+ Apps , Dark Mode and RTL Ready</p>
-                  <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">HTML</a><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg me-3 wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default" target="_blank"><img src="<?=base_url()?>/assets/images/landing/icon/react/react.png" alt="">React</a><a class="btn btn-pill btn-info btn-air-info btn-lg wow pulse" href="http://angular.pixelstrap.com/cuba/" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/angular/angular.svg" alt="">Angular</a></div>
-                  <div class="btn-grp mt-4"><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg wow pulse me-3" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vue.png" alt="">VueJs</a><a class="btn btn-pill btn-success btn-air-success btn-lg wow pulse me-3" href="http://laravel.pixelstrap.com/cuba/pages/landing" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel2.png" alt="">Laravel</a></div>
+                  <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">HTML</a><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg me-3 wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default" target="_blank"><img src="<?=base_url()?>/assets/images/landing/icon/react/react.png" alt="">React</a><a class="btn btn-pill btn-info btn-air-info btn-lg wow pulse" href="http://angular.pixelstrap.com/cuba/" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/angular/angular.svg" alt="">Angular</a></div> -->
+                  <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg wow pulse me-3" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vue.png" alt="">VueJs</a><a class="btn btn-pill btn-success btn-air-success btn-lg wow pulse me-3" href="http://laravel.pixelstrap.com/cuba/pages/landing" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel2.png" alt="">Laravel</a></div> -->
                 </div>
               </div>
             </div>
             <div class="col-xl-7 col-lg-6">                 
-              <div class="wow fadeIn"><img class="screen1" src="<?=base_url()?>/assets/images/landing/screen1.jpg" alt=""></div>
-              <div class="wow fadeIn"><img class="screen2" src="<?=base_url()?>/assets/images/landing/screen2.jpg" alt=""></div>
+              <div class="wow fadeIn"><img class="screen1" width="500px" src="<?=base_url()?>/assets/images/menyambang/screen2.jpg" alt=""></div>
+              <div class="wow fadeIn"><img class="screen2" width="500px" src="<?=base_url()?>/assets/images/menyambang/screen1.jpg" alt=""></div>
             </div>
           </div>
         </div>
       </div>
     
-      <section class="section-space cuba-demo-section frameworks-section" id="frameworks">
+      <section class="section-space cuba-demo-section frameworks-section" id="produk">
         <div class="container">
           <div class="row">                 
             <div class="col-sm-12 wow pulse">

@@ -1,10 +1,14 @@
 <?php namespace App\Controllers;
 
+use App\Models\ProdukModel;
 use App\Models\KategoriModel;
 use CodeIgniter\Config\Config;
 use App\Models\ProdukGambarModel;
 use App\Controllers\BaseController;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use App\Controllers\MyResourceController;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\Border;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
@@ -35,7 +39,12 @@ class Produk extends BaseController
         return $this->template->setActiveUrl('Produk')
            ->view("Produk/index");
     }
-
+    
+    /**
+     * Mengambil data kategori
+     *
+     * @return void
+     */
     private function getKategori()
     {
         $kategoriModel = new KategoriModel();
@@ -49,6 +58,11 @@ class Produk extends BaseController
         return $res;
     }
 
+    /**
+     * Menambahkan data kategori
+     *
+     * @return void
+     */
     public function tambah()
     {
         $data = [
@@ -58,7 +72,13 @@ class Produk extends BaseController
         return $this->template->setActiveUrl('Produk')
            ->view("Produk/tambah", $data);
     }
-
+    
+    /**
+     * Mengubah data produk ke halaman baru
+     *
+     * @param [type] $produkId
+     * @return void
+     */
     public function ubah($produkId)
     {
         $produkGambar = new ProdukGambarModel();
@@ -74,6 +94,13 @@ class Produk extends BaseController
            ->view("Produk/tambah", $data);
     }
 
+    /**
+     * Menghapus gambar rpoduk
+     *
+     * @param [type] $id
+     * @param [type] $produkId
+     * @return void
+     */
     public function hapusGambar($id, $produkId){
         try {
             $produkGambar = new ProdukGambarModel();
@@ -100,6 +127,12 @@ class Produk extends BaseController
 		}
     }
 
+    /**
+     * Mengupload photo produk
+     *
+     * @param [type] $id
+     * @return void
+     */
     protected function uploadFile($id)
     {
         $produkGambarModel = new ProdukGambarModel();
@@ -125,6 +158,11 @@ class Produk extends BaseController
         }
     }
 
+    /**
+     * Grid Produk
+     *
+     * @return void
+     */
     public function grid()
     {
         $this->model->select('*');
@@ -134,6 +172,12 @@ class Produk extends BaseController
         return parent::grid();
     }
 
+    /**
+     * Menyimpan data produk
+     *
+     * @param string $primary
+     * @return void
+     */
     public function simpan($primary = '')
     {
         $file = current($this->request->getFileMultiple("gambar"));
@@ -154,5 +198,105 @@ class Produk extends BaseController
 
         $this->isUploadWithId = true;
         return parent::simpan($primary);
+    }
+
+    private $productStartIndexExcel = 3;
+    /**
+     * Download Template produk
+     *
+     * @param integer $minimumStock
+     * @return void
+     */
+    public function downloadTemplate($minimumStock = 0){
+        $reader = new Xlsx();
+        $spreadsheet = $reader->load(ROOTPATH . 'public/file_templates/Template Produk.xlsx');
+        $sheet = $spreadsheet->setActiveSheetIndexByName('Template');
+
+        $styleArrayRef = [
+            'font' => [
+                'bold' => false,
+            ],
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $refRowStart = $this->productStartIndexExcel;
+
+        $no = 'A';
+        $produkId = 'B';
+        $produkNama = 'C';
+        $produkStok = 'D';
+
+        $refProgramId = 'F';
+        $refProgramNama = 'G';
+
+        // Referensi Produk
+        $produkModel = new ProdukModel();
+        $produk = $produkModel->where(['produkStok <=' => $minimumStock])->asObject()->find();
+        $refRowProduk = $refRowStart;
+        foreach ($produk as $key => $val) {
+            $refRowProduk++;
+            $sheet->setCellValue("{$no}{$refRowProduk}", $key+1);
+            $sheet->setCellValue("{$produkId}{$refRowProduk}", $val->produkId);
+            $sheet->setCellValue("{$produkNama}{$refRowProduk}", $val->produkNama);
+            $sheet->setCellValue("{$produkStok}{$refRowProduk}", $val->produkStok);
+        }
+        $sheet->getStyle("{$no}{$refRowStart}:{$produkStok}{$refRowProduk}")->applyFromArray($styleArrayRef);
+
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        header('filename:Template_Produk.xlsx');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Template_Produk.xlsx"');
+        ob_end_clean();
+        $writer->save("php://output");
+        exit;
+    }
+
+    public function bulkUpdate(){
+        $file = $this->request->getFile('file');
+        $extension = $file->getClientExtension();
+
+        if ($extension == 'xls') {
+            $reader = new Xls();
+        } else if ($extension == 'xlsx') {
+            $reader = new Xlsx();
+        } else {
+            $response = [
+                'code' => 400,
+                'message' => [
+                    'file' => 'Hanya File Excel 2007 (.xlsx) atau File Excel 2003 (.xls) yang diperbolehkan'
+                ],
+            ];
+
+            return $this->response->setJSON($response);
+        }
+
+        $spreadsheet = $reader->load($file);
+        $dataImport = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+        $dataImport = array_slice($dataImport, $this->productStartIndexExcel);
+        
+        $produkModel = new ProdukModel();
+        $countUpdate = 0;
+        foreach ($dataImport as $key => $value) {
+            $id = $value['B'];
+            if(!empty($id)){
+                $countUpdate++;
+                $produkModel->update($id, [
+                    'produkNama'=> $value['C'],
+                    'produkStok'=> $value['D'],
+                ]);
+            }
+        }
+
+        $response = [
+            'code' => 200,
+            'message' => $countUpdate.' Produk Berhasil di update',
+        ];
+
+        return $this->response->setJSON($response);
     }
 }

@@ -24,16 +24,16 @@ class Admin implements MenuInterface
                 'icon' => 'book-open',
                 'children' => [
                     [
-                        'title' => 'Produk',
-                        'url' => 'Produk'
+                        'title' => 'Banner',
+                        'url' => 'Banner'
                     ],
                     [
                         'title' => 'Kategori',
                         'url' => 'Kategori'
                     ],
                     [
-                        'title' => 'Banner',
-                        'url' => 'Banner'
+                        'title' => 'Produk',
+                        'url' => 'Produk'
                     ],
                     [
                         'title' => 'Produk Beranda',
