@@ -113,7 +113,7 @@ $username = @$session['username'];
                     </div>
                 </form>
                 <div class="header-logo-wrapper col-auto p-0">
-                    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" width="40" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="<?=base_url()?>"><img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" width="40" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
                 </div>
                 <div class="left-header col horizontal-wrapper ps-0">
@@ -141,7 +141,7 @@ $username = @$session['username'];
             <div class="sidebar-wrapper">
                 <div>
                     <div class="logo-wrapper" style="padding: 20px 30px;">
-                        <a href="index.html">
+                        <a href="<?=base_url()?>">
                             <img class="img-fluid for-light" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
                             <span class="font-medium-3 text-bold-300" >Menyambang.id</span>
                         </a>

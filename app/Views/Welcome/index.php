@@ -55,7 +55,10 @@
         <div class="container-fluid">
           <div class="sticky-header">
             <header>                       
-              <nav class="navbar navbar-b navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu"><a class="navbar-brand p-0" href="#"><img class="img-fluid" src="<?=base_url()?>/assets/images/landing/landing_logo.png" alt=""></a>
+              <nav class="navbar navbar-b navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu">
+                <a class="navbar-brand p-0" href="#">
+                  <img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="">
+                </a>
                 <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
                 <div class="navbar-collapse justify-content-end collapse hidenav" id="navbarDefault">
                   <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
@@ -77,7 +80,7 @@
                   <h1 class="wow fadeIn">Menyambang.id  </h1>
                   <h2 class="txt-secondary wow fadeIn">Belanja mudah dan cepat</h2>
                   <p class="mt-3 wow fadeIn">Cuba Admin Design makes your project modern, clean and reduce your project integration time. cuba comes with 10+ Apps , Dark Mode and RTL Ready</p>
-                  <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">HTML</a><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg me-3 wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default" target="_blank"><img src="<?=base_url()?>/assets/images/landing/icon/react/react.png" alt="">React</a><a class="btn btn-pill btn-info btn-air-info btn-lg wow pulse" href="http://angular.pixelstrap.com/cuba/" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/angular/angular.svg" alt="">Angular</a></div> -->
+                  <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">Playstore</a></div>
                   <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg wow pulse me-3" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vue.png" alt="">VueJs</a><a class="btn btn-pill btn-success btn-air-success btn-lg wow pulse me-3" href="http://laravel.pixelstrap.com/cuba/pages/landing" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel2.png" alt="">Laravel</a></div> -->
                 </div>
               </div>
@@ -93,221 +96,21 @@
       <section class="section-space cuba-demo-section frameworks-section" id="produk">
         <div class="container">
           <div class="row">                 
-            <div class="col-sm-12 wow pulse">
-              <div class="cuba-demo-content mt50">
-                <div class="couting">
-                  <h2>5+</h2>
-                </div>
-                <p class="mb-0">Top Frameworks</p>
-              </div>
-            </div>
+          
             <div class="col-sm-12 framworks">                 
               <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
-                <li class="nav-item"><a class="nav-link d-flex active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">
-                    <div class="text-start">
-                      <h5 class="mb-0">HTML</h5>
-                      <p class="mb-0">Frameworks</p>
-                    </div></a></li>
-                <li class="nav-item"><a class="d-flex nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"> <img src="<?=base_url()?>/assets/images/landing/icon/react/react1.png" alt="">
-                    <div class="text-start">
-                      <h5 class="mb-0">React</h5>
-                      <p class="mb-0">Frameworks</p>
-                    </div></a></li>
-                <li class="nav-item"><a class="d-flex nav-link" id="pills-angular-tab" data-bs-toggle="pill" href="#pills-angular" role="tab" aria-controls="pills-angular" aria-selected="false"> <img src="<?=base_url()?>/assets/images/landing/icon/angular/angular.svg" alt="">
-                    <div class="text-start">
-                      <h5 class="mb-0">Angular</h5>
-                      <p class="mb-0">Frameworks</p>
-                    </div></a></li>
-                <li class="nav-item"><a class="d-flex nav-link" id="pills-vue-tab" data-bs-toggle="pill" href="#pills-vue" role="tab" aria-controls="pills-vue" aria-selected="false"> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vue.png" alt="">
-                    <div class="text-start">
-                      <h5 class="mb-0">Vue</h5>
-                      <p class="mb-0">Frameworks</p>
-                    </div></a></li>
-                <li class="nav-item"><a class="d-flex nav-link" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel.png" alt="">
-                    <div class="text-start">
-                      <h5 class="mb-0">Laravel</h5>
-                      <p class="mb-0">Frameworks</p>
-                    </div></a></li>
+                
               </ul>
               <div class="tab-content mt-5" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                   <ul class="framworks-list">
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/bootstrap.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Booxstrap 4X</h6>
-                    </li>
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/css.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">CSS</h6>
-                    </li>
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/sass.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Sass</h6>
-                    </li>
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/pug.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Pug</h6>
-                    </li>
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/npm.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">NPM</h6>
-                    </li>
-                    <li class="box wow fadeInUp">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/gulp.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Gulp</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                   
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/kit.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Starter Kit</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/uikits.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">40+ UI Kits</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/layout.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">8+ Layout</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/builders.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Builders</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/iconset.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">11 Icon Sets</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/forms.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Forms</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/table.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Tables</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/apps.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">17+ Apps</h6>
-                    </li>
-                  </ul>
-                </div>
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                  <ul class="framworks-list">
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/hook.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">React Hook</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/reactstrap.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">React Strap</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/noquery.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">No Jquery</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/redux.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Redux</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/firebase.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Firebase Auth</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/crud.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Firebase Crud</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/chat.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Chat</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/animation.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Router Animation</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/props_state.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">State & Props</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/reactrouter.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Reactrouter</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/chart.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Amazing Chart</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/map.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Map</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/gallery.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Gallery</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/react/application.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">9+ Apps</h6>
-                    </li>
-                  </ul>
-                </div>
-                <div class="tab-pane fade" id="pills-angular" role="tabpanel" aria-labelledby="pills-angular-tab">
-                  <ul class="framworks-list">
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/1.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">SCSS</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/2.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Ng Bootstrap</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/3.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">RXjs</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/4.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Router</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/5.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Form</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/6.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Apex chart</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/7.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Chart.js</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/8.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Chartist</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/9.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Google Map</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/10.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Gallery</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/11.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Ecommerce</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/12.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Firebase Auth</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/13.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Firebase Crud</h6>
-                    </li>
-                    <li class="box wow bounceIn">                                    
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/angular/14.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Chat</h6>
-                    </li>
+                    <?php foreach($kategori as $value):?>
+                      <li class="box wow fadeInUp">
+                        <div> <img src="<?= base_url('File/get/icon_kategori/'.$value->icon) ?>" width="60px" alt=""></div>
+                        <h6 class="mb-0 mt-3"><?= $value->nama?></h6>
+                      </li>
+                    <?php endforeach;?>
+                  
                   </ul>
                 </div>
                 <div class="tab-pane fade" id="pills-vue" role="tabpanel" aria-labelledby="pills-vue-tab">
