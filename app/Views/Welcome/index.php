@@ -34,6 +34,7 @@
     <link id="color" rel="stylesheet" href="<?=base_url()?>/assets/css/color-1.css" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>/assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/datatables.css">
   </head>
   <body class="landing-page">
     <!-- tap on top starts-->
@@ -62,6 +63,7 @@
                 <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
                 <div class="navbar-collapse justify-content-end collapse hidenav" id="navbarDefault">
                   <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
+                    <li class="nav-item"><a class="nav-link" href="#kategori">Kategori</a></li>
                     <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" href="#frameworks">Frameworks</a></li> -->
                     <!-- <li class="nav-item"><a class="nav-link" href="#components">Components</a></li> -->
@@ -78,9 +80,10 @@
               <div class="content">
                 <div>
                   <h1 class="wow fadeIn">Menyambang.id  </h1>
-                  <h2 class="txt-secondary wow fadeIn">Belanja mudah dan cepat</h2>
-                  <p class="mt-3 wow fadeIn">Cuba Admin Design makes your project modern, clean and reduce your project integration time. cuba comes with 10+ Apps , Dark Mode and RTL Ready</p>
-                  <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">Playstore</a></div>
+                  <h2 class="txt-secondary wow fadeIn">Belanja mudah tanpa ribet</h2>
+                  <p class="mt-3 wow fadeIn">Menyambang.id adalah suatu situs Ecommerce yang menyediakan berbagai produk. Dengan menggunakan aplikasi menyambang.id anda bisa memenuhi kebutuhan anda sehari hari dalam bidang telekomunikasi dengan harga yang bisa menghemat kantong</p>
+                  <a class="default-view" target="_blank" href="index.html"><img height="80px" src="<?=base_url()?>/assets/images/menyambang/playstore.png" alt=""></a>
+                  <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-primary btn-air-primary btn-lg me-3 wow pulse" href="index.html" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/html/html.png" alt="">Playstore</a></div> -->
                   <!-- <div class="btn-grp mt-4"><a class="btn btn-pill btn-secondary btn-air-secondary btn-lg wow pulse me-3" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vue.png" alt="">VueJs</a><a class="btn btn-pill btn-success btn-air-success btn-lg wow pulse me-3" href="http://laravel.pixelstrap.com/cuba/pages/landing" target="_blank"> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel2.png" alt="">Laravel</a></div> -->
                 </div>
               </div>
@@ -93,7 +96,19 @@
         </div>
       </div>
     
-      <section class="section-space cuba-demo-section frameworks-section" id="produk">
+      <section class="section-space cuba-demo-section frameworks-section" id="kategori">
+      <div class="container">
+          <div class="row">
+            <div class="col-sm-12 wow pulse">
+              <div class="cuba-demo-content mt50">
+                <div class="couting">
+                  <h2>Kategori</h2>
+                </div>
+                <p>Bermacam kategori yang tersedia</p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="container">
           <div class="row">                 
           
@@ -110,99 +125,6 @@
                         <h6 class="mb-0 mt-3"><?= $value->nama?></h6>
                       </li>
                     <?php endforeach;?>
-                  
-                  </ul>
-                </div>
-                <div class="tab-pane fade" id="pills-vue" role="tabpanel" aria-labelledby="pills-vue-tab">
-                  <ul class="framworks-list">
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/firebase.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Firebase</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/nojquery.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">No jquery</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vuebootstrap.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vue Bootstrap</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vuex.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vuex</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/chart.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Chart</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vueswiper.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vue Swiper</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vuerouter.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vue Router</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vuemasonary.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vue Masonary</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/vuecli.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Vue Cli</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/animation.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Animation</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/rangeslider.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Range Slider</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/vue/rtlsupport.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">RTL Support</h6>
-                    </li>
-                  </ul>
-                </div>
-                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                  <ul class="framworks-list">
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/laravel.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Laravel 7</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/bootstrap.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Bootstrap 5</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/html/sass.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">SASS</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/blade.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Blade</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/layouts.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Layouts</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/npm.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">NPM</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/mix.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">MIX</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/yarn.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Yarn</h6>
-                    </li>
-                    <li class="box">
-                      <div> <img src="<?=base_url()?>/assets/images/landing/icon/laravel/sasswebpack.png" alt=""></div>
-                      <h6 class="mb-0 mt-3">Sasswebpack</h6>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -210,318 +132,51 @@
           </div>
         </div>
       </section>
-      <section class="section-space cuba-demo-section bg-Widget pb-0 bg-primary">
+      <section class="section-space cuba-demo-section frameworks-section" style="text-align:left"  id="produk">
         <div class="container">
           <div class="row">
             <div class="col-sm-12 wow pulse">
               <div class="cuba-demo-content mt50">
                 <div class="couting">
-                  <h2>Cards</h2>
+                  <h2>Produk</h2>
                 </div>
-                <p>So many unique cards</p>
+                <p>Pilih belanjaanmu sekarang</p>
               </div>
             </div>
           </div>
         </div>
         <div class="container-fluid o-hidden">
-          <div class="row landing-cards">
-            <div class="col-lg-8">
-              <div class="row">
-                <div class="col-sm-5 col-12"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/1.jpg" alt=""></div>
-                <div class="col-sm-4 col-7"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/2.jpg" alt=""></div>
-                <div class="col-sm-3 col-5"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/3.jpg" alt=""></div>
-                <div class="col-sm-8 col-12">
-                  <div class="row">
-                    <div class="col-6"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/4.jpg" alt=""></div>
-                    <div class="col-6"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/5.jpg" alt=""></div>
-                    <div class="col-5"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/7.jpg" alt=""></div>
-                    <div class="col-7"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/8.jpg" alt=""></div>
-                  </div>
-                </div>
-                <div class="col-sm-4 col-12">
-                  <div class="row">
-                    <div class="col-sm-12 col-6"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/6.jpg" alt=""></div>
-                    <div class="col-sm-12 col-6"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/9.jpg" alt=""></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="row">
-                <div class="col-lg-12 col-sm-4"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/10.jpg" alt=""></div>
-                <div class="col-md-6 col-sm-4"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/15.jpg" alt=""><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/11.jpg" alt=""><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/21.jpg" alt=""></div>
-                <div class="col-md-6 col-sm-4"><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/14.jpg" alt=""><img class="img-fluid landing-card" src="<?=base_url()?>/assets/images/landing/cards/13.jpg" alt=""></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section-space cuba-demo-section" id="applications">
-        <div class="container">
           <div class="row">
-            <div class="col-sm-12 wow pulse">
-              <div class="cuba-demo-content mt50">
-                <div class="couting">
-                  <h2>20+</h2>
-                </div>
-                <p>Usefull application</p>
-              </div>
-            </div>
+            <table class="display" id="datatable" width="100%">
+                <thead>
+                    <tr>
+                        <th width="1%">No</th>
+                        <th width="20%">Nama</th>
+                        <th width="20%">Stok</th>
+                        <th width="20%">Harga</th>
+                        <th width="20%">Kategori</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+          </div>
+          <div class="row dataProduk">
+            
           </div>
         </div>
-        <div class="container-fluid container-modify apps">
-          <div class="landing-slider">
-            <div class="row">
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/social-app.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/social-app.jpg" alt=""></a></div>
-                <h4>Social App</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4"> 
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/knowledgebase.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/knowlagebase-app.jpg" alt=""></a></div>
-                <h4>knowledgebase</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4"> 
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/support-ticket.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/support-ticket-app.jpg" alt=""></a></div>
-                <h4>Support Ticket</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/email-application.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/mail-app.jpg" alt=""></a></div>
-                <h4>Email Dashboard</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/to-do.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/todo_app.jpg" alt=""></a></div>
-                <h4>To-Do</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/job-cards-view.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/job-search-app.jpg" alt=""></a></div>
-                <h4>Job Search</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/product-page.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/ecommerce-app.jpg" alt=""></a></div>
-                <h4>Ecommerce</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">                             
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/kanban.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/apps/kanban.jpg" alt=""></a></div>
-                <h4>Kanban</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/file-manager.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/apps/file.jpg" alt=""></a></div>
-                <h4>File Manager</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">         
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/projects.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/apps/project.jpg" alt=""></a></div>
-                <h4>Project</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/contacts.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/apps/contacts.jpg" alt=""></a></div>
-                <h4>Contacts</h4>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
-                <div class="img-effect mb-3"><a href="<?=base_url()?>/theme/chat.html" target="_blank"><img class="img-fluid cuba-img" src="<?=base_url()?>/assets/images/landing/apps/chat.jpg" alt=""></a></div>
-                <h4>Chat</h4>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </section>
-      <section class="section-space cuba-demo-section app_bg">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 wow pulse">
-              <div class="cuba-demo-content email-txt text-start">
-                <div class="couting">
-                  <h2> Email</h2>
-                  <p> Cuba comes with below six email template.</p>
-                  <ul class="landing-ul">
-                    <li>Basic template</li>
-                    <li>Basic With Header template</li>
-                    <li>Ecommerce template</li>
-                    <li>Ecommerce-2 template</li>
-                    <li>Ecommerce-3 template</li>
-                    <li>Order Success template</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8 wow pulse"><a href="index.html"><img class="img-fluid email-img" src="<?=base_url()?>/assets/images/landing/email_section_img.png" alt=""></a></div>
-          </div>
-        </div>
-      </section>
-      <section class="section-space cuba-demo-section components-section" id="components">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-12 wow pulse">
-              <div class="cuba-demo-content mt50">
-                <div class="couting">
-                  <h2>UI</h2>
-                </div>
-                <p>Components</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container container-modify">
-          <div class="row component_responsive">
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/1.png" alt="">
-                <h6 class="m-0 Pt-4">SweetAlert2</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/2.png" alt="">
-                <h6 class="m-0">Avatar</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/3.png" alt="">
-                <h6 class="m-0">Scrollable</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/4.png" alt="">
-                <h6 class="m-0">Tree view</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/5.png" alt="">
-                <h6 class="m-0">Bootstrap notify</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/6.png" alt="">
-                <h6 class="m-0">Rating </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/7.png" alt="">
-                <h6 class="m-0">Dropzone</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/8.png" alt="">
-                <h6 class="m-0">Tour</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/9.png" alt="">
-                <h6 class="m-0">Animated modal</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/10.png" alt="">
-                <h6 class="m-0">Owl Carousel</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/11.png" alt="">
-                <h6 class="m-0">Ribbons </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/12.png" alt="">
-                <h6 class="m-0">Pagination </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/13.png" alt="">
-                <h6 class="m-0">Steps </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/14.png" alt="">
-                <h6 class="m-0">Breadcrumb  </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/15.png" alt="">
-                <h6 class="m-0">Range Slider </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/16.png" alt="">
-                <h6 class="m-0">image cropper </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/17.png" alt="">
-                <h6 class="m-0">Sticky </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/18.png" alt="">
-                <h6 class="m-0">Progress </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/19.png" alt="">
-                <h6 class="m-0">Tooltip </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/20.png" alt="">
-                <h6 class="m-0">Spinners </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/21.png" alt="">
-                <h6 class="m-0">Dropdown </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/22.png" alt="">
-                <h6 class="m-0">Tabs </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/23.png" alt="">
-                <h6 class="m-0">Accordion  </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/24.png" alt="">
-                <h6 class="m-0">Navs</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/25.png" alt="">
-                <h6 class="m-0">Shadow</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/26.png" alt="">
-                <h6 class="m-0">state color</h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/27.png" alt="">
-                <h6 class="m-0">List  </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/28.png" alt="">
-                <h6 class="m-0">Grid </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/29.png" alt="">
-                <h6 class="m-0">Helper classes </h6>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="<?=base_url()?>/assets/images/landing/icon/30.png" alt="">
-                <h6 class="m-0">Typography</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+  
+    
+  
       <footer class="footer-bg">
         <div class="container">
           <div class="landing-center ptb50">
-            <div class="title"><img class="img-fluid" src="<?=base_url()?>/assets/images/landing/landing_logo.png" alt=""></div>
+            <div class="title"><img width="100px" class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt=""></div>
             <div class="footer-content">
-              <h1>The Cuba Bootstrap Admin Theme Trusted By Many Developers World Wide.</h1>
-              <p>If You like Our Theme So Please Rate Us.</p><a class="btn mrl5 btn-lg btn-primary default-view" target="_blank" href="index.html">Check Now</a><a class="btn mrl5 btn-lg btn-secondary btn-md-res" target="_blank" href="https://1.envato.market/3GVzd">Buy Now                    </a>
+              <h1>Menyambang.id</h1>
+              <p>Copyright @Menyambang.id <?= date('Y')?></p>
             </div>
           </div>
         </div>
@@ -546,7 +201,116 @@
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="<?=base_url()?>/assets/js/script.js"></script>
+    <script src="<?= base_url('assets'); ?>/js/datatable/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url('assets'); ?>/js/datatable/datatables/datatable.custom.js"></script>
     <!-- login js-->
     <!-- Plugin used-->
+
+    <script>
+      let grid = null;
+      let dataFull;
+
+      function templateProduk(data){
+        let text = `<div class="row p-4">`;
+
+        data.forEach(element => {
+          let diskon = element.diskon != 0 ? `<div class="ribbon ribbon-success ribbon-right">${element.diskon}%</div>` : '';
+          let harga = element.harga;
+          let hargaDiskon = element.harga;
+
+          if(element.diskon != 0){
+            hargaDiskon = `<del>Rp. ${(harga)}    </del>`;
+            harga = `${(parseFloat(harga)-(parseFloat(harga)*parseFloat(element.diskon)/100))}`;
+          }
+
+          text += `<div class="col-md-4 col-lg-3">
+              <div class="card">
+                <div class="product-box">
+                  <div class="product-img">
+                  ${diskon}
+                  <img class="img-fluid" src="<?=base_url('File/get/produk_gambar')?>/${element.gambar[0].file}" alt="">
+                    <div class="product-hover">
+                      <ul>
+                        <li>
+                          <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-bs-original-title="" title=""><i class="icon-eye"></i></button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="product-details">
+                    <h4>${element.nama}</h4>
+                    <div class="product-price">Rp. ${harga} 
+                      ${hargaDiskon}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        });
+
+        text += '</div>';
+        return text;
+      }
+
+      $(document).ready(function(){
+        grid = $("#datatable").DataTable({
+            processing: true,
+            // dom: '<"customSearching">rtp',
+            dom: '<"customSearching"><"top">rts<"bottom px-3"p>',
+            serverSide: true,
+            ajax: {
+                url: "<?= base_url('Welcome'); ?>/grid",
+                data: function(d) {
+                    d.filter = $("#form-advanced-filter").serialize();
+                },
+                dataSrc: function(json)
+                {
+                    return dataFull = json.data;
+                },
+            },
+            drawCallback: function(data) {
+                $('[data-toggle="tooltip"]').tooltip({
+                    trigger: "hover"
+                });
+                $('#datatable thead').remove();
+                $('#datatable').removeClass('dataTable');
+                // $('#datatable tbody').remove();
+
+                console.log('DATA', dataFull)
+                
+                $('#datatable tbody').html(templateProduk(dataFull));
+            },
+            initComplete: function(settings, json) {
+                $("div.customSearching").html(`<div class="col-12 pull-right px-4">
+                        <fieldset class="form-group position-relative has-icon-left">
+                                <input type="text" class="form-control round field-cari-khusus" id="searchbar" placeholder="Pencarian" value="">
+                             
+                            </fieldset>
+                    </div>`);
+            },
+            columns: [
+                {
+                    data: 'nama',
+                    render: function(val, type, row, meta) {
+                        return ``;
+                    }
+                },
+            ]
+        });
+
+        $(document).on('keyup', '.field-cari-khusus', function(e) {
+          var code = e.which;
+          if (code == 13)
+            e.preventDefault();
+          if (code == 13 || code == 188 || code == 186) {
+              grid.search($(this).val()).draw();
+            }
+        });
+
+        $(document).on('click', '.btn-cari-khusus', function() {
+            grid.search($(this).val()).draw();
+        });
+      });
+    </script>
   </body>
 </html>

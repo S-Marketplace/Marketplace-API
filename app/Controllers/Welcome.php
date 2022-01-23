@@ -10,6 +10,7 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Welcome extends BaseController
 {
+    protected $modelName = 'App\Models\ProdukModel';
 
 
     public function index()
@@ -21,6 +22,20 @@ class Welcome extends BaseController
         ];
 
         return view('Welcome/index',$data);
+    }
+
+     /**
+     * Grid Produk
+     *
+     * @return void
+     */
+    public function grid()
+    {
+        $this->model->select('*');
+        $this->model->with(['kategori']);
+        $this->model->withGambarProduk();
+
+        return parent::grid();
     }
 
     public function coming_soon()
