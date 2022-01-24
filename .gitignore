@@ -52,6 +52,7 @@ writable/cache/*
 !writable/cache/index.html
 
 writable/logs/*
+writable/payment_log/*
 !writable/logs/index.html
 
 writable/session/*
