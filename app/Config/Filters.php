@@ -44,7 +44,7 @@ class Filters extends BaseConfig
       'before' => [
         // 'honeypot',
         // 'csrf',
-        'hakAkses' => ['except' => ['/', 'login', 'login/logout', 'login/*', 'api/*','File/*', 'generator/*', 'welcome/*', 'test/*', 'NotificationMidTrans/*']],
+        'hakAkses' => ['except' => ['/', 'login', 'login/logout', 'login/*', 'api/*','File/*', 'generator/*', 'welcome/*', 'test/*', 'NotificationMidTrans/*', 'verifikasi']],
       ],
       'after'  => [
         'toolbar',

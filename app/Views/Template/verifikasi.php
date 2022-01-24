@@ -61,7 +61,7 @@
                           <td style="padding: 30px"> 
                             <p>Hi <?=$nama?>,</p>
                             <p>Akun anda telah dibuat, silahkan klik aksi di bawah ini untuk mengaktifkan akun anda.</p>
-                            <div class="text-center"><a href="<?=base_url('Akun/?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
+                            <div class="text-center"><a href="<?=base_url('verifikasi?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
                             <p style="margin-bottom: 0">Terimakasih!</p>
                           </td>
                         </tr>

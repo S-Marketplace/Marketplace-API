@@ -46,6 +46,8 @@ $routes->get('api/file/foto_user_integrasi/(:segment)', 'Api\File::fotoUserInteg
 $routes->get("api/penjamin_integrasi.pdf", 'Api\UserIntegrasi::penjaminIntegrasi');
 $routes->get("api/surat_pernyataan_integrasi.pdf", 'Api\UserIntegrasi::suratPernyataanIntegrasi');
 
+$routes->get("verifikasi", 'Api\User::verifikasi');
+
 $routes->group("api", ['filter' => 'apiKeyFilter'], function ($route) {
 	require_once APPPATH . "Config/Routes/Api.php";
 
