@@ -52,7 +52,7 @@ writable/cache/*
 !writable/cache/index.html
 
 writable/logs/*
-writable/payment_log/*
+writable/notification_mid_trans/*
 !writable/logs/index.html
 
 writable/session/*
