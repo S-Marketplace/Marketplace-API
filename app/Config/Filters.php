@@ -27,6 +27,11 @@ class Filters extends BaseConfig
           \App\Filters\LoginFilter::class,
           \App\Filters\RoleFilter::class
         ],
+        'apiKeyFilter' => \App\Filters\ApiKeyFilter::class,
+        'apiFilter' => [
+          \App\Filters\ApiKeyFilter::class,
+          \App\Filters\TokenFilter::class,
+        ]
     ];
 
     /**

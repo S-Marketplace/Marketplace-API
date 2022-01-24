@@ -50,7 +50,7 @@ $routes->group("api", ['filter' => 'apiKeyFilter'], function ($route) {
 	require_once APPPATH . "Config/Routes/Api.php";
 
 	$route->group("integrasi", ['filter' => 'apiFilter'], function ($route) {
-		require_once APPPATH . "Config/Routes/Integrasi.php";
+		// require_once APPPATH . "Config/Routes/Integrasi.php";
 	});
 });
 

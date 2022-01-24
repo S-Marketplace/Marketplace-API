@@ -24,7 +24,7 @@ class Notification
      * 
      * @return bool
      */
-    public static function sendEmail($email, $subject, $pesan, $debug = true)
+    public static function sendEmail($email, $subject, $pesan, $debug = false)
     {
         $mail = new PHPMailer(true);
 
