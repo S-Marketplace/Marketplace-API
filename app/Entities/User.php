@@ -24,4 +24,15 @@ class User extends MyEntity
 		'updatedAt',
 		'deletedAt',
     ];
+
+    public function hashPassword($password)
+    {
+        $key = '219404f55e15877401282a82cb16d6b7';
+        return md5(md5($password) . $key);
+    }
+
+    public function verifyPassword($password)
+    {
+        return $this->password === $this->hashPassword($password);
+    }
 }

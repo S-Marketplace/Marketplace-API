@@ -3,7 +3,6 @@
 namespace App\Libraries;
 
 use CodeIgniter\Config\Config;
-use CodeIgniter\Session\Session;
 use Config\App;
 
 class MidTransPayment
@@ -40,10 +39,10 @@ class MidTransPayment
      *
      * Implementasi ini memungkinkan Anda membuat subclass kelas Singleton sambil mempertahankan
      * hanya satu instance dari setiap subclass sekitar.
-     * @return MyIpaymu
+     * @return MidTransPayment
      */
 
-    public static function getInstance(): MyIpaymu
+    public static function getInstance(): MidTransPayment
     {
         $cls = static::class;
         if (!isset(self::$instances[$cls])) {

@@ -19,8 +19,9 @@ use Firebase\JWT\SignatureInvalidException;
  */
 class Auth extends MyResourceController
 {
-    const LIFETIME_ACCESS_TOKEN = (60 * 30);
-    const LIFETIME_REFRESH_TOKEN = (60 * 60 * 24 * 30);
+    const LIFETIME_MINUTE = 60*24*30*364; // 30 TAHUN
+    const LIFETIME_ACCESS_TOKEN = (60 * self::LIFETIME_MINUTE);
+    const LIFETIME_REFRESH_TOKEN = (60 * 60 * 24 * self::LIFETIME_MINUTE);
 
     protected $format = "json";
 
@@ -39,10 +40,17 @@ class Auth extends MyResourceController
 
         $model = new UserModel();
         $model->select('*');
-        $model->with(["role"]);
         $user = $model->find($username);
 
         if (isset($user) && $user->verifyPassword($password)) {
+            if($user->isActive == 0){
+                return [
+                    'code' => 400,
+                    'message' => 'Akun belum di aktivasi',
+                    'data' => null,
+                ];
+            }
+
             $accessPayload = [
                 "iss" => base_url(),
                 "aud" => base_url(),

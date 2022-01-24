@@ -7,8 +7,9 @@ use App\Models\UserModel;
 use App\Models\KategoriModel;
 use App\Controllers\BaseController;
 use App\Libraries\MidTransPayment;
-use App\Libraries\MyIpaymu;
+use App\Libraries\MyIpaymuPayment;
 use App\Libraries\Notification;
+use App\Libraries\RajaOngkirShipping;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Test extends BaseController
@@ -19,11 +20,11 @@ class Test extends BaseController
     }
 
     public function cekIpaymu(){
-        $myIpaymu = new MyIpaymu();
+        $myIpaymuPayment = new MyIpaymuPayment();
         $data = [
-            'balance' => $myIpaymu->checkBalance(),
-            'transaction' => $myIpaymu->checkTransaction('52406'),
-            'directPayment' => $myIpaymu->directPayment([
+            'balance' => $myIpaymuPayment->checkBalance(),
+            'transaction' => $myIpaymuPayment->checkTransaction('52406'),
+            'directPayment' => $myIpaymuPayment->directPayment([
                 "name"=>"Buyer",
                 "phone"=>"081999501092",
                 "email"=>"buyer@mail.com",
@@ -57,6 +58,19 @@ class Test extends BaseController
             'transactionStatus' => $midTrans->transactionStatus('order-101q-1643016504'),
             // 'chargeBankBNIVA' => $midTrans->chargeBankBNIVA(),
             'chargeGopay' => $midTrans->chargeGopay(),
+          
+        ];
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
+
+    public function cekRajaOngkir(){
+        $rajaOngkir = new RajaOngkirShipping();
+        $data = [
+            'province' => $rajaOngkir->province(),
+            'city' => $rajaOngkir->city(),
+            'cost' => $rajaOngkir->cost(1,1,1,'jne'),
           
         ];
         echo '<pre>';

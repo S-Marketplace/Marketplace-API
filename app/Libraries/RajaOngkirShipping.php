@@ -2,30 +2,30 @@
 
 namespace App\Libraries;
 
-use Config\App;
 use CodeIgniter\Config\Config;
+use CodeIgniter\Session\Session;
+use Config\App;
 
-class MyIpaymuPayment
+class RajaOngkirShipping
 {
     private static $instances = [];
 
     private $curl = null;
 
-    private $apiKey = 'QbGcoO0Qds9sQFDmY0MWg1Tq.xtuh1';
-    private $va = '1179000899';
+    private $apiKey = 'aab4d5253a2eda400958c422b37f71b3';
+
     private $subdomain = ENVIRONMENT != 'production' ? 'sandbox' : 'my';
     private $baseUri = '';
     private $formData = [];
 
     public function __construct()
     {
-        $this->baseUri = 'https://'.$this->subdomain.'.ipaymu.com/api/v2/';
+        $this->baseUri = "https://api.rajaongkir.com/starter/";
 
         $this->options = [];
         $options['baseURI'] = $this->baseUri;
-        $options['headers']['signature'] = $this->apiKey;
-        $options['headers']['va'] = $this->va;
-       
+        $options['headers']['key'] = $this->apiKey;
+
         $this->curl = \Config\Services::curlrequest($options);
     }
 
@@ -37,10 +37,10 @@ class MyIpaymuPayment
      *
      * Implementasi ini memungkinkan Anda membuat subclass kelas Singleton sambil mempertahankan
      * hanya satu instance dari setiap subclass sekitar.
-     * @return MyIpaymuPayment
+     * @return RajaOngkirShipping
      */
 
-    public static function getInstance(): MyIpaymuPayment
+    public static function getInstance(): RajaOngkirShipping
     {
         $cls = static::class;
         if (!isset(self::$instances[$cls])) {
@@ -50,40 +50,62 @@ class MyIpaymuPayment
         return self::$instances[$cls];
     }
 
-    
-   /**
-    * Check Balance
-    *
-    * @return void
-    */
-    public function checkBalance()
+    /**
+     * Check Province
+     *
+     * @return void
+     */
+    public function province($id = null)
     {
-        $response = $this->setFormData([
-            'account' => $this->va,
-        ])->execute('POST', 'balance');
-       
+        $data = [];
+
+        if($id) $data['id'] = $id;
+
+        $response = $this->setFormData($data)->execute('GET', 'province');
+
         return $response;
     }
 
     /**
-     * Cek Transaksi terakhir
+     * Undocumented function
      *
-     * @param [type] $transactionId
+     * @param [type] $id ID kota/kabupaten
+     * @param [type] $province ID propinsi
      * @return void
      */
-    public function checkTransaction($transactionId)
+    public function city($id = null, $province = null)
     {
-        $response = $this->setFormData([
-            'transactionId' => $transactionId,
-        ])->execute('POST', 'transaction');
-       
+        $data = [];
+
+        if ($id && $province) {
+            $data['id'] = $id;
+            $data['province'] = $province;
+        }
+
+        $response = $this->setFormData($data)->execute('GET', 'city');
+
         return $response;
     }
 
-    public function directPayment($data)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $origin ID kota atau kabupaten asal
+     * @param [type] $destination ID kota atau kabupaten tujuan
+     * @param [type] $weight Berat kiriman dalam gram
+     * @param [type] $courier Kode kurir: jne, pos, tiki.
+     * @return void
+     */
+    public function cost($origin, $destination, $weight, $courier)
     {
-        $response = $this->setFormData($data)->execute('POST', 'payment/direct');
-       
+        $data = [];
+        $data['origin'] = $origin;
+        $data['destination'] = $destination;
+        $data['weight'] = $weight;
+        $data['courier'] = $courier;
+
+        $response = $this->setFormData($data)->execute('POST', 'cost');
+
         return $response;
     }
 
@@ -96,16 +118,14 @@ class MyIpaymuPayment
         return $this->curl;
     }
 
-
     /**
      * @param array $params
-     * @param bool $multipart
      * @return $this
      */
-    private function setFormData(array $params, bool $multipart = false)
+    private function setFormData(array $params)
     {
         $this->formData = $params;
-        $this->curl->setForm($params, $multipart);
+        $this->curl->setForm($params);
         return $this;
     }
 
@@ -119,9 +139,7 @@ class MyIpaymuPayment
     private function execute($method, $url, $options = [])
     {
         $options['baseURI'] = $this->baseUri;
-        $options['headers']['signature'] = $this->generateSignature($this->formData, $method);
-        $options['headers']['timestamp'] = Date('YmdHis');
-        $options['debug'] = WRITEPATH.'/logs/log_curl.txt';
+        $options['debug'] = WRITEPATH . '/logs/log_curl_raja_ongkir.txt';
         $options['http_errors'] = false;
 
         if (!isset($options['timeout'])) {
@@ -143,14 +161,4 @@ class MyIpaymuPayment
             ];
         }
     }
-    
-    private function generateSignature($body, $method){
-        $jsonBody     = json_encode($body, JSON_UNESCAPED_SLASHES);
-        $requestBody  = strtolower(hash('sha256', $jsonBody));
-        $stringToSign = strtoupper($method) . ':' . $this->va . ':' . $requestBody . ':' . $this->apiKey;
-        $signature    = hash_hmac('sha256', $stringToSign, $this->apiKey);
-
-        return $signature;
-    }
-
 }
