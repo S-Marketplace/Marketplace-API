@@ -14,7 +14,7 @@ class HandlingPayment extends BaseController
     public function post(){
         helper('filesystem');
 
-        $data = json_encode($this->request->getPost());
+        $data = json_encode($this->request->getVar());
 
         if ( ! write_file(WRITEPATH.'payment_log/log.txt', $data)) {
             echo 'Unable to write the file';

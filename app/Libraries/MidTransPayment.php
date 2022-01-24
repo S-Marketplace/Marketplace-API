@@ -187,10 +187,6 @@ class MidTransPayment
             $options['connect_timeout'] = 60;
         }
 
-        echo '<pre>';
-        print_r($this->getCurl());
-        echo '</pre>';exit;
-
         $response = $this->curl->request($method, $url, $options);
 
         if ($response->getStatusCode() == 200) {
