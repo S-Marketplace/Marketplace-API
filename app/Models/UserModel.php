@@ -9,7 +9,7 @@ class UserModel extends MyModel
     protected $createdField = "usrCreatedAt";
     protected $updatedField = "usrUpdatedAt";
     protected $returnType = "App\Entities\User";
-    protected $allowedFields = ["usrEmail","usrNama","usrPassword","usrSaldo","usrIsActive","usrDeletedAt"];
+    protected $allowedFields = ["usrEmail","usrNama","usrPassword","usrSaldo","usrIsActive","usrDeletedAt","usrFirebaseToken","usrPin", "usrNoHp"];
 
     public function getReturnType()
     {

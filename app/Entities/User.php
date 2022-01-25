@@ -12,6 +12,9 @@ class User extends MyEntity
         'createdAt' => 'usrCreatedAt',
         'updatedAt' => 'usrUpdatedAt',
         'deletedAt' => 'usrDeletedAt',
+        'firebaseToken' => 'usrFirebaseToken',
+        'pin' => 'usrPin',
+        'noHp' => 'usrNoHp',
     ];
 
     protected $show = [
@@ -23,6 +26,9 @@ class User extends MyEntity
 		'createdAt',
 		'updatedAt',
 		'deletedAt',
+		'firebaseToken',
+		'pin',
+        'noHp',
     ];
 
     public function hashPassword($password)

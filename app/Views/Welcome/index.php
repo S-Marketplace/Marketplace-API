@@ -63,13 +63,13 @@
                 <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
                 <div class="navbar-collapse justify-content-end collapse hidenav" id="navbarDefault">
                   <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
-                    <li class="nav-item"><a class="nav-link" href="#kategori">Kategori</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#kategori">Kategori</a></li> -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li> -->
                     <!-- <li class="nav-item"><a class="nav-link" href="#frameworks">Frameworks</a></li> -->
                     <!-- <li class="nav-item"><a class="nav-link" href="#components">Components</a></li> -->
                     <!-- <li class="nav-item"><a class="nav-link" href="#applications">Applications</a></li> -->
                     <!-- <li class="nav-item"><a class="nav-link" href="https://docs.pixelstrap.com/cuba/all_in_one/document/index.html" target="_blank">Documentation</a></li> -->
-                    <!-- <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="<?= base_url('Login')?>" >Login</a></li> -->
+                    <li class="nav-item buy-btn"><a class="nav-link js-scroll" href="<?= base_url('Login')?>" >Login</a></li>
                   </ul>
                 </div>
               </nav>
@@ -96,7 +96,7 @@
         </div>
       </div>
     
-      <section class="section-space cuba-demo-section frameworks-section" id="kategori">
+      <!-- <section class="section-space cuba-demo-section frameworks-section" id="kategori">
       <div class="container">
           <div class="row">
             <div class="col-sm-12 wow pulse">
@@ -131,8 +131,9 @@
             </div>
           </div>
         </div>
-      </section>
-      <section class="section-space cuba-demo-section frameworks-section" style="text-align:left"  id="produk">
+      </section> -->
+      
+      <!-- <section class="section-space cuba-demo-section frameworks-section" style="text-align:left"  id="produk">
         <div class="container">
           <div class="row">
             <div class="col-sm-12 wow pulse">
@@ -166,7 +167,7 @@
           </div>
         </div>
 
-      </section>
+      </section> -->
   
     
   

@@ -19,6 +19,13 @@ class MidTransPayment
     private $baseUri = '';
     private $formData = [];
 
+    const PAYMENT_TYPE_ECHANNEL = 'echannel';
+    const PAYMENT_TYPE_BANK_TRANSFER = 'bank_transfer';
+
+    const BANK_BNI = 'bni';
+    const BANK_BCA = 'bca';
+    const BANK_PERMATA = 'permata';
+
     public function __construct()
     {
         $this->baseUri = "https://api.sandbox.midtrans.com/v2/";
@@ -65,43 +72,61 @@ class MidTransPayment
     }
 
     /**
-     * Charge Bank BNI VA
+     * Undocumented function
      *
+     * @param [type] $paymentType
+     * @param array $customerDetail 
+        array(
+            'email' => 'noreply@example.com',
+            'first_name' => 'Ahmad Juhdi',
+            'last_name' => 'utomo',
+            'phone' => '+6281 1234 1234',
+        )
+     * @param array $itemDetails
+        array(
+            0 => array(
+                'id' => 'item01',
+                'price' => 1,
+                'quantity' => 1,
+                'name' => 'Ayam Zozozo',
+            )
+        ),
+     * @param string $bankTransfer
+     * @param string $grossAmount
      * @return void
      */
-    public function chargeBankBNIVA()
+    public function charge($paymentType, array $customerDetail, array $itemDetails, $bankTransfer = 'bni', $grossAmount)
     {
-        $response = $this->setFormData(array(
-            'payment_type' => 'bank_transfer',
+        $formData = array(
+            'payment_type' => $paymentType,
             'transaction_details' => array(
-                'gross_amount' => 2,
-                'order_id' => 'order-101q-'.strtotime("now"),
+                'gross_amount' => $grossAmount,
+                'order_id' => 'TOPUP-' . strtotime("now"),
             ),
-            'customer_details' => array(
-                'email' => 'noreply@example.com',
-                'first_name' => 'Ahmad Juhdi',
-                'last_name' => 'utomo',
-                'phone' => '+6281 1234 1234',
-            ),
-            'item_details' => array(
-                0 => array(
-                    'id' => 'item01',
-                    'price' => 1,
-                    'quantity' => 1,
-                    'name' => 'Ayam Zozozo',
-                ),
-                1 => array(
-                    'id' => 'item02',
-                    'price' => 1,
-                    'quantity' => 1,
-                    'name' => 'Ayam Xoxoxo',
-                ),
-            ),
-            'bank_transfer' => array(
-                'bank' => 'bni',
-                'va_number' => '12345678',
-            ),
-        ))->execute('POST', 'charge');
+            'customer_details' => $customerDetail,
+            'item_details' => $itemDetails
+        );
+
+        $metodePembayaran = [];
+
+        if ($paymentType == self::PAYMENT_TYPE_BANK_TRANSFER) {
+            $metodePembayaran = [
+                "bank_transfer" => [
+                    "bank" => $bankTransfer,
+                    "va_number" => "12345678",
+                ],
+            ];
+        }else if($paymentType == self::PAYMENT_TYPE_ECHANNEL){
+            $metodePembayaran = [
+                "echannel" => [
+                    "bill_info1" => "Payment For",
+                    "bill_info2" => "TopUp"
+                ]
+            ];
+        }
+
+        $formData = array_merge($formData, $metodePembayaran);
+        $response = $this->setFormData($formData)->execute('POST', 'charge');
 
         return $response;
     }
@@ -117,7 +142,7 @@ class MidTransPayment
             'payment_type' => 'gopay',
             'transaction_details' => array(
                 'gross_amount' => 2,
-                'order_id' => 'order-101h-'.strtotime("now"),
+                'order_id' => 'order-101h-' . strtotime("now"),
             ),
             'gopay' => array(
                 'enable_callback' => true,

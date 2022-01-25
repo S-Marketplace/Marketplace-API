@@ -51,8 +51,8 @@ $routes->get("verifikasi", 'Api\User::verifikasi');
 $routes->group("api", ['filter' => 'apiKeyFilter'], function ($route) {
 	require_once APPPATH . "Config/Routes/Api.php";
 
-	$route->group("integrasi", ['filter' => 'apiFilter'], function ($route) {
-		// require_once APPPATH . "Config/Routes/Integrasi.php";
+	$route->group("user", ['filter' => 'apiFilter'], function ($route) {
+		require_once APPPATH . "Config/Routes/User.php";
 	});
 });
 

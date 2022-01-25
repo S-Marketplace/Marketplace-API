@@ -52,7 +52,7 @@ class Superadmin implements MenuInterface
                         ],
                         [
                             'title' => 'User Terdaftar',
-                            'url' => 'Welcome/coming_soon'
+                            'url' => 'User'
                         ],
                     ]
                 ],
