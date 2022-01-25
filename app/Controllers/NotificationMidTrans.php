@@ -11,6 +11,9 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class NotificationMidTrans extends BaseController
 {
+    private $ipWhitelist = [
+
+    ];
 
     public function __construct()
     {
@@ -20,6 +23,8 @@ class NotificationMidTrans extends BaseController
     public function payment(){
         $data = $this->request->getVar();
 
+        $statusLog = $this->writeLog(WRITEPATH.'notification_mid_trans/ip_log.txt', "IP:".$this->request->getIPAddress());
+       
         $signature_key = $data->signature_key ?? $data['signature_key'];
         $transaction_status = $data->transaction_status ?? $data['transaction_status'];
         $transaction_id = $data->transaction_id ?? $data['transaction_id'];
@@ -47,27 +52,26 @@ class NotificationMidTrans extends BaseController
         return $this->response->setJSON([
             'code' => 200,
             'data' => $data,
-            'message' => 'Sukses',
+            'message' => $statusLog ? 'Success Write Log': 'Failed Write',
         ]);
     }
 
     public function recurring(){
         $data = json_encode($this->request->getVar());
-
-        if ( ! write_file(WRITEPATH.'notification_mid_trans/recurring.txt', $data)) {
-            echo 'Unable to write the file';
-        } else {
-            echo 'File written!';
-        }
+        $statusLog = $this->writeLog(WRITEPATH.'notification_mid_trans/recurring.txt', $data);
     }
 
     public function pay_account(){
         $data = json_encode($this->request->getVar());
+        $statusLog = $this->writeLog(WRITEPATH.'notification_mid_trans/pay_account.txt', $data);
+    }
 
-        if ( ! write_file(WRITEPATH.'notification_mid_trans/pay_account.txt', $data)) {
-            echo 'Unable to write the file';
-        } else {
-            echo 'File written!';
-        }
+    private function writeLog($path, $data){
+        if(file_exists($path))
+            $statusLog = write_file($path, "[".date('Y-m-d H:i:s')."] => ".$data. "\r\n",  'a');
+        else
+            $statusLog = write_file($path, $data);
+
+        return $statusLog;
     }
 }
