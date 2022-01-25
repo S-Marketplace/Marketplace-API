@@ -20,18 +20,28 @@ class NotificationMidTrans extends BaseController
     public function payment(){
         $data = $this->request->getVar();
 
-        $signature_key = $data->signature_key;
-        $transaction_status = $data->transaction_status;
-        $transaction_id = $data->transaction_id;
+        $signature_key = $data->signature_key ?? $data['signature_key'];
+        $transaction_status = $data->transaction_status ?? $data['transaction_status'];
+        $transaction_id = $data->transaction_id ?? $data['transaction_id'];
        
         try {
             $userSaldoModel = new UserSaldoModel();
-            $userSaldoModel->update($transaction_id, [
+            $status = $userSaldoModel->update($transaction_id, [
                 'usalStatus' => $transaction_status,
                 'usalSignatureKey' => $signature_key,
             ]);
-        } catch (\Throwable $th) {
 
+            if($status){
+                $data = $userSaldoModel->addSaldo($transaction_id);
+            }
+        } catch (DatabaseException $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+        } catch (\mysqli_sql_exception $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
+        } catch (\Exception $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
         }
 
         return $this->response->setJSON([

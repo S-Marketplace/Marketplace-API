@@ -56,6 +56,17 @@ class Superadmin implements MenuInterface
                         ],
                     ]
                 ],
+                [
+                    'title' => 'Transaksi',
+                    'url' => '#',
+                    'icon' => 'user',
+                    'children' => [
+                        [
+                            'title' => 'Top Up Saldo',
+                            'url' => 'TransaksiTopUpSaldo'
+                        ],
+                    ]
+                ],
             // [
             //     'title' => 'Jadwal Kunjungan',
             //     'url' => '#',

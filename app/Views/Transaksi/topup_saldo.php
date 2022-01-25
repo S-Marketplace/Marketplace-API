@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>User Terdaftar</h3>
+                    <h3>Top Up Saldo</h3>
                 </div>
                 <div class="col-6">
                     <!-- <button class="btn btn-sm btn-primary pull-right" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Tambah</button> -->
@@ -22,15 +22,18 @@
                         <h5 class="m-b-0">Feather Icons</h5>
                     </div> -->
                     <div class="card-body">
-                        <p class="card-text">Data User.</p>
+                        <p class="card-text">Data Top Up Saldo.</p>
                         <div class="table-responsive">
                             <table class="display" id="datatable" width="100%">
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Email</th>
-                                        <th width="20%">Nama</th>
-                                        <th width="20%">Status</th>
+                                        <th>Metode Pembayaran</th>
+                                        <th>Tanggal & Waktu</th>
+                                        <th>ID Pesanan</th>
+                                        <th>Email Pelanggan</th>
+                                        <th>Jumlah</th>
+                                        <th>Status</th>
                                         <!-- <th width="15%">Aksi</th> -->
                                     </tr>
                                 </thead>
@@ -77,44 +80,40 @@
                     }
                 },
                 {
-                    data: 'email',
+                    data: 'paymentType',
+                    render: function(val, type, row, meta) {
+                        if(val == 'bank_transfer') return 'Transfer Bank';
+                        else if(val == 'echannel') return 'Mandiri Bill';
+                    }
                 },
                 {
-                    data: 'nama',
+                    data: 'time',
                 },
                 {
-                    data: 'isActive',
+                    data: 'orderId',
+                },
+                {
+                    data: 'userEmail',
+                },
+                {
+                    data: 'grossAmount',
+                },
+                {
+                    data: 'status',
                     render: function(val, type, row, meta) {
                         let text = '';
 
-                        if(val == '1'){
-                            text = 'Aktif';
-                        }else{
-                            text = 'Belum Aktif';
-                        }
+                        if(val == 'pending') return `<span class="badge badge-light text-dark">Pending</span>`;
+                        else if(val == 'settlement') return `<span class="badge badge-success text-light">Settelment</span>`;
+                        else if(val == 'cancel') return `<span class="badge badge-danger text-light">Cancel</span>`;
+                        else if(val == 'expire') return `<span class="badge badge-danger text-light">Expire</span>`;
+                        else if(val == 'failure') return `<span class="badge badge-danger text-light">Failure</span>`;
+                        
+                        text = val;
 
                         return text;
                     }
                 },
-                // {
-                //     data: 'username',
-                //     render: function(val, type, row, meta) {
-                //         var btnHapus = btnDatatableConfig('delete', {
-                //             'id': 'btnHapus',
-                //             'data-row': meta.row,
-                //         }, {
-                //             show: true
-                //         });
-                //         var btnEdit = btnDatatableConfig('update', {
-                //             'id': 'btnEdit',
-                //             'data-row': meta.row,
-                //         }, {
-                //             show: true
-                //         });
-
-                //         return `${btnEdit} ${btnHapus}`;
-                //     }
-                // }
             ]
         });
 

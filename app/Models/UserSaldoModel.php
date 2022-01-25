@@ -19,4 +19,21 @@ class UserSaldoModel extends MyModel
     public function getPrimaryKeyName(){
         return $this->primaryKey;
     }
+
+    public function addSaldo($transId){
+        $transData = $this->find($transId);
+
+        $userEmail = $transData->userEmail;
+        $grossAmount = $transData->grossAmount;
+        if($transData->status == 'settlement'){
+            $modelUser = new UserModel();
+            $data = $modelUser->find($userEmail);
+            
+            $usrSaldo = doubleval($data->saldo) + doubleval($grossAmount);
+            $modelUser->update($userEmail, [
+                'usrSaldo' => $usrSaldo,
+            ]);
+          
+        }
+    }
 }
