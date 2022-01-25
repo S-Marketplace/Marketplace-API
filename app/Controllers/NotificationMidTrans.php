@@ -20,9 +20,9 @@ class NotificationMidTrans extends BaseController
     public function payment(){
         $data = $this->request->getVar();
 
-        $signature_key = $data['signature_key'];
-        $transaction_status = $data['transaction_status'];
-        $transaction_id = $data['transaction_id'];
+        $signature_key = $data->signature_key;
+        $transaction_status = $data->transaction_status;
+        $transaction_id = $data->transaction_id;
        
         try {
             $userSaldoModel = new UserSaldoModel();
