@@ -21,7 +21,10 @@ class KeranjangModel extends MyModel
         return $this->primaryKey;
     }
 
-    public function withProduk(){
-        return $this->hasMany("m_produk","krjProdukId = produkId",Produk::class,"products",'-');
+    protected function relationships()
+    {
+        return [
+            'products' => ['table' => 'm_produk', 'condition' => 'krjProdukId = produkId', 'entity' => 'App\Entities\Produk'],
+        ];
     }
 }

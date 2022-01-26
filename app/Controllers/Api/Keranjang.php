@@ -34,7 +34,7 @@ class Keranjang extends MyResourceController
     {
         $this->model->select('*');
         $this->model->where(['krjUserEmail' => $this->user['email']]);
-        $this->model->withProduk();
+        $this->model->with(['products']);
         return parent::index();
     }
 }
