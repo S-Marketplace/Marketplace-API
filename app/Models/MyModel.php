@@ -179,6 +179,8 @@ class MyModel extends Model
         $primaryId = '';
         $i = 0;
         foreach($entityInstance->getDatamap(true) as $name=>$field){
+
+            if(empty($field)) continue;
             if($i == 0) $primaryId = $field;
             $jsonEntity[] = "'$name',$field";
             $i++;

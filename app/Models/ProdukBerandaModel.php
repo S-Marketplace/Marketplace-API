@@ -4,6 +4,7 @@ use App\Models\MyModel;
 use App\Entities\Produk;
 use App\Entities\ProdukGambar;
 use App\Entities\ProdukBerandaTrans;
+use App\Entities\ProdukWKategori;
 
 class ProdukBerandaModel extends MyModel
 {
@@ -41,6 +42,8 @@ class ProdukBerandaModel extends MyModel
                 $e = $e;
                 $e->products = array_map(function($produk){
                     $produkGambarModel = new ProdukGambarModel();
+                    $kategoriModel = new KategoriModel();
+                    $produk->kategori = $kategoriModel->find($produk->kategoriId);
                     $produk->gambar = $produkGambarModel->where(['prdgbrProdukId' => $produk->id])->find();
                     return $produk;
                 }, $e->products);
@@ -49,6 +52,9 @@ class ProdukBerandaModel extends MyModel
         }else if(!empty($data)){
             $data->products = array_map(function($produk){
                 $produkGambarModel = new ProdukGambarModel();
+                $kategoriModel = new KategoriModel();
+                $produk->kategori = $kategoriModel->find($produk->kategoriId);
+
                 $produk->gambar = $produkGambarModel->where(['prdgbrProdukId' => $produk->id])->find();
                 return $produk;
             }, $data->products);
