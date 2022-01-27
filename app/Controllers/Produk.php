@@ -23,6 +23,7 @@ class Produk extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
+       'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]'],
        'nama' => ['label' => 'nama', 'rules' => 'required'],
        'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
        'harga' => ['label' => 'harga', 'rules' => 'required|numeric'],
@@ -187,7 +188,7 @@ class Produk extends BaseController
             $this->request->setGlobal("request", $post);
         }
 
-        $id = $this->request->getVar('id');
+        $id = $this->request->getVar('idBefore');
         if ($id != '') {
             $checkData = $this->checkData($id);
            
@@ -196,8 +197,56 @@ class Produk extends BaseController
             }
         }
 
-        $this->isUploadWithId = true;
-        return parent::simpan($primary);
+        if ($this->request->isAJAX()) {
+
+			helper('form');
+			if ($this->validate($this->rules)) {
+			
+				try {
+					$primaryId = $this->request->getVar('idBefore');
+					$entityClass = $this->model->getReturnType();
+					$entity = new $entityClass();
+					$entity->fill($this->request->getVar());
+
+					$this->model->transStart();
+					if ($primaryId == '') {
+						$this->model->insert($entity, false);
+						if ($this->model->getInsertID() > 0) {
+							$primaryId = $this->model->getInsertID();
+							$entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
+						}
+					} else {
+						$this->model->set($entity->toRawArray())
+							->update($primaryId);
+					}
+
+					$this->model->transComplete();
+					$status = $this->model->transStatus();
+
+                    try {
+                        $this->uploadFile($primaryId);
+                    } catch (\Exception $ex) {
+                        $response =  $this->response(null, 500, $ex->getMessage());
+                        return $this->response->setJSON($response);
+                    }
+
+					$response = $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
+					return $this->response->setJSON($response);
+				} catch (DatabaseException $ex) {
+					$response =  $this->response(null, 500, $ex->getMessage());
+					return $this->response->setJSON($response);
+				} catch (\mysqli_sql_exception $ex) {
+					$response =  $this->response(null, 500, $ex->getMessage());
+					return $this->response->setJSON($response);
+				} catch (\Exception $ex) {
+					$response =  $this->response(null, 500, $ex->getMessage());
+					return $this->response->setJSON($response);
+				}
+			} else {
+				$response =  $this->response(null, 400, $this->validator->getErrors());
+				return $this->response->setJSON($response);
+			}
+		}
     }
 
     private $productStartIndexExcel = 3;

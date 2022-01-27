@@ -24,6 +24,13 @@
                     <div class="card-body">
                       <div class="row">
                         <div class="col">
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Kode Produk</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="id" id="id" class="form-control readonly-background" value="<?= $produk->produkId ?? ''; ?>" placeholder="Id">
+                                <p class="text-danger" id="er_id"></p>
+                            </div>
+                          </div>
                           <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Nama</label>
                             <div class="col-sm-9">
@@ -84,10 +91,10 @@
                                 <p class="text-danger" id="er_gambar"></p>
                                 <div class="row">
                                     <?php foreach($produkGambar ?? [] as $value):?>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-3 col-sm-6">
                                         <div class="card cardGambar" >
                                             <div class="product-box">
-                                                <div class="product-img"  style="min-height: 220px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
+                                                <div class="product-img" ><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
                                                 <div class="product-hover">
                                                     <ul>
                                                     <li>
@@ -206,7 +213,7 @@
             e.preventDefault();
 
             var data = new FormData(this);
-            data.append('id', id);
+            data.append('idBefore', id);
 
             $.ajax({
                 type: "POST",

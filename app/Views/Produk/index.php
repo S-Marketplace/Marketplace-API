@@ -29,6 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
+                                        <th width="20%">Kode</th>
                                         <th width="20%">Nama</th>
                                         <th width="20%">Stok</th>
                                         <th width="20%">Harga</th>
@@ -188,13 +189,22 @@
                     }
                 },
                 {
+                    data: 'id',
+                },
+                {
                     data: 'nama',
                 },
                 {
                     data: 'stok',
+                    render: function(val, type, row, meta) {
+                        return `${formatRupiah(val)}`;
+                    }
                 },
                 {
                     data: 'harga',
+                    render: function(val, type, row, meta) {
+                        return `Rp. ${formatRupiah(val)}`;
+                    }
                 },
                 {
                     data: 'kategori.nama',
