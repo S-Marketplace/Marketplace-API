@@ -1,4 +1,4 @@
-<?php namespace App\Controllers;
+<?php namespace App\Controllers\Api;
 
 use App\Controllers\MyResourceController;
 /**
@@ -43,4 +43,11 @@ class UserSaldo extends MyResourceController
        'billKey' => ['label' => 'billKey', 'rules' => 'required'],
        'userEmail' => ['label' => 'userEmail', 'rules' => 'required'],
    ];
+
+   public function index(){
+       $userEmail = $this->user['email'];
+       $this->model->where('usalUserEmail', $userEmail);
+
+       return parent::index();
+   }
 }

@@ -12,7 +12,6 @@ class Cetak extends BaseController
 
     public function __construct()
     {
-        $this->model = new AntrianOnlineModel();
         helper('datetime');
     }
 
@@ -41,25 +40,6 @@ class Cetak extends BaseController
         if ($data) {
             $data = $data->toArray();
 
-            $jadwalKhusus = new JadwalKhususModel();
-            $jadwalUmum = new JadwalUmumModel();
-
-            $waktuKunjungan = '';
-            $jadwalKhususTanggal = $jadwalKhusus->where(['DATE(jdkTanggal)' => date('Y-m-d')])->get()->getRow();
-            if (!empty($jadwalKhususTanggal)) {
-                $waktuKunjungan =  "{$jadwalKhususTanggal->jdkJamMulai} s.d {$jadwalKhususTanggal->jdkJamSelesai}";
-            } else {
-
-                $date = date('Y-m-d');
-                $now = date_convert($date);
-
-                $jadwalUmumTanggal = $jadwalUmum->where(['jduNamaHari' => $now->dayName])->get()->getRow();
-                if (!empty($jadwalUmumTanggal)) {
-                    $waktuKunjungan = "{$jadwalUmumTanggal->jduJamMulai} s.d {$jadwalUmumTanggal->jduJamSelesai}";
-                }
-            }
-
-            $data['waktuKunjungan'] = $waktuKunjungan;
         }
 
         if ($id && $data) {
@@ -91,6 +71,6 @@ class Cetak extends BaseController
      */
     public function cetakData($id)
     {
-        return view("Layouts/cetak_antrian", $this->getData($id, false));
+        return view("Layouts/cetak_antrian", []);
     }
 }

@@ -14,8 +14,8 @@ class Kategori extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-        'nama' => ['label' => 'nama', 'rules' => 'required'],
-        'icon' => ['label' => 'icon', 'rules' => 'required'],
+        'nama' => ['label' => 'Nama', 'rules' => 'required'],
+        'icon' => ['label' => 'Icon', 'rules' => 'required|uploaded[icon]|max_size[icon,1024]|ext_in[icon,jpeg,jpg,png]|mime_in[icon, image/jpg,image/jpeg,image/png]'],
     ];
  
    public function index()

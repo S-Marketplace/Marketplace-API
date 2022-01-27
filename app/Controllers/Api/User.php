@@ -1,9 +1,10 @@
 <?php namespace App\Controllers\Api;
 
-use App\Controllers\MyResourceController;
-use App\Libraries\Notification;
-use CodeIgniter\Database\Exceptions\DatabaseException;
 use Ramsey\Uuid\Uuid;
+use App\Models\UserModel;
+use App\Libraries\Notification;
+use App\Controllers\MyResourceController;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
  * Class User
@@ -29,6 +30,16 @@ class User extends MyResourceController
         'saldo' => ['label' => 'saldo', 'rules' => 'required'],
         'isActive' => ['label' => 'isActive', 'rules' => 'required'],
     ];
+
+    public function getMyProfile()
+    {
+        $modelUser = new UserModel();
+
+        $this->user['email'];
+
+        $data = $modelUser->find($this->user['email']);
+        return $this->response($data, 200, '');
+    }
 
     public function register()
     {

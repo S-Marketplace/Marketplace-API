@@ -24,15 +24,15 @@ class Produk extends BaseController
 
     protected $rules = [
        'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]|cek_kode_sudah_digunakan[idBefore]'],
-       'nama' => ['label' => 'nama', 'rules' => 'required'],
-       'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
-       'harga' => ['label' => 'harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-       'stok' => ['label' => 'stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+       'nama' => ['label' => 'Nama', 'rules' => 'required'],
+       'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
+       'harga' => ['label' => 'Harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+       'stok' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
        'diskon' => ['label' => 'Diskon', 'rules' => 'required|numeric|less_than_equal_to[100]|greater_than_equal_to[0]'],
     //    'hargaPer' => ['label' => 'hargaPer', 'rules' => 'required'],
-       'berat' => ['label' => 'berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+       'berat' => ['label' => 'Berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
-       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required'],
+       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1]|ext_in[gambar,jpeg,jpg]|mime_in[gambar, image/jpg,image/jpeg]'],
    ];
    
     public function index()

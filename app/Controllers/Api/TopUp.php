@@ -2,6 +2,7 @@
 
 use App\Controllers\MyResourceController;
 use App\Libraries\MidTransPayment;
+use App\Models\UserModel;
 use App\Models\UserSaldoModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
@@ -21,7 +22,6 @@ class TopUp extends MyResourceController
         'metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_list[echannel,bank_transfer]'],
         'bank' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_list[bni,bca,permata]'],
     ];
-
 
     public function topUpSaldo()
     {

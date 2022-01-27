@@ -14,9 +14,9 @@ class Banner extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-       'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
-       'gambar' => ['label' => 'gambar', 'rules' => 'required'],
-       'url' => ['label' => 'url', 'rules' => 'required'],
+       'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
+       'gambar' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|ext_in[gambar,jpeg,jpg,png]|mime_in[gambar, image/jpg,image/jpeg,image/png]'],
+       'url' => ['label' => 'Url', 'rules' => 'required'],
    ];
 
    public function index()
