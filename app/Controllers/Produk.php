@@ -23,7 +23,7 @@ class Produk extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-       'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]'],
+       'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]|cek_kode_sudah_digunakan[idBefore]'],
        'nama' => ['label' => 'nama', 'rules' => 'required'],
        'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
        'harga' => ['label' => 'harga', 'rules' => 'required|numeric'],
