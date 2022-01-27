@@ -83,26 +83,4 @@ class CustomValidation
         }
         return true;
     }
-
-    // public function check_jumlah_legalisir($string, string $fields, array $data, string &$error = null)
-    // {
-    //     if (isset($data[$fields]) && $data[$fields] == 'fisik') {
-    //         if ($string != '') {
-               
-    //             $nilai = explode(',', '1');
-
-    //             if (in_array($string, $nilai)) {
-    //                 return true;
-    //             } else {
-    //                 $error = "Jumlah Legalisir tidak tersedia.";
-    //                 return false;
-    //             }
-    //         } else {
-    //             $error = "Jumlah Legalisir wajib diisi.";
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-
 }

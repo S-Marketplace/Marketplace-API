@@ -26,11 +26,11 @@ class Produk extends BaseController
        'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]|cek_kode_sudah_digunakan[idBefore]'],
        'nama' => ['label' => 'nama', 'rules' => 'required'],
        'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
-       'harga' => ['label' => 'harga', 'rules' => 'required|numeric'],
-       'stok' => ['label' => 'stok', 'rules' => 'required|numeric'],
-       'diskon' => ['label' => 'Diskon', 'rules' => 'required|numeric'],
+       'harga' => ['label' => 'harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+       'stok' => ['label' => 'stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+       'diskon' => ['label' => 'Diskon', 'rules' => 'required|numeric|less_than_equal_to[100]|greater_than_equal_to[0]'],
     //    'hargaPer' => ['label' => 'hargaPer', 'rules' => 'required'],
-       'berat' => ['label' => 'berat', 'rules' => 'required|numeric'],
+       'berat' => ['label' => 'berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
        'gambar[]' => ['label' => 'Gambar', 'rules' => 'required'],
    ];
@@ -181,9 +181,12 @@ class Produk extends BaseController
      */
     public function simpan($primary = '')
     {
+        $post = $this->request->getVar();
+        $post['harga'] = str_replace(['.', ','], '', $post['harga']);
+        $this->request->setGlobal("request", $post);
+
         $file = current($this->request->getFileMultiple("gambar"));
         if ($file && $file->getError() == 0) {
-            $post = $this->request->getVar();
             $post['gambar[]'] = '-';
             $this->request->setGlobal("request", $post);
         }

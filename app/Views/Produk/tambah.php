@@ -155,14 +155,19 @@
     var dataRow;
     $(document).ready(function() {
 
+        
         var id = '<?= $id ?? '';?>';
-
+        
+        $('[name="harga"]').val(formatRupiah($('[name="harga"]').val()));
         krajeeConfig('.gambar', {
             type: 'image'
         });
 
         $('[name="kategoriId"]').select2().trigger('change');
 
+        $(document).on('keyup', '[name="harga"]', function(e) {
+            $('[name="harga"]').val(formatRupiah($(this).val()));
+        });
         $(document).on('click', '.btnHapus', function(e) {
             e.preventDefault();
             let btn = $(e.currentTarget);
