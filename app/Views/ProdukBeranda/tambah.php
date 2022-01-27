@@ -45,11 +45,7 @@
                                         <div class="col-sm-9">
                                             <?php if(isset($data->pbBanner)):?>
                                             <div class="card cardGambar">
-                                                <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?= base_url('File/get/banner_gambar/' . $data->pbBanner ?? '') ?>" alt="">
-                                                    <div class="blog-details">
-                                                        <ul class="blog-social">
-                                                        </ul>
-                                                    </div>
+                                                <div class="blog-box blog-shadow " ><img class="img-fluid" style="max-height: 200px;" src="<?= base_url('File/get/banner_gambar/' . $data->pbBanner ?? '') ?>" alt="">
                                                 </div>
                                             </div>
                                             <?php endif;?>

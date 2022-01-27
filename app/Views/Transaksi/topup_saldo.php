@@ -97,6 +97,9 @@
                 },
                 {
                     data: 'grossAmount',
+                    render: function(val, type, row, meta) {
+                        return `Rp. ${formatRupiah(val)}`;
+                    }
                 },
                 {
                     data: 'status',

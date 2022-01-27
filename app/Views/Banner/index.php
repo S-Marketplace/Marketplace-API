@@ -204,7 +204,7 @@
                     data: 'gambar',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/banner_gambar/${val}`;
-                        return `<a href="${link}" width="40px" target="_BLANK"><img class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
+                        return `<a href="${link}" target="_BLANK"><img style="height: 100px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
                 
