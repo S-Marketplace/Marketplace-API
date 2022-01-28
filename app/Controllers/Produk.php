@@ -214,8 +214,8 @@ class Produk extends BaseController
 					$this->model->transStart();
 					if ($primaryId == '') {
 						$this->model->insert($entity, false);
+                        $primaryId = $entity->id;
 						if ($this->model->getInsertID() > 0) {
-							$primaryId = $this->model->getInsertID();
 							$entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
 						}
 					} else {
