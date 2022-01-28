@@ -85,15 +85,8 @@
                 {
                     data: 'isActive',
                     render: function(val, type, row, meta) {
-                        let text = '';
-
-                        if(val == '1'){
-                            text = 'Aktif';
-                        }else{
-                            text = 'Belum Aktif';
-                        }
-
-                        return text;
+                        if(val == '1') return `<span class="badge badge-success text-light">Aktif</span>`;
+                        else return `<span class="badge badge-warning text-light">Belum Aktif</span>`;
                     }
                 },
                 // {
