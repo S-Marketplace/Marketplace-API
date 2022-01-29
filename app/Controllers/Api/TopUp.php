@@ -1,9 +1,10 @@
 <?php namespace App\Controllers\Api;
 
-use App\Controllers\MyResourceController;
-use App\Libraries\MidTransPayment;
 use App\Models\UserModel;
 use App\Models\UserSaldoModel;
+use App\Libraries\MidTransPayment;
+use App\Models\MetodePembayaranModel;
+use App\Controllers\MyResourceController;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
@@ -19,8 +20,7 @@ class TopUp extends MyResourceController
 
     protected $rules = [
         'nominal' => ['label' => 'Nominal', 'rules' => 'required|numeric'],
-        'metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_list[echannel,bank_transfer]'],
-        'bank' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_list[bni,bca,permata]'],
+        'id_metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_table[m_metode_pembayaran,mpbId]'],
     ];
 
     public function topUpSaldo()
@@ -29,9 +29,12 @@ class TopUp extends MyResourceController
          
             $data = $this->request->getVar();
             try {
+                $metodePembayaranModel = new MetodePembayaranModel();
+                $metodePembayaranData = $metodePembayaranModel->find($data['id_metode_pembayaran']);
+           
                 $price = $data['nominal'];
-                $metodePembayaran = $data['metode_pembayaran'];
-                $bank = $data['bank'];
+                $metodePembayaran = $metodePembayaranData->tipe;
+                $bank = $metodePembayaranData->bank;
 
                 $midTransPayment = new MidTransPayment();
                 $data  = $midTransPayment->charge($metodePembayaran,array(
