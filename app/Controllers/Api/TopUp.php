@@ -65,10 +65,14 @@ class TopUp extends MyResourceController
                         'usalBillerCode' => $data['biller_code'] ?? '',
                         'usalBillKey' => $data['bill_key'] ?? '',
                         'usalUserEmail' => $this->user['email'],
+                        'usalStatusSaldo' => 'top_up',
+                        'usalExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +1 days")),
                     ]);
+
+                    return $this->response($userSaldoModel->find($data['transaction_id']), 200);
                 }
 
-                return $this->response($data, 200);
+                return $this->response(null, 400, 'Gagal Melakukan Pembayaran');
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
