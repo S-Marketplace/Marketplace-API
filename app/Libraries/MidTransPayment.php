@@ -16,8 +16,10 @@ class MidTransPayment
     private $idMerchant = 'G005407818';
 
     private $subdomain = ENVIRONMENT != 'production' ? 'sandbox' : 'my';
-    private $baseUri = '';
+    private $baseUri = 'https://api.sandbox.midtrans.com';
     private $formData = [];
+
+    private $apiUrl = '';
 
     const PAYMENT_TYPE_ECHANNEL = 'echannel';
     const PAYMENT_TYPE_BANK_TRANSFER = 'bank_transfer';
@@ -28,7 +30,7 @@ class MidTransPayment
 
     public function __construct()
     {
-        $this->baseUri = "https://api.sandbox.midtrans.com/v2/";
+        $this->baseUri = "{$this->baseUri}/v2/";
 
         $this->session = \Config\Services::session();
         $this->options = [];
@@ -127,6 +129,52 @@ class MidTransPayment
 
         $formData = array_merge($formData, $metodePembayaran);
         $response = $this->setFormData($formData)->execute('POST', 'charge');
+
+        return $response;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $paymentType
+     * @param array $customerDetail 
+        array(
+            'email' => 'noreply@example.com',
+            'first_name' => 'Ahmad Juhdi',
+            'last_name' => 'utomo',
+            'phone' => '+6281 1234 1234',
+        )
+     * @param array $itemDetails
+        array(
+            0 => array(
+                'id' => 'item01',
+                'price' => 1,
+                'quantity' => 1,
+                'name' => 'Ayam Zozozo',
+            )
+        ),
+     * @param string $bankTransfer
+     * @param string $grossAmount
+     * @return void
+     */
+    public function snapCharge(array $customerDetail, array $itemDetails, $grossAmount)
+    {
+        $this->baseUri = "{$this->baseUri}/snap/v1/";
+
+        $formData = array(
+            'transaction_details' => array(
+                'gross_amount' => $grossAmount,
+                'order_id' => 'TOPUP-' . strtotime("now"),
+            ),
+            "credit_card"=> [
+                "secure"=> true
+            ],
+            'customer_details' => $customerDetail,
+            'item_details' => $itemDetails
+        );
+
+        $formData = array_merge($formData);
+        $response = $this->setFormData($formData)->execute('POST', 'transactions');
 
         return $response;
     }

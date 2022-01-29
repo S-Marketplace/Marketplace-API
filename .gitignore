@@ -60,6 +60,7 @@ writable/session/*
 
 writable/uploads/*
 !writable/uploads/index.html
+!writable/uploads/metode_pembayaran_gambar
 
 writable/debugbar/*
 
