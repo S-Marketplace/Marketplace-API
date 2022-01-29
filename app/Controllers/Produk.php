@@ -32,7 +32,7 @@ class Produk extends BaseController
     //    'hargaPer' => ['label' => 'hargaPer', 'rules' => 'required'],
        'berat' => ['label' => 'Berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
-       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|ext_in[gambar,jpeg,jpg,png]'],
+       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|mime_in[gambar, image/jpg,image/jpeg,image/png,image/x-png]'],
    ];
    
     public function index()
@@ -186,6 +186,9 @@ class Produk extends BaseController
         $this->request->setGlobal("request", $post);
 
         $file = current($this->request->getFileMultiple("gambar"));
+        // echo '<pre>';
+        // print_r($file);
+        // echo '</pre>';exit;
         if ($file && $file->getError() == 0) {
             $post['gambar[]'] = '-';
             $this->request->setGlobal("request", $post);
