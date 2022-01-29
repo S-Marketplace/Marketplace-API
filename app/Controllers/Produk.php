@@ -32,7 +32,7 @@ class Produk extends BaseController
     //    'hargaPer' => ['label' => 'hargaPer', 'rules' => 'required'],
        'berat' => ['label' => 'Berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
-       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|ext_in[gambar,jpeg,jpg,png]|mime_in[gambar, image/jpg,image/jpeg,image/png]'],
+       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|ext_in[gambar,jpeg,jpg,png]'],
    ];
    
     public function index()
