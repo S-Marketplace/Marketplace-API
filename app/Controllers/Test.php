@@ -71,10 +71,12 @@ class Test extends BaseController
             'province' => $rajaOngkir->province(),
             'city' => $rajaOngkir->city(),
             'cost' => $rajaOngkir->cost(1,1,1,'jne'),
+            'subdistrict' => $rajaOngkir->subdistrict(1),
+            'currency' => $rajaOngkir->currency(),
+            'waybill' => $rajaOngkir->waybill('002837509520', 'sicepat'),
           
         ];
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
+
+		return $this->response->setJSON($data);
     }
 }

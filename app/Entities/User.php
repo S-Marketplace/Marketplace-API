@@ -15,6 +15,7 @@ class User extends MyEntity
         'firebaseToken' => 'usrFirebaseToken',
         'pin' => 'usrPin',
         'noHp' => 'usrNoHp',
+        'noWa' => 'usrNoWa',
     ];
 
     protected $show = [
@@ -29,6 +30,7 @@ class User extends MyEntity
 		'firebaseToken',
 		'pin',
         'noHp',
+        'noWa',
     ];
 
     public function hashPassword($password)

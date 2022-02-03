@@ -12,16 +12,12 @@ class RajaOngkirShipping
 
     private $curl = null;
 
-    private $apiKey = 'aab4d5253a2eda400958c422b37f71b3';
-
-    private $subdomain = ENVIRONMENT != 'production' ? 'sandbox' : 'my';
-    private $baseUri = '';
+    private $apiKey = 'f70a07c9eb25d5f27b81093e624ce50b';
+    private $baseUri = 'https://pro.rajaongkir.com/api/';
     private $formData = [];
 
     public function __construct()
     {
-        $this->baseUri = "https://api.rajaongkir.com/starter/";
-
         $this->options = [];
         $options['baseURI'] = $this->baseUri;
         $options['headers']['key'] = $this->apiKey;
@@ -57,13 +53,13 @@ class RajaOngkirShipping
      */
     public function province($id = null)
     {
-        $data = [];
+        $response = $this->execute('GET', 'province', [
+            "query" => [
+                'id' => $id
+            ]
+        ]);
 
-        if($id) $data['id'] = $id;
-
-        $response = $this->setFormData($data)->execute('GET', 'province');
-
-        return $response;
+        return $this->parsingResponse($response);
     }
 
     /**
@@ -75,16 +71,14 @@ class RajaOngkirShipping
      */
     public function city($id = null, $province = null)
     {
-        $data = [];
+        $response = $this->execute('GET', 'city', [
+            "query" => [
+                'id' => $id,
+                'province' => $province,
+            ]
+        ]);
 
-        if ($id && $province) {
-            $data['id'] = $id;
-            $data['province'] = $province;
-        }
-
-        $response = $this->setFormData($data)->execute('GET', 'city');
-
-        return $response;
+        return $this->parsingResponse($response);
     }
 
     /**
@@ -96,17 +90,62 @@ class RajaOngkirShipping
      * @param [type] $courier Kode kurir: jne, pos, tiki.
      * @return void
      */
-    public function cost($origin, $destination, $weight, $courier)
+    public function cost($origin, $destination, $weight, $courier, $originType = 'city', $destinationType = 'city')
     {
         $data = [];
         $data['origin'] = $origin;
         $data['destination'] = $destination;
         $data['weight'] = $weight;
         $data['courier'] = $courier;
+        $data['originType'] = $originType;
+        $data['destinationType'] = $destinationType;
 
         $response = $this->setFormData($data)->execute('POST', 'cost');
 
-        return $response;
+        return $this->parsingResponse($response);
+    }
+
+    public function waybill($waybill, $courier)
+    {
+        $data = [];
+        $data['waybill'] = $waybill;
+        $data['courier'] = $courier;
+
+        $response = $this->setFormData($data)->execute('POST', 'waybill');
+
+        return $this->parsingResponse($response);
+    }
+
+    public function subdistrict($city)
+    {
+        $response = $this->execute('GET', 'subdistrict', [
+            "query" => [
+                'city' => $city,
+            ]
+        ]);
+
+        return $this->parsingResponse($response);
+    }
+
+    public function currency()
+    {
+        $response = $this->execute('GET', 'currency', [
+            "query" => [
+            ]
+        ]);
+
+        return $this->parsingResponse($response);
+    }
+
+    private function parsingResponse($response){
+        $data = [];
+
+        $rajaOngkir = $response['rajaongkir'];
+        $data['code'] = $rajaOngkir['status']['code'];
+        $data['message'] = $rajaOngkir['status']['description'];
+        $data['data'] = $rajaOngkir['results'] ?? $rajaOngkir['result'] ?? null;
+
+        return $data;
     }
 
     /**
