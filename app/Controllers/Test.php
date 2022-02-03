@@ -60,9 +60,7 @@ class Test extends BaseController
             'chargeGopay' => $midTrans->chargeGopay(),
           
         ];
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
+		return $this->response->setJSON($data);
     }
 
     public function cekRajaOngkir(){
