@@ -22,6 +22,7 @@ class UserAlamat extends MyEntity
         'kecamatanNama' => 'usralKecamatanNama',
         'isActive' => 'usralIsActive',
         'isFirst' => 'usralIsFirst',
+        'keterangan' => 'usralKeterangan',
     ];
 
     protected $show = [
@@ -43,5 +44,6 @@ class UserAlamat extends MyEntity
 		'kecamatanNama',
 		'isActive',
 		'isFirst',
+    'keterangan',
     ];
 }

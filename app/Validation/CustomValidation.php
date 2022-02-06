@@ -3,6 +3,7 @@
 namespace App\Validation;
 
 use App\Models\ProdukModel;
+use App\Models\UserModel;
 use Exception;
 
 class CustomValidation
@@ -65,22 +66,21 @@ class CustomValidation
         }
 
         return true;
-        if (isset($data[$fields]) && $data[$fields] == 'fisik') {
-            if ($string != '') {
-               
-                $nilai = explode(',', '1');
+    }
 
-                if (in_array($string, $nilai)) {
-                    return true;
-                } else {
-                    $error = "Jumlah Legalisir tidak tersedia.";
-                    return false;
-                }
-            } else {
-                $error = "Jumlah Legalisir wajib diisi.";
-                return false;
-            }
+    public function cek_email_terdaftar($string,  string &$error = null)
+    {
+        $idSekarang = $string;
+        
+        $productModel = new UserModel();
+        $findData = $productModel->find($idSekarang);
+
+        if(!empty($findData)){
+            $error = "Email $idSekarang sudah terdaftar.";
+            return false;
         }
+
         return true;
+      
     }
 }
