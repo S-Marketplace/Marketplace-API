@@ -9,7 +9,7 @@ class UserAlamatModel extends MyModel
     protected $createdField = "usralCreatedAt";
     protected $updatedField = "usralUpdatedAt";
     protected $returnType = "App\Entities\UserAlamat";
-    protected $allowedFields = ["usralUsrEmail","usralNama","usralDeletedAt","usralLatitude","usralLongitude","usralKotaId","usralKotaNama","usralProvinsiId","usralProvinsiNama","usralKabupatenId","usralKabupatenNama","usralKecamatanId","usralKecamatanNama","usralIsActive","usralIsFirst","usralKeterangan"];
+    protected $allowedFields = ["usralUsrEmail","usralNama","usralDeletedAt","usralLatitude","usralLongitude","usralKotaId","usralKotaNama","usralProvinsiId","usralProvinsiNama","usralKotaTipe","usralKecamatanId","usralKecamatanNama","usralIsActive","usralIsFirst","usralKeterangan"];
 
     public function getReturnType()
     {

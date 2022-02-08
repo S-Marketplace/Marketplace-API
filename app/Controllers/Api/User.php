@@ -26,12 +26,11 @@ class User extends MyResourceController
         'noWa' => ['label' => 'No Whatsapp', 'rules' => 'required|numeric'],
         'latitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
         'longitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
-        'kotaId' => ['label' => 'Id Kota', 'rules' => 'required'],
-        'kotaNama' => ['label' => 'Kota', 'rules' => 'required'],
+        'kotaId' => ['label' => 'Id Kota / Kabupaten', 'rules' => 'required'],
+        'kotaNama' => ['label' => 'Kota / Kabupaten', 'rules' => 'required'],
+        'kotaTipe' => ['label' => 'Tipe Kota', 'rules' => 'required'],
         'provinsiId' => ['label' => 'Id Provinsi', 'rules' => 'required'],
         'provinsiNama' => ['label' => 'Provinsi', 'rules' => 'required'],
-        'kabupatenId' => ['label' => 'Id Kabupaten', 'rules' => 'required'],
-        'kabupatenNama' => ['label' => 'Kabupaten', 'rules' => 'required'],
         'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
     ];
@@ -55,7 +54,8 @@ class User extends MyResourceController
             $entityClass = $this->model->getReturnType();
             $entity = new $entityClass();
             $entity->fill($this->request->getVar());
-
+            $entity->password = $entity->hashPassword($entity->password);
+            
             try {
                 $status = $this->model->insert($entity, false);
 
@@ -73,10 +73,9 @@ class User extends MyResourceController
                         'usralLongitude' => $this->request->getVar('longitude'),
                         'usralKotaId' => $this->request->getVar('kotaId'),
                         'usralKotaNama' => $this->request->getVar('kotaNama'),
+                        'usralKotaTipe' => $this->request->getVar('kotaTipe'),
                         'usralProvinsiId' => $this->request->getVar('provinsiId'),
                         'usralProvinsiNama' => $this->request->getVar('provinsiNama'),
-                        'usralKabupatenId' => $this->request->getVar('kabupatenId'),
-                        'usralKabupatenNama' => $this->request->getVar('kabupatenNama'),
                         'usralKecamatanId' => $this->request->getVar('kecamatanId'),
                         'usralKecamatanNama' => $this->request->getVar('kecamatanNama'),
                         'usralIsActive' => 1,
