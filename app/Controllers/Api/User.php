@@ -87,7 +87,7 @@ class User extends MyResourceController
                 //     'nama' => $entity->nama,
                 //     'key' => Uuid::uuid4(),
                 // ]));
-                return $this->response(($status ? 'Akun berhasil didaftarkan, silahkan cek email anda untuk mengaktivasi akun anda' : null), ($status ? 200 : 500));
+                return $this->response(null, ($status ? 200 : 500), ($status ? 'Akun berhasil didaftarkan, silahkan cek email anda untuk mengaktivasi akun anda' : null));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
