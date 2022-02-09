@@ -7,6 +7,7 @@ $route->resource("alamat", ['controller' => 'Api\UserAlamat', 'only' => ['index'
 
 $route->post("top_up/top_up_saldo", 'Api\TopUp::topUpSaldo');
 $route->get("keranjang", 'Api\Keranjang::index');
+$route->post("keranjang", 'Api\Keranjang::ubahKeranjang');
 $route->get("profile", 'Api\User::getMyProfile');
 
 $route->get("saldo", 'Api\User::getMyProfile');
