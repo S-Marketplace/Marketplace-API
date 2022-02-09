@@ -16,6 +16,7 @@ class User extends MyEntity
         'pin' => 'usrPin',
         'noHp' => 'usrNoHp',
         'noWa' => 'usrNoWa',
+        'activeCode' => 'usrActiveCode',
     ];
 
     protected $show = [
@@ -31,6 +32,7 @@ class User extends MyEntity
 		'pin',
         'noHp',
         'noWa',
+        'activeCode',
     ];
 
     public function hashPassword($password)

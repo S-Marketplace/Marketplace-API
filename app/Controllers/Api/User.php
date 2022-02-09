@@ -51,10 +51,14 @@ class User extends MyResourceController
             } catch (\Exception $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             }
+
+            $uuidV4 = Uuid::uuid4();
+
             $entityClass = $this->model->getReturnType();
             $entity = new $entityClass();
             $entity->fill($this->request->getVar());
             $entity->password = $entity->hashPassword($entity->password);
+            $entity->activeCode = $uuidV4;
             
             try {
                 $status = $this->model->insert($entity, false);
@@ -83,10 +87,10 @@ class User extends MyResourceController
                     ]);
                 }
 
-                // Notification::sendEmail($entity->email, 'Verifikasi', view('Template/verifikasi', [
-                //     'nama' => $entity->nama,
-                //     'key' => Uuid::uuid4(),
-                // ]));
+                Notification::sendEmail($entity->email, 'Verifikasi', view('Template/verifikasi', [
+                    'nama' => $entity->nama,
+                    'key' => $uuidV4,
+                ]));
                 return $this->response(null, ($status ? 200 : 500), ($status ? 'Akun berhasil didaftarkan, silahkan cek email anda untuk mengaktivasi akun anda' : null));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
