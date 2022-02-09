@@ -108,9 +108,14 @@ class User extends MyResourceController
     {
         $key = $this->request->getGet('key');
 
-        echo '<pre>';
-        print_r($key);
-        echo '</pre>';
-       
+        $modelUser = new UserModel();
+        $status = $modelUser->where('usrActiveCode', $key)->update(null, [
+            'usrIsActive' => '1',
+        ]);
+
+        $data = $modelUser->where('usrActiveCode', $key);
+
+        return view('Template/sukses_verifikasi');
+
     }
 }
