@@ -2,6 +2,7 @@
 
 use App\Controllers\MyResourceController;
 use App\Libraries\RajaOngkirShipping;
+use App\Models\UserAlamatModel;
 
 /**
  * Class Keranjang
@@ -12,6 +13,8 @@ use App\Libraries\RajaOngkirShipping;
 class RajaOngkir extends MyResourceController
 {
     private $rajaOngkir;
+    private $originId = '35'; // Kalimantan Selatan
+
     function __construct()
     {
         $this->rajaOngkir = new RajaOngkirShipping();
@@ -34,5 +37,46 @@ class RajaOngkir extends MyResourceController
         $city = $this->request->getVar('city');
         
         return $this->response->setJSON($this->rajaOngkir->subdistrict($city));
+    }
+
+    /**
+     * Get ongkir berdasarkan user
+     *
+     * @return void
+     */
+    function getOngkir(){
+        $userAlamatModel = new UserAlamatModel();
+        $data = $userAlamatModel->where([
+            'usralUsrEmail' => $this->user['email'],
+            'usralIsActive' => '1',
+        ])->find();
+        $data = current($data);
+        
+        $destination = $data->kotaId;
+        $weight = 100;
+        $courier = ['jne', 'jnt', 'sicepat'];
+        
+        $ongkir = [];
+        $tujuan = [];
+
+        foreach ($courier as $value) {
+            $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
+            $ongkir[] = $dataOngkir['data'];
+            $tujuan = [
+                'asal' => $dataOngkir['original']['origin_details'],
+                'tujuan' => $dataOngkir['original']['destination_details'],
+            ];
+        }
+
+        $data = [
+            'code' => 200,
+            'message' => null,
+            'data' => [
+                'ongkir' => $ongkir,
+                'tujuan' => $tujuan,
+            ]
+        ];
+        
+        return $this->response->setJSON($data);
     }
 }

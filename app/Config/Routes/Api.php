@@ -13,4 +13,5 @@ $route->group("raja_ongkir", function ($route) {
     $route->get("kota", 'Api\RajaOngkir::getKota');
     $route->get("provinsi", 'Api\RajaOngkir::getProvinsi');
     $route->get("kecamatan", 'Api\RajaOngkir::getKecamatan');
+    $route->get("ongkir", 'Api\RajaOngkir::getOngkir', ['filter' => 'apiFilter']);
 });
