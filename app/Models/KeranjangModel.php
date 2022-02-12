@@ -10,7 +10,7 @@ class KeranjangModel extends MyModel
     protected $createdField = "krjCreatedAt";
     protected $updatedField = "krjUpdatedAt";
     protected $returnType = "App\Entities\Keranjang";
-    protected $allowedFields = ["krjProdukId","krjQuantity","krjPesan","krjCheckoutId","krjDeletedAt","krjUserEmail"];
+    protected $allowedFields = ["krjProdukId","krjQuantity","krjPesan","krjCheckoutId","krjDeletedAt","krjUserEmail", "krjIsChecked"];
 
     public function getReturnType()
     {

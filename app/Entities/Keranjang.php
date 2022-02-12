@@ -17,6 +17,7 @@ class Keranjang extends MyEntity
         'updatedAt' => 'krjUpdatedAt',
         'deletedAt' => 'krjDeletedAt',
         'userEmail' => 'krjUserEmail',
+        'isChecked' => 'krjIsChecked',
     ];
 
     protected $show = [
@@ -30,5 +31,6 @@ class Keranjang extends MyEntity
 		'updatedAt',
 		'deletedAt',
 		'userEmail',
+    'isChecked',
     ];
 }
