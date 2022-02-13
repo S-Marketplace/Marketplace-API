@@ -57,14 +57,14 @@ class RajaOngkir extends MyResourceController
         
         $destination = $data->kotaId;
         $weight = $keranjangModel->getBeratKeranjangCheck($this->user['email']);
-        $courier = ['jne', 'jnt', 'sicepat'];
+        $courier = ['jne', 'jnt'];
         
         $ongkir = [];
         $tujuan = [];
 
         foreach ($courier as $value) {
             $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
-            $ongkir[] = $dataOngkir['data'];
+            $ongkir = array_merge($ongkir, $dataOngkir['data']);
             $tujuan = [
                 'asal' => $dataOngkir['original']['origin_details'],
                 'tujuan' => $dataOngkir['original']['destination_details'],
@@ -76,7 +76,7 @@ class RajaOngkir extends MyResourceController
             'message' => null,
             'data' => [
                 'ongkir' => $ongkir,
-                'tujuan' => $tujuan,
+                'detail' => $tujuan,
             ]
         ];
         
