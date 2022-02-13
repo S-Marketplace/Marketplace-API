@@ -144,7 +144,13 @@ class RajaOngkirShipping
         $data['code'] = $rajaOngkir['status']['code'];
         $data['message'] = $rajaOngkir['status']['description'];
         $data['data'] = $rajaOngkir['results'] ?? $rajaOngkir['result'] ?? null;
-        $data['original'] = $rajaOngkir;
+        
+        if(isset($rajaOngkir['origin_details'])){
+            $data['extra'] = [
+                'origin_details' => $rajaOngkir['origin_details'] ?? [],
+                'destination_details' => $rajaOngkir['destination_details'] ?? [],
+            ];
+        }
 
         return $data;
     }

@@ -95,15 +95,16 @@ class MidTransPayment
         ),
      * @param string $bankTransfer
      * @param string $grossAmount
+     * @param string $type
      * @return void
      */
-    public function charge($paymentType, array $customerDetail, array $itemDetails, $bankTransfer = 'bni', $grossAmount)
+    public function charge($paymentType, array $customerDetail, array $itemDetails, $bankTransfer = 'bni', $grossAmount, $type = 'TOPUP')
     {
         $formData = array(
             'payment_type' => $paymentType,
             'transaction_details' => array(
                 'gross_amount' => $grossAmount,
-                'order_id' => 'TOPUP-' . strtotime("now"),
+                'order_id' => $type.'-' . strtotime("now"),
             ),
             'customer_details' => $customerDetail,
             'item_details' => $itemDetails

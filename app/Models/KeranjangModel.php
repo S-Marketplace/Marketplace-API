@@ -43,4 +43,20 @@ class KeranjangModel extends MyModel
 
         return $data->berat ?? 0;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return double
+     */
+    public function getHargaProdukKeranjang($email){
+        $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga FROM `t_keranjang` krj
+        JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
+        WHERE 
+        krj.`krjCheckoutId` IS NULL AND 
+        krj.`krjIsChecked` = '1' AND
+        krj.`krjUserEmail` = ".$this->db->escape($email))->getRow();
+
+        return intval($data->harga) ?? 0;
+    }
 }

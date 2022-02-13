@@ -66,8 +66,8 @@ class RajaOngkir extends MyResourceController
             $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
             $ongkir = array_merge($ongkir, $dataOngkir['data']);
             $tujuan = [
-                'asal' => $dataOngkir['original']['origin_details'],
-                'tujuan' => $dataOngkir['original']['destination_details'],
+                'asal' => $dataOngkir['extra']['origin_details'],
+                'tujuan' => $dataOngkir['extra']['destination_details'],
             ];
         }
 

@@ -2,8 +2,16 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\UserModel;
+use App\Models\CheckoutModel;
 use App\Models\KategoriModel;
+use App\Models\KeranjangModel;
+use App\Models\PembayaranModel;
+use App\Models\UserAlamatModel;
 use App\Models\ProdukGambarModel;
+use App\Libraries\MidTransPayment;
+use App\Models\CheckoutDetailModel;
+use App\Models\MetodePembayaranModel;
 use App\Controllers\MyResourceController;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
@@ -18,27 +26,15 @@ class Keranjang extends MyResourceController
     protected $modelName = 'App\Models\KeranjangModel';
     protected $format    = 'json';
 
-    protected $rulesCreate = [
-        'produkId' => ['label' => 'produkId', 'rules' => 'required'],
-        'quantity' => ['label' => 'quantity', 'rules' => 'required'],
-        'pesan' => ['label' => 'pesan', 'rules' => 'required'],
-        'checkoutId' => ['label' => 'checkoutId', 'rules' => 'required'],
-        'deletedAt' => ['label' => 'deletedAt', 'rules' => 'required'],
-        'userEmail' => ['label' => 'userEmail', 'rules' => 'required'],
-    ];
-
-    protected $rulesUpdate = [
-        'produkId' => ['label' => 'produkId', 'rules' => 'required'],
-        'quantity' => ['label' => 'quantity', 'rules' => 'required'],
-        'pesan' => ['label' => 'pesan', 'rules' => 'required'],
-        'checkoutId' => ['label' => 'checkoutId', 'rules' => 'required'],
-        'deletedAt' => ['label' => 'deletedAt', 'rules' => 'required'],
-        'userEmail' => ['label' => 'userEmail', 'rules' => 'required'],
-    ];
-
     protected $ubahKeranjang = [
         'produkId' => ['label' => 'produkId', 'rules' => 'required|in_table[m_produk,produkId]'],
         'quantity' => ['label' => 'quantity', 'rules' => 'required'],
+    ];
+
+    protected $checkout = [
+        'kurirId' => ['label' => 'produkId', 'rules' => 'required|in_list[jne,jnt]'],
+        'ongkir' => ['label' => 'quantity', 'rules' => 'required|numeric'],
+        'id_metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_table[m_metode_pembayaran,mpbId]'],
     ];
 
     public function ubahKeranjang()
@@ -87,6 +83,106 @@ class Keranjang extends MyResourceController
         } else {
             return $this->response(null, 400, $this->validator->getErrors());
         }
+    }
+
+    public function checkout(){
+    
+        if ($this->validate($this->checkout, $this->validationMessage)) {
+            try {
+
+                $post = $this->request->getPost();
+
+                $userAlamat = new UserAlamatModel();
+                $userAlamat = $userAlamat->where(['usralUsrEmail' => $this->user['email'], 'usralIsActive' => 1])->find();
+                $userAlamat = current($userAlamat);
+                $userAlamatId = $userAlamat->id;
+
+                $checkoutModel = new CheckoutModel();
+                $checkoutId = $checkoutModel->insert([
+                    'cktStatus' => 'belum_bayar',
+                    'cktKurir' => $post['kurirId'],
+                    'cktCatatan' => $post['catatan'],
+                    'cktAlamatId' => $userAlamatId,
+                ]);
+
+                $keranjangModel = new KeranjangModel();
+                $checkoutDetail = new CheckoutDetailModel();
+
+                $rincianPembayaran = [
+                    [
+                        'cktdtCheckoutId' => $checkoutId,
+                        'cktdtKeterangan' => 'Subtotal produk',
+                        'cktdtBiaya' => $keranjangModel->getHargaProdukKeranjang($this->user['email']),
+                    ],
+                    [
+                        'cktdtCheckoutId' => $checkoutId,
+                        'cktdtKeterangan' => 'Ongkos Kirim',
+                        'cktdtBiaya' => $post['ongkir'],
+                    ]
+                    ];
+                $checkoutDetail->insertBatch($rincianPembayaran);
+
+                // Pembayaran
+                $metodePembayaranModel = new MetodePembayaranModel();
+                $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
+           
+                $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
+                $metodePembayaran = $metodePembayaranData->tipe;
+                $bank = $metodePembayaranData->bank;
+
+                $midTransPayment = new MidTransPayment();
+                $data  = $midTransPayment->charge($metodePembayaran,array(
+                    'email' => $this->user['email'],
+                    'first_name' => $this->user['nama'],
+                    'last_name' => '',
+                    'phone' => $this->user['noHp'],
+                ),array(
+                    0 => array(
+                        'id' => 'Order',
+                        'price' => $price,
+                        'quantity' => 1,
+                        'name' => 'Order Produk Menyambang',
+                    )
+                ), $bank, $price, 'ORDER');
+
+                if($data['status_code'] == 201){
+                    $pembayaranModel = new PembayaranModel();
+                    $pembayaranModel->insert([
+                        'pmbCheckoutId' => $checkoutId,
+                        'pmbId' => $data['transaction_id'],
+                        'pmbPaymentType' => $data['payment_type'],
+                        'pmbStatus' => $data['transaction_status'],
+                        'pmbTime' => $data['transaction_time'],
+                        'pmbSignatureKey' => '',
+                        'pmbOrderId' => $data['order_id'],
+                        'pmbMerchantId' => $data['merchant_id'],
+                        'pmbGrossAmount' => $data['gross_amount'],
+                        'pmbCurrency' => $data['currency'],
+                        'pmbVaNumber' => $data['va_numbers'][0]['va_number'] ?? '',
+                        'pmbBank' => $data['va_numbers'][0]['bank'] ?? '',
+                        'pmbBillerCode' => $data['biller_code'] ?? '',
+                        'pmbBillKey' => $data['bill_key'] ?? '',
+                        'pmbUserEmail' => $this->user['email'],
+                        'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +1 days")),
+                    ]);
+
+                    return $this->response($pembayaranModel->find($data['transaction_id']), 200);
+                }
+
+                return $this->response(null, 400, 'Gagal Melakukan Pembayaran');
+        
+                return $this->response($checkoutId, 200, '');
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+        
     }
 
     public function index()
