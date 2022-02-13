@@ -27,4 +27,20 @@ class KeranjangModel extends MyModel
             'products' => ['table' => 'm_produk', 'condition' => 'krjProdukId = produkId', 'entity' => 'App\Entities\Produk'],
         ];
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return double
+     */
+    public function getBeratKeranjangCheck($email){
+        $data = $this->query("SELECT SUM(prd.`produkBerat`) berat FROM `t_keranjang` krj
+        JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
+        WHERE 
+        krj.`krjCheckoutId` IS NULL AND 
+        krj.`krjIsChecked` = '1' AND
+        krj.`krjUserEmail` = ".$this->db->escape($email))->getRow();
+
+        return $data->berat ?? 0;
+    }
 }

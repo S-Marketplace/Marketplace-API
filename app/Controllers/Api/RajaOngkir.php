@@ -2,6 +2,7 @@
 
 use App\Controllers\MyResourceController;
 use App\Libraries\RajaOngkirShipping;
+use App\Models\KeranjangModel;
 use App\Models\UserAlamatModel;
 
 /**
@@ -46,6 +47,8 @@ class RajaOngkir extends MyResourceController
      */
     function getOngkir(){
         $userAlamatModel = new UserAlamatModel();
+        $keranjangModel = new KeranjangModel();
+
         $data = $userAlamatModel->where([
             'usralUsrEmail' => $this->user['email'],
             'usralIsActive' => '1',
@@ -53,7 +56,7 @@ class RajaOngkir extends MyResourceController
         $data = current($data);
         
         $destination = $data->kotaId;
-        $weight = 100;
+        $weight = $keranjangModel->getBeratKeranjangCheck($this->user['email']);
         $courier = ['jne', 'jnt', 'sicepat'];
         
         $ongkir = [];
