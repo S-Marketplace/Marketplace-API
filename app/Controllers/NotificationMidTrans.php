@@ -32,18 +32,18 @@ class NotificationMidTrans extends BaseController
         $transaction_status = $data->transaction_status ?? $data['transaction_status'];
         $transaction_id = $data->transaction_id ?? $data['transaction_id'];
        
-        try {
+        // try {
             $this->_setIsiSaldo($signature_key, $transaction_status, $transaction_id);
             $this->_setPembayaranProduk($signature_key, $transaction_status, $transaction_id);
-        } catch (DatabaseException $ex) {
-            $response =  $this->response(null, 500, $ex->getMessage());
-        } catch (\mysqli_sql_exception $ex) {
-            $response =  $this->response(null, 500, $ex->getMessage());
-            return $this->response->setJSON($response);
-        } catch (\Exception $ex) {
-            $response =  $this->response(null, 500, $ex->getMessage());
-            return $this->response->setJSON($response);
-        }
+        // } catch (DatabaseException $ex) {
+        //     $response =  $this->response(null, 500, $ex->getMessage());
+        // } catch (\mysqli_sql_exception $ex) {
+        //     $response =  $this->response(null, 500, $ex->getMessage());
+        //     return $this->response->setJSON($response);
+        // } catch (\Exception $ex) {
+        //     $response =  $this->response(null, 500, $ex->getMessage());
+        //     return $this->response->setJSON($response);
+        // }
 
         return $this->response->setJSON([
             'code' => 200,
@@ -70,13 +70,17 @@ class NotificationMidTrans extends BaseController
 
     private function _setIsiSaldo($signature_key, $transaction_status, $transaction_id){
         $userSaldoModel = new UserSaldoModel();
-        $status = $userSaldoModel->update($transaction_id, [
-            'usalStatus' => $transaction_status,
-            'usalSignatureKey' => $signature_key,
-        ]);
-
-        if($status){
-            $data = $userSaldoModel->addSaldo($transaction_id);
+        $find = $userSaldoModel->find($transaction_id);
+        
+        if(!empty($find)){
+            $status = $userSaldoModel->update($transaction_id, [
+                'usalStatus' => $transaction_status,
+                'usalSignatureKey' => $signature_key,
+            ]);
+    
+            if($status){
+                $data = $userSaldoModel->addSaldo($transaction_id);
+            }
         }
     }
 
