@@ -26,6 +26,7 @@ class NotificationMidTrans extends BaseController
         $data = $this->request->getVar();
 
         $statusLog = $this->writeLog(WRITEPATH.'notification_mid_trans/ip_log.txt', "IP:".$this->request->getIPAddress());
+        $statusLog = $this->writeLog(WRITEPATH.'notification_mid_trans/payment.txt', json_encode($data));
        
         $signature_key = $data->signature_key ?? $data['signature_key'];
         $transaction_status = $data->transaction_status ?? $data['transaction_status'];
