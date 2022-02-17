@@ -149,7 +149,6 @@ class Keranjang extends MyResourceController
 
                         if($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID){
                             // SALDO
-                            
                             $modelUser = new UserModel();
                             $dataUser = $modelUser->find($this->user['email']);
 
@@ -162,7 +161,7 @@ class Keranjang extends MyResourceController
                                  return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk emnambahkan saldo anda');
                             }
 
-                            // Tambah Riwayat pembayaran
+                            // Tambah Riwayat saldo
                             $userSaldoModel = new UserSaldoModel();
                             $userSaldoModel->insert([
                                 'usalId' => Uuid::uuid4(),
@@ -172,6 +171,21 @@ class Keranjang extends MyResourceController
                                 'usalUserEmail' => $this->user['email'],
                                 'usalStatusSaldo' => 'top_down',
                                 'usalGrossAmount' => $price,
+                            ]);
+
+                            // Tambah Riwayat pembayaran
+                            $pembayaranModel = new PembayaranModel();
+                            $pembayaranModel->insert([
+                                'pmbCheckoutId' => $checkoutId,
+                                'pmbId' => Uuid::uuid4(),
+                                'pmbPaymentType' => 'saldo',
+                                'pmbStatus' => 'settlement',
+                                'pmbTime' => date('Y-m-d H:i:s'),
+                                'pmbSignatureKey' => '',
+                                'pmbOrderId' => 'ORDER-'.strtotime("now"),
+                                'pmbGrossAmount' => $price,
+                                'pmbUserEmail' => $this->user['email'],
+                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +1 days")),
                             ]);
 
                             // Update Checkout

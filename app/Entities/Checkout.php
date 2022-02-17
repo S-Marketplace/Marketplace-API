@@ -3,6 +3,10 @@ use App\Entities\MyEntity;
 
 class Checkout extends MyEntity
 {
+  protected $casts = [
+    'pembayaran' => 'json',
+];
+
     protected $datamap = [
         'id' => 'cktId',
         'status' => 'cktStatus',
@@ -25,5 +29,6 @@ class Checkout extends MyEntity
 		'createdAt',
 		'updatedAt',
 		'deletedAt',
+    'pembayaran',
     ];
 }

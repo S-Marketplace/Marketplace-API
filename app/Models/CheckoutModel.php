@@ -19,4 +19,11 @@ class CheckoutModel extends MyModel
     public function getPrimaryKeyName(){
         return $this->primaryKey;
     }
+
+    protected function relationships()
+    {
+        return [
+            'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
+        ];
+    }
 }
