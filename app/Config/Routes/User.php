@@ -13,6 +13,10 @@ $route->group("keranjang", function ($route) {
     $route->post("checkout", 'Api\Keranjang::checkout');
 });
 
+$route->group("checkout", function ($route) {
+    $route->get("/", 'Api\Checkout::index');
+});
+
 $route->get("profile", 'Api\User::getMyProfile');
 
 $route->get("saldo", 'Api\User::getMyProfile');
