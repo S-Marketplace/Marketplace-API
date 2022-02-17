@@ -2,6 +2,7 @@
 
 use App\Controllers\MyResourceController;
 use App\Libraries\RajaOngkirShipping;
+use App\Models\CheckoutModel;
 use App\Models\KeranjangModel;
 use App\Models\UserAlamatModel;
 
@@ -81,5 +82,19 @@ class RajaOngkir extends MyResourceController
         ];
         
         return $this->response->setJSON($data);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $checkoutId
+     * @return void
+     */
+    public function getStatusPerjalanan($checkoutId){
+        $modelCheckout = new CheckoutModel();
+        $data = $modelCheckout->find($checkoutId);
+        $statusPerjalanan = $this->rajaOngkir->waybill($data->noResiKurir, $data->kurir);
+        
+        return $this->response->setJSON($statusPerjalanan);
     }
 }

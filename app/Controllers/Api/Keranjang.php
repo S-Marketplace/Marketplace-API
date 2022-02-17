@@ -85,12 +85,19 @@ class Keranjang extends MyResourceController
         }
     }
 
-    public function checkout(){
-    
+    public function checkout()
+    {
+
         if ($this->validate($this->checkout, $this->validationMessage)) {
             try {
-
                 $post = $this->request->getPost();
+                $keranjangModel = new KeranjangModel();
+
+                $dataKeranjang = $keranjangModel->getProdukKeranjang($this->user['email']);
+
+                if ($dataKeranjang['jumlah'] == 0) {
+                    return $this->response(null, 403, 'Keranjang anda kosong');
+                }
 
                 $userAlamat = new UserAlamatModel();
                 $userAlamat = $userAlamat->where(['usralUsrEmail' => $this->user['email'], 'usralIsActive' => 1])->find();
@@ -98,80 +105,92 @@ class Keranjang extends MyResourceController
                 $userAlamatId = $userAlamat->id;
 
                 $checkoutModel = new CheckoutModel();
+                $checkoutModel->transStart();
                 $checkoutId = $checkoutModel->insert([
                     'cktStatus' => 'belum_bayar',
                     'cktKurir' => $post['kurirId'],
                     'cktCatatan' => $post['catatan'],
                     'cktAlamatId' => $userAlamatId,
                 ]);
+                $checkoutModelStatus = $checkoutModel->transStatus();
 
-                $keranjangModel = new KeranjangModel();
-                $checkoutDetail = new CheckoutDetailModel();
+                if ($checkoutModelStatus) {
+                    $checkoutDetail = new CheckoutDetailModel();
+                    $checkoutDetail->transStart();
 
-                $rincianPembayaran = [
-                    [
-                        'cktdtCheckoutId' => $checkoutId,
-                        'cktdtKeterangan' => 'Subtotal produk',
-                        'cktdtBiaya' => $keranjangModel->getHargaProdukKeranjang($this->user['email']),
-                    ],
-                    [
-                        'cktdtCheckoutId' => $checkoutId,
-                        'cktdtKeterangan' => 'Ongkos Kirim',
-                        'cktdtBiaya' => $post['ongkir'],
-                    ]
+                    $checkoutDetailStatus = $checkoutDetail->transStatus();
+
+                    $rincianPembayaran = [
+                        [
+                            'cktdtCheckoutId' => $checkoutId,
+                            'cktdtKeterangan' => 'Subtotal produk',
+                            'cktdtBiaya' => $dataKeranjang['harga'],
+                        ],
+                        [
+                            'cktdtCheckoutId' => $checkoutId,
+                            'cktdtKeterangan' => 'Ongkos Kirim',
+                            'cktdtBiaya' => $post['ongkir'],
+                        ]
                     ];
-                $checkoutDetail->insertBatch($rincianPembayaran);
 
-                // Pembayaran
-                $metodePembayaranModel = new MetodePembayaranModel();
-                $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
-           
-                $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
-                $metodePembayaran = $metodePembayaranData->tipe;
-                $bank = $metodePembayaranData->bank;
+                    $checkoutDetail->insertBatch($rincianPembayaran);
 
-                $midTransPayment = new MidTransPayment();
-                $data  = $midTransPayment->charge($metodePembayaran,array(
-                    'email' => $this->user['email'],
-                    'first_name' => $this->user['nama'],
-                    'last_name' => '',
-                    'phone' => $this->user['noHp'],
-                ),array(
-                    0 => array(
-                        'id' => 'Order',
-                        'price' => $price,
-                        'quantity' => 1,
-                        'name' => 'Order Produk Menyambang',
-                    )
-                ), $bank, $price, 'ORDER');
+                    if ($checkoutDetailStatus) {
+                        // Pembayaran
+                        $metodePembayaranModel = new MetodePembayaranModel();
+                        $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
 
-                if($data['status_code'] == 201){
-                    $pembayaranModel = new PembayaranModel();
-                    $pembayaranModel->insert([
-                        'pmbCheckoutId' => $checkoutId,
-                        'pmbId' => $data['transaction_id'],
-                        'pmbPaymentType' => $data['payment_type'],
-                        'pmbStatus' => $data['transaction_status'],
-                        'pmbTime' => $data['transaction_time'],
-                        'pmbSignatureKey' => '',
-                        'pmbOrderId' => $data['order_id'],
-                        'pmbMerchantId' => $data['merchant_id'],
-                        'pmbGrossAmount' => $data['gross_amount'],
-                        'pmbCurrency' => $data['currency'],
-                        'pmbVaNumber' => $data['va_numbers'][0]['va_number'] ?? '',
-                        'pmbBank' => $data['va_numbers'][0]['bank'] ?? '',
-                        'pmbBillerCode' => $data['biller_code'] ?? '',
-                        'pmbBillKey' => $data['bill_key'] ?? '',
-                        'pmbUserEmail' => $this->user['email'],
-                        'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +1 days")),
-                    ]);
+                        $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
+                        $metodePembayaran = $metodePembayaranData->tipe;
+                        $bank = $metodePembayaranData->bank;
 
-                    return $this->response($pembayaranModel->find($data['transaction_id']), 200);
+                        $midTransPayment = new MidTransPayment();
+                        $data  = $midTransPayment->charge($metodePembayaran, array(
+                            'email' => $this->user['email'],
+                            'first_name' => $this->user['nama'],
+                            'last_name' => '',
+                            'phone' => $this->user['noHp'],
+                        ), array(
+                            0 => array(
+                                'id' => 'Order',
+                                'price' => $price,
+                                'quantity' => 1,
+                                'name' => 'Order Produk Menyambang',
+                            )
+                        ), $bank, $price, 'ORDER');
+
+                        if ($data['status_code'] == 201) {
+                            $pembayaranModel = new PembayaranModel();
+                            $pembayaranModel->insert([
+                                'pmbCheckoutId' => $checkoutId,
+                                'pmbId' => $data['transaction_id'],
+                                'pmbPaymentType' => $data['payment_type'],
+                                'pmbStatus' => $data['transaction_status'],
+                                'pmbTime' => $data['transaction_time'],
+                                'pmbSignatureKey' => '',
+                                'pmbOrderId' => $data['order_id'],
+                                'pmbMerchantId' => $data['merchant_id'],
+                                'pmbGrossAmount' => $data['gross_amount'],
+                                'pmbCurrency' => $data['currency'],
+                                'pmbVaNumber' => $data['va_numbers'][0]['va_number'] ?? '',
+                                'pmbBank' => $data['va_numbers'][0]['bank'] ?? '',
+                                'pmbBillerCode' => $data['biller_code'] ?? '',
+                                'pmbBillKey' => $data['bill_key'] ?? '',
+                                'pmbUserEmail' => $this->user['email'],
+                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time'] . " +1 days")),
+                            ]);
+
+                            $checkoutModel->transComplete();
+                            $checkoutDetail->transComplete();
+                            $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+
+                            return $this->response($pembayaranModel->find($data['transaction_id']), 200);
+                        }
+                    }
                 }
 
                 return $this->response(null, 400, 'Gagal Melakukan Pembayaran');
-        
-                return $this->response($checkoutId, 200, '');
+
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
@@ -182,7 +201,6 @@ class Keranjang extends MyResourceController
         } else {
             return $this->response(null, 400, $this->validator->getErrors());
         }
-        
     }
 
     public function index()

@@ -47,16 +47,29 @@ class KeranjangModel extends MyModel
     /**
      * Undocumented function
      *
-     * @return double
+     * @return array
      */
-    public function getHargaProdukKeranjang($email){
-        $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga FROM `t_keranjang` krj
+    public function getProdukKeranjang($email){
+        $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga, COUNT(krjId) as jlhProdukCheckout FROM `t_keranjang` krj
         JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
         WHERE 
         krj.`krjCheckoutId` IS NULL AND 
         krj.`krjIsChecked` = '1' AND
         krj.`krjUserEmail` = ".$this->db->escape($email))->getRow();
 
-        return intval($data->harga) ?? 0;
+        return [
+            'harga' => intval($data->harga) ?? 0,
+            'jumlah' => intval($data->jlhProdukCheckout) ?? 0,
+        ];
+    }
+
+    public function updateKeranjangToCheckout($checkoutId, $email){
+        $this->where('krjIsChecked', 1);
+        $this->where('krjCheckoutId', null);
+        $this->where('krjUserEmail', $email);
+
+        $this->update(null, [
+            'krjCheckoutId' => $checkoutId,
+        ]);
     }
 }

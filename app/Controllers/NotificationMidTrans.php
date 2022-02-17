@@ -7,6 +7,8 @@ use App\Models\UserSaldoModel;
 use App\Libraries\Notification;
 use App\Libraries\MidTransPayment;
 use App\Controllers\BaseController;
+use App\Models\CheckoutModel;
+use App\Models\PembayaranModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class NotificationMidTrans extends BaseController
@@ -30,15 +32,8 @@ class NotificationMidTrans extends BaseController
         $transaction_id = $data->transaction_id ?? $data['transaction_id'];
        
         try {
-            $userSaldoModel = new UserSaldoModel();
-            $status = $userSaldoModel->update($transaction_id, [
-                'usalStatus' => $transaction_status,
-                'usalSignatureKey' => $signature_key,
-            ]);
-
-            if($status){
-                $data = $userSaldoModel->addSaldo($transaction_id);
-            }
+            $this->_setIsiSaldo($signature_key, $transaction_status, $transaction_id);
+            $this->_setPembayaranProduk($signature_key, $transaction_status, $transaction_id);
         } catch (DatabaseException $ex) {
             $response =  $this->response(null, 500, $ex->getMessage());
         } catch (\mysqli_sql_exception $ex) {
@@ -54,6 +49,34 @@ class NotificationMidTrans extends BaseController
             'data' => $data,
             'message' => $statusLog ? 'Success Write Log': 'Failed Write',
         ]);
+    }
+
+    private function _setPembayaranProduk($signature_key, $transaction_status, $transaction_id){
+        $pembayaranModel = new PembayaranModel();
+        $status = $pembayaranModel->update($transaction_id, [
+            'pmbStatus' => $transaction_status,
+            'pmbSignatureKey' => $signature_key,
+        ]);
+
+        if($status){
+            $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
+            $checkoutModel = new CheckoutModel();
+            $checkoutModel->update($checkoutId, [
+                'cktStatus' => 'dikemas'
+            ]);
+        }
+    }
+
+    private function _setIsiSaldo($signature_key, $transaction_status, $transaction_id){
+        $userSaldoModel = new UserSaldoModel();
+        $status = $userSaldoModel->update($transaction_id, [
+            'usalStatus' => $transaction_status,
+            'usalSignatureKey' => $signature_key,
+        ]);
+
+        if($status){
+            $data = $userSaldoModel->addSaldo($transaction_id);
+        }
     }
 
     public function recurring(){
