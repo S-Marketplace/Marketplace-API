@@ -51,17 +51,21 @@ class NotificationMidTrans extends BaseController
 
     private function _setPembayaranProduk($signature_key, $transaction_status, $transaction_id){
         $pembayaranModel = new PembayaranModel();
-        $status = $pembayaranModel->update($transaction_id, [
-            'pmbStatus' => $transaction_status,
-            'pmbSignatureKey' => $signature_key,
-        ]);
+        $find = $pembayaranModel->find($transaction_id);
 
-        if($status){
-            $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
-            $checkoutModel = new CheckoutModel();
-            $checkoutModel->update($checkoutId, [
-                'cktStatus' => 'dikemas'
+        if(!empty($find)){
+            $status = $pembayaranModel->update($transaction_id, [
+                'pmbStatus' => $transaction_status,
+                'pmbSignatureKey' => $signature_key,
             ]);
+    
+            if($status){
+                $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
+                $checkoutModel = new CheckoutModel();
+                $checkoutModel->update($checkoutId, [
+                    'cktStatus' => 'dikemas'
+                ]);
+            }
         }
     }
 
