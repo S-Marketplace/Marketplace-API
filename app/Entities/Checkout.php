@@ -5,13 +5,13 @@ class Checkout extends MyEntity
 {
   protected $casts = [
     'pembayaran' => 'json',
+    'kurir' => 'json',
+    'detail' => 'json',
 ];
 
     protected $datamap = [
         'id' => 'cktId',
         'status' => 'cktStatus',
-        'kurir' => 'cktKurir',
-        'noResiKurir' => 'cktNoResiKurir',
         'catatan' => 'cktCatatan',
         'alamatId' => 'cktAlamatId',
         'createdAt' => 'cktCreatedAt',
@@ -22,13 +22,13 @@ class Checkout extends MyEntity
     protected $show = [
 		'id',
 		'status',
-		'kurir',
-		'noResiKurir',
 		'catatan',
 		'alamatId',
 		'createdAt',
 		'updatedAt',
 		'deletedAt',
     'pembayaran',
+    'kurir',
+    'detail',
     ];
 }

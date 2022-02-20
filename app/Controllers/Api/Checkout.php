@@ -14,8 +14,6 @@ class Checkout extends MyResourceController
 
     protected $rulesCreate = [
        'status' => ['label' => 'status', 'rules' => 'required'],
-       'kurir' => ['label' => 'kurir', 'rules' => 'required'],
-       'noResiKurir' => ['label' => 'noResiKurir', 'rules' => 'required'],
        'catatan' => ['label' => 'catatan', 'rules' => 'required'],
        'alamatId' => ['label' => 'alamatId', 'rules' => 'required'],
        'deletedAt' => ['label' => 'deletedAt', 'rules' => 'required'],
@@ -23,10 +21,14 @@ class Checkout extends MyResourceController
 
     protected $rulesUpdate = [
        'status' => ['label' => 'status', 'rules' => 'required'],
-       'kurir' => ['label' => 'kurir', 'rules' => 'required'],
-       'noResiKurir' => ['label' => 'noResiKurir', 'rules' => 'required'],
        'catatan' => ['label' => 'catatan', 'rules' => 'required'],
        'alamatId' => ['label' => 'alamatId', 'rules' => 'required'],
        'deletedAt' => ['label' => 'deletedAt', 'rules' => 'required'],
    ];
+
+   public function index(){
+       $this->model->select('*');
+       $this->model->withDetail();
+       return parent::index();
+   }
 }

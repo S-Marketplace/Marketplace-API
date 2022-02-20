@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Entities\CheckoutDetail;
 use App\Models\MyModel;
 
 class CheckoutModel extends MyModel
@@ -24,6 +25,11 @@ class CheckoutModel extends MyModel
     {
         return [
             'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
+            'kurir' => ['table' => 't_checkout_kurir', 'condition' => 'cktId = ckurCheckoutId', 'entity' => 'App\Entities\CheckoutKurir'],
         ];
+    }
+
+    public function withDetail(){
+        return $this->hasMany("t_checkout_detail","cktId = cktdtCheckoutId",CheckoutDetail::class,"detail",'-');
     }
 }
