@@ -65,11 +65,20 @@ class RajaOngkir extends MyResourceController
 
         foreach ($courier as $value) {
             $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
-            $ongkir = array_merge($ongkir, $dataOngkir['data']);
-            $tujuan = [
-                'asal' => $dataOngkir['extra']['origin_details'],
-                'tujuan' => $dataOngkir['extra']['destination_details'],
-            ];
+
+            if($dataOngkir['code'] == 200){
+                $ongkir = array_merge($ongkir, $dataOngkir['data']);
+                $tujuan = [
+                    'asal' => $dataOngkir['extra']['origin_details'],
+                    'tujuan' => $dataOngkir['extra']['destination_details'],
+                ];
+            }else{
+                return $this->response->setJSON([
+                    'code' => $dataOngkir['code'],
+                    'message' => $dataOngkir['message'],
+                    'data' => null
+                ]);
+            }
         }
 
         $data = [

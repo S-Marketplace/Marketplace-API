@@ -33,6 +33,7 @@ class Keranjang extends MyResourceController
     protected $ubahKeranjang = [
         'produkId' => ['label' => 'produkId', 'rules' => 'required|in_table[m_produk,produkId]'],
         'quantity' => ['label' => 'quantity', 'rules' => 'required'],
+        'checked' => ['label' => 'checked', 'rules' => 'in_list[0,1]'],
     ];
 
     protected $checkout = [
@@ -66,12 +67,14 @@ class Keranjang extends MyResourceController
                     $this->model->where($where)
                         ->update(null, [
                             'krjQuantity' => $data['quantity'],
+                            'krjIsChecked' => $data['checked'],
                         ]);
                 } else {
                     $this->model
                         ->insert([
                             'krjQuantity' => $data['quantity'],
                             'krjProdukId' => $data['produkId'],
+                            'krjIsChecked' => $data['checked'],
                             'krjUserEmail' => $userEmail,
                         ]);
                 }
