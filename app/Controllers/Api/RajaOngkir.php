@@ -16,6 +16,7 @@ class RajaOngkir extends MyResourceController
 {
     private $rajaOngkir;
     private $originId = '35'; // Kalimantan Selatan
+    public $kurirSupport = ['jne', 'jnt'];
 
     function __construct()
     {
@@ -58,12 +59,11 @@ class RajaOngkir extends MyResourceController
         
         $destination = $data->kotaId;
         $weight = $keranjangModel->getBeratKeranjangCheck($this->user['email']);
-        $courier = ['jne', 'jnt'];
         
         $ongkir = [];
         $tujuan = [];
 
-        foreach ($courier as $value) {
+        foreach ($this->kurirSupport as $value) {
             $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
 
             if($dataOngkir['code'] == 200){

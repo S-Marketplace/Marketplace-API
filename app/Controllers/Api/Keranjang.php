@@ -12,6 +12,7 @@ use App\Models\PembayaranModel;
 use App\Models\UserAlamatModel;
 use App\Models\ProdukGambarModel;
 use App\Libraries\MidTransPayment;
+use App\Models\CheckoutKurirModel;
 use App\Models\CheckoutDetailModel;
 use App\Models\MetodePembayaranModel;
 use App\Controllers\MyResourceController;
@@ -40,8 +41,12 @@ class Keranjang extends MyResourceController
     ];
 
     protected $checkout = [
-        'kurirId' => ['label' => 'produkId', 'rules' => 'required|in_list[jne,jnt]'],
-        'ongkir' => ['label' => 'quantity', 'rules' => 'required|numeric'],
+        'kurirId' => ['label' => 'kurirId', 'rules' => 'required|in_list[jne,jnt]'],
+        'kurirNama' => ['label' => 'kurirId', 'rules' => 'required'],
+        'kurirService' => ['label' => 'kurirId', 'rules' => 'required'],
+        'kurirDeskripsi' => ['label' => 'kurirId', 'rules' => 'required'],
+        'kurirCost' => ['label' => 'kurirId', 'rules' => 'required|numeric'],
+        'ongkir' => ['label' => 'ongkir', 'rules' => 'required|numeric'],
         'id_metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_table[m_metode_pembayaran,mpbId]'],
     ];
 
@@ -57,7 +62,7 @@ class Keranjang extends MyResourceController
             $data['userEmail'] = $userEmail;
             $entity->fill($data);
 
-            $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId']];
+            $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjCheckoutId' => null];
 
             $sudahPesanSebelumnya = $this->model->where($where)->countAllResults();
 
@@ -102,7 +107,7 @@ class Keranjang extends MyResourceController
 
             try {
                 if (isset($data['produkId']) && !empty($data['produkId'])) {
-                    $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId']];
+                    $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjCheckoutId' => null];
     
                     $this->model->where($where)
                         ->update(null, [
@@ -156,11 +161,25 @@ class Keranjang extends MyResourceController
                 $checkoutModel->transStart();
                 $checkoutId = $checkoutModel->insert([
                     'cktStatus' => 'belum_bayar',
-                    'cktKurir' => $post['kurirId'],
                     'cktCatatan' => $post['catatan'],
                     'cktAlamatId' => $userAlamatId,
                 ]);
                 $checkoutModelStatus = $checkoutModel->transStatus();
+
+                $checkoutKurirModel = new CheckoutKurirModel();
+                $checkoutKurirModel->transStart();
+                
+                // if(!empty($post['kurirId'])){
+                    // Menambahkan Detail Kurir
+                    $checkoutKurirModel->insert([
+                        'ckurCheckoutId' => $checkoutId,
+                        'ckurKurir' => $post['kurirId'],
+                        'ckurNama' => $post['kurirNama'],
+                        'ckurService' => $post['kurirService'],
+                        'ckurDeskripsi' => $post['kurirDeskripsi'],
+                        'ckurCost' => $post['kurirCost'],
+                    ]);
+                // }
 
                 if ($checkoutModelStatus) {
 
@@ -238,6 +257,8 @@ class Keranjang extends MyResourceController
 
                             $checkoutModel->transComplete();
                             $checkoutDetail->transComplete();
+                            $checkoutKurirModel->transComplete();
+
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
                             return $this->response(null, 200, 'Pembayaran Sukses');
                         } else {
@@ -286,6 +307,8 @@ class Keranjang extends MyResourceController
     
                                 $checkoutModel->transComplete();
                                 $checkoutDetail->transComplete();
+                                $checkoutKurirModel->transComplete();
+
                                 $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
     
                                 return $this->response($pembayaranModel->find($data['transaction_id']), 200);
