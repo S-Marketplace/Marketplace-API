@@ -235,9 +235,10 @@ class Keranjang extends MyResourceController
 
                             // Tambah Riwayat pembayaran
                             $pembayaranModel = new PembayaranModel();
+                            $uuid = Uuid::uuid4();
                             $pembayaranModel->insert([
                                 'pmbCheckoutId' => $checkoutId,
-                                'pmbId' => Uuid::uuid4(),
+                                'pmbId' => $uuid,
                                 'pmbPaymentType' => 'saldo',
                                 'pmbStatus' => 'settlement',
                                 'pmbTime' => date('Y-m-d H:i:s'),
@@ -259,7 +260,7 @@ class Keranjang extends MyResourceController
                             $checkoutKurirModel->transComplete();
 
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
-                            return $this->response(null, 200, 'Pembayaran Sukses');
+                            return $this->response($pembayaranModel->find($uuid), 200, 'Pembayaran Sukses');
                         } else {
                             // MID TRANS
                             $metodePembayaranModel = new MetodePembayaranModel();

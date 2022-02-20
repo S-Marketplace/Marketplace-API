@@ -84,6 +84,7 @@
                     render: function(val, type, row, meta) {
                         if(val == 'bank_transfer') return 'Transfer Bank';
                         else if(val == 'echannel') return 'Mandiri Bill';
+                        else if(val == 'saldo') return 'Saldo';
                     }
                 },
                 {
