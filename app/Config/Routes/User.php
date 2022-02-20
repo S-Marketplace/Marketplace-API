@@ -11,6 +11,7 @@ $route->group("keranjang", function ($route) {
     $route->get("/", 'Api\Keranjang::index');
     $route->post("/", 'Api\Keranjang::ubahKeranjang');
     $route->post("checkout", 'Api\Keranjang::checkout');
+    $route->post("checked", 'Api\Keranjang::checkedKeranjang');
 });
 
 $route->group("checkout", function ($route) {

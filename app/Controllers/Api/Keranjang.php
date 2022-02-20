@@ -33,6 +33,9 @@ class Keranjang extends MyResourceController
     protected $ubahKeranjang = [
         'produkId' => ['label' => 'produkId', 'rules' => 'required|in_table[m_produk,produkId]'],
         'quantity' => ['label' => 'quantity', 'rules' => 'required'],
+    ];
+
+    protected $checkedKeranjang = [
         'checked' => ['label' => 'checked', 'rules' => 'in_list[0,1]'],
     ];
 
@@ -59,22 +62,19 @@ class Keranjang extends MyResourceController
             $sudahPesanSebelumnya = $this->model->where($where)->countAllResults();
 
             try {
-
                 if ($data['quantity'] <= 0) {
                     $this->model->where($where)
                         ->delete();
-                } else if ($sudahPesanSebelumnya) {
+                } elseif ($sudahPesanSebelumnya) {
                     $this->model->where($where)
                         ->update(null, [
                             'krjQuantity' => $data['quantity'],
-                            'krjIsChecked' => $data['checked'],
                         ]);
                 } else {
                     $this->model
                         ->insert([
                             'krjQuantity' => $data['quantity'],
                             'krjProdukId' => $data['produkId'],
-                            'krjIsChecked' => $data['checked'],
                             'krjUserEmail' => $userEmail,
                         ]);
                 }
@@ -92,9 +92,48 @@ class Keranjang extends MyResourceController
         }
     }
 
+    public function checkedKeranjang()
+    {
+        $userEmail = $this->user['email'];
+
+        if ($this->validate($this->checkedKeranjang, $this->validationMessage)) {
+            $data = $this->request->getVar();
+            $data['userEmail'] = $userEmail;
+
+            try {
+                if (isset($data['produkId']) && !empty($data['produkId'])) {
+                    $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId']];
+    
+                    $this->model->where($where)
+                        ->update(null, [
+                            'krjIsChecked' => $data['checked'],
+                        ]);
+                  
+                    return $this->response(null, 200, 'Berhasil mengubah checked');
+                }else{
+                    $where = ['krjUserEmail' => $userEmail, 'krjCheckoutId' => null];
+    
+                    $this->model->where($where)
+                        ->update(null, [
+                            'krjIsChecked' => $data['checked'],
+                        ]);
+                  
+                    return $this->response(null, 200, 'Berhasil mengubah checked');
+                }
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
     public function checkout()
     {
-
         if ($this->validate($this->checkout, $this->validationMessage)) {
             try {
                 $post = $this->request->getPost();
@@ -150,18 +189,18 @@ class Keranjang extends MyResourceController
                         // Pembayaran
                         $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
 
-                        if($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID){
+                        if ($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID) {
                             // SALDO
                             $modelUser = new UserModel();
                             $dataUser = $modelUser->find($this->user['email']);
 
                             // Jika saldo memenuhi
-                            if($dataUser->saldo >= $price){
+                            if ($dataUser->saldo >= $price) {
                                 $modelUser->update($this->user['email'], [
                                     'usrSaldo' => $dataUser->saldo - $price,
                                 ]);
-                            }else{
-                                 return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk emnambahkan saldo anda');
+                            } else {
+                                return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk emnambahkan saldo anda');
                             }
 
                             // Tambah Riwayat saldo
@@ -201,7 +240,7 @@ class Keranjang extends MyResourceController
                             $checkoutDetail->transComplete();
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
                             return $this->response(null, 200, 'Pembayaran Sukses');
-                        }else{
+                        } else {
                             // MID TRANS
                             $metodePembayaranModel = new MetodePembayaranModel();
                             $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
@@ -256,7 +295,6 @@ class Keranjang extends MyResourceController
                 }
 
                 return $this->response(null, 400, 'Gagal Melakukan Pembayaran');
-
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
