@@ -42,10 +42,10 @@ class Keranjang extends MyResourceController
 
     protected $checkout = [
         'kurirId' => ['label' => 'kurirId', 'rules' => 'required|in_list[jne,jnt]'],
-        'kurirNama' => ['label' => 'kurirId', 'rules' => 'required'],
-        'kurirService' => ['label' => 'kurirId', 'rules' => 'required'],
-        'kurirDeskripsi' => ['label' => 'kurirId', 'rules' => 'required'],
-        'kurirCost' => ['label' => 'kurirId', 'rules' => 'required|numeric'],
+        'kurirNama' => ['label' => 'Kurir Nama', 'rules' => 'required'],
+        'kurirService' => ['label' => 'Kurir Service', 'rules' => 'required'],
+        'kurirDeskripsi' => ['label' => 'Kurir Deskripsi', 'rules' => 'required'],
+        'kurirCost' => ['label' => 'Kurir Cost', 'rules' => 'required|numeric'],
         'ongkir' => ['label' => 'ongkir', 'rules' => 'required|numeric'],
         'id_metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_table[m_metode_pembayaran,mpbId]'],
     ];
