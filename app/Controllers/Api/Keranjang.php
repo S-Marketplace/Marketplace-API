@@ -160,7 +160,7 @@ class Keranjang extends MyResourceController
                 $checkoutModel->transStart();
                 $checkoutId = $checkoutModel->insert([
                     'cktStatus' => 'belum_bayar',
-                    'cktCatatan' => $post['catatan'],
+                    'cktCatatan' => $post['catatan'] ?? '',
                     'cktAlamatId' => $userAlamatId,
                 ]);
                 $checkoutModelStatus = $checkoutModel->transStatus();
