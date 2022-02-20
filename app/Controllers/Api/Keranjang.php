@@ -46,7 +46,6 @@ class Keranjang extends MyResourceController
         'kurirService' => ['label' => 'Kurir Service', 'rules' => 'required'],
         'kurirDeskripsi' => ['label' => 'Kurir Deskripsi', 'rules' => 'required'],
         'kurirCost' => ['label' => 'Kurir Cost', 'rules' => 'required|numeric'],
-        'ongkir' => ['label' => 'ongkir', 'rules' => 'required|numeric'],
         'id_metode_pembayaran' => ['label' => 'Metode Pembayaran', 'rules' => 'required|in_table[m_metode_pembayaran,mpbId]'],
     ];
 
@@ -198,7 +197,7 @@ class Keranjang extends MyResourceController
                         [
                             'cktdtCheckoutId' => $checkoutId,
                             'cktdtKeterangan' => 'Ongkos Kirim',
-                            'cktdtBiaya' => $post['ongkir'],
+                            'cktdtBiaya' => $post['kurirCost'],
                         ]
                     ];
 
