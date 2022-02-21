@@ -1,6 +1,7 @@
 <?php namespace App\Controllers\Api;
 
 use App\Controllers\MyResourceController;
+
 /**
  * Class Checkout
  * @note Resource untuk mengelola data t_checkout
@@ -26,9 +27,14 @@ class Checkout extends MyResourceController
        'deletedAt' => ['label' => 'deletedAt', 'rules' => 'required'],
    ];
 
-   public function index(){
-       $this->model->select('*');
-       $this->model->withDetail();
-       return parent::index();
-   }
+    public function index()
+    {
+        $post = $this->request->getGet();
+        $post['pembayaran_userEmail']['eq'] = $this->user['email'];
+        $this->request->setGlobal("get", $post);
+
+        $this->model->select('*');
+        $this->model->withDetail();
+        return parent::index();
+    }
 }
