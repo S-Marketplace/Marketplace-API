@@ -60,11 +60,13 @@ class NotificationMidTrans extends BaseController
             ]);
     
             if($status){
-                $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
-                $checkoutModel = new CheckoutModel();
-                $checkoutModel->update($checkoutId, [
-                    'cktStatus' => 'dikemas'
-                ]);
+                if($transaction_status == 'settlement'){
+                    $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
+                    $checkoutModel = new CheckoutModel();
+                    $checkoutModel->update($checkoutId, [
+                        'cktStatus' => 'dikemas'
+                    ]);
+                }
             }
         }
     }
