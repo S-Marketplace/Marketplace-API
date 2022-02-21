@@ -101,10 +101,11 @@ class RajaOngkir extends MyResourceController
      */
     public function getStatusPerjalanan($checkoutId){
         $modelCheckout = new CheckoutModel();
-        $data = $modelCheckout->find($checkoutId);
+        $modelCheckout->join('t_checkout_kurir', 'ckurCheckoutId = cktId');
+        $data = $modelCheckout->where('cktId', $checkoutId)->get()->getRow();
 
         if(!empty($data)){
-            $statusPerjalanan = $this->rajaOngkir->waybill($data->noResiKurir, $data->kurir);
+            $statusPerjalanan = $this->rajaOngkir->waybill($data->ckurNoResi, $data->ckurKurir);
             return $this->response->setJSON($statusPerjalanan);
         }
 
