@@ -75,6 +75,8 @@
             $('[name="noResi"]').val(dataRow.kurir.noResi);
             $('#kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
             $('#kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
+            $('#catatan_pembeli').html(`${dataRow.catatan}`);
+            
             $('#modal').modal('show');
             $('#aksi').html('Ubah');
         });
@@ -161,7 +163,7 @@
                               <div class="price d-flex">
                                 <div class="text-muted me-2">Jumlah</div>: ${element.quantity}
                             </div>
-                              <a class="btn btn-primary btn-xs" href="#" data-bs-original-title="" title="">Diskon ${element.products.diskon}%</a>
+                              <a class="btn btn-success btn-xs" href="#" data-bs-original-title="" title="">Diskon ${element.products.diskon}%</a>
                             </div>
                           </div>
                         </div>`;
