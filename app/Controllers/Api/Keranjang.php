@@ -333,20 +333,22 @@ class Keranjang extends MyResourceController
 
     public function index()
     {
-        $this->model->select('*');
-        $this->model->where(['krjUserEmail' => $this->user['email']]);
-        $this->model->where(['krjCheckoutId' => null]);
-        $this->model->with(['products']);
+        $keranjangModel = new KeranjangModel();
+
+        $keranjangModel->select('*');
+        $keranjangModel->where(['krjUserEmail' => $this->user['email']]);
+        $keranjangModel->where(['krjCheckoutId' => null]);
+        $keranjangModel->with(['products']);
 
         $this->applyQueryFilter();
         $limit = $this->request->getGet("limit") ? $this->request->getGet("limit") : $this->defaultLimitData;
         $offset = $this->request->getGet("offset") ? $this->request->getGet("offset") : 0;
         if ($limit != "-1") {
-            $this->model->limit($limit);
+            $keranjangModel->limit($limit);
         }
-        $this->model->offset($offset);
+        $keranjangModel->offset($offset);
 
-        $data = $this->model->find();
+        $data = $keranjangModel->find();
 
         $data = array_map(function ($e) {
             $e = $e;
@@ -364,6 +366,14 @@ class Keranjang extends MyResourceController
                 'limit' => $limit,
                 'offset' => $offset,
             ]);
+        } catch (\Exception $ex) {
+            return $this->response(null, 500, $ex->getMessage());
+        }
+    }
+
+    public function keranjangCheckoutDetail($id){
+        try {
+            return $this->response(null, 500, $this->model->getKeranjangDetail($id));
         } catch (\Exception $ex) {
             return $this->response(null, 500, $ex->getMessage());
         }

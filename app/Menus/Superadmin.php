@@ -65,6 +65,10 @@ class Superadmin implements MenuInterface
                             'title' => 'Top Up Saldo',
                             'url' => 'TransaksiTopUpSaldo'
                         ],
+                        [
+                            'title' => 'Pembelian Produk',
+                            'url' => 'TransaksiPembelianProduk'
+                        ],
                     ]
                 ],
             // [

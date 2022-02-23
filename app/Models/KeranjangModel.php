@@ -72,4 +72,24 @@ class KeranjangModel extends MyModel
             'krjCheckoutId' => $checkoutId,
         ]);
     }
+
+    public function getKeranjangDetail($checkoutId){
+        $this->select('*');
+        $this->where(['krjCheckoutId' => $checkoutId]);
+        $this->with(['products']);
+
+        $data = $this->find();
+
+        $data = array_map(function ($e) {
+            $e = $e;
+            $produkGambarModel = new ProdukGambarModel();
+            $kategoriModel = new KategoriModel();
+            $combine['kategori'] = $kategoriModel->find($e->products->kategoriId);
+            $combine['gambar'] = $produkGambarModel->where(['prdgbrProdukId' => $e->products->id])->find();
+            $e->products = array_merge((array)$e->products, $combine);
+            return $e;
+        }, $data);
+
+        return $data;
+    }
 }
