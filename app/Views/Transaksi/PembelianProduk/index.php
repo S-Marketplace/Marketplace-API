@@ -139,7 +139,16 @@
 
         function templateKeranjangDetail(dataDetail){
             let text = '';
+            
             dataDetail.forEach(element => {
+                let hargaNormal = element.products.harga;
+                let hargaDiskon = element.products.harga;
+                let diskonText = '';
+    
+                if(element.products.diskon != 0){
+                    hargaNormal = hargaNormal - (hargaNormal * (element.products.diskon / 100));
+                    diskonText = `<del>${formatRupiah(hargaDiskon.toString())}</del>`;
+                }
                 text +=  `<div class="prooduct-details-box"> 
                           <div class="media"><img class="align-self-center img-fluid img-100 mx-3" src="<?=base_url('File/get/produk_gambar/')?>/${element.products.gambar[0].file}" alt="#">
                             <div class="media-body ms-3">
@@ -147,11 +156,12 @@
                                 <h6><a href="#" data-bs-original-title="" title="">${element.products.nama}</a></h6>
                               </div>
                               <div class="price d-flex"> 
-                                <div class="text-muted me-2">Harga</div>: Rp. ${formatRupiah(element.products.harga.toString())}
+                                <div class="text-muted me-2">Harga</div>: Rp. ${formatRupiah(hargaNormal.toString())} &nbsp;&nbsp; ${diskonText}
                               </div>
                               <div class="price d-flex">
                                 <div class="text-muted me-2">Jumlah</div>: ${element.quantity}
                             </div>
+                              <a class="btn btn-primary btn-xs" href="#" data-bs-original-title="" title="">Diskon ${element.products.diskon}%</a>
                             </div>
                           </div>
                         </div>`;
