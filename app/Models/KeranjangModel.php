@@ -75,6 +75,18 @@ class KeranjangModel extends MyModel
         ]);
     }
 
+    public function updateProdukStok($checkoutId){
+        $data = $this->where('krjCheckoutId', $checkoutId)->find();
+
+        $produkModel = new ProdukModel();
+        foreach ($data as $keranjang) {
+            $find = $produkModel->find($keranjang->produkId);
+            $produkModel->update($keranjang->produkId, [
+                'produkStok' => intval($find->stok) - intval($keranjang->quantity),
+            ]);
+        }
+    }
+
     public function getKeranjangDetail($checkoutId){
         $this->select('*');
         $this->where(['krjCheckoutId' => $checkoutId]);

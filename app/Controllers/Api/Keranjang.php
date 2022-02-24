@@ -260,6 +260,8 @@ class Keranjang extends MyResourceController
                             $checkoutKurirModel->transComplete();
 
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+                            $keranjangModel->updateProdukStok($checkoutId);
+
                             $response = current($pembayaranModel->where('pmbId', $uuid)->find());
                             return $this->response($response, 200, $uuid);
                         } else {

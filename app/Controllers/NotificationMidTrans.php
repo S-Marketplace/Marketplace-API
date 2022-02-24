@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UserSaldoModel;
 use App\Controllers\BaseController;
 use App\Models\CheckoutModel;
+use App\Models\KeranjangModel;
 use App\Models\PembayaranModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
@@ -66,6 +67,9 @@ class NotificationMidTrans extends BaseController
                     $checkoutModel->update($checkoutId, [
                         'cktStatus' => 'dikemas'
                     ]);
+
+                    $keranjangModel = new KeranjangModel();
+                    $keranjangModel->updateProdukStok($checkoutId);
                 }
             }
         }
