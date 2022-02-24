@@ -16,6 +16,7 @@ $route->group("keranjang", function ($route) {
 
 $route->group("checkout", function ($route) {
     $route->get("/", 'Api\Checkout::index');
+    $route->get("keranjang/(:segment)", 'Api\Checkout::detailKeranjang/$1');
 });
 
 $route->get("profile", 'Api\User::getMyProfile');

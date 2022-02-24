@@ -5,6 +5,8 @@ class Keranjang extends MyEntity
 {
   protected $casts = [
     'products'=>'json',
+    'checkout'=>'json',
+    'alamat'=>'json',
   ];
 
     protected $datamap = [
@@ -26,6 +28,8 @@ class Keranjang extends MyEntity
 		'quantity',
 		'pesan',
     'products',
+    'checkout',
+    'alamat',
 		'checkoutId',
 		'createdAt',
 		'updatedAt',

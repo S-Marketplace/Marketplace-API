@@ -1,6 +1,7 @@
 <?php namespace App\Controllers\Api;
 
 use App\Controllers\MyResourceController;
+use App\Models\KeranjangModel;
 
 /**
  * Class Checkout
@@ -36,5 +37,14 @@ class Checkout extends MyResourceController
         $this->model->select('*');
         $this->model->withDetail();
         return parent::index();
+    }
+
+    public function detailKeranjang($id){
+        try {
+            $modelKeranjang = new KeranjangModel();
+            return $this->response($modelKeranjang->getKeranjangDetail($id), 200);
+        } catch (\Exception $ex) {
+            return $this->response(null, 500, $ex->getMessage());
+        }
     }
 }
