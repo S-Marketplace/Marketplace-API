@@ -20,6 +20,11 @@ $route->group("checkout", function ($route) {
     $route->get("keranjang/(:segment)", 'Api\Checkout::detailKeranjang/$1');
 });
 
+$route->group("notifikasi", function ($route) {
+    $route->get("/", 'Api\Notifikasi::index');
+    $route->get("my_notif", 'Api\Notifikasi::getNotif');
+});
+
 $route->get("profile", 'Api\User::getMyProfile');
 
 $route->get("saldo", 'Api\User::getMyProfile');
