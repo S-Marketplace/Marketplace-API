@@ -29,14 +29,21 @@ class Notifikasi extends MyResourceController
     {
         $userEmail = $this->user['email'];
 
-        $data = $this->model->query("SELECT * FROM `m_notifikasi` ntf
-        LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`)
-        WHERE ntft.`tnotifEmail` = ''
-        
-        UNION 
-        
-        SELECT * FROM `m_notifikasi` ntf
-        LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`) WHERE ntft.`tnotifEmail` = ".$this->model->escape($userEmail))->getResult();
+        $data = $this->model->query("SELECT * FROM (
+
+            SELECT * FROM `m_notifikasi` ntf        
+            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`)        
+            WHERE ntft.`tnotifEmail` IS NULL              
+            
+            UNION                 
+            
+            SELECT * FROM `m_notifikasi` ntf        
+            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`) 
+            WHERE 
+            ntft.`tnotifEmail` = ".$this->model->escape($userEmail).") datas
+            
+            ORDER BY datas.`notifTanggal` DESC
+            LIMIT 10")->getResult();
 
         return $this->response($data, 200);
     }
