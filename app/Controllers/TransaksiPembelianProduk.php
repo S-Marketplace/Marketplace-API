@@ -35,7 +35,7 @@ class TransaksiPembelianProduk extends BaseController
     {
         $this->model->select('*');
         $this->model->withDetail();
-        $this->model->with(['kategori', 'pembayaran', 'kurir']);
+        $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat']);
 
         return parent::grid();
     }

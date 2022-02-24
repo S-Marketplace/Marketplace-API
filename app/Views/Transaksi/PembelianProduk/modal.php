@@ -23,17 +23,25 @@
                                         <div class="media-body">
                                             <h5>Informasi Pengiriman</h5>
                                             <p>
-                                                <span id="kurir_layanan">Layanan Reguler (REG)</span> -
-                                                <span id="kurir_nama">Jalur Eka Nugraha (JNE)</span>
+                                                <span class="kurir_layanan">Layanan Reguler (REG)</span> -
+                                                <span class="kurir_nama">Jalur Eka Nugraha (JNE)</span>
                                             </p>
                                         </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                    <div class="media-body">
+                                        <h5>Alamat</h5>
+                                        <p class="alamat_pembeli"></p>
+                                    </div>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="media"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-gift"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
                                     <div class="media-body">
                                         <h5>Catatan Pembeli</h5>
-                                        <p id="catatan_pembeli"></p>
+                                        <p class="catatan_pembeli"></p>
                                     </div>
                                     </div>
                                 </li>
@@ -82,10 +90,26 @@
                                         <div class="media-body">
                                             <h5>Informasi Pengiriman</h5>
                                             <p>
-                                                <span id="kurir_layanan">Layanan Reguler (REG)</span> -
-                                                <span id="kurir_nama">Jalur Eka Nugraha (JNE)</span>
+                                                <span class="kurir_layanan">Layanan Reguler (REG)</span> -
+                                                <span class="kurir_nama">Jalur Eka Nugraha (JNE)</span>
                                             </p>
                                         </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                    <div class="media-body">
+                                        <h5>Alamat</h5>
+                                        <p class="alamat_pembeli"></p>
+                                    </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-gift"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                                    <div class="media-body">
+                                        <h5>Catatan Pembeli</h5>
+                                        <p class="catatan_pembeli"></p>
+                                    </div>
                                     </div>
                                 </li>
                             </ul>

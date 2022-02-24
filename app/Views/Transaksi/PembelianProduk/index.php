@@ -73,10 +73,11 @@
 
 
             $('[name="noResi"]').val(dataRow.kurir.noResi);
-            $('#kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
-            $('#kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
-            $('#catatan_pembeli').html(`${dataRow.catatan}`);
-            
+            $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
+            $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
+            $('.catatan_pembeli').html(`${dataRow.catatan}`);
+            $('.alamat_pembeli').html(`${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
+
             $('#modal').modal('show');
             $('#aksi').html('Ubah');
         });
@@ -133,8 +134,11 @@
 
             loadKeranjangDetail(dataRow.id);
 
-            $('#kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
-            $('#kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
+            $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
+            $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
+            $('.catatan_pembeli').html(`${dataRow.catatan}`);
+            $('.alamat_pembeli').html(`${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
+
             $('#modal-detail').modal('show');
             $('#aksi').html('Ubah');
         });

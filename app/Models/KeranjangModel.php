@@ -25,8 +25,6 @@ class KeranjangModel extends MyModel
     {
         return [
             'products' => ['table' => 'm_produk', 'condition' => 'krjProdukId = produkId', 'entity' => 'App\Entities\Produk'],
-            'checkout' => ['table' => 't_checkout', 'condition' => 'cktId = krjCheckoutId', 'entity' => 'App\Entities\Checkout'],
-            'alamat' => ['table' => 'm_user_alamat', 'condition' => 'cktAlamatId = usralId', 'entity' => 'App\Entities\UserAlamat'],
         ];
     }
 

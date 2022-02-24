@@ -26,6 +26,7 @@ class CheckoutModel extends MyModel
         return [
             'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
             'kurir' => ['table' => 't_checkout_kurir', 'condition' => 'cktId = ckurCheckoutId', 'entity' => 'App\Entities\CheckoutKurir'],
+            'alamat' => ['table' => 'm_user_alamat', 'condition' => 'cktAlamatId = usralId', 'entity' => 'App\Entities\UserAlamat'],
         ];
     }
 
