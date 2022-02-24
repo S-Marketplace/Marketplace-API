@@ -20,6 +20,12 @@ class NotificationMidTrans extends BaseController
         helper('filesystem');
     }
    
+    /**
+     * Payment notifikasi dari midtrans
+     * notifikasi masuk apapun aksinya
+     *
+     * @return void
+     */
     public function payment(){
         $data = $this->request->getVar();
 
@@ -50,6 +56,14 @@ class NotificationMidTrans extends BaseController
         ]);
     }
 
+    /**
+     * Notif Pembayaran Produk
+     *
+     * @param [type] $signature_key
+     * @param [type] $transaction_status
+     * @param [type] $transaction_id
+     * @return void
+     */
     private function _setPembayaranProduk($signature_key, $transaction_status, $transaction_id){
         $pembayaranModel = new PembayaranModel();
         $find = $pembayaranModel->find($transaction_id);
@@ -75,6 +89,14 @@ class NotificationMidTrans extends BaseController
         }
     }
 
+    /**
+     * Notif Isi Saldo
+     *
+     * @param [type] $signature_key
+     * @param [type] $transaction_status
+     * @param [type] $transaction_id
+     * @return void
+     */
     private function _setIsiSaldo($signature_key, $transaction_status, $transaction_id){
         $userSaldoModel = new UserSaldoModel();
         $find = $userSaldoModel->find($transaction_id);
