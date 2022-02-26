@@ -4,7 +4,7 @@ use App\Entities\MyEntity;
 class Notifikasi extends MyEntity
 {
     protected $datamap = [
-        'd' => 'noifId',
+        'd' => 'noitfId',
         'judul' => 'notifJudul',
         'pesan' => 'notifPesan',
         'tanggal' => 'notifTanggal',

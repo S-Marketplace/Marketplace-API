@@ -5,7 +5,7 @@ use App\Models\MyModel;
 class NotifikasiModel extends MyModel
 {
     protected $table = "m_notifikasi";
-    protected $primaryKey = "noifId";
+    protected $primaryKey = "noitfId";
     protected $createdField = "";
     protected $updatedField = "";
     protected $returnType = "App\Entities\Notifikasi";

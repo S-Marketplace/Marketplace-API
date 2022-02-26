@@ -32,13 +32,13 @@ class Notifikasi extends MyResourceController
         $data = $this->model->query("SELECT * FROM (
 
             SELECT * FROM `m_notifikasi` ntf        
-            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`)        
+            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`notifId` = ntft.`tnotifNotifId`)        
             WHERE ntft.`tnotifEmail` IS NULL              
             
             UNION                 
             
             SELECT * FROM `m_notifikasi` ntf        
-            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`noifId` = ntft.`tnotifNotifId`) 
+            LEFT JOIN `t_notifikasi_to` ntft ON (ntf.`notifId` = ntft.`tnotifNotifId`) 
             WHERE 
             ntft.`tnotifEmail` = ".$this->model->escape($userEmail).") datas
             
