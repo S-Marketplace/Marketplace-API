@@ -77,7 +77,7 @@ class Checkout extends MyResourceController
      */
     public function checkout()
     {
-        $post = $this->request->getGet();
+        $post = $this->request->getPost();
         if(isset($post['kurirId'])){
             switch ($post['kurirId']) {
                 case 'J&T':
@@ -85,7 +85,7 @@ class Checkout extends MyResourceController
                     break;
             }
         }
-        $this->request->setGlobal("get", $post);
+        $this->request->setGlobal("post", $post);
 
 
         if ($this->validate($this->checkout, $this->validationMessage)) {
