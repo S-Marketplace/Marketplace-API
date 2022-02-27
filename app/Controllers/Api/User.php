@@ -82,6 +82,7 @@ class User extends MyResourceController
                         'usralProvinsiNama' => $this->request->getVar('provinsiNama'),
                         'usralKecamatanId' => $this->request->getVar('kecamatanId'),
                         'usralKecamatanNama' => $this->request->getVar('kecamatanNama'),
+                        'usralJalan' => $this->request->getVar('jalan'),
                         'usralIsActive' => 1,
                         'usralIsFirst' => 1,
                     ]);

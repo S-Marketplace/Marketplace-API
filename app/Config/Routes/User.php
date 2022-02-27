@@ -3,7 +3,11 @@
 $route->resource("data", ['controller' => 'Api\User', 'only' => ['index', 'show', 'create', 'update']]);
 $route->post("register", 'Api\User::register');
 
-$route->resource("alamat", ['controller' => 'Api\UserAlamat', 'only' => ['index', 'show', 'create', 'update']]);
+$route->group("alamat", function ($route) {
+    $route->resource("/", ['controller' => 'Api\UserAlamat', 'only' => ['index', 'show', 'create', 'update']]);
+    $route->put("/", 'Api\UserAlamat::update');
+    $route->post("active/(:segment)", 'Api\UserAlamat::setActive/$1');
+});
 
 $route->post("top_up/top_up_saldo", 'Api\TopUp::topUpSaldo');
 

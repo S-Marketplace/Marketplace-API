@@ -1,6 +1,8 @@
 <?php namespace App\Controllers\Api;
 
 use App\Controllers\MyResourceController;
+use CodeIgniter\Database\Exceptions\DatabaseException;
+
 /**
  * Class UserAlamat
  * @note Resource untuk mengelola data m_user_alamat
@@ -42,9 +44,26 @@ class UserAlamat extends MyResourceController
        'kecamatanNama' => ['label' => 'kecamatanNama', 'rules' => 'required'],
    ];
 
-   public function index(){
-
+    public function index()
+    {
         $this->model->where('usralUsrEmail', $this->user['email']);
         return parent::index();
-   }
+    }
+
+    public function setActive($alamatId)
+    {
+        $this->model->where('usralUsrEmail', $this->user['email']);
+        $find = $this->model->find($alamatId);
+
+        if (!empty($find)) {
+            $this->model->where('usralUsrEmail', $this->user['email']);
+            $this->model->update(null, ['usralIsActive' => 0]);
+   
+            $this->model->where('usralUsrEmail', $this->user['email']);
+            $this->model->update($alamatId, ['usralIsActive' => 1]);
+            return $this->response(null, 200, 'Berhasil mengubah jadi aktif');
+        } else {
+            return $this->response(null, 500, 'Alamat id tidak ditemukan');
+        }
+    }
 }
