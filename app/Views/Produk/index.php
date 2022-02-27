@@ -29,12 +29,13 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Kode</th>
-                                        <th width="20%">Nama</th>
-                                        <th width="20%">Stok</th>
-                                        <th width="20%">Harga</th>
-                                        <th width="20%">Kategori</th>
-                                        <th width="15%">Aksi</th>
+                                        <th width="5%">Kode</th>
+                                        <th width="10%">Gambar</th>
+                                        <th width="40%">Nama</th>
+                                        <th width="2%">Stok</th>
+                                        <th width="5%">Harga</th>
+                                        <th width="5%">Kategori</th>
+                                        <th width="3%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -190,6 +191,13 @@
                 },
                 {
                     data: 'id',
+                },
+                {
+                    data: 'gambar',
+                    render: function(val, type, row, meta) {
+                        let link = `<?= base_url('File') ?>/get/produk_gambar/${val[0].file}`;
+                        return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
+                    }
                 },
                 {
                     data: 'nama',

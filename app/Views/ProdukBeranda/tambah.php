@@ -236,6 +236,11 @@
         $('#form').submit(function(e) {
             e.preventDefault();
 
+            if(productData.length == 0){
+                Swal.fire('Peringatan', "Pilih minimal 1 produk", 'warning');
+                return;
+            }
+
             var data = new FormData(this);
             data.append('id', id);
             data.append('produkId', productData.map( el => el.id ));

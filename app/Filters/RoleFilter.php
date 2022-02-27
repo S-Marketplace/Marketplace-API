@@ -28,6 +28,8 @@ class RoleFilter implements FilterInterface
                 'ProdukBeranda',
                 'Kategori',
                 'Banner',
+                'TransaksiTopUpSaldo',
+                'TransaksiPembelianProduk',
             ],
         ];
 

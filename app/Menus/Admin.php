@@ -41,6 +41,21 @@ class Admin implements MenuInterface
                     ],
                 ]
             ],
+            [
+                'title' => 'Transaksi',
+                'url' => '#',
+                'icon' => 'user',
+                'children' => [
+                    [
+                        'title' => 'Top Up Saldo',
+                        'url' => 'TransaksiTopUpSaldo'
+                    ],
+                    [
+                        'title' => 'Pembelian Produk',
+                        'url' => 'TransaksiPembelianProduk'
+                    ],
+                ]
+            ],
             // [
             //     'title' => 'Jadwal Kunjungan',
             //     'url' => '#',
