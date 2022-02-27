@@ -16,3 +16,6 @@ $route->group("raja_ongkir", function ($route) {
     $route->get("ongkir", 'Api\RajaOngkir::getOngkir', ['filter' => 'apiFilter']);
     $route->get("status_perjalanan/(:segment)", 'Api\RajaOngkir::getStatusPerjalanan/$1', ['filter' => 'apiFilter']);
 });
+
+// TEST EMAIL
+$route->resource("user/test_email", ['controller' => 'Api\User::TestEmail']);

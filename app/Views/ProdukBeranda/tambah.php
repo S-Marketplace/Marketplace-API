@@ -20,7 +20,7 @@
                     <div class="card-header">
                         <h5>Data ProdukBeranda</h5>
                     </div>
-                    <form class="form theme-form" id="form">
+                    <form class="form theme-form" id="form" onsubmit="return false;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
@@ -224,13 +224,13 @@
             });
         });
 
-        $('[name="cari"]').on('keyup', function(e) {
-            var key = e.which;
-            if (key == 13) 
-            { 
-                $("#btnCariProduk").trigger('click');
-            }
-        });
+        // $('[name="cari"]').on('keyup', function(e) {
+        //     var key = e.which;
+        //     if (key == 13) 
+        //     { 
+        //         $("#btnCariProduk").trigger('click');
+        //     }
+        // });
 
       
         $('#form').submit(function(e) {

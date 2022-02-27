@@ -9,7 +9,7 @@ class ProdukGambarModel extends MyModel
     protected $createdField = "prdgbrCreatedAt";
     protected $updatedField = "prdgbrUpdatedAt";
     protected $returnType = "App\Entities\ProdukGambar";
-    protected $allowedFields = ["prdgbrProdukId","prdgbrFile","prdgbrDeletedAt"];
+    protected $allowedFields = ["prdgbrProdukId", "prdgbrIsThumbnail","prdgbrFile","prdgbrDeletedAt"];
 
     public function getReturnType()
     {

@@ -87,12 +87,30 @@ class Produk extends BaseController
         $data = [
            'kategori' => $this->getKategori(),
            'produk' => $this->model->asObject()->find($produkId),
-           'produkGambar' => $produkGambar->where(['prdgbrProdukId' => $produkId])->asObject()->find(),
+           'produkGambar' => $produkGambar->where(['prdgbrProdukId' => $produkId])->orderBy('prdgbrIsThumbnail', 'DESC')->asObject()->find(),
            'id' => $produkId,
        ];
 
         return $this->template->setActiveUrl('Produk')
            ->view("Produk/tambah", $data);
+    }
+
+    public function setThumbnail($prdGbrId){
+        $produkGambar = new ProdukGambarModel();
+
+        $find = $produkGambar->where(['prdgbrId' => $prdGbrId])->find();
+        $find = current($find);
+
+        if(!empty($find)){
+            $produkGambar->where('prdgbrProdukId', $find->produkId)->update(null, ['prdgbrIsThumbnail' => 0]);
+            $produkGambar->update($prdGbrId, ['prdgbrIsThumbnail' => 1]);
+
+			$response = $this->response(null, 200, 'Data berhasil diperbaharui');
+        }else{
+			$response = $this->response(null, 500, 'ID Tidak ditemukan');
+        }
+
+        return $this->response->setJSON($response);
     }
 
     /**

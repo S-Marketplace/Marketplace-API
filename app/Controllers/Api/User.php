@@ -104,6 +104,17 @@ class User extends MyResourceController
         }
     }
 
+    public function testEmail(){
+        $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/verifikasi', [
+            'nama' => 'Ahmad Juhdi',
+            'key' => Uuid::uuid4(),
+        ]));
+
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';exit;
+    }
+
     public function verifikasi()
     {
         $key = $this->request->getGet('key');

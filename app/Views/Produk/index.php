@@ -30,7 +30,7 @@
                                     <tr>
                                         <th width="1%">No</th>
                                         <th width="5%">Kode</th>
-                                        <th width="10%">Gambar</th>
+                                        <th width="6%">Gambar</th>
                                         <th width="40%">Nama</th>
                                         <th width="2%">Stok</th>
                                         <th width="5%">Harga</th>

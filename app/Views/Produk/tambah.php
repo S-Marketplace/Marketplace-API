@@ -94,12 +94,21 @@
                                     <div class="col-md-3 col-sm-6">
                                         <div class="card cardGambar" >
                                             <div class="product-box">
-                                                <div class="product-img" ><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
+                                                <div class="product-img" >
+                                                <?php if($value->prdgbrIsThumbnail == '1'):?>
+                                                    <div class="ribbon ribbon-danger">Foto Utama</div>
+                                                <?php endif;?>
+                                                <img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
                                                 <div class="product-hover">
                                                     <ul>
-                                                    <li>
-                                                        <button  data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
-                                                    </li>
+                                                        <li>
+                                                            <button data-toggle="tooltip" data-title="Hapus"  data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
+                                                        </li>
+                                                        <?php if($value->prdgbrIsThumbnail == '0'):?>
+                                                            <li>
+                                                                <button data-toggle="tooltip" data-title="Jadikan Foto Utama" data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnSetThumbnail" type="button" data-bs-original-title="" title=""><i class="icofont icofont-pencil"></i></button>
+                                                            </li>
+                                                        <?php endif;?>
                                                     </ul>
                                                 </div>
                                                 </div>
@@ -213,6 +222,52 @@
             });
 
         });
+
+        $(document).on('click', '.btnSetThumbnail', function(e) {
+            e.preventDefault();
+            let btn = $(e.currentTarget);
+            let id = $(this).data('id');
+            let ini = $(this);
+
+            Swal.fire({
+                title: 'Anda Yakin ?',
+                text: "Mengubah jadi foto utama!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: `<?= base_url('Produk') ?>/setThumbnail/${id}`,
+                        dataType: "JSON",
+                        success: function(res) {
+                            if (res.code == 200) {
+                                Swal.fire('Berhasil', res.message, 'success')
+                                location.reload();
+                            } else {
+                                Swal.fire('Gagal', res.message, 'error')
+                            }
+                        },
+                        fail: function(xhr) {
+                            Swal.fire('Error', "Server gagal merespon", 'error');
+                        },
+                        beforeSend: function() {
+                            btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i>');
+                        },
+                        complete: function(res) {
+                            btn.removeAttr('disabled').html('<i class="icofont icofont-pencil"></i>');
+                        }
+                    });
+
+                }
+            });
+
+        });
+       
        
         $('#form').submit(function(e) {
             e.preventDefault();
