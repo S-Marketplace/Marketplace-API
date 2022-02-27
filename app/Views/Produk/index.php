@@ -195,7 +195,14 @@
                 {
                     data: 'gambar',
                     render: function(val, type, row, meta) {
-                        let link = `<?= base_url('File') ?>/get/produk_gambar/${val[0].file}`;
+                        let file = val[0].file;
+
+                        val.forEach(element => {
+                            if(element.isThumbnail == 1){
+                                file = element.file
+                            }
+                        });
+                        let link = `<?= base_url('File') ?>/get/produk_gambar/${file}`;
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },

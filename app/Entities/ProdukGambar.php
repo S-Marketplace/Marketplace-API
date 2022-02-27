@@ -6,6 +6,7 @@ class ProdukGambar extends MyEntity
     protected $datamap = [
         'id' => 'prdgbrId',
         'produkId' => 'prdgbrProdukId',
+        'isThumbnail' => 'prdgbrIsThumbnail',
         'file' => 'prdgbrFile',
         'createdAt' => 'prdgbrCreatedAt',
         'updatedAt' => 'prdgbrUpdatedAt',
@@ -16,6 +17,7 @@ class ProdukGambar extends MyEntity
 		'id',
 		'produkId',
 		'file',
+    'isThumbnail',
 		'createdAt',
 		'updatedAt',
 		'deletedAt',

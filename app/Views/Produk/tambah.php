@@ -90,12 +90,12 @@
                                 <input class="form-control gambar" type="file" name="gambar[]" multiple placeholder="icon">
                                 <p class="text-danger" id="er_gambar"></p>
                                 <div class="row">
-                                    <?php foreach($produkGambar ?? [] as $value):?>
+                                    <?php foreach($produkGambar ?? [] as $key => $value):?>
                                     <div class="col-md-3 col-sm-6">
                                         <div class="card cardGambar" >
                                             <div class="product-box">
                                                 <div class="product-img" >
-                                                <?php if($value->prdgbrIsThumbnail == '1'):?>
+                                                <?php if($key == 0):?>
                                                     <div class="ribbon ribbon-danger">Foto Utama</div>
                                                 <?php endif;?>
                                                 <img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
