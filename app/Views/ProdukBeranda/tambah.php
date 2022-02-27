@@ -67,7 +67,7 @@
                                                     <input type="text" name="cari" id="cari" class="form-control readonly-background mb-3" placeholder="Cari...">
                                                </div>
                                                <div class="col-2">
-                                                     <button class="btn btn-primary" id="btnCariProduk" >Cari</button>
+                                                     <a href="#1" class="btn btn-primary" id="btnCariProduk" >Cari</a>
                                                </div>
                                            </div>
 
@@ -83,7 +83,7 @@
                         </div>
                         <div class="card-footer text-end">
                             <div class="col-12">
-                                <button class="btn btn-primary pull-right" id="btnSimpan" type="submit">Simpan</button>
+                                <a href="#1" class="btn btn-primary pull-right" id="btnSimpan" >Simpan</a>
                                 <a class="btn btn-light" href="<?= base_url('ProdukBeranda') ?>" data-bs-original-title="" title="">Kembali</a>
                             </div>
                         </div>
@@ -224,14 +224,17 @@
             });
         });
 
-        // $('[name="cari"]').on('keyup', function(e) {
-        //     var key = e.which;
-        //     if (key == 13) 
-        //     { 
-        //         $("#btnCariProduk").trigger('click');
-        //     }
-        // });
+        $('[name="cari"]').on('keyup', function(e) {
+            var key = e.which;
+            if (key == 13) 
+            { 
+                $("#btnCariProduk").trigger('click');
+            }
+        });
 
+        $('#btnSimpan').on('click', function(e) {
+            $('#form').trigger('submit');
+        });
       
         $('#form').submit(function(e) {
             e.preventDefault();
