@@ -81,7 +81,7 @@ class Checkout extends MyResourceController
             $checkoutModel = new CheckoutModel();
             $checkoutModel->update($id, ['cktStatus' => 'selesai']);
 
-            return $this->response('Paket berhasil diteima', 200);
+            return $this->response(null, 200, 'Paket berhasil diteima');
         } catch (\Exception $ex) {
             return $this->response(null, 500, $ex->getMessage());
         }
