@@ -61,10 +61,27 @@ class Checkout extends MyResourceController
         return parent::index();
     }
 
+    /**
+     * Detail Keranjang
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function detailKeranjang($id){
         try {
             $modelKeranjang = new KeranjangModel();
             return $this->response($modelKeranjang->getKeranjangDetail($id), 200);
+        } catch (\Exception $ex) {
+            return $this->response(null, 500, $ex->getMessage());
+        }
+    }
+
+    public function terimaPaket($id){
+        try {
+            $checkoutModel = new CheckoutModel();
+            $checkoutModel->update($id, ['cktStatus' => 'selesai']);
+
+            return $this->response('Paket berhasil diteima', 200);
         } catch (\Exception $ex) {
             return $this->response(null, 500, $ex->getMessage());
         }

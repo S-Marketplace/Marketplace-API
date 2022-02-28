@@ -22,6 +22,7 @@ $route->group("checkout", function ($route) {
     $route->get("/", 'Api\Checkout::index');
     $route->post("/", 'Api\Checkout::checkout');
     $route->get("keranjang/(:segment)", 'Api\Checkout::detailKeranjang/$1');
+    $route->post("terima/(:segment)", 'Api\Checkout::terimaPaket/$1');
 });
 
 $route->group("notifikasi", function ($route) {
