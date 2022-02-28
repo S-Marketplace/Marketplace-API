@@ -61,13 +61,13 @@ class UserAlamat extends MyResourceController
         return parent::update($id);
     }
 
-    public function insert()
+    public function create()
     {
         $post = $this->request->getVar();
         $post['usrEmail'] = $this->user['email'];
         $this->request->setGlobal("request", $post);
 
-        return parent::insert();
+        return parent::create();
     }
 
     public function setActive($alamatId)
