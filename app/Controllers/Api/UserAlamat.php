@@ -15,39 +15,59 @@ class UserAlamat extends MyResourceController
     protected $format    = 'json';
 
     protected $rulesCreate = [
-       'usrEmail' => ['label' => 'usrEmail', 'rules' => 'required'],
-       'nama' => ['label' => 'nama', 'rules' => 'required'],
-       'latitude' => ['label' => 'latitude', 'rules' => 'required'],
-       'longitude' => ['label' => 'longitude', 'rules' => 'required'],
-       'kotaId' => ['label' => 'kotaId', 'rules' => 'required'],
-       'kotaNama' => ['label' => 'kotaNama', 'rules' => 'required'],
-       'provinsiId' => ['label' => 'provinsiId', 'rules' => 'required'],
-       'provinsiNama' => ['label' => 'provinsiNama', 'rules' => 'required'],
-       'kabupatenId' => ['label' => 'kabupatenId', 'rules' => 'required'],
-       'kabupatenNama' => ['label' => 'kabupatenNama', 'rules' => 'required'],
-       'kecamatanId' => ['label' => 'kecamatanId', 'rules' => 'required'],
-       'kecamatanNama' => ['label' => 'kecamatanNama', 'rules' => 'required'],
+        'usrEmail' => ['label' => 'usrEmail', 'rules' => 'required'],
+        'nama' => ['label' => 'nama', 'rules' => 'required'],
+        'latitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
+        'longitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
+        'kotaId' => ['label' => 'Id Kota / Kabupaten', 'rules' => 'required'],
+        'kotaNama' => ['label' => 'Kota / Kabupaten', 'rules' => 'required'],
+        'kotaTipe' => ['label' => 'Tipe Kota', 'rules' => 'required'],
+        'provinsiId' => ['label' => 'Id Provinsi', 'rules' => 'required'],
+        'provinsiNama' => ['label' => 'Provinsi', 'rules' => 'required'],
+        'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
+        'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
+        'jalan' => ['label' => 'Jalan', 'rules' => 'required'],
+        'deksripsi' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
    ];
 
     protected $rulesUpdate = [
-       'usrEmail' => ['label' => 'usrEmail', 'rules' => 'required'],
-       'nama' => ['label' => 'nama', 'rules' => 'required'],
-       'latitude' => ['label' => 'latitude', 'rules' => 'required'],
-       'longitude' => ['label' => 'longitude', 'rules' => 'required'],
-       'kotaId' => ['label' => 'kotaId', 'rules' => 'required'],
-       'kotaNama' => ['label' => 'kotaNama', 'rules' => 'required'],
-       'provinsiId' => ['label' => 'provinsiId', 'rules' => 'required'],
-       'provinsiNama' => ['label' => 'provinsiNama', 'rules' => 'required'],
-       'kabupatenId' => ['label' => 'kabupatenId', 'rules' => 'required'],
-       'kabupatenNama' => ['label' => 'kabupatenNama', 'rules' => 'required'],
-       'kecamatanId' => ['label' => 'kecamatanId', 'rules' => 'required'],
-       'kecamatanNama' => ['label' => 'kecamatanNama', 'rules' => 'required'],
-   ];
+        'usrEmail' => ['label' => 'usrEmail', 'rules' => 'required'],
+        'nama' => ['label' => 'nama', 'rules' => 'required'],
+        'latitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
+        'longitude' => ['label' => 'Lokasi Sekarang', 'rules' => 'required'],
+        'kotaId' => ['label' => 'Id Kota / Kabupaten', 'rules' => 'required'],
+        'kotaNama' => ['label' => 'Kota / Kabupaten', 'rules' => 'required'],
+        'kotaTipe' => ['label' => 'Tipe Kota', 'rules' => 'required'],
+        'provinsiId' => ['label' => 'Id Provinsi', 'rules' => 'required'],
+        'provinsiNama' => ['label' => 'Provinsi', 'rules' => 'required'],
+        'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
+        'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
+        'jalan' => ['label' => 'Jalan', 'rules' => 'required'],
+        'deksripsi' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
+    ];
 
     public function index()
     {
         $this->model->where('usralUsrEmail', $this->user['email']);
         return parent::index();
+    }
+
+    public function update($id = null)
+    {
+        $post = $this->request->getGet();
+        $post['usrEmail'] = $this->user['email'];
+        $this->request->setGlobal("request", $post);
+
+        return parent::update($id);
+    }
+
+    public function insert()
+    {
+        $post = $this->request->getGet();
+        $post['usrEmail'] = $this->user['email'];
+        $this->request->setGlobal("request", $post);
+
+        return parent::insert();
     }
 
     public function setActive($alamatId)
