@@ -27,7 +27,7 @@ class UserAlamat extends MyResourceController
         'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
         'jalan' => ['label' => 'Jalan', 'rules' => 'required'],
-        'deskripsi' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
+        'keterangan' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
    ];
 
     protected $rulesUpdate = [
@@ -43,7 +43,7 @@ class UserAlamat extends MyResourceController
         'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
         'jalan' => ['label' => 'Jalan', 'rules' => 'required'],
-        'deskripsi' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
+        'keterangan' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
     ];
 
     public function index()
