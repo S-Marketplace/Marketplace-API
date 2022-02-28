@@ -54,7 +54,7 @@ class UserAlamat extends MyResourceController
 
     public function update($id = null)
     {
-        $post = $this->request->getGet();
+        $post = $this->request->getVar();
         $post['usrEmail'] = $this->user['email'];
         $this->request->setGlobal("request", $post);
 
@@ -63,7 +63,7 @@ class UserAlamat extends MyResourceController
 
     public function insert()
     {
-        $post = $this->request->getGet();
+        $post = $this->request->getVar();
         $post['usrEmail'] = $this->user['email'];
         $this->request->setGlobal("request", $post);
 
