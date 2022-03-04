@@ -451,4 +451,10 @@ class App extends BaseConfig
 	public $JWTKeyAccess = "b7843c9d77b0d2e5f8357981063099ae";
 	public $JWTKeyRefresh = "password_refresh_token";
 	public $apiKeys = "1611016210001";
+
+	// MID TRANSS
+	public $midTransClientKey = 'SB-Mid-client-c9oS0MIEod22eWh7';
+    public $midTransServerKey = 'SB-Mid-server-cTEXN7XJavbaIeg11JuUZiyy';
+    public $midTransIdMerchant = 'G005407818';
+    public $midTransBaseUri = 'https://api.sandbox.midtrans.com/v2/';
 }

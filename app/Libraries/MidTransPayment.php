@@ -14,12 +14,10 @@ class MidTransPayment
     private $clientKey = 'SB-Mid-client-c9oS0MIEod22eWh7';
     private $serverKey = 'SB-Mid-server-cTEXN7XJavbaIeg11JuUZiyy';
     private $idMerchant = 'G005407818';
-
-    private $subdomain = ENVIRONMENT != 'production' ? 'sandbox' : 'my';
     private $baseUri = 'https://api.sandbox.midtrans.com';
+    
     private $formData = [];
-
-    private $apiUrl = '';
+    private $appConfig;
 
     const PAYMENT_TYPE_ECHANNEL = 'echannel';
     const PAYMENT_TYPE_BANK_TRANSFER = 'bank_transfer';
@@ -30,9 +28,12 @@ class MidTransPayment
 
     public function __construct()
     {
-        $this->baseUri = "{$this->baseUri}/v2/";
+        $this->appConfig = new \Config\App();
+        $this->baseUri = $this->appConfig->midTransBaseUri;
+        $this->serverKey = $this->appConfig->midTransServerKey;
+        $this->clientKey = $this->appConfig->midTransClientKey;
+        $this->idMerchant = $this->appConfig->midTransIdMerchant;
 
-        $this->session = \Config\Services::session();
         $this->options = [];
         $options['baseURI'] = $this->baseUri;
         $options['headers']['Authorization'] = "Basic " . base64_encode($this->serverKey);

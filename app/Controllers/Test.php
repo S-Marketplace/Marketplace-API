@@ -57,7 +57,7 @@ class Test extends BaseController
         $data = [
             'transactionStatus' => $midTrans->transactionStatus('order-101q-1643016504'),
             // 'chargeBankBNIVA' => $midTrans->chargeBankBNIVA(),
-            'chargeGopay' => $midTrans->chargeGopay(),
+            // 'chargeGopay' => $midTrans->chargeGopay(),
           
         ];
 		return $this->response->setJSON($data);
