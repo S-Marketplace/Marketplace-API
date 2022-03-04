@@ -457,4 +457,9 @@ class App extends BaseConfig
     public $midTransServerKey = 'SB-Mid-server-cTEXN7XJavbaIeg11JuUZiyy';
     public $midTransIdMerchant = 'G005407818';
     public $midTransBaseUri = 'https://api.sandbox.midtrans.com/v2/';
+	
+	// URL yang di akses MidTrans untuk sinkronisasi data pembayaran
+	// Payment Notification URL*: https://menyambang.id/NotificationMidTrans/payment
+	// Recurring Notification URL*: https://menyambang.id/NotificationMidTrans/recurring
+	// Pay Account Notification URL*:https://menyambang.id/NotificationMidTrans/pay_account
 }

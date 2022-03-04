@@ -76,7 +76,8 @@
             $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
             $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
             $('.catatan_pembeli').html(`${dataRow.catatan}`);
-            $('.alamat_pembeli').html(`${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
+            $('.catatan_kurir').html(`${dataRow.alamat.keterangan}`);
+            $('.alamat_pembeli').html(`${dataRow.alamat.jalan}, ${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
 
             $('#modal').modal('show');
             $('#aksi').html('Ubah');
@@ -137,7 +138,8 @@
             $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
             $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
             $('.catatan_pembeli').html(`${dataRow.catatan}`);
-            $('.alamat_pembeli').html(`${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
+            $('.catatan_kurir').html(`${dataRow.alamat.keterangan}`);
+            $('.alamat_pembeli').html(`${dataRow.alamat.jalan}, ${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
 
             $('#modal-detail').modal('show');
             $('#aksi').html('Ubah');
