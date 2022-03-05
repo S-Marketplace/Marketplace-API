@@ -271,6 +271,7 @@ class Checkout extends MyResourceController
                                     'pmbBillKey' => $data['bill_key'] ?? '',
                                     'pmbUserEmail' => $this->user['email'],
                                     'pmbPaymentCode' => $data['payment_code'] ?? '',
+                                    'pmbStore' => $data['store'] ?? '',
                                     'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time'] . " +1 days")),
                                 ]);
     

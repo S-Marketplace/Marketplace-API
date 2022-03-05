@@ -21,6 +21,7 @@ class Pembayaran extends MyEntity
         'userEmail' => 'pmbUserEmail',
         'expiredDate' => 'pmbExpiredDate',
         'paymentCode' => 'pmbPaymentCode',
+        'store' => 'pmbStore',
     ];
 
     protected $show = [
@@ -41,5 +42,6 @@ class Pembayaran extends MyEntity
 		'userEmail',
 		'expiredDate',
     'paymentCode',
+    'store',
     ];
 }

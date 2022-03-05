@@ -68,6 +68,7 @@ class TopUp extends MyResourceController
                         'usalBillKey' => $data['bill_key'] ?? '',
                         'usalUserEmail' => $this->user['email'],
                         'usalPaymentCode' => $data['payment_code'] ?? '',
+                        'usalStore' => $data['store'] ?? '',
                         'usalStatusSaldo' => 'top_up',
                         'usalExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +1 days")),
                     ]);

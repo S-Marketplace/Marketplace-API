@@ -9,7 +9,7 @@ class UserSaldoModel extends MyModel
     protected $createdField = "";
     protected $updatedField = "";
     protected $returnType = "App\Entities\UserSaldo";
-    protected $allowedFields = ["usalId", "usalPaymentType", "usalPaymentCode", "usalStatus","usalTime","usalSignatureKey","usalOrderId","usalMerchantId","usalGrossAmount","usalCurrency","usalVaNumber","usalBank","usalBillerCode","usalBillKey","usalUserEmail",'usalStatusSaldo','usalExpiredDate',];
+    protected $allowedFields = ["usalId", "usalPaymentType", "usalPaymentCode", "usalStore", "usalStatus","usalTime","usalSignatureKey","usalOrderId","usalMerchantId","usalGrossAmount","usalCurrency","usalVaNumber","usalBank","usalBillerCode","usalBillKey","usalUserEmail",'usalStatusSaldo','usalExpiredDate',];
 
     public function getReturnType()
     {
