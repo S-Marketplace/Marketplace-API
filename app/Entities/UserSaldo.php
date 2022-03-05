@@ -20,6 +20,7 @@ class UserSaldo extends MyEntity
         'userEmail' => 'usalUserEmail',
         'statusSaldo' => 'usalStatusSaldo',
         'expiredDate' => 'usalExpiredDate',
+        'paymentCode' => 'usalPaymentCode',
     ];
 
     protected $show = [
@@ -39,5 +40,6 @@ class UserSaldo extends MyEntity
 		'userEmail',
 		'statusSaldo',
 		'expiredDate',
+    'paymentCode',
     ];
 }

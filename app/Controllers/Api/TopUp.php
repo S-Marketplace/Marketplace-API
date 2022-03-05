@@ -33,11 +33,10 @@ class TopUp extends MyResourceController
                 $metodePembayaranData = $metodePembayaranModel->find($data['id_metode_pembayaran']);
            
                 $price = $data['nominal'];
-                $metodePembayaran = $metodePembayaranData->tipe;
                 $bank = $metodePembayaranData->bank;
 
                 $midTransPayment = new MidTransPayment();
-                $data  = $midTransPayment->charge($metodePembayaran,array(
+                $data  = $midTransPayment->charge($metodePembayaranData,array(
                     'email' => $this->user['email'],
                     'first_name' => $this->user['nama'],
                     'last_name' => '',
@@ -68,6 +67,7 @@ class TopUp extends MyResourceController
                         'usalBillerCode' => $data['biller_code'] ?? '',
                         'usalBillKey' => $data['bill_key'] ?? '',
                         'usalUserEmail' => $this->user['email'],
+                        'usalPaymentCode' => $data['payment_code'] ?? '',
                         'usalStatusSaldo' => 'top_up',
                         'usalExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +1 days")),
                     ]);

@@ -235,11 +235,10 @@ class Checkout extends MyResourceController
                             $metodePembayaranModel = new MetodePembayaranModel();
                             $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
     
-                            $metodePembayaran = $metodePembayaranData->tipe;
                             $bank = $metodePembayaranData->bank;
     
                             $midTransPayment = new MidTransPayment();
-                            $data  = $midTransPayment->charge($metodePembayaran, array(
+                            $data  = $midTransPayment->charge($metodePembayaranData, array(
                                 'email' => $this->user['email'],
                                 'first_name' => $this->user['nama'],
                                 'last_name' => '',
@@ -271,6 +270,7 @@ class Checkout extends MyResourceController
                                     'pmbBillerCode' => $data['biller_code'] ?? '',
                                     'pmbBillKey' => $data['bill_key'] ?? '',
                                     'pmbUserEmail' => $this->user['email'],
+                                    'pmbPaymentCode' => $data['payment_code'] ?? '',
                                     'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time'] . " +1 days")),
                                 ]);
     

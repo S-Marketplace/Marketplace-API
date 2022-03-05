@@ -20,6 +20,7 @@ class Pembayaran extends MyEntity
         'billKey' => 'pmbBillKey',
         'userEmail' => 'pmbUserEmail',
         'expiredDate' => 'pmbExpiredDate',
+        'paymentCode' => 'pmbPaymentCode',
     ];
 
     protected $show = [
@@ -39,5 +40,6 @@ class Pembayaran extends MyEntity
 		'billKey',
 		'userEmail',
 		'expiredDate',
+    'paymentCode',
     ];
 }

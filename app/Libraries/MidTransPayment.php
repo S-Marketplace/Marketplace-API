@@ -21,6 +21,7 @@ class MidTransPayment
 
     const PAYMENT_TYPE_ECHANNEL = 'echannel';
     const PAYMENT_TYPE_BANK_TRANSFER = 'bank_transfer';
+    const PAYMENT_TYPE_CSTORE = 'cstore';
 
     const BANK_BNI = 'bni';
     const BANK_BCA = 'bca';
@@ -77,7 +78,7 @@ class MidTransPayment
     /**
      * Undocumented function
      *
-     * @param [type] $paymentType
+     * @param [payment] $paymentType
      * @param array $customerDetail 
         array(
             'email' => 'noreply@example.com',
@@ -99,12 +100,14 @@ class MidTransPayment
      * @param string $type
      * @return void
      */
-    public function charge($paymentType, array $customerDetail, array $itemDetails, $bankTransfer = 'bni', $grossAmount, $type = 'TOPUP')
+    public function charge($payment, array $customerDetail, array $itemDetails, $bankTransfer = 'bni', $grossAmount, $type = 'TOPUP')
     {
+        $paymentType = $payment->tipe;
+
         $formData = array(
             'payment_type' => $paymentType,
             'transaction_details' => array(
-                'gross_amount' => $grossAmount,
+                // 'gross_amount' => $grossAmount,
                 'order_id' => $type.'-' . strtotime("now"),
             ),
             'customer_details' => $customerDetail,
@@ -117,7 +120,7 @@ class MidTransPayment
             $metodePembayaran = [
                 "bank_transfer" => [
                     "bank" => $bankTransfer,
-                    "va_number" => "12345678",
+                    "va_number" => $payment->vaNumber,
                 ],
             ];
         }else if($paymentType == self::PAYMENT_TYPE_ECHANNEL){
@@ -125,6 +128,13 @@ class MidTransPayment
                 "echannel" => [
                     "bill_info1" => "Payment For",
                     "bill_info2" => "TopUp"
+                ]
+            ];
+        // INDOMARET / ALFAMART
+        }else if($paymentType == self::PAYMENT_TYPE_CSTORE){
+            $metodePembayaran = [
+                "cstore" => [
+                    "store" => strtolower($payment->nama),
                 ]
             ];
         }
