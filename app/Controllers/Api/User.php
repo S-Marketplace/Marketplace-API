@@ -35,12 +35,45 @@ class User extends MyResourceController
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
     ];
 
+    protected $rulesFirebase = [
+        'firebaseToken' => ['label' => 'Firebase Token', 'rules' => 'required'],
+    ];
+
     public function getMyProfile()
     {
         $modelUser = new UserModel();
 
         $data = $modelUser->find($this->user['email']);
         return $this->response($data, 200, '');
+    }
+
+    public function updateFirebaseToken()
+    {
+        if ($this->validate($this->rulesFirebase, $this->validationMessage)) {
+            try {
+                $this->afterValidation();
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+           
+            try {
+                
+                $status = $this->model
+                    ->update($this->user['email'], [
+                        'usrFirebaseToken' => $this->request->getVar('firebaseToken'),
+                    ]);
+                    
+                return $this->response('Berhasil memperbaharui token', ($status ? 200 : 500));
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
     }
 
     public function register()
