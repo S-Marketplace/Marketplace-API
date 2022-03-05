@@ -106,7 +106,6 @@ class Checkout extends MyResourceController
 
         if ($this->validate($this->checkout, $this->validationMessage)) {
             try {
-                $post = $this->request->getPost();
                 $keranjangModel = new KeranjangModel();
 
                 $dataKeranjang = $keranjangModel->getProdukKeranjang($this->user['email']);
