@@ -196,7 +196,7 @@ class Checkout extends MyResourceController
                                 'usalTime' => date('Y-m-d H:i:s'),
                                 'usalUserEmail' => $this->user['email'],
                                 'usalStatusSaldo' => 'top_down',
-                                'usalGrossAmount' => $price,
+                                'usalGrossAmount' => -$price,
                             ]);
 
                             // Tambah Riwayat pembayaran
