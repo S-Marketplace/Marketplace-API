@@ -107,7 +107,7 @@ class MidTransPayment
         $formData = array(
             'payment_type' => $paymentType,
             'transaction_details' => array(
-                // 'gross_amount' => $grossAmount,
+                'gross_amount' => $grossAmount,
                 'order_id' => $type.'-' . strtotime("now"),
             ),
             'customer_details' => $customerDetail,
