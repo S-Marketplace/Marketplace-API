@@ -38,6 +38,7 @@ class MidTransPayment
         $this->options = [];
         $options['baseURI'] = $this->baseUri;
         $options['headers']['Authorization'] = "Basic " . base64_encode($this->serverKey);
+        $options['headers']['Accept'] = "application/json";
 
         $this->curl = \Config\Services::curlrequest($options);
     }
