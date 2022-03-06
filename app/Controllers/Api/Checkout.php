@@ -265,7 +265,7 @@ class Checkout extends MyResourceController
                                     'pmbGrossAmount' => $data['gross_amount'],
                                     'pmbCurrency' => $data['currency'],
                                     'pmbVaNumber' => $data['permata_va_number'] ?? $data['va_numbers'][0]['va_number'] ?? '',
-                                    'pmbBank' => isset($data['permata_va_number']) ? 'permata' :$data['va_numbers'][0]['bank'] ?? '',
+                                    'pmbBank' => isset($data['permata_va_number']) ? 'permata' :$data['va_numbers'][0]['bank'] ?? 'mandiri',
                                     'pmbBillerCode' => $data['biller_code'] ?? '',
                                     'pmbBillKey' => $data['bill_key'] ?? '',
                                     'pmbUserEmail' => $this->user['email'],

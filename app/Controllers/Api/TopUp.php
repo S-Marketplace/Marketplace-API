@@ -63,7 +63,7 @@ class TopUp extends MyResourceController
                         'usalGrossAmount' => $data['gross_amount'],
                         'usalCurrency' => $data['currency'],
                         'usalVaNumber' => $data['permata_va_number'] ?? $data['va_numbers'][0]['va_number'] ?? '',
-                        'usalBank' => isset($data['permata_va_number']) ? 'permata' :$data['va_numbers'][0]['bank'] ?? '',
+                        'usalBank' => isset($data['permata_va_number']) ? 'permata' :$data['va_numbers'][0]['bank'] ?? 'mandiri',
                         'usalBillerCode' => $data['biller_code'] ?? '',
                         'usalBillKey' => $data['bill_key'] ?? '',
                         'usalUserEmail' => $this->user['email'],
