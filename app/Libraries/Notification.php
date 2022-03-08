@@ -3,7 +3,7 @@
 
 namespace App\Libraries;
 
-
+use App\Models\UserModel;
 use Config\Services;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -11,6 +11,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Notification
 {
+    // Firebase Auth Token Notif
+    const AUTH = 'AAAAb-a5RW8:APA91bHP16gMFs_zCTGRjex7AMIE1ps7Mn_fTivBWEDTSmgAxpWA8UeAF41vW7KJjXyzoc4uLJxSAjtKLdLF3g7p64w4TeRrRWlVjxGBcPlRjX-97mLrHehCROyFpaTVpyDGHPB_CVrZ';
    
     /**
      * sendEmail
@@ -65,5 +67,42 @@ class Notification
                 'message' => $e,
             ];
         }
+    }
+    
+    static function sendNotif($email = 'ahmadjuhdi007@gmail.com', $title = 'Judul', $message = 'Pesan'){
+
+        $options['headers']['Authorization'] = "key=".self::AUTH;
+        $curl = \Config\Services::curlrequest($options);
+
+        $userModel = new UserModel();
+        $token = $userModel->find($email)->firebaseToken ?? '-';
+
+        $data = array(
+            'title' => $title,
+            'body' => $message,
+            'content_available' => false,
+            'priority' => 'high',
+            // "image" => "https://dailyspin.id/wp-content/uploads/2021/01/genshin-impact-event-10000-primogems.jpg",
+            'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+        );
+
+        $curl->setJson([
+            "to" => $token,
+            // ANDROID IDLE
+            'notification' => $data,
+            'data' => $data,
+            // IOS
+            "aps" => [
+                "alert" => [
+                    'title' => $title,
+                    'body' => $message,
+                ],
+                "badge" => 1,
+              ],
+        ]);
+
+        $res = $curl->request('POST', 'https://fcm.googleapis.com/fcm/send');
+
+        return $res->getBody();
     }
 }

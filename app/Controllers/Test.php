@@ -52,6 +52,12 @@ class Test extends BaseController
         echo '</pre>';
     }
 
+    public function testNotifFirebase(){
+        $res = Notification::sendNotif();
+
+		return $this->response->setJSON($res);
+    }
+
     public function cekMidTrans(){
         $midTrans = new MidTransPayment();
         $data = [

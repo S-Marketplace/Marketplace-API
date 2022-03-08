@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\UserSaldoModel;
-use App\Controllers\BaseController;
 use App\Models\CheckoutModel;
 use App\Models\KeranjangModel;
+use App\Models\UserSaldoModel;
+use App\Libraries\Notification;
 use App\Models\PembayaranModel;
+use App\Controllers\BaseController;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class NotificationMidTrans extends BaseController
@@ -73,8 +74,9 @@ class NotificationMidTrans extends BaseController
                 'pmbStatus' => $transaction_status,
                 'pmbSignatureKey' => $signature_key,
             ]);
-    
+            
             if($status){
+                Notification::sendNotif($find->userEmail, 'Pembayaran Produk', "Status pembayaran anda $transaction_status, dengan ID {$find->orderId}");
                 if($transaction_status == 'settlement'){
                     $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
                     $checkoutModel = new CheckoutModel();
@@ -102,6 +104,8 @@ class NotificationMidTrans extends BaseController
         $find = $userSaldoModel->find($transaction_id);
         
         if(!empty($find)){
+            Notification::sendNotif($find->userEmail, 'Pengisisan Saldo', "Status pembayaran anda $transaction_status, dengan ID {$find->orderId}");
+
             $status = $userSaldoModel->update($transaction_id, [
                 'usalStatus' => $transaction_status,
                 'usalSignatureKey' => $signature_key,
