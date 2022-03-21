@@ -26,7 +26,7 @@ class User extends BaseController
     public function grid()
     {
         $this->model->select('*');
-        $this->model->with(['alamat']);
+        $this->model->where('usralIsFirst', 1)->with(['alamat']);
 
         return parent::grid();
     }
