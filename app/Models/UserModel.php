@@ -19,4 +19,11 @@ class UserModel extends MyModel
     public function getPrimaryKeyName(){
         return $this->primaryKey;
     }
+
+    protected function relationships()
+    {
+        return [
+            'alamat' => ['table' => 'm_user_alamat', 'condition' => 'usralUsrEmail = usrEmail', 'entity' => 'App\Entities\UserAlamat'],
+        ];
+    }
 }

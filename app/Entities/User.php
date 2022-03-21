@@ -3,6 +3,10 @@ use App\Entities\MyEntity;
 
 class User extends MyEntity
 {
+    protected $casts = [
+        'alamat'=>'json',
+    ];
+
     protected $datamap = [
         'email' => 'usrEmail',
         'nama' => 'usrNama',
@@ -22,7 +26,7 @@ class User extends MyEntity
     protected $show = [
 		'email',
 		'nama',
-		'password',
+		// 'password',
 		'saldo',
 		'isActive',
 		'createdAt',
@@ -33,6 +37,7 @@ class User extends MyEntity
         'noHp',
         'noWa',
         'activeCode',
+        'alamat',
     ];
 
     public function hashPassword($password)

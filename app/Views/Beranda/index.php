@@ -65,58 +65,11 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="col-xl-6 xl-100 box-col-12">
-                <div class="widget-joins card widget-arrow">
-                  <div class="row">
-                    <div class="col-sm-6 pe-0">
-                      <div class="media border-after-xs">
-                        <div class="align-self-center me-3 text-start"><span class="mb-1">Sale</span>
-                          <h5 class="mb-0">Today</h5>
-                        </div>
-                        <div class="media-body align-self-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down font-primary"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></div>
-                        <div class="media-body">
-                          <h5 class="mb-0">$<span class="counter">25698</span></h5><span class="mb-1">-$2658(36%)</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 ps-0">
-                      <div class="media">
-                        <div class="align-self-center me-3 text-start"><span class="mb-1">Sale</span>
-                          <h5 class="mb-0">Month</h5>
-                        </div>
-                        <div class="media-body align-self-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up font-primary"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
-                        <div class="media-body ps-2">
-                          <h5 class="mb-0">$<span class="counter">6954</span></h5><span class="mb-1">+$369(15%)</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 pe-0">
-                      <div class="media border-after-xs">
-                        <div class="align-self-center me-3 text-start"><span class="mb-1">Sale</span>
-                          <h5 class="mb-0">Week</h5>
-                        </div>
-                        <div class="media-body align-self-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up font-primary"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
-                        <div class="media-body">
-                          <h5 class="mb-0">$<span class="counter">63147</span></h5><span class="mb-1">+$69(65%)</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 ps-0">
-                      <div class="media">
-                        <div class="align-self-center me-3 text-start"><span class="mb-1">Sale</span>
-                          <h5 class="mb-0">Year</h5>
-                        </div>
-                        <div class="media-body align-self-center ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up font-primary"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
-                        <div class="media-body ps-2">
-                          <h5 class="mb-0">$<span class="counter">963198</span></h5><span class="mb-1">+$3654(90%)          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-           
+        
           </div>
+
+          <section id="gmap_geocoding">
+            </section>
           <!-- Container-fluid Ends-->
         </div>
 <!-- Container-fluid Ends-->
@@ -128,8 +81,23 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('js'); ?>
+<script src="https://maps.google.com/maps/api/js?sensor=true&key=AIzaSyBWW6k0BFyLl7Q7pmCSH_9NFPnbkzr0InE"></script>
+<script src="<?php echo base_url('assets') ?>/vendors/maps/gmaps.js"></script>
+<style type="text/css">
+    @media only screen and (max-width: 1400px) {
+        #gmap_geocoding {
+            min-height: 95%;
+        }
+    }
 
-<script src="<?= base_url('assets'); ?>/js/chart/apex-chart/apex-chart.js"></script>
+    #gmap_geocoding {
+        min-height: 650px;
+    }
+
+    #tablePreview_wrapper {
+        margin-top: 20px;
+    }
+</style>
 <script>
     var isRender = false;
     var chart;
@@ -147,6 +115,7 @@
                   $('.jlhProduk').html(res.card.jlhProduk);
                   $('.jlhStokSedikit').html(res.card.jlhStokSedikit);
                   $('.jlhStokHabis').html(res.card.jlhStokHabis);
+                  renderMaps(res.pengguna);
                 },
                 fail: function(xhr) {
                     Swal.fire('Error', "Server gagal merespon", 'error');
@@ -159,6 +128,91 @@
                 }
             });
         }
+
+        var map;
+        var marker = [];
+
+        renderMaps();
+        function renderMaps(data = []) {
+            var lat = -3.4407774;
+            var lng = 114.840804;
+            if (data.length) {
+                lat = parseFloat(data[0].alamat.latitude);
+                lng = parseFloat(data[0].alamat.longitude);
+            }
+
+            map = new google.maps.Map(document.getElementById('gmap_geocoding'), {
+                zoom: 8,
+                center: {
+                    lat: lat,
+                    lng: lng
+                },
+                mapTypeId: 'roadmap',
+                gestureHandling: 'cooperative'
+            });
+            // Long, Lat https://gmapgis.com/
+
+            $.each(data, function(indexInArray, val) {
+                var icon = `https://maps.google.com/mapfiles/ms/icons/red-dot.png`
+
+                marker[val.email] = new google.maps.Marker({
+                    position: {
+                        lat: parseFloat(val.alamat.latitude),
+                        lng: parseFloat(val.alamat.longitude),
+                    },
+                    animation: google.maps.Animation.DROP,
+                    icon: icon,
+                    map: map,
+                    title: val.nama,
+                });
+
+
+                marker[val.email].addListener('click', function() {
+                    getContent(val, marker[val.email])
+                });
+
+                google.maps.event.addListener(marker[val.email], 'click', function() {
+                    map.panTo(marker[val.email].getPosition());
+                });
+            });
+        }
+
+        function getContent(val, marker) {
+            google.maps.event.trigger(map, 'click');
+
+            function titleTemplate(title, value){
+              if(value == null) return '-';
+              return `<tr>
+                          <td>${title}</td>
+                          <td style="text-align: end"><b>${value}</b></td>
+                      </tr>`;
+            }
+
+            var contentString = `<div class="thumbnail">
+                                <div class="caption">
+                                    <table width="100%">
+                                        ${titleTemplate('Nama', val.nama)}
+                                        ${titleTemplate('Email', val.email)}
+                                        ${titleTemplate('No Hp', val.noHp)}
+                                        ${titleTemplate('No WA', val.noWa)}
+                                    </table>
+                                </div>
+                              </div>`;
+
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            infowindow.open(map, marker);
+
+
+            closeInfoWindow = function() {
+                infowindow.close();
+            };
+            google.maps.event.addListener(map, 'click', closeInfoWindow);
+        }
+
     });
 </script>
 <?= $this->endSection(); ?>
