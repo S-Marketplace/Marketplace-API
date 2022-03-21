@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 
+use App\Models\KeranjangModel;
 use CodeIgniter\Config\Config;
 use App\Controllers\MyResourceController;
 use App\Entities\UserWeb as EntitiesUserWeb;
@@ -20,5 +21,20 @@ class User extends BaseController
     {
         return $this->template->setActiveUrl('User')
             ->view("User/index");
+    }
+
+    public function grid()
+    {
+        $this->model->select('*');
+        $this->model->with(['alamat']);
+
+        return parent::grid();
+    }
+
+    public function keranjangDetail($email){
+        $keranjangModel = new KeranjangModel();
+        
+        $response =  $this->response($keranjangModel->getKeranjangDetail(null, $email), 200);
+        return $this->response->setJSON($response);
     }
 }

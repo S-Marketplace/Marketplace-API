@@ -264,6 +264,7 @@
                         if (val == 'bank_transfer') return 'Transfer Bank';
                         else if (val == 'echannel') return 'Mandiri Bill';
                         else if (val == 'saldo') return 'Saldo';
+                        else if (val == 'cstore') return row.pembayaran.store.toUpperCase();
                     }
                 },
                 {

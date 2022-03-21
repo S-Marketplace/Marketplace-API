@@ -85,9 +85,14 @@ class KeranjangModel extends MyModel
         }
     }
 
-    public function getKeranjangDetail($checkoutId){
+    public function getKeranjangDetail($checkoutId = null, $userEmail = null){
         $this->select('*');
-        $this->where(['krjCheckoutId' => $checkoutId]);
+        if(!empty($checkoutId)){
+            $this->where(['krjCheckoutId' => $checkoutId]);
+        }
+        if(!empty($userEmail)){
+            $this->where(['krjUserEmail' => $userEmail]);
+        }
         $this->with(['products', 'checkout', 'alamat']);
 
         $data = $this->find();
