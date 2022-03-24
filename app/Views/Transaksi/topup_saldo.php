@@ -34,6 +34,7 @@
                                         <th>Email Pelanggan</th>
                                         <th>Jumlah</th>
                                         <th>Status</th>
+                                        <th>Jenis</th>
                                         <!-- <th width="15%">Aksi</th> -->
                                     </tr>
                                 </thead>
@@ -113,6 +114,19 @@
                         else if(val == 'cancel') return `<span class="badge badge-danger text-light">Cancel</span>`;
                         else if(val == 'expire') return `<span class="badge badge-danger text-light">Expire</span>`;
                         else if(val == 'failure') return `<span class="badge badge-danger text-light">Failure</span>`;
+                        
+                        text = val;
+
+                        return text;
+                    }
+                },
+                {
+                    data: 'statusSaldo',
+                    render: function(val, type, row, meta) {
+                        let text = '';
+
+                        if(val == 'top_up') return `<span class="badge badge-primary text-light">Top UP</span>`;
+                        else if(val == 'top_down') return `<span class="badge badge-success text-light">Pembayaran</span>`;
                         
                         text = val;
 
