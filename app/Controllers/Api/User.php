@@ -138,6 +138,43 @@ class User extends MyResourceController
         }
     }
 
+    public function resetPassword()
+    {
+        if ($this->validate([
+            'email' => ['label' => 'email', 'rules' => 'required|cek_email_tidak_terdaftar'],
+        ], $this->validationMessage)) {
+          
+            $uuidV4 = Uuid::uuid4();
+            $email = $this->request->getVar('email');
+
+            try {
+                $status = true;
+
+                $userModel = new UserModel();
+                $userModel->update($this->request->getVar('email'), [
+                    'usrActiveCode' => $uuidV4,
+                ]);
+
+                $userModel = new UserModel();
+                $userData = $userModel->find( $email);
+            
+                Notification::sendEmail($email, 'Verifikasi', view('Template/reset_password', [
+                    'nama' => $userData->nama,
+                    'key' => $uuidV4,
+                ]));
+                return $this->response(null, ($status ? 200 : 500), ($status ? 'Anda mengirim permintaan reset password, silahkan buka email anda untuk mengubah password baru anda' : null));
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
     public function testEmail(){
         $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/verifikasi', [
             'nama' => 'Ahmad Juhdi',

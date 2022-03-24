@@ -83,4 +83,20 @@ class CustomValidation
         return true;
       
     }
+
+    public function cek_email_tidak_terdaftar($string,  string &$error = null)
+    {
+        $idSekarang = $string;
+        
+        $productModel = new UserModel();
+        $findData = $productModel->find($idSekarang);
+
+        if(empty($findData)){
+            $error = "Email $idSekarang tidak terdaftar.";
+            return false;
+        }
+
+        return true;
+      
+    }
 }

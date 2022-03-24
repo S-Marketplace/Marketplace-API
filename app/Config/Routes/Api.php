@@ -1,6 +1,7 @@
 <?php
 
 $route->post("user/register", 'Api\User::register');
+$route->post("user/reset_password", 'Api\User::resetPassword');
 
 $route->resource("produk_beranda", ['controller' => 'Api\ProdukBeranda', 'only' => ['index', 'show']]);
 $route->resource("kategori", ['controller' => 'Api\Kategori', 'only' => ['index', 'show']]);
