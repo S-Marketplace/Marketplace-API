@@ -32,7 +32,7 @@
                                         <th width="20%">Nama</th>
                                         <th width="20%">Saldo</th>
                                         <th width="20%">Status</th>
-                                        <th width="8%">Aksi</th>
+                                        <th width="12%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,7 +63,9 @@
     var grid = null;
     $(document).ready(function() {
 
-        $(document).on('click', '#btnDetail', function(e) {
+        $('.select2').select2().trigger('change');
+
+        $(document).on('click', '#btnKeranjang', function(e) {
             e.preventDefault();
             let row = $(this).data('row');
             dataRow = grid.row(row).data();
@@ -71,8 +73,128 @@
             $('.catatan_kurir').html(`${dataRow.alamat.keterangan}`);
             $('.alamat_pembeli').html(`${dataRow.alamat.jalan}, ${dataRow.alamat.kecamatanNama}, ${dataRow.alamat.kotaTipe} ${dataRow.alamat.kotaNama}, ${dataRow.alamat.provinsiNama}`);
 
-            $('#modal-detail').modal('show');
+            $('#modal-keranjang').modal('show');
             $('#aksi').html('Detail Keranjang');
+        });
+
+        var kotaId, kecamatanId;
+        $(document).on('click', '#btnEdit', function(e) {
+            e.preventDefault();
+            let row = $(this).data('row');
+            dataRow = grid.row(row).data();
+            $('#modal-edit').modal('show');
+            $('#aksi').html('Ubah');
+
+            $('[name="nama"]').val(dataRow.nama);
+            $('[name="noHp"]').val(dataRow.noHp);
+            $('[name="noWa"]').val(dataRow.noWa);
+
+            kotaId = dataRow.alamat.kotaId;
+            kecamatanId = dataRow.alamat.kecamatanId;
+            $('[name="alamatNama"]').val(dataRow.alamat.nama);
+            $('[name="jalan"]').val(dataRow.alamat.jalan);
+            $('[name="provinsiId"]').val(dataRow.alamat.provinsiId).trigger('change');
+        });
+
+        $(document).on('change', '[name="provinsiId"]', function(){
+            let value = $(this).val();
+            console.log('PROVINSI ID', value);
+            selectKota(value, kotaId);
+            select2config('kecamatanId', 'Kecamatan', '');
+        });
+
+        $(document).on('change', '[name="kotaId"]', function(){
+            let value = $(this).val();
+            console.log('KOTA ID', value);
+            if(value){
+                selectKecamatan(value, kecamatanId);
+            }else{
+                select2config('kecamatanId', 'Kecamatan', ' ');
+            }
+        });
+
+        function selectKota(provinsiId, selectedId){
+            $.ajax({
+                type: "GET",
+                url: `<?= current_url() ?>/selectKota/`+provinsiId,
+                dataType: "JSON",
+                success: function(res) {
+                    let text = '';
+                    res.forEach(e => {
+                        text += `<option value="${e.city_id}">${e.city_name}</option>`
+                    });
+                    select2config('kotaId', 'Kota', text);
+                    $('[name="kotaId"]').val(selectedId).trigger('change');
+                },
+                beforeSend: function() {
+                    select2config('kotaId', 'Kota', '');
+                    $('#kotaIdLoading').html('<i class="fa fa-spin fa-spinner"></i>');
+                },
+                complete: function(res) {
+                    $('#kotaIdLoading').html('');
+                }
+            });
+        }
+
+        function selectKecamatan(kotaId, idSelected){
+            $.ajax({
+                type: "GET",
+                url: `<?= current_url() ?>/selectKecamatan/`+kotaId,
+                dataType: "JSON",
+                success: function(res) {
+                    let text = '';
+                    res.forEach(e => {
+                        text += `<option value="${e.subdistrict_id}">${e.subdistrict_name}</option>`
+                    });
+                    select2config('kecamatanId', 'Kecamatan', text);
+                    $('[name="kecamatanId"]').val(idSelected).trigger('change');
+                },
+                beforeSend: function() {
+                    select2config('kecamatanId', 'Kecamatan', '');
+                    $('#kecamatanIdLoading').html('<i class="fa fa-spin fa-spinner"></i>');
+                },
+                complete: function(res) {
+                    $('#kecamatanIdLoading').html('');
+                }
+            });
+        }
+
+        $('#form').submit(function(e) {
+            e.preventDefault();
+
+            var data = new FormData(this);
+            data.append('email', dataRow ? dataRow.email : '');
+
+            $.ajax({
+                type: "POST",
+                url: `<?= current_url() ?>/simpan/email`,
+                data: data,
+                dataType: "JSON",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if (res.code == 200) {
+                        grid.draw(false);
+                        $('.modal').modal('hide');
+                        Swal.fire('Berhasil!', 'Data berhasil disimpan', 'success');
+                    } else {
+                        $.each(res.message, function(index, val) {
+                            $('#er_' + index).html(val);
+                        });
+                    }
+                },
+                fail: function(xhr) {
+                    Swal.fire('Error', "Server gagal merespon", 'error');
+                },
+                beforeSend: function() {
+                    $("[id^='er_']").html('');
+                    $('#btnSimpan').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                },
+                complete: function(res) {
+                    $('#btnSimpan').removeAttr('disabled').html('Simpan');
+                }
+            });
         });
 
         function loadKeranjangDetail(id){
@@ -175,7 +297,25 @@
                             show: true
                         });
 
-                        return `${btnDetail}`;
+                        var btnKeranjang = btnDatatableConfig('custom', {
+                            'id': 'btnKeranjang',
+                            'data-row': meta.row,
+                        }, {
+                            'textBtn': 'Keranjang',
+                            'iconBtn': 'icon-shopping-cart-full',
+                            show: true
+                        });
+
+                        var btnEdit = btnDatatableConfig('custom', {
+                            'id': 'btnEdit',
+                            'data-row': meta.row,
+                        }, {
+                            'textBtn': 'Update',
+                            'iconBtn': 'icon-pencil-alt',
+                            show: true
+                        });
+
+                        return `${btnKeranjang} ${btnDetail} ${btnEdit}`;
                     }
                 }
             ]

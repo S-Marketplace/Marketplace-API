@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>ProdukBeranda</h3>
+                    <h3>Produk Beranda</h3>
                 </div>
                 <div class="col-6">
                 </div>
@@ -18,7 +18,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Data ProdukBeranda</h5>
+                        <h5>Data Produk Beranda</h5>
                     </div>
                     <form class="form theme-form" id="form" onsubmit="return false;">
                         <div class="card-body">

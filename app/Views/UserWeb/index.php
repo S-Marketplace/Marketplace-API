@@ -83,11 +83,13 @@
             $('#modal').modal('show');
             $('#aksi').html('Ubah');
             $('[name="username"]').parent().hide();
+            
             isEdit = true;
-
+            
             $('[name="nama"]').val(dataRow.nama);
             $('[name="username"]').val(dataRow.username);
             $('[name="password"]').val('');
+            $('[name="role"]').val(dataRow.role).trigger('change');
         });
 
         $(document).on('click', '#btnHapus', function(e) {
