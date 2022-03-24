@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Config\Services;
+use App\Models\AclModel;
 use CodeIgniter\Controller;
 use Psr\Log\LoggerInterface;
 use CodeIgniter\HTTP\RequestInterface;
@@ -33,6 +34,7 @@ class BaseController extends Controller
 	protected $helpers = [];
 	protected $rules = [];
 	protected $isUploadWithId = false;
+	protected $acl = null;
 
 	/**
 	 * Constructor.
@@ -53,6 +55,7 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 		$this->validator = Services::validation();
 		$this->template = Services::template([], true);
+		$this->acl = new AclModel();
 
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 

@@ -42,6 +42,17 @@ class Admin implements MenuInterface
                 ]
             ],
             [
+                'title' => 'User',
+                'url' => '#',
+                'icon' => 'user',
+                'children' => [
+                    [
+                        'title' => 'User Terdaftar',
+                        'url' => 'User'
+                    ],
+                ]
+            ],
+            [
                 'title' => 'Transaksi',
                 'url' => '#',
                 'icon' => 'user',

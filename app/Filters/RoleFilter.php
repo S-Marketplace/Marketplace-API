@@ -21,20 +21,11 @@ class RoleFilter implements FilterInterface
         $role = $session->get('role');
         $role = strtoupper($role);
 
-        $list = [
-            'ADMIN' => [
-                'Beranda',
-                'Produk',
-                'ProdukBeranda',
-                'Kategori',
-                'Banner',
-                'TransaksiTopUpSaldo',
-                'TransaksiPembelianProduk',
-            ],
-        ];
-
+        $aclModel = new AclModel();
+        $list = $aclModel->getAcl();
+   
         if($role != 'SUPERADMIN'){
-            $accessRole = array_values($list[$role]);
+            $accessRole = array_keys($list[$role]);
     
             if (!in_array($currentFolder, $accessRole)) {
                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();

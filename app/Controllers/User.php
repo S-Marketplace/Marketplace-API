@@ -53,6 +53,8 @@ class User extends BaseController
 	{
 		if ($this->request->isAJAX()) {
 
+            if ($this->acl->isUpdate()) return $this->response->setJSON($this->acl->isUpdate());
+
 			helper('form');
 			if ($this->validate($this->rules)) {
 				

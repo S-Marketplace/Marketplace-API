@@ -84,7 +84,8 @@
             dataRow = grid.row(row).data();
             $('#modal-edit').modal('show');
             $('#aksi').html('Ubah');
-
+            
+            $('.email').html(dataRow.email);
             $('[name="nama"]').val(dataRow.nama);
             $('[name="noHp"]').val(dataRow.noHp);
             $('[name="noWa"]').val(dataRow.noWa);
@@ -178,6 +179,8 @@
                         grid.draw(false);
                         $('.modal').modal('hide');
                         Swal.fire('Berhasil!', 'Data berhasil disimpan', 'success');
+                    } if(res.code == 403){
+                        Swal.fire('Error', res.message, 'error');
                     } else {
                         $.each(res.message, function(index, val) {
                             $('#er_' + index).html(val);
@@ -315,7 +318,7 @@
                             show: true
                         });
 
-                        return `${btnKeranjang} ${btnDetail} ${btnEdit}`;
+                        return `${btnKeranjang} ${btnEdit}`;
                     }
                 }
             ]
