@@ -24,14 +24,14 @@ class Produk extends MyResourceController
 
     public function show($id = null)
     {
-        // if($id){
-        //     $produkModel = new ProdukModel();
-        //     $produkData = $produkModel->find($id);
+        if($id){
+            $produkModel = new ProdukModel();
+            $produkData = $produkModel->find($id);
 
-        //     $produkModel->update($id, [
-        //         'produkDilihat' => $produkData->dilihat + 1
-        //     ]);
-        // }
+            $produkModel->update($id, [
+                'produkDilihat' => $produkData->dilihat + 1
+            ]);
+        }
 
         return parent::show($id);
     }
