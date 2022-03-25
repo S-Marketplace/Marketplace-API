@@ -112,6 +112,10 @@
           success: function(res) {
             if (res.code == 200) {
               Swal.fire('Sukses', res.message, 'success');
+
+              setTimeout(() => {
+                window.location = '<?=base_url()?>';
+              }, 1000);
               $('.errorMessage').hide().html('');
             } else {
               $('.errorMessage').show().html(res.message);
