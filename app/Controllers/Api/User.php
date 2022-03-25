@@ -166,7 +166,7 @@ class User extends MyResourceController
                 $userModel = new UserModel();
                 $userData = $userModel->find($email);
 
-                Notification::sendEmail($email, 'Verifikasi', view('Template/email/reset_password', [
+                Notification::sendEmail($email, 'Ubah Password', view('Template/email/reset_password', [
                     'nama' => $userData->nama,
                     'key' => $uuidV4,
                 ]));
