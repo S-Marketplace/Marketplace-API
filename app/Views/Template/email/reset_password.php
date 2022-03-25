@@ -61,7 +61,7 @@
                           <td style="padding: 30px"> 
                             <p>Hi <?=$nama?>,</p>
                             <p>Anda telah mengirim permintaan reset password, jika itu memang anda maka silahkan klik aksi di bawah ini untuk mengubah password anda akun anda.</p>
-                            <div class="text-center"><a href="<?=base_url('reset_password?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
+                            <div class="text-center"><a href="<?=base_url('reset_password?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Ubah Password </a></div>
                             <p style="margin-bottom: 0">Terimakasih!</p>
                           </td>
                         </tr>
