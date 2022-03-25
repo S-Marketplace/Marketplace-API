@@ -33,6 +33,7 @@ class Produk extends MyResourceController
             ]);
         }
 
+        $this->model->withGambarProduk();
         return parent::show($id);
     }
 }
