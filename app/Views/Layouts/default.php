@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
+    <link rel="icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
     <title>Menyambang.id</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
@@ -113,7 +113,7 @@ $username = @$session['username'];
                     </div>
                 </form>
                 <div class="header-logo-wrapper col-auto p-0">
-                    <div class="logo-wrapper"><a href="<?=base_url()?>"><img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" width="40" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="<?=base_url()?>"><img class="img-fluid" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" width="40" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
                 </div>
                 <div class="left-header col horizontal-wrapper ps-0">
@@ -121,7 +121,7 @@ $username = @$session['username'];
                 <div class="nav-right col-8 pull-right right-header p-0">
                     <ul class="nav-menus">
                         <li class="profile-nav onhover-dropdown p-0 me-0">
-                            <div class="media profile-media"><img class="b-r-10" src="<?= base_url('assets'); ?>/images/silaki/no_pict.png" alt="" width="35px">
+                            <div class="media profile-media"><img class="b-r-10" src="<?= base_url('assets'); ?>/images/menyambang/no_pict.png" alt="" width="35px">
                                 <div class="media-body"><span><?= $nama ?></span>
                                     <p class="mb-0 font-roboto"><?= $username ?> <i class="middle fa fa-angle-down"></i></p>
                                 </div>
@@ -142,7 +142,7 @@ $username = @$session['username'];
                 <div>
                     <div class="logo-wrapper" style="padding: 20px 30px;">
                         <a href="<?=base_url()?>">
-                            <img class="img-fluid for-light" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
+                            <img class="img-fluid for-light" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
                             <h5 style="display: inline; vertical-align: middle">Menyambang.id</h5>
                         </a>
                         <div class="back-btn"><i class="fa fa-angle-left"></i></div>

@@ -9,8 +9,8 @@
     <meta name="author" content="pixelstrap">
     <title>Menyambang.id</title>
 
-    <link rel="icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
+    <link rel="icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -58,7 +58,7 @@
             <header>                       
               <nav class="navbar navbar-b navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu">
                 <a class="navbar-brand p-0" href="#">
-                  <img class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="">
+                  <img class="img-fluid" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt="">
                 </a>
                 <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
                 <div class="navbar-collapse justify-content-end collapse hidenav" id="navbarDefault">
@@ -174,7 +174,7 @@
       <footer class="footer-bg">
         <div class="container">
           <div class="landing-center ptb50">
-            <div class="title"><img width="100px" class="img-fluid" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt=""></div>
+            <div class="title"><img width="100px" class="img-fluid" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt=""></div>
             <div class="footer-content">
               <h1>Menyambang.id</h1>
               <p>Copyright @Menyambang.id <?= date('Y')?></p>

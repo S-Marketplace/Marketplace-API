@@ -8,8 +8,8 @@
   <meta name="description" content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
   <meta name="keywords" content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
   <meta name="author" content="pixelstrap">
-  <link rel="icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
-  <link rel="shortcut icon" href="<?= base_url('assets/images/silaki/logo_fix.png') ?>" type="image/x-icon">
+  <link rel="icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
+  <link rel="shortcut icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
   <title>Menyambang.id</title>
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@
       <div class="col-12 p-0">
         <div class="login-card">
           <div>
-            <div><a class="logo" href="index.html"><img class="img-fluid for-light" width="100px" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt="looginpage"><img class="img-fluid for-dark" src="<?= base_url() ?>/assets/images/logo/logo_dark.png" alt="looginpage"></a></div>
+            <div><a class="logo" href="index.html"><img class="img-fluid for-light" width="100px" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt="looginpage"><img class="img-fluid for-dark" src="<?= base_url() ?>/assets/images/logo/logo_dark.png" alt="looginpage"></a></div>
             <div class="login-main">
               <form class="theme-form" id="form">
                 <h4>Sign in to account</h4>

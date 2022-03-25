@@ -50,7 +50,7 @@
                     <table style="width: 650px; margin: 0 auto; margin-bottom: 30px">
                       <tbody>
                         <tr>
-                          <td><img width="60px" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt=""></td>
+                          <td><img width="60px" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt=""></td>
                           <td style="text-align: right; color:#999"><span>Menyambang.id</span></td>
                         </tr>
                       </tbody>
@@ -60,8 +60,8 @@
                         <tr>
                           <td style="padding: 30px"> 
                             <p>Hi <?=$nama?>,</p>
-                            <p>Akun anda telah dibuat, silahkan klik aksi di bawah ini untuk mengaktifkan akun anda.</p>
-                            <div class="text-center"><a href="<?=base_url('verifikasi?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
+                            <p>Anda telah mengirim permintaan reset password, jika itu memang anda maka silahkan klik aksi di bawah ini untuk mengubah password anda akun anda.</p>
+                            <div class="text-center"><a href="<?=base_url('reset_password?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
                             <p style="margin-bottom: 0">Terimakasih!</p>
                           </td>
                         </tr>

@@ -47,6 +47,8 @@ $routes->get("api/penjamin_integrasi.pdf", 'Api\UserIntegrasi::penjaminIntegrasi
 $routes->get("api/surat_pernyataan_integrasi.pdf", 'Api\UserIntegrasi::suratPernyataanIntegrasi');
 
 $routes->get("verifikasi", 'Api\User::verifikasi');
+$routes->get("reset_password", 'Api\User::reset_password');
+$routes->post("reset_password", 'Api\User::reset_password');
 
 $routes->group("api", ['filter' => 'apiKeyFilter'], function ($route) {
 	require_once APPPATH . "Config/Routes/Api.php";

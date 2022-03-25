@@ -17,7 +17,7 @@ class Cetak extends BaseController
 
     public function index()
     {
-        $img = base_url('assets/images/silaki/logo-lapas_ya.png');
+        $img = base_url('assets/images/menyambang/logo-lapas_ya.png');
         $imgData = base64_encode(file_get_contents($img));
 
         $data['logo'] = 'data:image/png;base64,' . $imgData;

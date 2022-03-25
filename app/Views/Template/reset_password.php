@@ -1,89 +1,135 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="pixelstrap">
-    <link rel="icon" href="<?=base_url()?>/assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="<?=base_url()?>/assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <style type="text/css">
-      body{
-      width: 650px;
-      font-family: work-Sans, sans-serif;
-      background-color: #f6f7fb;
-      display: block;
-      }
-      a{
-      text-decoration: none;
-      }
-      span {
-      font-size: 14px;
-      }
-      p {
-        font-size: 13px;
-        line-height: 1.7;
-        letter-spacing: 0.7px;
-        margin-top: 0;
-      }
-      .text-center{
-      text-align: center
-      }
-    </style>
-  </head>
-  <body style="margin: 30px auto;">
-    <table style="width: 100%">
-      <tbody>
-        <tr>
-          <td>
-            <table style="background-color: #f6f7fb; width: 100%">
-              <tbody>
-                <tr>
-                  <td>
-                    <table style="width: 650px; margin: 0 auto; margin-bottom: 30px">
-                      <tbody>
-                        <tr>
-                          <td><img width="60px" src="<?= base_url('assets/images/silaki/logo_fix.png') ?>" alt=""></td>
-                          <td style="text-align: right; color:#999"><span>Menyambang.id</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table style="width: 650px; margin: 0 auto; background-color: #fff; border-radius: 8px">
-                      <tbody>
-                        <tr>
-                          <td style="padding: 30px"> 
-                            <p>Hi <?=$nama?>,</p>
-                            <p>Anda telah mengirim permintaan reset password, jika itu memang anda maka silahkan klik aksi di bawah ini untuk mengubah password anda akun anda.</p>
-                            <div class="text-center"><a href="<?=base_url('reset_password?key='.$key)?>" style="padding: 10px; background-color: #7366ff; color: #fff; display: inline-block; border-radius: 4px; margin-bottom: 18px">Aktivasi </a></div>
-                            <p style="margin-bottom: 0">Terimakasih!</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table style="width: 650px; margin: 0 auto; margin-top: 30px">
-                      <tbody>       
-                        <tr style="text-align: center">
-                          <td> 
-                            <p style="color: #999; margin-bottom: 0">Jl. Sei Kacang Sekumpul, Mentaos, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714</p>
-                            <p style="color: #999; margin-bottom: 0">Powered By Menyambang.id</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </body>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+  <meta name="keywords" content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
+  <meta name="author" content="pixelstrap">
+  <link rel="icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
+  <link rel="shortcut icon" href="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" type="image/x-icon">
+  <title>Menyambang.id</title>
+  <!-- Google font-->
+  <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/font-awesome.css">
+  <!-- ico-font-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/icofont.css">
+  <!-- Themify icon-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/themify.css">
+  <!-- Flag icon-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/flag-icon.css">
+  <!-- Feather icon-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/feather-icon.css">
+  <!-- Plugins css start-->
+  <!-- Plugins css Ends-->
+  <!-- Bootstrap css-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/bootstrap.css">
+  <!-- App css-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/style.css">
+  <link id="color" rel="stylesheet" href="<?= base_url() ?>/assets/css/color-1.css" media="screen">
+  <!-- Responsive css-->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/responsive.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/css/vendors/sweetalert2.min.css">
+
+</head>
+
+<body>
+  <!-- login page start-->
+  <div class="container-fluid p-0">
+    <div class="row m-0">
+      <div class="col-12 p-0">
+        <div class="login-card">
+          <div>
+            <div><a class="logo" href="index.html"><img class="img-fluid for-light" width="100px" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt="looginpage"><img class="img-fluid for-dark" src="<?= base_url() ?>/assets/images/logo/logo_dark.png" alt="looginpage"></a></div>
+            <div class="login-main">
+              <form class="theme-form" id="form">
+                <h4>Reset Password</h4>
+                <p class="mb-0">Selamat datang <b><?=$user->nama?></b>, silahkan masukkan password baru anda</p>
+                <div class="form-group">
+                  <label class="col-form-label">Password Baru</label>
+                  <input class="form-control" type="text" name="new_password" placeholder="">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Verifikasi Password</label>
+                  <div class="form-input position-relative">
+                    <input class="form-control" type="text" name="verify_password" placeholder="">
+                    <!-- <div class="show-hide"><span class="show"> </span></div> -->
+                  </div>
+                </div>
+                <div class="form-group mb-0">
+                  <!-- <div class="checkbox p-0">
+                    <input id="checkbox1" type="checkbox">
+                    <label class="text-muted" for="checkbox1">Remember password</label>
+                  </div><a class="link" href="forget-password.html">Forgot password?</a> -->
+                  <div class="text-center mt-3">
+                    <div class="alert alert-danger errorMessage" style="display: none"></div>
+                    <button class="btn btn-primary btn-block w-100" id="login" type="submit">Reset Password</button>
+                  </div>
+                </div>
+                <!-- <h6 class="text-muted mt-4 or">Or Sign in with</h6>
+                <div class="social mt-4">
+                  <div class="btn-showcase"><a class="btn btn-light" href="https://www.linkedin.com/login" target="_blank"><i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn </a><a class="btn btn-light" href="https://twitter.com/login?lang=en" target="_blank"><i class="txt-twitter" data-feather="twitter"></i>twitter</a><a class="btn btn-light" href="https://www.facebook.com/" target="_blank"><i class="txt-fb" data-feather="facebook"></i>facebook</a></div>
+                </div>
+                <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2" href="sign-up.html">Create Account</a></p> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- latest jquery-->
+    <script src="<?= base_url() ?>/assets/js/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap js-->
+    <script src="<?= base_url() ?>/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- feather icon js-->
+    <script src="<?= base_url() ?>/assets/js/icons/feather-icon/feather.min.js"></script>
+    <script src="<?= base_url() ?>/assets/js/icons/feather-icon/feather-icon.js"></script>
+    <!-- scrollbar js-->
+    <!-- Sidebar jquery-->
+    <script src="<?= base_url() ?>/assets/js/config.js"></script>
+    <!-- Plugins JS start-->
+    <!-- Plugins JS Ends-->
+    <!-- Theme js-->
+    <script src="<?= base_url() ?>/assets/js/script.js"></script>
+    <script src="<?= base_url('assets'); ?>/js/sweet-alert/sweetalert2.all.min.js"></script>
+    <!-- login js-->
+    <!-- Plugin used-->
+  </div>
+  <script>
+    $(document).ready(function() {
+
+      $('#form').submit(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          type: "POST",
+          url: "<?= base_url('reset_password') ?>?key=<?=$key?>",
+          data: $("#form").serialize(),
+          dataType: "JSON",
+          success: function(res) {
+            if (res.code == 200) {
+              Swal.fire('Sukses', res.message, 'success');
+              $('.errorMessage').hide().html('');
+            } else {
+              $('.errorMessage').show().html(res.message);
+            }
+          },
+          beforeSend: function() {
+            $('#login').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Reset Password...');
+          },
+          fail: function() {
+            Swal.fire('Error', "Server gagal merespon", 'error');
+          },
+          complete: function() {
+            $('#login').removeAttr('disabled').html('Reset Password');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
 </html>

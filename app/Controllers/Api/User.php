@@ -1,9 +1,12 @@
-<?php namespace App\Controllers\Api;
+<?php
+
+namespace App\Controllers\Api;
 
 use Ramsey\Uuid\Uuid;
 use App\Models\UserModel;
 use App\Libraries\Notification;
 use App\Controllers\MyResourceController;
+use App\Entities\User as EntitiesUser;
 use App\Models\UserAlamatModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
@@ -35,6 +38,11 @@ class User extends MyResourceController
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
     ];
 
+    protected $rulesUpdatePassword = [
+        'new_password' => ['label' => 'Password Baru', 'rules' => 'required'],
+        'verif_password' => ['label' => 'Verifikasi Password', 'rules' => 'required'],
+    ];
+
     protected $rulesFirebase = [
         'firebaseToken' => ['label' => 'Firebase Token', 'rules' => 'required'],
     ];
@@ -55,14 +63,14 @@ class User extends MyResourceController
             } catch (\Exception $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             }
-           
+
             try {
-                
+
                 $status = $this->model
                     ->update($this->user['email'], [
                         'usrFirebaseToken' => $this->request->getVar('firebaseToken'),
                     ]);
-                    
+
                 return $this->response('Berhasil memperbaharui token', ($status ? 200 : 500));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
@@ -92,7 +100,7 @@ class User extends MyResourceController
             $entity->fill($this->request->getVar());
             $entity->password = $entity->hashPassword($entity->password);
             $entity->activeCode = $uuidV4;
-            
+
             try {
                 $status = $this->model->insert($entity, false);
 
@@ -101,7 +109,7 @@ class User extends MyResourceController
                     $entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
                 }
 
-                if($status){
+                if ($status) {
                     $modelUserAlamat = new UserAlamatModel();
                     $modelUserAlamat->insert([
                         'usralUsrEmail' => $entity->email,
@@ -121,7 +129,7 @@ class User extends MyResourceController
                     ]);
                 }
 
-                Notification::sendEmail($entity->email, 'Verifikasi', view('Template/verifikasi', [
+                Notification::sendEmail($entity->email, 'Verifikasi', view('Template/email/verifikasi', [
                     'nama' => $entity->nama,
                     'key' => $uuidV4,
                 ]));
@@ -143,7 +151,7 @@ class User extends MyResourceController
         if ($this->validate([
             'email' => ['label' => 'email', 'rules' => 'required|cek_email_tidak_terdaftar'],
         ], $this->validationMessage)) {
-          
+
             $uuidV4 = Uuid::uuid4();
             $email = $this->request->getVar('email');
 
@@ -156,9 +164,9 @@ class User extends MyResourceController
                 ]);
 
                 $userModel = new UserModel();
-                $userData = $userModel->find( $email);
-            
-                Notification::sendEmail($email, 'Verifikasi', view('Template/reset_password', [
+                $userData = $userModel->find($email);
+
+                Notification::sendEmail($email, 'Verifikasi', view('Template/email/reset_password', [
                     'nama' => $userData->nama,
                     'key' => $uuidV4,
                 ]));
@@ -175,15 +183,17 @@ class User extends MyResourceController
         }
     }
 
-    public function testEmail(){
-        $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/verifikasi', [
+    public function testEmail()
+    {
+        $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/email/verifikasi', [
             'nama' => 'Ahmad Juhdi',
             'key' => Uuid::uuid4(),
         ]));
 
         echo '<pre>';
         print_r($data);
-        echo '</pre>';exit;
+        echo '</pre>';
+        exit;
     }
 
     public function verifikasi()
@@ -198,6 +208,44 @@ class User extends MyResourceController
         $data = $modelUser->where('usrActiveCode', $key);
 
         return view('Template/sukses_verifikasi');
+    }
 
+    public function reset_password()
+    {
+        $key = $this->request->getGet('key');
+        if(empty($key)){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $modelUser = new UserModel();
+        $userEntity = new EntitiesUser();
+        $dataUser = current($modelUser->where('usrActiveCode', $key)->find());
+
+        if($this->request->isAJAX()){
+            $newPassword = $this->request->getPost('new_password');
+            $verifyPassword = $this->request->getPost('verify_password');
+    
+            if(empty($newPassword) || empty($verifyPassword)){
+                return $this->response(null, 401, 'Password wajib di isi');
+            }else if($newPassword !== $verifyPassword){
+                return $this->response(null, 401, 'Password baru dan password tidak sama');
+            } 
+
+            $status = $modelUser->update($dataUser->email, [
+                'usrPassword' => $userEntity->hashPassword($newPassword),
+                'usrActiveCode' => null,
+            ]);
+
+            return $this->response(null, $status ? 200 : 500, $status ? 'Password berhasil diubah' : 'Password gagal di ubah');
+        }else{
+            if (!empty($dataUser)) {
+                return view('Template/reset_password', [
+                    'key' => $key,
+                    'user' => $dataUser
+                ]);
+            }
+    
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
     }
 }

@@ -62,7 +62,7 @@ class Template
         $datas['ACTIVE_URL'] = $this->activeUrl;
         $datas['session'] = $this->session->get();
 
-        $img = base_url('assets/images/silaki/logo-lapas_ya.png');
+        $img = base_url('assets/images/menyambang/logo_fix.png');
         $imgData = base64_encode(file_get_contents($img));
 
         $datas['logo'] = 'data:image/png;base64,' . $imgData;
