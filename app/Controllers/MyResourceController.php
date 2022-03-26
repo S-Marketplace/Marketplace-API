@@ -13,6 +13,8 @@ use CodeIgniter\Validation\Exceptions\ValidationException;
 
 class MyResourceController extends ResourceController
 {
+    const CODE_UNACTIVATED = 110;
+    
     protected $defaultLimitData = 100;
     protected $rulesCreate = [];
     protected $rulesUpdate = [];

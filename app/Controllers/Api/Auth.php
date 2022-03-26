@@ -45,7 +45,7 @@ class Auth extends MyResourceController
         if (isset($user) && $user->verifyPassword($password)) {
             if($user->isActive == 0){
                 return [
-                    'code' => 400,
+                    'code' => self::CODE_UNACTIVATED,
                     'message' => 'Akun belum di aktivasi',
                     'data' => null,
                 ];

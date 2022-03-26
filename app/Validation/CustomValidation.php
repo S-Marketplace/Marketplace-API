@@ -72,8 +72,8 @@ class CustomValidation
     {
         $idSekarang = $string;
         
-        $productModel = new UserModel();
-        $findData = $productModel->find($idSekarang);
+        $userModel = new UserModel();
+        $findData = $userModel->find($idSekarang);
 
         if(!empty($findData)){
             $error = "Email $idSekarang sudah terdaftar.";
@@ -81,7 +81,36 @@ class CustomValidation
         }
 
         return true;
-      
+    }
+
+    public function cek_no_hp_terdaftar($string,  string &$error = null)
+    {
+        $idSekarang = $string;
+        
+        $userModel = new UserModel();
+        $findData = $userModel->where('usrNoHp', $idSekarang)->find();
+
+        if(!empty($findData)){
+            $error = "No Hp $idSekarang sudah terdaftar.";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function cek_no_wa_terdaftar($string,  string &$error = null)
+    {
+        $idSekarang = $string;
+        
+        $userModel = new UserModel();
+        $findData = $userModel->where('usrNoWa', $idSekarang)->find();
+
+        if(!empty($findData)){
+            $error = "No Wa $idSekarang sudah terdaftar.";
+            return false;
+        }
+
+        return true;
     }
 
     public function cek_email_tidak_terdaftar($string,  string &$error = null)

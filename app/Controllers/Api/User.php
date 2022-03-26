@@ -36,6 +36,7 @@ class User extends MyResourceController
         'provinsiNama' => ['label' => 'Provinsi', 'rules' => 'required'],
         'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
+        'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
     ];
 
     protected $rulesUpdatePassword = [
@@ -93,6 +94,8 @@ class User extends MyResourceController
                 return $this->response(null, 500, $ex->getMessage());
             }
 
+            helper("text");
+            $otpCode = random_string('numeric', '6');
             $uuidV4 = Uuid::uuid4();
 
             $entityClass = $this->model->getReturnType();
@@ -100,6 +103,7 @@ class User extends MyResourceController
             $entity->fill($this->request->getVar());
             $entity->password = $entity->hashPassword($entity->password);
             $entity->activeCode = $uuidV4;
+            $entity->otpCode = $otpCode;
 
             try {
                 $status = $this->model->insert($entity, false);
@@ -129,11 +133,14 @@ class User extends MyResourceController
                     ]);
                 }
 
+                $waMessage = "KODE OTP : $otpCode kode ini bersifat rahasia, jangan diberikan ke orang lain";
+
+                Notification::sendWa($entity->noWa, $waMessage);
                 Notification::sendEmail($entity->email, 'Verifikasi', view('Template/email/verifikasi', [
                     'nama' => $entity->nama,
                     'key' => $uuidV4,
                 ]));
-                return $this->response(null, ($status ? 200 : 500), ($status ? 'Akun berhasil didaftarkan, silahkan cek email anda untuk mengaktivasi akun anda' : null));
+                return $this->response(null, ($status ? 200 : 500), ($status ? 'Akun berhasil didaftarkan, silahkan cek email atau Kode OTP pada WA anda untuk mengaktivasi akun anda' : null));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {

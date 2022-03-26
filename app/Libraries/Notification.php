@@ -13,6 +13,36 @@ class Notification
 {
     // Firebase Auth Token Notif
     const AUTH = 'AAAAb-a5RW8:APA91bHP16gMFs_zCTGRjex7AMIE1ps7Mn_fTivBWEDTSmgAxpWA8UeAF41vW7KJjXyzoc4uLJxSAjtKLdLF3g7p64w4TeRrRWlVjxGBcPlRjX-97mLrHehCROyFpaTVpyDGHPB_CVrZ';
+
+    public static function sendWa($toNumber, $message){
+        $options['baseURI'] = 'http://167.172.92.147:9090';
+        $options['debug'] = WRITEPATH . '/logs/log_wa.txt';
+        $options['http_errors'] = false;
+        
+        if (!isset($options['timeout'])) {
+            $options['timeout'] = 60;
+            $options['connect_timeout'] = 60;
+        }
+        $curl = \Config\Services::curlrequest($options);
+        
+        $curl->setForm([
+            'number' => $toNumber,
+            'message' => $message,
+        ]);
+        $response = $curl->request('POST', '/send-message');
+
+        if ($response->getStatusCode() == 200) {
+            $jsonArray = $response->getBody();
+            return $jsonArray;
+        } else {
+            return json_decode($response->getBody(), true);
+            return [
+                'code' => $response->getStatusCode(),
+                'message' => json_decode($response->getBody(), true),
+                'data' => null,
+            ];
+        }
+    }
    
     /**
      * sendEmail

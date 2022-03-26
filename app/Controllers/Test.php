@@ -2,56 +2,20 @@
 
 namespace App\Controllers;
 
+use Ramsey\Uuid\Uuid;
 use ReCaptcha\ReCaptcha;
 use App\Models\UserModel;
 use App\Models\KategoriModel;
-use App\Controllers\BaseController;
+use App\Libraries\Notification;
 use App\Libraries\MidTransPayment;
 use App\Libraries\MyIpaymuPayment;
-use App\Libraries\Notification;
+use App\Controllers\BaseController;
 use App\Libraries\RajaOngkirShipping;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Test extends BaseController
 {
    
-    public function email(){
-        Notification::sendEmail('ahmadjuhdi007@gmail.com', 'subject', 'TEST');
-    }
-
-    public function cekIpaymu(){
-        $myIpaymuPayment = new MyIpaymuPayment();
-        $data = [
-            'balance' => $myIpaymuPayment->checkBalance(),
-            'transaction' => $myIpaymuPayment->checkTransaction('52406'),
-            'directPayment' => $myIpaymuPayment->directPayment([
-                "name"=>"Buyer",
-                "phone"=>"081999501092",
-                "email"=>"buyer@mail.com",
-                "amount"=>"10000",
-                "notifyUrl"=>"https://mywebsite.com",
-                "expired"=>"24",
-                "expiredType"=>"hours",
-                "comments"=>"Catatan",
-                "referenceId"=>"1",
-                "paymentMethod"=>"va",
-                "paymentChannel"=>"bca",
-                "product"=>["produk 1"],
-                "qty"=>["1"],
-                "price"=>["10000"],
-                "weight"=>["1"],
-                "width"=>["1"],
-                "height"=>["1"],
-                "length"=>["1"],
-                "deliveryArea"=>"76111",
-                "deliveryAddress"=>"Denpasar"
-            ]),
-        ];
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-    }
-
     public function testNotifFirebase(){
         $res = Notification::sendNotif();
 
@@ -82,5 +46,21 @@ class Test extends BaseController
         ];
 
 		return $this->response->setJSON($data);
+    }
+
+    public function testWa(){
+        $data = Notification::sendWa('081251554104', 'Test');
+
+        return $this->response->setJSON($data);
+    }
+
+    public function testEmail()
+    {
+        $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/email/verifikasi', [
+            'nama' => 'Ahmad Juhdi',
+            'key' => Uuid::uuid4(),
+        ]));
+
+        return $this->response->setJSON(json_encode($data));
     }
 }

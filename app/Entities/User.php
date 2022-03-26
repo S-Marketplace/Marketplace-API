@@ -21,6 +21,7 @@ class User extends MyEntity
         'noHp' => 'usrNoHp',
         'noWa' => 'usrNoWa',
         'activeCode' => 'usrActiveCode',
+        'otpCode' => 'usrOtpCode',
     ];
 
     protected $show = [
@@ -37,6 +38,7 @@ class User extends MyEntity
         'noHp',
         'noWa',
         'activeCode',
+        'otpCode',
         'alamat',
     ];
 
