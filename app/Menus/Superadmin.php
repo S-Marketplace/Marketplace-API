@@ -59,7 +59,7 @@ class Superadmin implements MenuInterface
                 [
                     'title' => 'Transaksi',
                     'url' => '#',
-                    'icon' => 'user',
+                    'icon' => 'credit-card',
                     'children' => [
                         [
                             'title' => 'Top Up Saldo',
@@ -71,68 +71,17 @@ class Superadmin implements MenuInterface
                         ],
                     ]
                 ],
-            // [
-            //     'title' => 'Jadwal Kunjungan',
-            //     'url' => '#',
-            //     'icon' => 'calendar',
-            //     'children' => [
-            //         [
-            //             'title' => 'Umum',
-            //             'url' => 'JadwalUmum'
-            //         ],
-            //         [
-            //             'title' => 'Khusus',
-            //             'url' => 'JadwalKhusus'
-            //         ],
-            //     ]
-            // ],
-            // [
-            //     'title' => 'User Integrasi',
-            //     'url' => 'UserIntegrasi',
-            //     'icon' => 'user',
-            // ],
-            // [
-            //     'title' => 'Pengajuan Integrasi',
-            //     'url' => 'PengajuanIntegrasi',
-            //     'icon' => 'archive',
-            // ],
-            // [
-            //     'title' => 'Jumlah Penghuni',
-            //     'url' => 'JumlahPenghuni',
-            //     'icon' => 'user',
-            // ],
-            // [
-            //     'title' => 'Master',
-            //     'url' => '#',
-            //     'icon' => 'box',
-            //     'children' => [
-            //         [
-            //             'title' => 'Layanan Pengaduan',
-            //             'url' => 'LayananPengaduan'
-            //         ],
-            //         [
-            //             'title' => 'Narapidana',
-            //             'url' => 'Napi'
-            //         ],
-            //         [
-            //             'title' => 'Foto Beranda',
-            //             'url' => 'FotoBeranda'
-            //         ],
-            //         [
-            //             'title' => 'Mekanisme',
-            //             'url' => 'Mekanisme'
-            //         ],
-            //         [
-            //             'title' => 'Mekanisme Pengajuan Integrasi',
-            //             'url' => 'MekanismePengajuanIntegrasi'
-            //         ],
-            //     ]
-            // ],
-            // [
-            //     'title' => 'Setting',
-            //     'url' => 'Setting',
-            //     'icon' => 'settings',
-            // ],
+                [
+                    'title' => 'Pengaturan',
+                    'url' => '#',
+                    'icon' => 'settings',
+                    'children' => [
+                        [
+                            'title' => 'No Rekening',
+                            'url' => 'NoRekening'
+                        ],
+                    ]
+                ],
         ];
     }
 }

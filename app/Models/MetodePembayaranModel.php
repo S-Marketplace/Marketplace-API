@@ -9,7 +9,7 @@ class MetodePembayaranModel extends MyModel
     protected $createdField = "mpbCreatedAt";
     protected $updatedField = "mpbUpdatedAt";
     protected $returnType = "App\Entities\MetodePembayaran";
-    protected $allowedFields = ["mpbNama","mpbDeskripsi","mpbTipe","mpbGambar","mpbVaNumber","mpbBank","mpbDeletedAt"];
+    protected $allowedFields = ["mpbNama","mpbDeskripsi","mpbTipe","mpbGambar","mpbVaNumber","mpbRekNumber","mpbBank","mpbDeletedAt"];
 
     public function getReturnType()
     {
