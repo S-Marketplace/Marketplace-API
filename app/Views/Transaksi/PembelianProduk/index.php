@@ -66,6 +66,61 @@
     var grid = null;
     $(document).ready(function() {
 
+        var id;
+        $(document).on('click', '#btnVerifikasi', function(e) {
+            e.preventDefault();
+
+            let row = $(this).data('row');
+            dataRow = grid.row(row).data();
+            id = dataRow.pembayaran.id;
+
+            $('#modalVerifikasi').modal('show');
+        });
+
+        $(document).on('click', '#btnAksiVerifikasi', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Pembayaran yang sudah diverikasi tidak bisa dikembalikan",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Verifikasi!',
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-danger ml-1',
+                buttonsStyling: false,
+                }).then(function (result) {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: `<?= current_url() ?>/verifikasiPembayaran/${id}`,
+                            dataType: "JSON",
+                            success: function(res) {
+                                if (res.code == 200) {
+                                    grid.draw(false);
+                                    $('#modalVerifikasi').modal('hide');
+                                    Swal.fire('Berhasil!', res.message, 'success');
+                                }else{
+                                    Swal.fire('Gagal!', res.message, 'error');
+                                }
+                            },
+                            fail: function(xhr) {
+                                Swal.fire('Error', "Server gagal merespon", 'error');
+                            },
+                            beforeSend: function() {
+                                $("[id^='er_']").html('');
+                                $('#btnAksiVerifikasi').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                            },
+                            complete: function(res) {
+                                $('#btnAksiVerifikasi').removeAttr('disabled').html('Verifikasi');
+                            }
+                        });
+                    }
+            })
+        });
+
         $(document).on('click', '#btnEdit', function(e) {
             e.preventDefault();
             let row = $(this).data('row');
@@ -261,7 +316,8 @@
                 {
                     data: 'pembayaran.paymentType',
                     render: function(val, type, row, meta) {
-                        if (val == 'bank_transfer') return 'Transfer Bank';
+                        if(val == 'bank_transfer') return 'Transfer Bank <span class="badge badge-primary text-light">Virtual Account</span>';
+                        else if(val == 'manual_transfer') return 'Transfer Bank <span class="badge badge-primary text-light">Rekening</span>';
                         else if (val == 'echannel') return 'Mandiri Bill';
                         else if (val == 'saldo') return 'Saldo';
                         else if (val == 'cstore') return row.pembayaran.store.toUpperCase();
@@ -287,8 +343,8 @@
                     render: function(val, type, row, meta) {
                         let text = '';
 
-                        if (val == 'pending') return `<span class="badge badge-light text-dark">Pending</span>`;
-                        else if (val == 'settlement') return `<span class="badge badge-success text-light">Settelment</span>`;
+                        if(val == 'pending') return `<span class="badge badge-light text-dark">Pending</span>`;
+                        else if(val == 'settlement') return `<span class="badge badge-success text-light">Settelment</span>`;
                         else if (val == 'cancel') return `<span class="badge badge-danger text-light">Cancel</span>`;
                         else if (val == 'expire') return `<span class="badge badge-danger text-light">Expire</span>`;
                         else if (val == 'failure') return `<span class="badge badge-danger text-light">Failure</span>`;
@@ -317,13 +373,6 @@
                 {
                     data: 'id',
                     render: function(val, type, row, meta) {
-                        var btnHapus = btnDatatableConfig('delete', {
-                            'id': 'btnHapus',
-                            'data-row': meta.row,
-                        }, {
-                            show: true
-                        });
-
                         var btnDetail = btnDatatableConfig('detail', {
                             'id': 'btnDetail',
                             'data-row': meta.row,
@@ -338,7 +387,19 @@
                             show: row.pembayaran.status == 'settlement' && (row.status == 'dikemas' || row.status == 'dikirim')
                         });
 
-                        return `${btnDetail} ${btnEdit}`;
+                        var btnVerifikasi = '';
+                        if(row.pembayaran.paymentType == 'manual_transfer' && row.pembayaran.status == 'pending'){
+                            btnVerifikasi = btnDatatableConfig('custom', {
+                                'id': 'btnVerifikasi',
+                                'data-row': meta.row,
+                            }, {
+                                'textBtn': 'Verifikasi',
+                                'iconBtn': 'feather icon-check-circle',
+                                show: true
+                            });
+                        }
+
+                        return `${btnDetail} ${btnEdit} ${btnVerifikasi}`;
                     }
                 }
             ]

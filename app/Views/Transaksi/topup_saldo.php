@@ -35,7 +35,7 @@
                                         <th>Jumlah</th>
                                         <th>Status</th>
                                         <th>Jenis</th>
-                                        <!-- <th width="15%">Aksi</th> -->
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,6 +48,34 @@
         </div>
     </div>
     <!-- Container-fluid Ends-->
+
+    <!-- Modal Verifikasi -->
+    <div class="modal fade" id="modalVerifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Verifikasi Pembayaran</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <p>
+                                Fitur ini digunakan untuk memverifikasi pembayaran yang dilakukan oleh pelanggan menggunakan transfer ke nomor rekening.
+                                Verifikasi jika pelanggan sudah mentransfer ke nomor rekening anda.
+                                Setelah diverifikasi maka status pembayaran akan berubah menjadi <b><i>Settlement</i></b>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm grey btn-primary" id="btnAksiVerifikasi">Verifikasi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 <?= $this->endSection(); ?>
@@ -64,10 +92,68 @@
 <script>
     var grid = null;
     $(document).ready(function() {
+        var id;
+        $(document).on('click', '#btnVerifikasi', function(e) {
+            e.preventDefault();
 
+            let row = $(this).data('row');
+            dataRow = grid.row(row).data();
+            id = dataRow.id;
+
+            $('#modalVerifikasi').modal('show');
+        });
+
+        $(document).on('click', '#btnAksiVerifikasi', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Pembayaran yang sudah diverikasi tidak bisa dikembalikan",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Verifikasi!',
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-danger ml-1',
+                buttonsStyling: false,
+                }).then(function (result) {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: `<?= current_url() ?>/verifikasiPembayaran/${id}`,
+                            dataType: "JSON",
+                            success: function(res) {
+                                if (res.code == 200) {
+                                    grid.draw(false);
+                                    $('#modalVerifikasi').modal('hide');
+                                    Swal.fire('Berhasil!', res.message, 'success');
+                                }else{
+                                    Swal.fire('Gagal!', res.message, 'error');
+                                }
+                            },
+                            fail: function(xhr) {
+                                Swal.fire('Error', "Server gagal merespon", 'error');
+                            },
+                            beforeSend: function() {
+                                $("[id^='er_']").html('');
+                                $('#btnAksiVerifikasi').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                            },
+                            complete: function(res) {
+                                $('#btnAksiVerifikasi').removeAttr('disabled').html('Verifikasi');
+                            }
+                        });
+                    }
+            })
+            
+
+        });
+
+     
         grid = $("#datatable").DataTable({
             processing: true,
             serverSide: true,
+            order: [[ 2, "desc" ]],
             ajax: {
                 url: "<?= current_url(); ?>/grid",
                 data: function(d) {
@@ -83,7 +169,8 @@
                 {
                     data: 'paymentType',
                     render: function(val, type, row, meta) {
-                        if(val == 'bank_transfer') return 'Transfer Bank';
+                        if(val == 'bank_transfer') return 'Transfer Bank <span class="badge badge-primary text-light">Virtual Account</span>';
+                        else if(val == 'manual_transfer') return 'Transfer Bank <span class="badge badge-primary text-light">Rekening</span>';
                         else if(val == 'echannel') return 'Mandiri Bill';
                         else if(val == 'saldo') return 'Saldo';
                         else if (val == 'cstore') return row.store.toUpperCase();
@@ -133,6 +220,25 @@
                         return text;
                     }
                 },
+                {
+                    data: 'id',
+                    render: function(val, type, row, meta) {
+                        var btnVerifikasi = btnDatatableConfig('custom', {
+                            'id': 'btnVerifikasi',
+                            'data-row': meta.row,
+                        }, {
+                            'textBtn': 'Verifikasi',
+                            'iconBtn': 'feather icon-check-circle',
+                            show: true
+                        });
+
+                        if(row.paymentType == 'manual_transfer' && row.status == 'pending'){
+                            return `${btnVerifikasi}`;
+                        }
+
+                        return '';
+                    }
+                }
             ]
         });
 

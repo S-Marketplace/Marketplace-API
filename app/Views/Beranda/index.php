@@ -66,10 +66,19 @@
                 </div>
               </div>
         
-          </div>
+            </div>
 
-          <section id="gmap_geocoding">
-            </section>
+            <div class="card">
+                    <!-- <div class="card-header">
+                        <h5 class="m-b-0">Feather Icons</h5>
+                    </div> -->
+                    <div class="card-body">
+                        <h4 class="card-text">Lokasi Pengguna</h4>
+                        <p>Menampilkan titik lokasi pengguna yang terdaftar di aplikasi</p>
+                        <section id="gmap_geocoding"></section>
+                    </div>
+                </div>
+           
           <!-- Container-fluid Ends-->
         </div>
 <!-- Container-fluid Ends-->

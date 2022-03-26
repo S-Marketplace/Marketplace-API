@@ -1,8 +1,12 @@
 <?php namespace App\Controllers;
 
+use App\Models\CheckoutModel;
+use App\Models\KeranjangModel;
+use App\Models\UserSaldoModel;
+use App\Libraries\Notification;
+use App\Models\PembayaranModel;
 use App\Controllers\Api\Keranjang;
 use App\Models\CheckoutKurirModel;
-use App\Models\KeranjangModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
@@ -85,5 +89,47 @@ class TransaksiPembelianProduk extends BaseController
 			}
 		}
 	}
+
+    public function verifikasiPembayaran($id)
+    {
+        $pembayaran = $this->_setPembayaranProduk('settlement', $id);
+        return $this->response->setJSON($pembayaran);
+    }
+
+    private function _setPembayaranProduk($transaction_status, $transaction_id){
+        $pembayaranModel = new PembayaranModel();
+        $find = $pembayaranModel->find($transaction_id);
+
+        if(!empty($find)){
+
+            if($find->status != 'pending'){
+                return $this->response(null, 500, 'Tidak bisa memverifikasi status pembayaran yang bukan pending');
+            }else if($find->paymentType != 'manual_transfer'){
+                return $this->response(null, 500, 'Tidak bisa memverifikasi status pembayaran yang bukan Transfer ke rekening');
+            }
+
+            $status = $pembayaranModel->update($transaction_id, [
+                'pmbStatus' => $transaction_status,
+            ]);
+            
+            if($status){
+                Notification::sendNotif($find->userEmail, 'Pembayaran Produk', "Status pembayaran anda $transaction_status, dengan ID {$find->orderId}");
+                if($transaction_status == 'settlement'){
+                    $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
+                    $checkoutModel = new CheckoutModel();
+                    $checkoutModel->update($checkoutId, [
+                        'cktStatus' => 'dikemas'
+                    ]);
+
+                    $keranjangModel = new KeranjangModel();
+                    $keranjangModel->updateProdukStok($checkoutId);
+
+                    return $this->response(null, 200, 'Verifikasi Berhasil');
+                }
+            }
+        }
+
+        return $this->response(null, 500, 'Verifikasi Gagal');
+    }
 
 }

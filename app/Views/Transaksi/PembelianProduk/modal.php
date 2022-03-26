@@ -185,3 +185,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Verifikasi -->
+<div class="modal fade" id="modalVerifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Verifikasi Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form">
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <p>
+                            Fitur ini digunakan untuk memverifikasi pembayaran yang dilakukan oleh pelanggan menggunakan transfer ke nomor rekening.
+                            Verifikasi jika pelanggan sudah mentransfer ke nomor rekening anda.
+                            Setelah diverifikasi maka status pembayaran akan berubah menjadi <b><i>Settlement</i></b>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm grey btn-primary" id="btnAksiVerifikasi">Verifikasi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
