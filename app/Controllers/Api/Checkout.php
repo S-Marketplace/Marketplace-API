@@ -22,7 +22,9 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
  */
 class Checkout extends MyResourceController
 {
-    const SALDO_PAYMENT_ID = '1';
+    const SALDO_PAYMENT_ID = 1;
+    const MANUAL_TRANSFER_IDS = [2,3,4,5];
+    const LIMIT_DAY_MANUAL_TRANSFER = 6;
 
     protected $modelName = 'App\Models\CheckoutModel';
     protected $format    = 'json';
@@ -169,9 +171,9 @@ class Checkout extends MyResourceController
                     $checkoutDetail->insertBatch($rincianPembayaran);
 
                     if ($checkoutDetailStatus) {
-                        // Pembayaran
                         $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
-
+                        
+                        // Pembayaran Menggunakan Saldo
                         if ($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID) {
                             // SALDO
                             $modelUser = new UserModel();
@@ -186,6 +188,7 @@ class Checkout extends MyResourceController
                                 return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk emnambahkan saldo anda');
                             }
 
+                            $orderId = 'ORDER-'.strtotime("now");
                             // Tambah Riwayat saldo
                             $userSaldoModel = new UserSaldoModel();
                             $userSaldoModel->insert([
@@ -193,6 +196,7 @@ class Checkout extends MyResourceController
                                 'usalPaymentType' => 'saldo',
                                 'usalStatus' => 'settlement',
                                 'usalTime' => date('Y-m-d H:i:s'),
+                                'usalOrderId' => $orderId,
                                 'usalUserEmail' => $this->user['email'],
                                 'usalStatusSaldo' => 'top_down',
                                 'usalGrossAmount' => -$price,
@@ -208,7 +212,7 @@ class Checkout extends MyResourceController
                                 'pmbStatus' => 'settlement',
                                 'pmbTime' => date('Y-m-d H:i:s'),
                                 'pmbSignatureKey' => '',
-                                'pmbOrderId' => 'ORDER-'.strtotime("now"),
+                                'pmbOrderId' => $orderId,
                                 'pmbGrossAmount' => $price,
                                 'pmbUserEmail' => $this->user['email'],
                                 'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +1 days")),
@@ -229,6 +233,45 @@ class Checkout extends MyResourceController
 
                             $response = current($pembayaranModel->where('pmbId', $uuid)->find());
                             return $this->response($response, 200, $uuid);
+                        
+                        // Topup menggunakan pembayaran manual ke rekening
+                        } else if (in_array($post['id_metode_pembayaran'], self::MANUAL_TRANSFER_IDS)) {
+                            // Manual Transfer
+                            $metodePembayaranModel = new MetodePembayaranModel();
+                            $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
+                            
+                            $dateTime = date('Y-m-d H:i:s');
+                            $uuid = Uuid::uuid4().'-manual';
+                            $orderId = 'ORDER-'.strtotime("now");;
+    
+                            $bank = $metodePembayaranData->bank;
+    
+                            $pembayaranModel = new PembayaranModel();
+                            $pembayaranModel->insert([
+                                'pmbCheckoutId' => $checkoutId,
+                                'pmbId' => $uuid,
+                                'pmbPaymentType' => 'manual_transfer',
+                                'pmbStatus' => 'pending',
+                                'pmbTime' => $dateTime,
+                                'pmbOrderId' => $orderId,
+                                'pmbGrossAmount' => $price,
+                                'pmbCurrency' => 'IDR',
+                                'pmbRekNumber' => $metodePembayaranData->rekNumber,
+                                'pmbBank' => $bank,
+                                'pmbUserEmail' => $this->user['email'],
+                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_MANUAL_TRANSFER." days")),
+                            ]);
+
+                            $checkoutModel->transComplete();
+                            $checkoutDetail->transComplete();
+                            $checkoutKurirModel->transComplete();
+
+                            $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+                            
+                            $pembayaranModel = new PembayaranModel();
+                            return $this->response($pembayaranModel->find($uuid), 200);
+
+                        // Pembayaran Menggunakan Mid Trans
                         } else {
                             // MID TRANS
                             $metodePembayaranModel = new MetodePembayaranModel();
