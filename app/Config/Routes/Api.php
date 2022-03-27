@@ -3,6 +3,7 @@
 $route->post("user/register", 'Api\User::register');
 $route->post("user/reset_password", 'Api\User::resetPassword');
 $route->post("user/resend_otp_code", 'Api\User::resendOtpCode');
+$route->post("user/verifikasi_otp_code", 'Api\User::verifikasiOtpCode');
 
 $route->resource("produk_beranda", ['controller' => 'Api\ProdukBeranda', 'only' => ['index', 'show']]);
 $route->resource("kategori", ['controller' => 'Api\Kategori', 'only' => ['index', 'show']]);

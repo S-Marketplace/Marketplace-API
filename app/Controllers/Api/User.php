@@ -48,6 +48,11 @@ class User extends MyResourceController
         'firebaseToken' => ['label' => 'Firebase Token', 'rules' => 'required'],
     ];
 
+    protected $rulesVerifikasiOtp = [
+        'email' => ['label' => 'Email', 'rules' => 'required'],
+        'otpCode' => ['label' => 'Kode OTP', 'rules' => 'required'],
+    ];
+
     /**
      * Get My Profile
      *
@@ -172,7 +177,8 @@ class User extends MyResourceController
      * @param [type] $otpCode
      * @return void
      */
-    private function _waMessageOTP($noWa, $otpCode){
+    private function _waMessageOTP($noWa, $otpCode)
+    {
         $waMessage = "KODE OTP : $otpCode kode ini bersifat rahasia, jangan diberikan ke orang lain";
 
         Notification::sendWa($noWa, $waMessage);
@@ -183,21 +189,70 @@ class User extends MyResourceController
      *
      * @return void
      */
-    public function resendOtpCode(){
+    public function resendOtpCode()
+    {
         $username = $this->request->getVar('email');
 
-        if(empty($username)){
-            return $this->response(null, 400, 'Email tidak boleh kosong');
+        if ($this->validate([
+            'email' => ['label' => 'Email', 'rules' => 'required'],
+        ], $this->validationMessage)) {
+            try {
+
+                $userModel = new UserModel();
+                $data = $userModel->find($username);
+                $otpCode = random_string('numeric', '6');
+                $data->otpCode = $otpCode;
+                $userModel->save($data);
+
+                $this->_waMessageOTP($data->noWa, $otpCode);
+                return $this->response(null, 200, 'Kode OTP berhasil dikirim ke WA anda');
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
         }
+    }
 
-        $userModel = new UserModel();
-        $data = $userModel->find($username);
-        $otpCode = random_string('numeric', '6');
-        $data->otpCode = $otpCode;
-        $userModel->save($data);
+    /**
+     * Verifikasi VIA WEB
+     *
+     * @return void
+     */
+    public function verifikasiOtpCode()
+    {
+        $username = $this->request->getVar('email');
+        $otpCode = $this->request->getVar('otpCode');
 
-        $this->_waMessageOTP($data->noWa, $otpCode);
-        return $this->response(null, 200, 'Kode OTP berhasil dikirim ke WA anda');
+        if ($this->validate($this->rulesVerifikasiOtp, $this->validationMessage)) {
+            try {
+
+                $userModel = new UserModel();
+                $data = $userModel->find($username);
+
+                if ($data->otpCode == $otpCode) {
+                    $data->isActive = 1;
+                    $data->otpCode = null;
+                    $userModel->save($data);
+
+                    return $this->response(null, 200, 'Akun berhasil di aktivasi');
+                } else {
+                    return $this->response(null, 403, 'Kode OTP anda salah');
+                }
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
     }
 
     /**
@@ -282,7 +337,7 @@ class User extends MyResourceController
     public function reset_password()
     {
         $key = $this->request->getGet('key');
-        if(empty($key)){
+        if (empty($key)) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
@@ -290,15 +345,15 @@ class User extends MyResourceController
         $userEntity = new EntitiesUser();
         $dataUser = current($modelUser->where('usrActiveCode', $key)->find());
 
-        if($this->request->isAJAX()){
+        if ($this->request->isAJAX()) {
             $newPassword = $this->request->getPost('new_password');
             $verifyPassword = $this->request->getPost('verify_password');
-    
-            if(empty($newPassword) || empty($verifyPassword)){
+
+            if (empty($newPassword) || empty($verifyPassword)) {
                 return $this->response(null, 401, 'Password wajib di isi');
-            }else if($newPassword !== $verifyPassword){
+            } else if ($newPassword !== $verifyPassword) {
                 return $this->response(null, 401, 'Password baru dan password tidak sama');
-            } 
+            }
 
             $status = $modelUser->update($dataUser->email, [
                 'usrPassword' => $userEntity->hashPassword($newPassword),
@@ -306,14 +361,14 @@ class User extends MyResourceController
             ]);
 
             return $this->response(null, $status ? 200 : 500, $status ? 'Password berhasil diubah' : 'Password gagal di ubah');
-        }else{
+        } else {
             if (!empty($dataUser)) {
                 return view('Template/reset_password', [
                     'key' => $key,
                     'user' => $dataUser
                 ]);
             }
-    
+
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
