@@ -48,6 +48,11 @@ class User extends MyResourceController
         'firebaseToken' => ['label' => 'Firebase Token', 'rules' => 'required'],
     ];
 
+    /**
+     * Get My Profile
+     *
+     * @return void
+     */
     public function getMyProfile()
     {
         $modelUser = new UserModel();
@@ -56,6 +61,11 @@ class User extends MyResourceController
         return $this->response($data, 200, '');
     }
 
+    /**
+     * Memperbaharui Firebase token user
+     *
+     * @return void
+     */
     public function updateFirebaseToken()
     {
         if ($this->validate($this->rulesFirebase, $this->validationMessage)) {
@@ -85,6 +95,11 @@ class User extends MyResourceController
         }
     }
 
+    /**
+     * Registrasi akun baru
+     *
+     * @return void
+     */
     public function register()
     {
         if ($this->validate($this->rulesCreate, $this->validationMessage)) {
@@ -94,7 +109,6 @@ class User extends MyResourceController
                 return $this->response(null, 500, $ex->getMessage());
             }
 
-            helper("text");
             $otpCode = random_string('numeric', '6');
             $uuidV4 = Uuid::uuid4();
 
@@ -133,9 +147,7 @@ class User extends MyResourceController
                     ]);
                 }
 
-                $waMessage = "KODE OTP : $otpCode kode ini bersifat rahasia, jangan diberikan ke orang lain";
-
-                Notification::sendWa($entity->noWa, $waMessage);
+                $this->_waMessageOTP($entity->noWa, $otpCode);
                 Notification::sendEmail($entity->email, 'Verifikasi', view('Template/email/verifikasi', [
                     'nama' => $entity->nama,
                     'key' => $uuidV4,
@@ -153,6 +165,46 @@ class User extends MyResourceController
         }
     }
 
+    /**
+     * Message WA
+     *
+     * @param [type] $noWa
+     * @param [type] $otpCode
+     * @return void
+     */
+    private function _waMessageOTP($noWa, $otpCode){
+        $waMessage = "KODE OTP : $otpCode kode ini bersifat rahasia, jangan diberikan ke orang lain";
+
+        Notification::sendWa($noWa, $waMessage);
+    }
+
+    /**
+     * Resend OTP Code
+     *
+     * @return void
+     */
+    public function resendOtpCode(){
+        $username = $this->request->getVar('email');
+
+        if(empty($username)){
+            return $this->response(null, 400, 'Email tidak boleh kosong');
+        }
+
+        $userModel = new UserModel();
+        $data = $userModel->find($username);
+        $otpCode = random_string('numeric', '6');
+        $data->otpCode = $otpCode;
+        $userModel->save($data);
+
+        $this->_waMessageOTP($data->noWa, $otpCode);
+        return $this->response(null, 200, 'Kode OTP berhasil dikirim ke WA anda');
+    }
+
+    /**
+     * Reset Password
+     *
+     * @return void
+     */
     public function resetPassword()
     {
         if ($this->validate([
@@ -203,6 +255,11 @@ class User extends MyResourceController
         exit;
     }
 
+    /**
+     * Verifikasi VIA WEB
+     *
+     * @return void
+     */
     public function verifikasi()
     {
         $key = $this->request->getGet('key');
@@ -217,6 +274,11 @@ class User extends MyResourceController
         return view('Template/sukses_verifikasi');
     }
 
+    /**
+     * Reset Password VIA Web
+     *
+     * @return void
+     */
     public function reset_password()
     {
         $key = $this->request->getGet('key');
