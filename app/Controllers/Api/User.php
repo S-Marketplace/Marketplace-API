@@ -37,6 +37,7 @@ class User extends MyResourceController
         'kecamatanId' => ['label' => 'Id Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
         'kecamatanNama' => ['label' => 'Kecamatan', 'rules' => 'required'],
+        'jalan' => ['label' => 'Jalan', 'rules' => 'required'],
     ];
 
     protected $rulesUpdatePassword = [
