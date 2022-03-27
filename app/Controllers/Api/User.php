@@ -22,7 +22,7 @@ class User extends MyResourceController
     protected $format = 'json';
 
     protected $rulesCreate = [
-        'email' => ['label' => 'email', 'rules' => 'required|cek_email_terdaftar'],
+        'email' => ['label' => 'email', 'rules' => 'required|cek_email_terdaftar|valid_email'],
         'nama' => ['label' => 'nama', 'rules' => 'required'],
         'password' => ['label' => 'password', 'rules' => 'required'],
         'noHp' => ['label' => 'No Hp', 'rules' => 'required|numeric'],
