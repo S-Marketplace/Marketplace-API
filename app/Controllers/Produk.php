@@ -302,13 +302,14 @@ class Produk extends BaseController
         $produkId = 'B';
         $produkNama = 'C';
         $produkStok = 'D';
-
-        $refProgramId = 'F';
-        $refProgramNama = 'G';
+        $produkHarga = 'E';
 
         // Referensi Produk
         $produkModel = new ProdukModel();
-        $produk = $produkModel->where(['produkStok <=' => $minimumStock])->asObject()->find();
+        if($minimumStock != null){
+            $produkModel->where(['produkStok <=' => $minimumStock]);
+        }
+        $produk = $produkModel->asObject()->find();
         $refRowProduk = $refRowStart;
         foreach ($produk as $key => $val) {
             $refRowProduk++;
@@ -316,8 +317,9 @@ class Produk extends BaseController
             $sheet->setCellValue("{$produkId}{$refRowProduk}", $val->produkId);
             $sheet->setCellValue("{$produkNama}{$refRowProduk}", $val->produkNama);
             $sheet->setCellValue("{$produkStok}{$refRowProduk}", $val->produkStok);
+            $sheet->setCellValue("{$produkHarga}{$refRowProduk}", $val->produkHarga);
         }
-        $sheet->getStyle("{$no}{$refRowStart}:{$produkStok}{$refRowProduk}")->applyFromArray($styleArrayRef);
+        $sheet->getStyle("{$no}{$refRowStart}:{$produkHarga}{$refRowProduk}")->applyFromArray($styleArrayRef);
 
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
@@ -361,6 +363,7 @@ class Produk extends BaseController
                 $produkModel->update($id, [
                     'produkNama'=> $value['C'],
                     'produkStok'=> $value['D'],
+                    'produkHarga'=> $value['F'],
                 ]);
             }
         }

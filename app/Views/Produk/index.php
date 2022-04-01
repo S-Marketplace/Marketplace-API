@@ -82,12 +82,12 @@
             let stok = $('[name="stok"]').val();
             console.log('test', stok)
 
-            if(stok <= 0){
-                $('#er_stok').html('Stok tidak boleh kosong');
-            }else{
+            // if(stok <= 0){
+            //     $('#er_stok').html('Stok tidak boleh kosong');
+            // }else{
                 $('#er_stok').html('');
                 window.open('<?=base_url('Produk/downloadTemplate')?>/'+stok, '_blank');
-            }
+            // }
         });
 
         $(document).on('click', '#btnHapus', function(e) {
