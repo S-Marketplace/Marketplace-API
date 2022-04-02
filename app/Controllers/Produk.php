@@ -363,7 +363,7 @@ class Produk extends BaseController
                 $produkModel->update($id, [
                     'produkNama'=> $value['C'],
                     'produkStok'=> $value['D'],
-                    'produkHarga'=> $value['F'],
+                    'produkHarga'=> $value['E'],
                 ]);
             }
         }
