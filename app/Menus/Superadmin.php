@@ -72,6 +72,11 @@ class Superadmin implements MenuInterface
                     ]
                 ],
                 [
+                    'title' => 'Broadcast',
+                    'url' => 'Broadcast',
+                    'icon' => 'volume-2',
+                ],
+                [
                     'title' => 'Pengaturan',
                     'url' => '#',
                     'icon' => 'settings',

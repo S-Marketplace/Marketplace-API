@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>Kategori</h3>
+                    <h3>Broadcast</h3>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-sm btn-primary pull-right" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Tambah</button>
@@ -22,15 +22,16 @@
                         <h5 class="m-b-0">Feather Icons</h5>
                     </div> -->
                     <div class="card-body">
-                        <p class="card-text">Data Kategori.</p>
+                        <p class="card-text">Data Broadcast.</p>
                         <div class="table-responsive">
                             <table class="display" id="datatable" width="100%">
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Nama</th>
-                                        <th width="20%">Icon</th>
-                                        <th width="15%">Aksi</th>
+                                        <th width="20%">Judul</th>
+                                        <th width="30%">Deskripsi</th>
+                                        <th width="10%">Gambar</th>
+                                        <th width="6%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,7 +45,7 @@
     </div>
     <!-- Container-fluid Ends-->
 
-    <?= $this->include('Kategori/modal'); ?>
+    <?= $this->include('Broadcast/modal'); ?>
 </div>
 <?= $this->endSection(); ?>
 
@@ -63,11 +64,13 @@
     $(document).ready(function() {
 
         $('#btnTambah').click(function(e) {
-            e.preventDefault();
             dataRow = null;
+            e.preventDefault();
             $('#aksi').html('Tambah');
             $('input').val('');
-            krajeeConfig('[name="icon"]', {
+            $('textarea').html('');
+            $('form').trigger('reset');
+            krajeeConfig('[name="gambar"]', {
                 type: 'image'
             });
         });
@@ -79,18 +82,20 @@
             $('#modal').modal('show');
             $('#aksi').html('Ubah');
 
-            $('[name="nama"]').val(dataRow.nama);
+            $('[name="deskripsi"]').text(dataRow.deskripsi);
+            $('[name="url"]').val(dataRow.url);
+            $('[name="judul"]').val(dataRow.judul);
 
-            if (dataRow.icon != '') {
-                krajeeConfig('[name="icon"]', {
-                    url: `<?= base_url('File/get/icon_kategori') ?>/${dataRow.icon}`,
-                    filename: dataRow.icon,
-                    caption: `Icon Kategori`,
+            if (dataRow.gambar != '') {
+                krajeeConfig('[name="gambar"]', {
+                    url: `<?= base_url('File/get/broadcast_gambar') ?>/${dataRow.gambar}`,
+                    filename: dataRow.gambar,
+                    caption: `gambar`,
                     action: true,
                     type: 'image',
                 });
             } else {
-                krajeeConfig('[name="icon"]', {
+                krajeeConfig('[name="gambar"]', {
                     type: 'image'
                 });
             }
@@ -197,13 +202,16 @@
                     }
                 },
                 {
-                    data: 'nama',
+                    data: 'judul',
                 },
                 {
-                    data: 'icon',
+                    data: 'deskripsi',
+                },
+                {
+                    data: 'gambar',
                     render: function(val, type, row, meta) {
-                        let link = `<?= base_url('File') ?>/get/icon_kategori/${val}`;
-                        return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
+                        let link = `<?= base_url('File') ?>/get/broadcast_gambar/${val}`;
+                        return `<a href="${link}" target="_BLANK"><img style="height: 100px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
                 

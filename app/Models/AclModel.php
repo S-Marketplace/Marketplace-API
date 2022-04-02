@@ -34,6 +34,7 @@ class AclModel extends Model
                 'TransaksiTopUpSaldo' => [0, 1, 0, 0],
                 'TransaksiPembelianProduk' => [0, 1, 0, 0],
                 'User' => [0, 1, 0, 0],
+                'Broadcast' => [0, 1, 0, 0],
             ],
         ];
 

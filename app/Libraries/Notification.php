@@ -135,4 +135,39 @@ class Notification
 
         return $res->getBody();
     }
+
+    static function sendBroadcastNotif($title = 'Judul', $message = 'Pesan', $image, $topik = 'general'){
+
+        $options['headers']['Authorization'] = "key=".self::AUTH;
+        $options['http_errors'] = false;
+        $curl = \Config\Services::curlrequest($options);
+
+        $data = array(
+            'title' => $title,
+            'body' => $message,
+            'content_available' => false,
+            'priority' => 'high',
+            "image" => $image,
+            'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+        );
+
+        $curl->setJson([
+            "to" => "/topics/$topik",
+            // ANDROID IDLE
+            'notification' => $data,
+            'data' => $data,
+            // IOS
+            "aps" => [
+                "alert" => [
+                    'title' => $title,
+                    'body' => $message,
+                ],
+                "badge" => 1,
+              ],
+        ]);
+
+        $res = $curl->request('POST', 'https://fcm.googleapis.com/fcm/send');
+
+        return $res->getBody();
+    }
 }

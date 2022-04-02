@@ -64,6 +64,7 @@
 
         $('#btnTambah').click(function(e) {
             e.preventDefault();
+            dataRow = null;
             $('#aksi').html('Tambah');
             $('input').val('');
             $('textarea').html('');
