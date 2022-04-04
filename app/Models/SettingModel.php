@@ -4,6 +4,8 @@ use App\Models\MyModel;
 
 class SettingModel extends MyModel
 {
+    const RADIUS_KEY = 'radius_cod';
+
     protected $table = "m_setting";
     protected $primaryKey = "setKey";
     protected $createdField = "setCreatedAt";
@@ -18,5 +20,17 @@ class SettingModel extends MyModel
     
     public function getPrimaryKeyName(){
         return $this->primaryKey;
+    }
+
+    public function getValue($key){
+        $this->where('setKey', $key);
+        return $this->first()->value ?? '';
+    }
+
+    public function saveKeyValue($key, $value){
+        $this->where('setKey', $key);
+        $this->update(null, [
+            'setValue' => $value
+        ]);
     }
 }

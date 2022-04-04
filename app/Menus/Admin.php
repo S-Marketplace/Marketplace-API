@@ -72,6 +72,11 @@ class Admin implements MenuInterface
                 'url' => 'Broadcast',
                 'icon' => 'volume-2',
             ],
+            [
+                'title' => 'Lokasi COD',
+                'url' => 'LokasiCod',
+                'icon' => 'shopping-bag',
+            ],
            
         ];
     }

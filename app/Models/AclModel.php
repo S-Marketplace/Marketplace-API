@@ -35,6 +35,7 @@ class AclModel extends Model
                 'TransaksiPembelianProduk' => [0, 1, 0, 0],
                 'User' => [0, 1, 0, 0],
                 'Broadcast' => [0, 1, 0, 0],
+                'LokasiCod' => [0, 1, 0, 0],
             ],
         ];
 
