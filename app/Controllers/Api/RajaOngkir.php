@@ -4,6 +4,7 @@ use App\Controllers\MyResourceController;
 use App\Libraries\RajaOngkirShipping;
 use App\Models\CheckoutModel;
 use App\Models\KeranjangModel;
+use App\Models\LokasiCodModel;
 use App\Models\UserAlamatModel;
 
 /**
@@ -54,14 +55,18 @@ class RajaOngkir extends MyResourceController
         $data = $userAlamatModel->where([
             'usralUsrEmail' => $this->user['email'],
             'usralIsActive' => '1',
-        ])->find();
-        $data = current($data);
-        
+        ])->first();
+        // return $this->response->setJSON($data);
+            
         $destination = $data->kotaId;
         $weight = $keranjangModel->getBeratKeranjangCheck($this->user['email']);
         
         $ongkir = [];
         $tujuan = [];
+        $codData = [];
+
+        $modelCod = new LokasiCodModel();
+        $codData = $modelCod->filterByLocationUser($data->latitude, $data->longitude);
 
         foreach ($this->kurirSupport as $value) {
             $dataOngkir = $this->rajaOngkir->cost($this->originId, $destination, $weight, $value);
@@ -87,6 +92,7 @@ class RajaOngkir extends MyResourceController
             'data' => [
                 'ongkir' => $ongkir,
                 'detail' => $tujuan,
+                'cod' => $codData,
             ]
         ];
         
