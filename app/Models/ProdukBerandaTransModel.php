@@ -28,7 +28,7 @@ class ProdukBerandaTransModel extends MyModel
         ];
     }
 
-    public function withGambarProduk(){
-        return $this->hasMany("t_produk_gambar","produkId = prdgbrProdukId",ProdukGambar::class,"gambar",'prdgbrId');
-    }
+    // public function withGambarProduk(){
+    //     return $this->hasMany("t_produk_gambar","produkId = prdgbrProdukId",ProdukGambar::class,"gambar",'prdgbrId');
+    // }
 }

@@ -25,7 +25,8 @@ class Produk extends MyResourceController
             ]);
         }
 
-        $this->model->withGambarProduk();
+        $this->model->select('*');
+        $this->model->with(['gambar']);
         return parent::show($id);
     }
 }
