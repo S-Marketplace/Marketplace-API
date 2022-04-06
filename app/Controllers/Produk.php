@@ -86,8 +86,7 @@ class Produk extends BaseController
 
         $data = [
            'kategori' => $this->getKategori(),
-           'produk' => $this->model->asObject()->find($produkId),
-           'produkGambar' => $produkGambar->where(['prdgbrProdukId' => $produkId])->orderBy('prdgbrIsThumbnail', 'DESC')->asObject()->find(),
+           'produk' => $this->model->select('*')->with(['gambar', 'variant'])->find($produkId),
            'id' => $produkId,
        ];
 

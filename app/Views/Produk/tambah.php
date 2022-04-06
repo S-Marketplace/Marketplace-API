@@ -90,7 +90,7 @@
                                 <input class="form-control gambar" type="file" name="gambar[]" multiple placeholder="icon">
                                 <p class="text-danger" id="er_gambar"></p>
                                 <div class="row">
-                                    <?php foreach($produkGambar ?? [] as $key => $value):?>
+                                    <?php foreach($produk->gambar as $key => $value):?>
                                     <div class="col-md-3 col-sm-6">
                                         <div class="card cardGambar" >
                                             <div class="product-box">
@@ -98,15 +98,15 @@
                                                 <?php if($key == 0):?>
                                                     <div class="ribbon ribbon-danger">Foto Utama</div>
                                                 <?php endif;?>
-                                                <img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
+                                                <img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->file)?>" alt="">
                                                 <div class="product-hover">
                                                     <ul>
                                                         <li>
-                                                            <button data-toggle="tooltip" data-title="Hapus"  data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
+                                                            <button data-toggle="tooltip" data-title="Hapus"  data-id="<?= $value->id?>" data-produkid="<?= $value->produkId?>" class="btn btnHapus" type="button" data-bs-original-title="" title=""><i class="icofont icofont-trash"></i></button>
                                                         </li>
-                                                        <?php if($value->prdgbrIsThumbnail == '0'):?>
+                                                        <?php if($value->isThumbnail == '0'):?>
                                                             <li>
-                                                                <button data-toggle="tooltip" data-title="Jadikan Foto Utama" data-id="<?= $value->prdgbrId?>" data-produkid="<?= $value->prdgbrProdukId?>" class="btn btnSetThumbnail" type="button" data-bs-original-title="" title=""><i class="icofont icofont-pencil"></i></button>
+                                                                <button data-toggle="tooltip" data-title="Jadikan Foto Utama" data-id="<?= $value->id?>" data-produkid="<?= $value->produkId?>" class="btn btnSetThumbnail" type="button" data-bs-original-title="" title=""><i class="icofont icofont-pencil"></i></button>
                                                             </li>
                                                         <?php endif;?>
                                                     </ul>
@@ -114,16 +114,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="card cardGambar">
-                                            <div class="blog-box blog-shadow " style="min-height: 100px;"><img class="img-fluid" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>" alt="">
-                                                <div class="blog-details">
-                                                    <ul class="blog-social">
-                                                        <li class="btnHapus" data-id="<?= $value->prdgbrId?>"><i class="feather icon-trash"></i>Hapus Gambar</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                        <!-- <img class="img-fluid" alt="" src="<?=base_url('File/get/produk_gambar/'.$value->prdgbrFile)?>"> -->
+                                     
                                     </div>
                                     <?php endforeach;?>
                                 </div>
