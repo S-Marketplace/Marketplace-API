@@ -13,13 +13,16 @@ class ProdukBeranda extends MyResourceController
     protected $modelName = 'App\Models\ProdukBerandaModel';
     protected $format    = 'json';
 
-    public function index()
-    {
-        return $this->response( $this->model->getDetailProdukBeranda(), 200);
+    // public function index()
+    // {
+    //     // return $this->response( $this->model->getDetailProdukBeranda(), 200);
 
-        // $this->model->select('*');
-        // $this->model->withProduk();
+    //     // $this->model->select('*');
+    //     // $this->model->withProduk();
 
-        // return parent::index();
-    }
+    //     parent::index();
+    //     echo '<pre>';
+    //     print_r($this->model->getLastQuery()->getQuery());
+    //     echo '</pre>';exit;
+    // }
 }

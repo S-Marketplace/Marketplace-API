@@ -23,30 +23,6 @@ class Welcome extends BaseController
 
         return view('Welcome/index',$data);
     }
-
-    public function test(){
-        $Users = UserM::with(['alamat'])->first();
-
-        return $this->response->setJSON($Users);
-    }
-
-    public function testProduk(){
-        $produk = ProdukBerandaM::with(['produk'])->first();
-        // $produk = ProdukM::with(['gambar'])->first();
-
-        return $this->response->setJSON($produk);
-    }
-
-    public function test1(){
-        
-        $Users = UserM::join('m_user_alamat', function ($join) {
-            $join->on('usrEmail', '=', 'usralUsrEmail');
-        })
-        ->get();
-
-        return $this->response->setJSON($Users);
-    }
-
      /**
      * Grid Produk
      *

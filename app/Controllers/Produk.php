@@ -185,8 +185,7 @@ class Produk extends BaseController
     public function grid()
     {
         $this->model->select('*');
-        $this->model->with(['kategori']);
-        $this->model->withGambarProduk();
+        $this->model->with(['kategori', 'gambar']);
 
         return parent::grid();
     }

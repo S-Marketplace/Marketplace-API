@@ -14,14 +14,6 @@ class Produk extends MyResourceController
     protected $modelName = 'App\Models\ProdukModel';
     protected $format    = 'json';
 
-    public function index()
-    {
-        $this->model->select('*');
-        $this->model->withGambarProduk();
-
-        return parent::index();
-    }
-
     public function show($id = null)
     {
         if($id){

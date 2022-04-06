@@ -116,22 +116,32 @@ class MyModel extends Model
     public function with($relationName)
     {
         $relations = $this->relationships();
+        if(count($this->hasAddedInJoin) == 0){
+            $this->select($this->table.".*");
+        }
         foreach ($relationName as $rel) {
-            if (isset($relations[$rel])) {
+            if (isset($relations[$rel]) && !in_array($rel,$this->hasAddedInJoin)) {
                 $relation = $relations[$rel];
                 $type = isset($relation['type']) ? $relation['type'] : "";
                 $this->join($relation['table'] . " " . $rel, $relation['condition'], $type);
                 if (isset($relation['entity'])) {
                     $entity = new $relation['entity']();
                     $select = [];
-                    foreach ($entity->getDatamap() as $alias => $field) {
+                    $fieldMap = $entity->getDatamap();
+                    if(isset($relation['only']) && count($relation['only']) > 0){
+                        $fieldMap = array_intersect($fieldMap,$relation['only']);
+                    }
+                    foreach($fieldMap as $alias=>$field){
                         $select[] =  "'$alias',{$rel}.{$field}";
                     }
-
-                    $this->select("JSON_OBJECT(" . implode(",", $select) . ") as $rel");
+                    $this->select("JSON_OBJECT(".implode(",",$select).") as $rel");
+                }else if(isset($relation['field_json'])){
+                    $this->select("$relation[field_json] as $rel");
                 }
             }
+            $this->hasAddedInJoin[] = $rel;
         }
+        return $this;
     }
 
     public function getReturnTypeOfRelation($rel)
@@ -195,5 +205,15 @@ class MyModel extends Model
         $this->groupBy($this->table.".".$this->primaryKey);
 
         return $this;
+    }
+
+    protected function entityToMysqlObject($entity){
+        $entityInstance = new $entity;
+        $jsonEntity = [];
+        foreach($entityInstance->getDatamap(true) as $name=>$field){
+            $jsonEntity[] = "'$name',$field";
+        }
+
+        return implode(",",$jsonEntity);
     }
 }

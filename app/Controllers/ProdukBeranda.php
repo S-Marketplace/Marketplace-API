@@ -34,7 +34,7 @@ class ProdukBeranda extends BaseController
     public function grid()
     {
         $this->model->select('*');
-        $this->model->withProduk();
+        $this->model->with(['produk']);
 
         return parent::grid();
     }
@@ -58,15 +58,18 @@ class ProdukBeranda extends BaseController
 
         $produkModel = new ProdukModel();
         $produkModel->select('*');
-        $produkModel->withGambarProduk();
+        $produkModel->with(['gambar']);
         $data = $produkModel->like(['produkNama' => $cari])->find();
         return $this->response->setJSON($data);
     }
 
     public function ubah($produkId)
     {
+        $this->model->select('*');
+        $this->model->with(['produk', 'kategori']);
+
         $data = [
-           'data' => $this->model->getDetailProdukBeranda($produkId),
+           'data' => $this->model->find($produkId),
            'id' => $produkId,
        ];
 

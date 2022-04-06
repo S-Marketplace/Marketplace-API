@@ -23,6 +23,7 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 class Checkout extends MyResourceController
 {
     const SALDO_PAYMENT_ID = 1;
+    const COD_PAYMENT_ID = 99;
     const MANUAL_TRANSFER_IDS = [2,3,4,5];
     const LIMIT_DAY_MANUAL_TRANSFER = 6;
 
@@ -30,7 +31,7 @@ class Checkout extends MyResourceController
     protected $format    = 'json';
 
     protected $checkout = [
-        'kurirId' => ['label' => 'kurirId', 'rules' => 'required|in_list[jne,jnt]'],
+        'kurirId' => ['label' => 'kurirId', 'rules' => 'required|in_list[jne,jnt,cod]'],
         'kurirNama' => ['label' => 'Kurir Nama', 'rules' => 'required'],
         'kurirService' => ['label' => 'Kurir Service', 'rules' => 'required'],
         'kurirDeskripsi' => ['label' => 'Kurir Deskripsi', 'rules' => 'required'],
@@ -173,6 +174,7 @@ class Checkout extends MyResourceController
                     if ($checkoutDetailStatus) {
                         $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
                         
+                        // TODO: Tambahkan metode pembayaran COD
                         // Pembayaran Menggunakan Saldo
                         if ($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID) {
                             // SALDO
