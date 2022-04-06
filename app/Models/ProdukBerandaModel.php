@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Entities\Kategori;
 use App\Models\MyModel;
 use App\Entities\Produk;
+use App\Entities\Kategori;
 use App\Entities\ProdukGambar;
-use App\Entities\ProdukBerandaTrans;
+use App\Entities\ProdukVariant;
 use App\Entities\ProdukWKategori;
+use App\Entities\ProdukBerandaTrans;
 
 class ProdukBerandaModel extends MyModel
 {
@@ -30,6 +31,11 @@ class ProdukBerandaModel extends MyModel
 
     protected function relationships()
     {
+        $variantQuery = "SELECT *,
+            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
+            FROM `t_produk_variant` 
+            GROUP BY pvarProdukId";
+            
         $gambarQuery = "SELECT *,
                 JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
                 FROM `t_produk_gambar` 
@@ -41,11 +47,16 @@ class ProdukBerandaModel extends MyModel
                 GROUP BY ktgId";
 
         $productsQuery = "SELECT *,
-                JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 'gambar', JSON_EXTRACT(gambar.gambars,'$'), 'kategori', JSON_EXTRACT(kategori.kategori,'$'))) AS products
+                (JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
+                'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
+                'kategori', JSON_EXTRACT(kategori.kategori,'$'),
+                'variant', JSON_EXTRACT(variant.variant,'$')
+                )) AS products
                 FROM `t_produk_beranda` 
                 JOIN `m_produk` p ON `tpbProdukId` = p.`produkId`
                 JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = p.produkId 
                 JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = p.produkKategoriId 
+                LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId 
                 GROUP BY tpbPbId";
 
         return [

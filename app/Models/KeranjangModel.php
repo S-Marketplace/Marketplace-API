@@ -1,7 +1,12 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Models\MyModel;
 use App\Entities\Produk;
+use App\Entities\Kategori;
+use App\Entities\ProdukGambar;
+use App\Entities\ProdukVariant;
 
 class KeranjangModel extends MyModel
 {
@@ -10,21 +15,49 @@ class KeranjangModel extends MyModel
     protected $createdField = "krjCreatedAt";
     protected $updatedField = "krjUpdatedAt";
     protected $returnType = "App\Entities\Keranjang";
-    protected $allowedFields = ["krjProdukId","krjQuantity","krjPesan","krjCheckoutId","krjDeletedAt","krjUserEmail", "krjIsChecked"];
+    protected $allowedFields = ["krjProdukId", "krjQuantity", "krjPesan", "krjCheckoutId", "krjDeletedAt", "krjUserEmail", "krjIsChecked"];
 
     public function getReturnType()
     {
         return $this->returnType;
     }
-    
-    public function getPrimaryKeyName(){
+
+    public function getPrimaryKeyName()
+    {
         return $this->primaryKey;
     }
 
     protected function relationships()
     {
+        $variantQuery = "SELECT *,
+            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
+            FROM `t_produk_variant` 
+            GROUP BY pvarProdukId";
+
+        $gambarQuery = "SELECT *,
+            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
+            FROM `t_produk_gambar` 
+            GROUP BY prdgbrProdukId";
+
+        $kategoriQuery = "SELECT *,
+            (JSON_OBJECT(" . $this->entityToMysqlObject(Kategori::class) . ")) AS kategori
+            FROM `m_kategori` 
+            GROUP BY ktgId";
+
+        $productsQuery = "SELECT *,
+            (JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
+            'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
+            'kategori', JSON_EXTRACT(kategori.kategori,'$'),
+            'variant', JSON_EXTRACT(variant.variant,'$')
+            )) AS products
+            FROM `m_produk` 
+            JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = produkId 
+            JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = produkKategoriId 
+            LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId 
+            GROUP BY produkId";
+
         return [
-            'products' => ['table' => 'm_produk', 'condition' => 'krjProdukId = produkId', 'entity' => 'App\Entities\Produk'],
+            'products' => ['table' => "({$productsQuery})", 'condition' => 'krjProdukId = produkId', 'field_json' => 'products', 'type' => 'left'],
         ];
     }
 
@@ -33,13 +66,14 @@ class KeranjangModel extends MyModel
      *
      * @return double
      */
-    public function getBeratKeranjangCheck($email){
+    public function getBeratKeranjangCheck($email)
+    {
         $data = $this->query("SELECT SUM(prd.`produkBerat`) berat FROM `t_keranjang` krj
         JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
         WHERE 
         krj.`krjCheckoutId` IS NULL AND 
         krj.`krjIsChecked` = '1' AND
-        krj.`krjUserEmail` = ".$this->db->escape($email))->getRow();
+        krj.`krjUserEmail` = " . $this->db->escape($email))->getRow();
 
         return $data->berat ?? 0;
     }
@@ -49,13 +83,14 @@ class KeranjangModel extends MyModel
      *
      * @return array
      */
-    public function getProdukKeranjang($email){
+    public function getProdukKeranjang($email)
+    {
         $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga, COUNT(krjId) as jlhProdukCheckout FROM `t_keranjang` krj
         JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
         WHERE 
         krj.`krjCheckoutId` IS NULL AND 
         krj.`krjIsChecked` = '1' AND
-        krj.`krjUserEmail` = ".$this->db->escape($email))->getRow();
+        krj.`krjUserEmail` = " . $this->db->escape($email))->getRow();
 
         return [
             'harga' => intval($data->harga) ?? 0,
@@ -63,7 +98,8 @@ class KeranjangModel extends MyModel
         ];
     }
 
-    public function updateKeranjangToCheckout($checkoutId, $email){
+    public function updateKeranjangToCheckout($checkoutId, $email)
+    {
         $this->where('krjIsChecked', 1);
         $this->where('krjCheckoutId', null);
         $this->where('krjUserEmail', $email);
@@ -73,7 +109,8 @@ class KeranjangModel extends MyModel
         ]);
     }
 
-    public function updateProdukStok($checkoutId){
+    public function updateProdukStok($checkoutId)
+    {
         $data = $this->where('krjCheckoutId', $checkoutId)->find();
 
         $produkModel = new ProdukModel();
@@ -85,12 +122,13 @@ class KeranjangModel extends MyModel
         }
     }
 
-    public function getKeranjangDetail($checkoutId = null, $userEmail = null){
+    public function getKeranjangDetail($checkoutId = null, $userEmail = null)
+    {
         $this->select('*');
-        if(!empty($checkoutId)){
+        if (!empty($checkoutId)) {
             $this->where(['krjCheckoutId' => $checkoutId]);
         }
-        if(!empty($userEmail)){
+        if (!empty($userEmail)) {
             $this->where(['krjUserEmail' => $userEmail]);
         }
         $this->with(['products', 'checkout', 'alamat']);

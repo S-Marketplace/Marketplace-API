@@ -127,13 +127,15 @@ class Keranjang extends MyResourceController
 
     public function index()
     {
+        $this->model->where(['krjUserEmail' => $this->user['email']]);
+        return parent::index();
+        
+        // UNUSED
         $keranjangModel = new KeranjangModel();
-
         $keranjangModel->select('*');
         $keranjangModel->where(['krjUserEmail' => $this->user['email']]);
         $keranjangModel->where(['krjCheckoutId' => null]);
         $keranjangModel->with(['products']);
-
         $this->applyQueryFilter();
         $limit = $this->request->getGet("limit") ? $this->request->getGet("limit") : $this->defaultLimitData;
         $offset = $this->request->getGet("offset") ? $this->request->getGet("offset") : 0;
