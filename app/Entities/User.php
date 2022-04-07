@@ -22,6 +22,8 @@ class User extends MyEntity
         'noWa' => 'usrNoWa',
         'activeCode' => 'usrActiveCode',
         'otpCode' => 'usrOtpCode',
+        'latitude' => 'usrLatitude',
+        'longitude' => 'usrLongitude',
     ];
 
     protected $show = [
@@ -39,6 +41,8 @@ class User extends MyEntity
         'noWa',
         'activeCode',
         'otpCode',
+        'latitude',
+        'longitude',
         'alamat',
     ];
 

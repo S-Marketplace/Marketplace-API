@@ -3,6 +3,7 @@
 $route->resource("data", ['controller' => 'Api\User', 'only' => ['index', 'show', 'create', 'update']]);
 $route->post("register", 'Api\User::register');
 $route->put("firebase_token", 'Api\User::updateFirebaseToken');
+$route->put("lokasi_user", 'Api\User::updateLokasi');
 
 $route->group("alamat", function ($route) {
     $route->resource("/", ['controller' => 'Api\UserAlamat', 'only' => ['index', 'show', 'create', 'update']]);

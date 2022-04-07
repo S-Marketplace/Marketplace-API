@@ -49,6 +49,11 @@ class User extends MyResourceController
         'firebaseToken' => ['label' => 'Firebase Token', 'rules' => 'required'],
     ];
 
+    protected $rulesLokasi = [
+        'latitude' => ['label' => 'Latitude', 'rules' => 'required'],
+        'longitude' => ['label' => 'Longitude', 'rules' => 'required'],
+    ];
+
     protected $rulesVerifikasiOtp = [
         'email' => ['label' => 'Email', 'rules' => 'required'],
         'otpCode' => ['label' => 'Kode OTP', 'rules' => 'required'],
@@ -89,6 +94,40 @@ class User extends MyResourceController
                     ]);
 
                 return $this->response('Berhasil memperbaharui token', ($status ? 200 : 500));
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
+    /**
+     * Memperbaharui Firebase token user
+     *
+     * @return void
+     */
+    public function updateLokasi()
+    {
+        if ($this->validate($this->rulesLokasi, $this->validationMessage)) {
+            try {
+                $this->afterValidation();
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+
+            try {
+                $status = $this->model
+                    ->update($this->user['email'], [
+                        'usrLatitude' => $this->request->getVar('latitude'),
+                        'usrLongitude' => $this->request->getVar('longitude'),
+                    ]);
+
+                return $this->response('Berhasil memperbaharui lokasi', ($status ? 200 : 500));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {

@@ -8,6 +8,7 @@
                     <h3>Lokasi COD</h3>
                 </div>
                 <div class="col-6">
+                    <button class="btn btn-sm btn-primary pull-right ml-2" id="btnPengaturan" data-toggle="modal" data-target="#modalPengaturan"><i class="fa fa-cogs"></i> Pengaturan</button>
                     <button class="btn btn-sm btn-primary pull-right" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
             </div>
@@ -49,12 +50,12 @@
                     <div class="col-8">
                         <h4 class="card-text">Titik Lokasi</h4>
                     </div>
-                    <div class="col-4">
+                    <!-- <div class="col-4">
                         <div class="input-group mb-3"><span class="input-group-text">Radius</span>
                             <input class="form-control" name="radius" type="text"><span class="input-group-text"> Meter </i></span>
                             <button class="btn btn-sm btn-primary pull-right ml-2" id="btnSimpanRadius"><i class="fa fa-save"></i> Simpan</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <p>Menampilkan titik lokasi COD yang tersedia</p>
                 <section id="gmap_geocoding_card"></section>
@@ -107,6 +108,7 @@
         var lng = 114.840804;
         var radius = <?= $radius ?? 0 ?>;
         $('[name="radius"]').val(radius);
+        $('[name="biaya"]').val(<?= $biaya ?? 0 ?>);
 
         renderMap();
 
@@ -264,14 +266,15 @@
             renderMap();
         });
 
-        $(document).on('click', '#btnSimpanRadius', function(e) {
+        $(document).on('click', '#btnSimpanPengaturan', function(e) {
 
             let btn = $(e.currentTarget);
             $.ajax({
                 type: "POST",
-                url: `<?= current_url() ?>/saveRadius`,
+                url: `<?= current_url() ?>/savePengaturan`,
                 data: {
-                    radius: $('[name="radius"]').val()
+                    radius: $('[name="radius"]').val(),
+                    biaya: $('[name="biaya"]').val()
                 },
                 dataType: "JSON",
                 success: function(res) {
@@ -279,16 +282,20 @@
                         radius = parseInt($('[name="radius"]').val());
                         renderMap();
                         grid.draw(false);
-                        Swal.fire('Sukses', res.message, 'success')
+                        $('.modal').modal('hide');
+                        $('.text-danger').html('');
+                        Swal.fire('Berhasil!', res.message, 'success');
                     } else {
-                        Swal.fire('Info!', res.message, 'warning')
+                        $.each(res.message, function(index, val) {
+                            $('#er_' + index).html(val);
+                        });
                     }
                 },
                 fail: function(xhr) {
                     Swal.fire('Error', "Server gagal merespon", 'error');
                 },
                 beforeSend: function() {
-                    btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i>');
+                    btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Simpan');
                 },
                 complete: function(res) {
                     btn.removeAttr('disabled').html('<i class="feather save"></i> Simpan');

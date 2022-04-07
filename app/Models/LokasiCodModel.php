@@ -23,6 +23,7 @@ class LokasiCodModel extends MyModel
     public function filterByLocationUser($lat, $lng){
         $settingModel = new SettingModel();
         $radius = $settingModel->getValue(SettingModel::RADIUS_KEY);
+        $biaya = $settingModel->getValue(SettingModel::BIAYA_KEY);
         $codData = $this->find();
 
         foreach ($codData as $key => $value) {
@@ -31,6 +32,7 @@ class LokasiCodModel extends MyModel
                 unset($codData[$key]);
             }else{
                 $codData[$key]->jarak = round($jarak, 2).' Meter';
+                $codData[$key]->biaya = intval($biaya * $jarak);
             }
         }
 

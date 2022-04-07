@@ -10,7 +10,7 @@ class UserModel extends MyModel
     protected $updatedField = "usrUpdatedAt";
     protected $returnType = "App\Entities\User";
     // protected $useSoftDeletes = true;
-    protected $allowedFields = ["usrEmail","usrNama","usrPassword","usrSaldo","usrIsActive","usrDeletedAt","usrFirebaseToken","usrPin", "usrNoHp", "usrNoWa", "usrActiveCode", "usrOtpCode"];
+    protected $allowedFields = ["usrEmail","usrNama","usrPassword","usrSaldo","usrIsActive","usrDeletedAt","usrFirebaseToken","usrPin", "usrNoHp", "usrNoWa", "usrActiveCode", "usrOtpCode", "usrLatitude", "usrLongitude"];
 
     public function getReturnType()
     {

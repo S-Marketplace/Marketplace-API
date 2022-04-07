@@ -19,6 +19,7 @@ class LokasiCod extends MyEntity
 		'latitude',
 		'longitude',
 		'jarak',
+		'biaya',
 		'createdAt',
 		'updatedAt',
 		'deletedAt',

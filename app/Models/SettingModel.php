@@ -5,6 +5,7 @@ use App\Models\MyModel;
 class SettingModel extends MyModel
 {
     const RADIUS_KEY = 'radius_cod';
+    const BIAYA_KEY = 'biaya_cod';
 
     protected $table = "m_setting";
     protected $primaryKey = "setKey";
@@ -28,8 +29,8 @@ class SettingModel extends MyModel
     }
 
     public function saveKeyValue($key, $value){
-        $this->where('setKey', $key);
-        $this->update(null, [
+        $this->replace( [
+            'setKey' => $key,
             'setValue' => $value
         ]);
     }
