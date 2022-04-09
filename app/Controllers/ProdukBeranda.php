@@ -66,7 +66,7 @@ class ProdukBeranda extends BaseController
     public function ubah($produkId)
     {
         $this->model->select('*');
-        $this->model->with(['produk', 'kategori']);
+        $this->model->with(['produk', 'kategori', 'products']);
 
         $data = [
            'data' => $this->model->find($produkId),
