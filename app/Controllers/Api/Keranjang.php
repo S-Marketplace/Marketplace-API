@@ -128,6 +128,8 @@ class Keranjang extends MyResourceController
     public function index()
     {
         $this->model->where(['krjUserEmail' => $this->user['email']]);
+        $this->model->select('*');
+        $this->model->with(['products']);
         return parent::index();
         
         // UNUSED

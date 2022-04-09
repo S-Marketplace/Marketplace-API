@@ -51,8 +51,8 @@ class KeranjangModel extends MyModel
             'variant', JSON_EXTRACT(variant.variant,'$')
             )) AS products
             FROM `m_produk` 
-            JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = produkId 
-            JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = produkKategoriId 
+            LEFT JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = produkId 
+            LEFT JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = produkKategoriId 
             LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId 
             GROUP BY produkId";
 
