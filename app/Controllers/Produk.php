@@ -451,7 +451,10 @@ class Produk extends BaseController
                     $entity->produkId = $post['produkId'];
                     $entity->nama = $post['namaVariant'];
                     $entity->stokProduk = $post['stokProdukVariant'];
-                    $entity->gambar = @$post['gambarVariasi'];
+
+                    if(@$post['gambarVariasi']){
+                        $entity->gambar = $post['gambarVariasi'];
+                    }
 
                     $produkVariant->transStart();
                     if ($primaryId == '') {
