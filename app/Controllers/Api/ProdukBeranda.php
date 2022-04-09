@@ -20,6 +20,6 @@ class ProdukBeranda extends MyResourceController
         $this->model->select('*');
         $this->model->with(['products']);
 
-        parent::index();
+        return parent::index();
     }
 }
