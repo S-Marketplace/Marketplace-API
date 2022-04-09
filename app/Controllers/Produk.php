@@ -1,4 +1,6 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
 
 use App\Models\ProdukModel;
 use App\Models\KategoriModel;
@@ -7,6 +9,7 @@ use App\Models\ProdukGambarModel;
 use App\Controllers\BaseController;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use App\Controllers\MyResourceController;
+use App\Models\ProdukVariantModel;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\Border;
 use CodeIgniter\Database\Exceptions\DatabaseException;
@@ -23,24 +26,31 @@ class Produk extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-       'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]|cek_kode_sudah_digunakan[idBefore]'],
-       'nama' => ['label' => 'Nama', 'rules' => 'required'],
-       'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
-       'harga' => ['label' => 'Harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-       'stok' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-       'diskon' => ['label' => 'Diskon', 'rules' => 'required|numeric|less_than_equal_to[100]|greater_than_equal_to[0]'],
-    //    'hargaPer' => ['label' => 'hargaPer', 'rules' => 'required'],
-       'berat' => ['label' => 'Berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-       'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
-       'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|mime_in[gambar, image/jpg,image/jpeg,image/png,image/x-png]'],
-   ];
-   
+        'id' => ['label' => 'Kode Produk', 'rules' => 'required|min_length[4]|cek_kode_sudah_digunakan[idBefore]'],
+        'nama' => ['label' => 'Nama', 'rules' => 'required'],
+        'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
+        'harga' => ['label' => 'Harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'stok' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'diskon' => ['label' => 'Diskon', 'rules' => 'required|numeric|less_than_equal_to[100]|greater_than_equal_to[0]'],
+        'berat' => ['label' => 'Berat', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
+        'gambar[]' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|mime_in[gambar, image/jpg,image/jpeg,image/png,image/x-png]'],
+    ];
+
+    protected $rulesVariant = [
+        'namaVariant' => ['label' => 'Nama', 'rules' => 'required'],
+        'hargaVariant' => ['label' => 'Harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'stokVariant' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'stokProdukVariant' => ['label' => 'Stok Produk', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        // 'gambarVariasi' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|mime_in[gambar, image/jpg,image/jpeg,image/png,image/x-png]'],
+    ];
+
     public function index()
     {
         return $this->template->setActiveUrl('Produk')
-           ->view("Produk/index");
+            ->view("Produk/index");
     }
-    
+
     /**
      * Mengambil data kategori
      *
@@ -67,13 +77,13 @@ class Produk extends BaseController
     public function tambah()
     {
         $data = [
-           'kategori' => $this->getKategori(),
-       ];
-      
+            'kategori' => $this->getKategori(),
+        ];
+
         return $this->template->setActiveUrl('Produk')
-           ->view("Produk/tambah", $data);
+            ->view("Produk/tambah", $data);
     }
-    
+
     /**
      * Mengubah data produk ke halaman baru
      *
@@ -82,31 +92,30 @@ class Produk extends BaseController
      */
     public function ubah($produkId)
     {
-        $produkGambar = new ProdukGambarModel();
-
         $data = [
-           'kategori' => $this->getKategori(),
-           'produk' => $this->model->select('*')->with(['gambar', 'variant'])->find($produkId),
-           'id' => $produkId,
-       ];
+            'kategori' => $this->getKategori(),
+            'produk' => $this->model->select('*')->with(['gambar', 'variant'])->find($produkId),
+            'id' => $produkId,
+        ];
 
         return $this->template->setActiveUrl('Produk')
-           ->view("Produk/tambah", $data);
+            ->view("Produk/tambah", $data);
     }
 
-    public function setThumbnail($prdGbrId){
+    public function setThumbnail($prdGbrId)
+    {
         $produkGambar = new ProdukGambarModel();
 
         $find = $produkGambar->where(['prdgbrId' => $prdGbrId])->find();
         $find = current($find);
 
-        if(!empty($find)){
+        if (!empty($find)) {
             $produkGambar->where('prdgbrProdukId', $find->produkId)->update(null, ['prdgbrIsThumbnail' => 0]);
             $produkGambar->update($prdGbrId, ['prdgbrIsThumbnail' => 1]);
 
-			$response = $this->response(null, 200, 'Data berhasil diperbaharui');
-        }else{
-			$response = $this->response(null, 500, 'ID Tidak ditemukan');
+            $response = $this->response(null, 200, 'Data berhasil diperbaharui');
+        } else {
+            $response = $this->response(null, 500, 'ID Tidak ditemukan');
         }
 
         return $this->response->setJSON($response);
@@ -119,30 +128,31 @@ class Produk extends BaseController
      * @param [type] $produkId
      * @return void
      */
-    public function hapusGambar($id, $produkId){
+    public function hapusGambar($id, $produkId)
+    {
         try {
             $produkGambar = new ProdukGambarModel();
             $length = $produkGambar->where(['prdgbrProdukId' => $produkId])->asObject()->find();
 
-            if(count($length) <= 1){
-			    $response = $this->response(null, '500', 'Tidak bisa dihapus, setidaknya minimal ada 1 gambar');
-    			return $this->response->setJSON($response);
+            if (count($length) <= 1) {
+                $response = $this->response(null, '500', 'Tidak bisa dihapus, setidaknya minimal ada 1 gambar');
+                return $this->response->setJSON($response);
             }
 
             $status = $produkGambar->delete($id);
 
-			$response = $this->response(null, ($status ? 200 : 500));
-			return $this->response->setJSON($response);
-		} catch (DatabaseException $ex) {
-			$response =  $this->response(null, 500, $ex->getMessage());
-			return $this->response->setJSON($response);
-		} catch (\mysqli_sql_exception $ex) {
-			$response =  $this->response(null, 500, $ex->getMessage());
-			return $this->response->setJSON($response);
-		} catch (\Exception $ex) {
-			$response =  $this->response(null, 500, $ex->getMessage());
-			return $this->response->setJSON($response);
-		}
+            $response = $this->response(null, ($status ? 200 : 500));
+            return $this->response->setJSON($response);
+        } catch (DatabaseException $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
+        } catch (\mysqli_sql_exception $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
+        } catch (\Exception $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
+        }
     }
 
     /**
@@ -154,9 +164,8 @@ class Produk extends BaseController
     protected function uploadFile($id)
     {
         $produkGambarModel = new ProdukGambarModel();
-        foreach($this->request->getFileMultiple('gambar') as $file)
-        {   
-            if($file->getClientName() == ''){
+        foreach ($this->request->getFileMultiple('gambar') as $file) {
+            if ($file->getClientName() == '') {
                 continue;
             }
 
@@ -189,6 +198,8 @@ class Produk extends BaseController
         return parent::grid();
     }
 
+
+
     /**
      * Menyimpan data produk
      *
@@ -213,7 +224,7 @@ class Produk extends BaseController
         $id = $this->request->getVar('idBefore');
         if ($id != '') {
             $checkData = $this->checkData($id);
-           
+
             if (!empty($checkData)) {
                 unset($this->rules['gambar[]']);
             }
@@ -221,29 +232,29 @@ class Produk extends BaseController
 
         if ($this->request->isAJAX()) {
 
-			helper('form');
-			if ($this->validate($this->rules)) {
-			
-				try {
-					$primaryId = $this->request->getVar('idBefore');
-					$entityClass = $this->model->getReturnType();
-					$entity = new $entityClass();
-					$entity->fill($this->request->getVar());
+            helper('form');
+            if ($this->validate($this->rules)) {
 
-					$this->model->transStart();
-					if ($primaryId == '') {
-						$this->model->insert($entity, false);
+                try {
+                    $primaryId = $this->request->getVar('idBefore');
+                    $entityClass = $this->model->getReturnType();
+                    $entity = new $entityClass();
+                    $entity->fill($this->request->getVar());
+
+                    $this->model->transStart();
+                    if ($primaryId == '') {
+                        $this->model->insert($entity, false);
                         $primaryId = $entity->id;
-						if ($this->model->getInsertID() > 0) {
-							$entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
-						}
-					} else {
-						$this->model->set($entity->toRawArray())
-							->update($primaryId);
-					}
+                        if ($this->model->getInsertID() > 0) {
+                            $entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
+                        }
+                    } else {
+                        $this->model->set($entity->toRawArray())
+                            ->update($primaryId);
+                    }
 
-					$this->model->transComplete();
-					$status = $this->model->transStatus();
+                    $this->model->transComplete();
+                    $status = $this->model->transStatus();
 
                     try {
                         $this->uploadFile($primaryId);
@@ -252,23 +263,23 @@ class Produk extends BaseController
                         return $this->response->setJSON($response);
                     }
 
-					$response = $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
-					return $this->response->setJSON($response);
-				} catch (DatabaseException $ex) {
-					$response =  $this->response(null, 500, $ex->getMessage());
-					return $this->response->setJSON($response);
-				} catch (\mysqli_sql_exception $ex) {
-					$response =  $this->response(null, 500, $ex->getMessage());
-					return $this->response->setJSON($response);
-				} catch (\Exception $ex) {
-					$response =  $this->response(null, 500, $ex->getMessage());
-					return $this->response->setJSON($response);
-				}
-			} else {
-				$response =  $this->response(null, 400, $this->validator->getErrors());
-				return $this->response->setJSON($response);
-			}
-		}
+                    $response = $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
+                    return $this->response->setJSON($response);
+                } catch (DatabaseException $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                } catch (\mysqli_sql_exception $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                } catch (\Exception $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                }
+            } else {
+                $response =  $this->response(null, 400, $this->validator->getErrors());
+                return $this->response->setJSON($response);
+            }
+        }
     }
 
     private $productStartIndexExcel = 3;
@@ -278,7 +289,8 @@ class Produk extends BaseController
      * @param integer $minimumStock
      * @return void
      */
-    public function downloadTemplate($minimumStock = 0){
+    public function downloadTemplate($minimumStock = 0)
+    {
         $reader = new Xlsx();
         $spreadsheet = $reader->load(ROOTPATH . 'public/file_templates/Template Produk.xlsx');
         $sheet = $spreadsheet->setActiveSheetIndexByName('Template');
@@ -304,14 +316,14 @@ class Produk extends BaseController
 
         // Referensi Produk
         $produkModel = new ProdukModel();
-        if($minimumStock != null){
+        if ($minimumStock != null) {
             $produkModel->where(['produkStok <=' => $minimumStock]);
         }
         $produk = $produkModel->asObject()->find();
         $refRowProduk = $refRowStart;
         foreach ($produk as $key => $val) {
             $refRowProduk++;
-            $sheet->setCellValue("{$no}{$refRowProduk}", $key+1);
+            $sheet->setCellValue("{$no}{$refRowProduk}", $key + 1);
             $sheet->setCellValue("{$produkId}{$refRowProduk}", $val->produkId);
             $sheet->setCellValue("{$produkNama}{$refRowProduk}", $val->produkNama);
             $sheet->setCellValue("{$produkStok}{$refRowProduk}", $val->produkStok);
@@ -329,7 +341,8 @@ class Produk extends BaseController
         exit;
     }
 
-    public function bulkUpdate(){
+    public function bulkUpdate()
+    {
         $file = $this->request->getFile('file');
         $extension = $file->getClientExtension();
 
@@ -351,26 +364,126 @@ class Produk extends BaseController
         $spreadsheet = $reader->load($file);
         $dataImport = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
         $dataImport = array_slice($dataImport, $this->productStartIndexExcel);
-        
+
         $produkModel = new ProdukModel();
         $countUpdate = 0;
         foreach ($dataImport as $key => $value) {
             $id = $value['B'];
-            if(!empty($id)){
+            if (!empty($id)) {
                 $countUpdate++;
                 $produkModel->update($id, [
-                    'produkNama'=> $value['C'],
-                    'produkStok'=> $value['D'],
-                    'produkHarga'=> $value['E'],
+                    'produkNama' => $value['C'],
+                    'produkStok' => $value['D'],
+                    'produkHarga' => $value['E'],
                 ]);
             }
         }
 
         $response = [
             'code' => 200,
-            'message' => $countUpdate.' Produk Berhasil di update',
+            'message' => $countUpdate . ' Produk Berhasil di update',
         ];
 
         return $this->response->setJSON($response);
+    }
+
+    protected function uploadFileVariasi()
+    {
+        helper("myfile");
+
+        $path = Config::get("App")->uploadPath . "produk_variasi";
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $this->request->getFile("gambarVariasi");
+        if ($file && $file->getError() == 0) {
+
+            $filename = date("Ymdhis") . "." . $file->getExtension();
+
+            rename2($file->getRealPath(), $path . DIRECTORY_SEPARATOR . $filename);
+            $post = $this->request->getVar();
+            $post['gambarVariasi'] = $filename;
+            $this->request->setGlobal("request", $post);
+        }
+
+    }
+
+    public function hapusVariasi($id = '')
+    {
+        $produkVariant = new ProdukVariantModel();
+        $produkVariant->delete($id);
+        $response =  $this->response(null, 200, 'Berhasil dihapus');
+        return $this->response->setJSON($response);
+    }
+
+    public function simpanVariasi($primary = '')
+    {
+        if(empty($this->request->getVar('produkId'))){
+            $response =  $this->response(null, 403, 'Harap simpan produk terlebih dahulu');
+            return $this->response->setJSON($response);
+        }
+
+        $post = $this->request->getVar();
+        $post['hargaVariant'] = str_replace(['.', ','], '', $post['hargaVariant']);
+        $this->request->setGlobal("request", $post);
+
+        try {
+            $this->uploadFileVariasi();
+            $post = $this->request->getVar();
+        } catch (\Exception $ex) {
+            $response =  $this->response(null, 500, $ex->getMessage());
+            return $this->response->setJSON($response);
+        }
+
+        if ($this->request->isAJAX()) {
+
+            helper('form');
+            if ($this->validate($this->rulesVariant)) {
+
+                $produkVariant = new ProdukVariantModel();
+
+                try {
+                    $primaryId = $this->request->getVar('id');
+                    $entityClass = $produkVariant->getReturnType();
+                    $entity = new $entityClass();
+                    $entity->harga = $post['hargaVariant'];
+                    $entity->produkId = $post['produkId'];
+                    $entity->nama = $post['namaVariant'];
+                    $entity->stokProduk = $post['stokProdukVariant'];
+                    $entity->gambar = @$post['gambarVariasi'];
+
+                    $produkVariant->transStart();
+                    if ($primaryId == '') {
+                        $produkVariant->insert($entity, false);
+                        $primaryId = $entity->id;
+                        if ($produkVariant->getInsertID() > 0) {
+                            $entity->{$produkVariant->getPrimaryKeyName()} = $produkVariant->getInsertID();
+                        }
+                    } else {
+                        $produkVariant->set($entity->toRawArray())
+                            ->update($primaryId);
+                    }
+
+                    $produkVariant->transComplete();
+                    $status = $produkVariant->transStatus();
+
+                    $response = $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
+                    return $this->response->setJSON($response);
+                } catch (DatabaseException $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                } catch (\mysqli_sql_exception $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                } catch (\Exception $ex) {
+                    $response =  $this->response(null, 500, $ex->getMessage());
+                    return $this->response->setJSON($response);
+                }
+            } else {
+                $response =  $this->response(null, 400, $this->validator->getErrors());
+                return $this->response->setJSON($response);
+            }
+        }
     }
 }

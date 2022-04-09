@@ -9,7 +9,7 @@ class ProdukVariantModel extends MyModel
     protected $createdField = "pvarCreatedAt";
     protected $updatedField = "pvarUpdatedAt";
     protected $returnType = "App\Entities\ProdukVariant";
-    protected $allowedFields = ["pvarProdukId","pvarStok","pvarProdukStok","pvarHarga","pvarGambar","pvarDeletedAt"];
+    protected $allowedFields = ["pvarProdukId","pvarStok","pvarProdukStok","pvarHarga","pvarGambar","pvarNama","pvarDeletedAt"];
 
     public function getReturnType()
     {

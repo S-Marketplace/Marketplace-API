@@ -60,7 +60,7 @@ class Checkout extends MyResourceController
         $this->request->setGlobal("get", $post);
 
         $this->model->select('*');
-        $this->model->withDetail();
+        $this->model->with(['detail']);
         return parent::index();
     }
 

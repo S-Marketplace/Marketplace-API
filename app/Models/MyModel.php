@@ -124,7 +124,9 @@ class MyModel extends Model
                 $relation = $relations[$rel];
                 $type = isset($relation['type']) ? $relation['type'] : "";
                 $this->join($relation['table'] . " " . $rel, $relation['condition'], $type);
-                if (isset($relation['entity'])) {
+                if(isset($relation['field_alias'])){
+                    $this->select("$relation[field_alias] as $rel");
+                } else if (isset($relation['entity'])) {
                     $entity = new $relation['entity']();
                     $select = [];
                     $fieldMap = $entity->getDatamap();
@@ -135,8 +137,6 @@ class MyModel extends Model
                         $select[] =  "'$alias',{$rel}.{$field}";
                     }
                     $this->select("JSON_OBJECT(".implode(",",$select).") as $rel");
-                }else if(isset($relation['field_json'])){
-                    $this->select("$relation[field_json] as $rel");
                 }
             }
             $this->hasAddedInJoin[] = $rel;
@@ -183,30 +183,36 @@ class MyModel extends Model
         return $this;
     }
     
-    protected function hasMany($tableName,$relations,$entity,$alias,$key,$type ="left"){
-        $entityInstance = new $entity;
-        $jsonEntity = [];
-        $primaryId = '';
-        $i = 0;
-        foreach($entityInstance->getDatamap(true) as $name=>$field){
+    // protected function hasMany($tableName,$relations,$entity,$alias,$key,$type ="left"){
+    //     $entityInstance = new $entity;
+    //     $jsonEntity = [];
+    //     $primaryId = '';
+    //     $i = 0;
+    //     foreach($entityInstance->getDatamap(true) as $name=>$field){
 
-            if(empty($field)) continue;
-            if($i == 0) $primaryId = $field;
-            $jsonEntity[] = "'$name',$field";
-            $i++;
-        }
-        if(count($this->hasAddedInJoin) == 0){
-            // $this->select($this->getTableName().".*");
-        }else{
-            $this->hasAddedInJoin[] = $tableName;
-        }
-        $this->select("IF($primaryId IS NOT NULL, CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']'), '[]') as $alias")
-        ->join($tableName,$relations,$type);
-        $this->groupBy($this->table.".".$this->primaryKey);
+    //         if(empty($field)) continue;
+    //         if($i == 0) $primaryId = $field;
+    //         $jsonEntity[] = "'$name',$field";
+    //         $i++;
+    //     }
+    //     if(count($this->hasAddedInJoin) == 0){
+    //         // $this->select($this->getTableName().".*");
+    //     }else{
+    //         $this->hasAddedInJoin[] = $tableName;
+    //     }
+    //     $this->select("IF($primaryId IS NOT NULL, CONCAT('[', GROUP_CONCAT(JSON_OBJECT(".implode(",",$jsonEntity).")), ']'), '[]') as $alias")
+    //     ->join($tableName,$relations,$type);
+    //     $this->groupBy($this->table.".".$this->primaryKey);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
+    /**
+     * Mysql JSON_OBJECT value
+     *
+     * @param [type] $entity
+     * @return void
+     */
     protected function entityToMysqlObject($entity){
         $entityInstance = new $entity;
         $jsonEntity = [];
@@ -215,5 +221,68 @@ class MyModel extends Model
         }
 
         return implode(",",$jsonEntity);
+    }
+    
+    /**
+     * Many Array of object Relation
+     *
+     * @param $table
+     * @param $entity
+     * @param $condition
+     * @param $alias
+     * @param $group
+     * @param string $type
+     * @param ...$callable
+     * @return void
+     */
+    protected function hasMany($table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+        return $this->_templateRelationships(false, $table, $entity, $condition, $alias, $group, $type, ...$callable);
+    }
+
+    /**
+     * One Object Relation
+     *
+     * @param $table
+     * @param $entity
+     * @param $condition
+     * @param $alias
+     * @param $group
+     * @param string $type
+     * @param ...$callable
+     * @return void
+     */
+    protected function belongTo($table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+        return $this->_templateRelationships(true, $table, $entity, $condition, $alias, $group, $type, ...$callable);
+    }
+
+    private function _templateRelationships($asObject = true, $table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+        $callJoin = [];
+        $callEntity = [];
+        $callSeparator = '';
+        $asObject = $asObject ? '' : 'JSON_ARRAYAGG';
+
+        foreach ($callable as  $callbacks) {
+            if (is_callable($callbacks))
+            {
+                $callbacksData = $callbacks($this);
+             
+                $callAlias = $callbacksData['field_alias'];
+                $callCondition = $callbacksData['condition'];
+                $callType = $callbacksData['type'];
+                $callJoin[] = "$callType JOIN ($callbacksData[table]) $callAlias ON $callCondition";
+                $callEntity[] = "'$callAlias', $callAlias.$callAlias";
+                $callSeparator = ', ';
+            }
+        }
+
+        // Insided Query Table
+        $query = "SELECT *,
+            $asObject(JSON_OBJECT(" . $this->entityToMysqlObject($entity) . $callSeparator . implode(', ', $callEntity) . ")) AS ".$alias."
+            FROM ".$table." 
+            ".implode(' ', $callJoin)." 
+            GROUP BY ".$group;
+
+        // Relationships format
+        return ['table' => "({$query})", 'condition' => $condition, 'field_alias' => $alias, 'entity' => $entity, 'type' => $type];
     }
 }

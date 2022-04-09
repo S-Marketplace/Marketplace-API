@@ -27,10 +27,7 @@ class CheckoutModel extends MyModel
             'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
             'kurir' => ['table' => 't_checkout_kurir', 'condition' => 'cktId = ckurCheckoutId', 'entity' => 'App\Entities\CheckoutKurir'],
             'alamat' => ['table' => 'm_user_alamat', 'condition' => 'cktAlamatId = usralId', 'entity' => 'App\Entities\UserAlamat'],
+            'detail' => $this->hasMany('t_checkout_detail', CheckoutDetail::class, 'cktId = cktdtCheckoutId', 'detail', 'cktdtCheckoutId','LEFT'),
         ];
-    }
-
-    public function withDetail(){
-        return $this->hasMany("t_checkout_detail","cktId = cktdtCheckoutId",CheckoutDetail::class,"detail",'-');
     }
 }

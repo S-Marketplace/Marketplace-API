@@ -38,8 +38,7 @@ class TransaksiPembelianProduk extends BaseController
     public function grid()
     {
         $this->model->select('*');
-        $this->model->withDetail();
-        $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat']);
+        $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat', 'detail']);
 
         return parent::grid();
     }

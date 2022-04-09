@@ -146,8 +146,8 @@
             var lat = -3.4407774;
             var lng = 114.840804;
             if (data.length) {
-                lat = parseFloat(data[0].alamat.latitude);
-                lng = parseFloat(data[0].alamat.longitude);
+                lat = parseFloat(data[0].latitude ?? data[0].alamat.latitude);
+                lng = parseFloat(data[0].longitude ?? data[0].alamat.longitude);
             }
 
             map = new google.maps.Map(document.getElementById('gmap_geocoding'), {
@@ -166,8 +166,8 @@
 
                 marker[val.email] = new google.maps.Marker({
                     position: {
-                        lat: parseFloat(val.alamat.latitude),
-                        lng: parseFloat(val.alamat.longitude),
+                        lat: parseFloat(val.latitude ?? val.alamat.latitude),
+                        lng: parseFloat(val.longitude ?? val.alamat.longitude),
                     },
                     animation: google.maps.Animation.DROP,
                     icon: icon,
