@@ -96,7 +96,7 @@ class Keranjang extends MyResourceController
 
             try {
                 if (isset($data['produkId']) && !empty($data['produkId'])) {
-                    $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjCheckoutId' => null];
+                    $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjVariantId' => @$data['variantId'],  'krjCheckoutId' => null];
     
                     $this->model->where($where)
                         ->update(null, [
