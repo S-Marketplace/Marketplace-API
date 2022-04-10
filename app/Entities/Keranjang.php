@@ -12,6 +12,7 @@ class Keranjang extends MyEntity
     protected $datamap = [
         'id' => 'krjId',
         'produkId' => 'krjProdukId',
+        'variantId' => 'krjVariantId',
         'quantity' => 'krjQuantity',
         'pesan' => 'krjPesan',
         'checkoutId' => 'krjCheckoutId',
@@ -25,6 +26,7 @@ class Keranjang extends MyEntity
     protected $show = [
 		'id',
 		'produkId',
+		'variantId',
 		'quantity',
 		'pesan',
     'products',

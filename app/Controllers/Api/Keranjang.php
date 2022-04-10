@@ -50,7 +50,7 @@ class Keranjang extends MyResourceController
             $data['userEmail'] = $userEmail;
             $entity->fill($data);
 
-            $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjCheckoutId' => null];
+            $where = ['krjUserEmail' => $userEmail, 'krjProdukId' => $data['produkId'], 'krjVariantId' => @$data['variantId'], 'krjCheckoutId' => null];
 
             $sudahPesanSebelumnya = $this->model->where($where)->countAllResults();
 
@@ -68,6 +68,7 @@ class Keranjang extends MyResourceController
                         ->insert([
                             'krjQuantity' => $data['quantity'],
                             'krjProdukId' => $data['produkId'],
+                            'krjVariantId' => @$data['variantId'],
                             'krjUserEmail' => $userEmail,
                         ]);
                 }
