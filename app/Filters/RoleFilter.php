@@ -10,7 +10,7 @@ use CodeIgniter\Filters\FilterInterface;
 
 class RoleFilter implements FilterInterface
 {
-    // TODO: LOGIN Masih Tambus
+    // FIXED: LOGIN Masih Tambus
     public function before(RequestInterface $request, $arguments = NULL)
     {
         $session = \Config\Services::session();
@@ -25,11 +25,13 @@ class RoleFilter implements FilterInterface
         $aclModel = new AclModel();
         $list = $aclModel->getAcl();
    
-        if($role != 'SUPERADMIN'){
-            $accessRole = array_keys($list[$role]);
-    
-            if (!in_array($currentFolder, $accessRole)) {
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        if(!empty($role)){
+            if($role != 'SUPERADMIN'){
+                $accessRole = array_keys($list[$role]);
+        
+                if (!in_array($currentFolder, $accessRole)) {
+                    throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+                }
             }
         }
     }

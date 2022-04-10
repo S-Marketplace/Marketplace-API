@@ -46,7 +46,7 @@ class Filters extends BaseConfig
         // 'csrf',
         'hakAkses' => [
           'except' => [
-            '/*', 
+            '/', 
             'login', 
             'login/logout', 
             'login/*', 
