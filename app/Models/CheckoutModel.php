@@ -10,7 +10,7 @@ class CheckoutModel extends MyModel
     protected $createdField = "cktCreatedAt";
     protected $updatedField = "cktUpdatedAt";
     protected $returnType = "App\Entities\Checkout";
-    protected $allowedFields = ["cktStatus","cktKurir","cktNoResiKurir","cktCatatan","cktAlamatId","cktDeletedAt"];
+    protected $allowedFields = ["cktStatus","cktKurir","cktNoResiKurir","cktCatatan","cktAlamatId", "ckurTipePengiriman", "cktDeletedAt"];
 
     public function getReturnType()
     {
