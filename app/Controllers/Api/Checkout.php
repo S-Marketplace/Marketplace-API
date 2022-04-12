@@ -145,6 +145,7 @@ class Checkout extends MyResourceController
                         'ckurService' => $post['kurirService'],
                         'ckurDeskripsi' => $post['kurirDeskripsi'],
                         'ckurCost' => $post['kurirCost'],
+                        'ckurTipePengiriman' => $post['tipePengiriman'],
                     ]);
                 // }
 
