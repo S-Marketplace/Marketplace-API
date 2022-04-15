@@ -176,8 +176,35 @@ class Checkout extends MyResourceController
                         $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
                         
                         // TODO: Tambahkan metode pembayaran COD
+                        if ($post['id_metode_pembayaran'] == self::COD_PAYMENT_ID) {
+                            $metodePembayaranModel = new MetodePembayaranModel();
+                            $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);
+                            
+                            $dateTime = date('Y-m-d H:i:s');
+                            $uuid = Uuid::uuid4().'-cod';
+                            $orderId = 'ORDER-'.strtotime("now");;
+    
+                            $bank = $metodePembayaranData->bank;
+    
+                            $pembayaranModel = new PembayaranModel();
+                            $pembayaranModel->insert([
+                                'pmbCheckoutId' => $checkoutId,
+                                'pmbId' => $uuid,
+                                'pmbPaymentType' => 'cod',
+                                'pmbStatus' => 'pending',
+                                'pmbTime' => $dateTime,
+                                'pmbOrderId' => $orderId,
+                                'pmbGrossAmount' => $price,
+                                'pmbCurrency' => 'IDR',
+                                'pmbUserEmail' => $this->user['email'],
+                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_MANUAL_TRANSFER." days")),
+                            ]);
+
+                            $pembayaranModel = new PembayaranModel();
+                            return $this->response($pembayaranModel->find($uuid), 200);
+                        }
                         // Pembayaran Menggunakan Saldo
-                        if ($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID) {
+                        else if ($post['id_metode_pembayaran'] == self::SALDO_PAYMENT_ID) {
                             // SALDO
                             $modelUser = new UserModel();
                             $dataUser = $modelUser->find($this->user['email']);
