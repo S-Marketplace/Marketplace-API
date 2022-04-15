@@ -10,7 +10,6 @@ use CodeIgniter\Filters\FilterInterface;
 
 class RoleFilter implements FilterInterface
 {
-    // FIXED: LOGIN Masih Tambus
     public function before(RequestInterface $request, $arguments = NULL)
     {
         $session = \Config\Services::session();

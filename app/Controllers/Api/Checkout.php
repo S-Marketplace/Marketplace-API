@@ -175,7 +175,7 @@ class Checkout extends MyResourceController
                     if ($checkoutDetailStatus) {
                         $price = array_sum(array_column($rincianPembayaran, 'cktdtBiaya'));
                         
-                        // TODO: Tambahkan metode pembayaran COD
+                        // COD PAYMENT
                         if ($post['id_metode_pembayaran'] == self::COD_PAYMENT_ID) {
                             $metodePembayaranModel = new MetodePembayaranModel();
                             $metodePembayaranData = $metodePembayaranModel->find($post['id_metode_pembayaran']);

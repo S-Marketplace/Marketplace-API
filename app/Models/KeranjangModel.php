@@ -85,16 +85,46 @@ class KeranjangModel extends MyModel
      */
     public function getProdukKeranjang($email)
     {
-        $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga, COUNT(krjId) as jlhProdukCheckout FROM `t_keranjang` krj
-        JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
-        WHERE 
-        krj.`krjCheckoutId` IS NULL AND 
-        krj.`krjIsChecked` = '1' AND
-        krj.`krjUserEmail` = " . $this->db->escape($email))->getRow();
+        $keranjangModel = new KeranjangModel();
+        $keranjangModel->select('*');
+        $keranjangModel->with(['products']);
+        $data = $keranjangModel->where([
+            'krjUserEmail' => $email, 
+            'krjCheckoutId' => null,
+        ])->find();
+
+        $harga = 0;
+        foreach ($data as $key => $value) {
+            $variant = $value->products->variant;
+
+            if(!empty($variant)){
+                $variantId = $value->variantId;
+                $variantSearch = current(array_filter($variant, function($e) use($variantId){
+                    return $e->id == $variantId;
+                }));
+
+                if(!empty($variantSearch)){
+                    $harga += $variantSearch->harga;
+                }
+                else{
+                    $harga += $value->products->harga;
+                }
+            }else{
+                $harga += $value->products->harga;
+            }
+        }
+        // return $data;
+
+        // $data = $this->query("SELECT SUM(produkHarga - (produkHarga*produkDiskon/100)) * krjQuantity AS harga, COUNT(krjId) as jlhProdukCheckout FROM `t_keranjang` krj
+        // JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
+        // WHERE 
+        // krj.`krjCheckoutId` IS NULL AND 
+        // krj.`krjIsChecked` = '1' AND
+        // krj.`krjUserEmail` = " . $this->db->escape($email))->getRow();
 
         return [
-            'harga' => intval($data->harga) ?? 0,
-            'jumlah' => intval($data->jlhProdukCheckout) ?? 0,
+            'harga' => intval($harga) ?? 0,
+            'jumlah' => intval(count($data)) ?? 0,
         ];
     }
 
@@ -109,6 +139,7 @@ class KeranjangModel extends MyModel
         ]);
     }
 
+    // TODO : Update Stok variant dan stok produk
     public function updateProdukStok($checkoutId)
     {
         $data = $this->where('krjCheckoutId', $checkoutId)->find();
