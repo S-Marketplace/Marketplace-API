@@ -40,8 +40,8 @@ class Produk extends BaseController
     protected $rulesVariant = [
         'namaVariant' => ['label' => 'Nama', 'rules' => 'required'],
         'hargaVariant' => ['label' => 'Harga', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-        'stokVariant' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
-        'stokProdukVariant' => ['label' => 'Stok Produk', 'rules' => 'required|numeric|greater_than_equal_to[0]'],
+        'stokVariant' => ['label' => 'Stok', 'rules' => 'required|numeric|greater_than_equal_to[0]|cek_stok_variasi[stokProdukVariant]'],
+        'stokProdukVariant' => ['label' => 'Stok Produk', 'rules' => 'required|numeric|greater_than_equal_to[1]|cek_stok_produk[]'],
         // 'gambarVariasi' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|mime_in[gambar, image/jpg,image/jpeg,image/png,image/x-png]'],
     ];
 

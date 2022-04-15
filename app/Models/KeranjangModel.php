@@ -139,17 +139,24 @@ class KeranjangModel extends MyModel
         ]);
     }
 
-    // TODO : Update Stok variant dan stok produk
     public function updateProdukStok($checkoutId)
     {
         $data = $this->where('krjCheckoutId', $checkoutId)->find();
 
         $produkModel = new ProdukModel();
+        $variantModel = new ProdukVariantModel();
         foreach ($data as $keranjang) {
-            $find = $produkModel->find($keranjang->produkId);
-            $produkModel->update($keranjang->produkId, [
-                'produkStok' => intval($find->stok) - intval($keranjang->quantity),
-            ]);
+            $variantFromStok = 1;
+            if(!empty($keranjang->variantId)){
+                $variantData = $variantModel->find($keranjang->variantId);
+                $variantData->stok = $variantData->stok - $keranjang->krjQuantity;
+                $variantFromStok = $variantData->produkStok;
+                $variantModel->save($variantData);
+            }
+
+            $produkData = $produkModel->find($keranjang->produkId);
+            $produkData->stok = $produkData->stok - ($keranjang->krjQuantity * $variantFromStok);
+            $produkModel->save($produkData);
         }
     }
 
