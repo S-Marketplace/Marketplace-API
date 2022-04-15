@@ -200,6 +200,12 @@ class Checkout extends MyResourceController
                                 'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_MANUAL_TRANSFER." days")),
                             ]);
 
+                            $checkoutModel->transComplete();
+                            $checkoutDetail->transComplete();
+                            $checkoutKurirModel->transComplete();
+
+                            $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+
                             $pembayaranModel = new PembayaranModel();
                             return $this->response($pembayaranModel->find($uuid), 200);
                         }
