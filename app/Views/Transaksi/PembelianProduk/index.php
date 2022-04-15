@@ -128,6 +128,9 @@
 
 
             $('[name="noResi"]').val(dataRow.kurir.noResi);
+
+            let tipe = dataRow.kurir.tipePengiriman == 'pickup' ? '<span class="badge badge-primary text-light">Ambil Sendiri</span>' : '<span class="badge badge-success text-light">Diantar</span>';
+            $('.kurir_tipe').html(`${tipe}`);
             $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
             $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
             $('.catatan_pembeli').html(`${dataRow.catatan}`);
@@ -188,8 +191,10 @@
             $('[name="noResi"]').val(dataRow.kurir.noResi);
             $('#orderDetail').html(templateOrderDetail(dataRow.detail));
 
-            loadKeranjangDetail(dataRow.id);
+            loadKeranjangDetail(dataRow);
 
+            let tipe = dataRow.kurir.tipePengiriman == 'pickup' ? '<span class="badge badge-primary text-light">Ambil Sendiri</span>' : '<span class="badge badge-success text-light">Diantar</span>';
+            $('.kurir_tipe').html(`${tipe}`);
             $('.kurir_layanan').html(`${dataRow.kurir.deskripsi} (${dataRow.kurir.service})`);
             $('.kurir_nama').html(`${dataRow.kurir.nama} (${dataRow.kurir.kurir})`);
             $('.catatan_pembeli').html(`${dataRow.catatan}`);
@@ -207,6 +212,22 @@
                 let hargaNormal = element.products.harga;
                 let hargaDiskon = element.products.harga;
                 let diskonText = '';
+                var variant = '';
+
+                if(element.products.variant){
+                    variant = element.products.variant.find(data => data.id == element.variantId);
+                }
+
+                console.log('VARIANT', variant)
+
+                if(typeof variant == 'object'){
+                    hargaNormal = variant.harga;
+                    hargaDiskon = variant.harga;
+
+                    variant = `<div class="price d-flex">
+                                    <div class="text-muted me-2">Variant</div>: <code>${variant.nama}</code>
+                                </div>`;
+                }
     
                 if(element.products.diskon != 0){
                     hargaNormal = hargaNormal - (hargaNormal * (element.products.diskon / 100));
@@ -223,7 +244,8 @@
                               </div>
                               <div class="price d-flex">
                                 <div class="text-muted me-2">Jumlah</div>: ${element.quantity}
-                            </div>
+                              </div>
+                              ${variant}
                               <a class="btn btn-success btn-xs" href="#" data-bs-original-title="" title="">Diskon ${element.products.diskon}%</a>
                             </div>
                           </div>
@@ -234,10 +256,10 @@
             
         }
 
-        function loadKeranjangDetail(id){
+        function loadKeranjangDetail(data){
             $.ajax({
                 type: "POST",
-                url: `<?= current_url() ?>/keranjangDetail/`+id,
+                url: `<?= current_url() ?>/keranjangDetail/`+data.id,
                 dataType: "JSON",
                 cache: false,
                 processData: false,
@@ -320,6 +342,7 @@
                         else if(val == 'manual_transfer') return 'Transfer Bank <span class="badge badge-primary text-light">Rekening</span>';
                         else if (val == 'echannel') return 'Mandiri Bill';
                         else if (val == 'saldo') return 'Saldo';
+                        else if (val == 'cod') return 'Cash On Delivery';
                         else if (val == 'cstore') return row.pembayaran.store.toUpperCase();
                     }
                 },
@@ -388,7 +411,7 @@
                         });
 
                         var btnVerifikasi = '';
-                        if(row.pembayaran.paymentType == 'manual_transfer' && row.pembayaran.status == 'pending'){
+                        if((row.pembayaran.paymentType == 'manual_transfer' || row.pembayaran.paymentType == 'cod') && row.pembayaran.status == 'pending'){
                             btnVerifikasi = btnDatatableConfig('custom', {
                                 'id': 'btnVerifikasi',
                                 'data-row': meta.row,

@@ -25,6 +25,7 @@
                                             <p>
                                                 <span class="kurir_layanan">Layanan Reguler (REG)</span> -
                                                 <span class="kurir_nama">Jalur Eka Nugraha (JNE)</span>
+                                                <span class="pull-right kurir_tipe">-</span>
                                             </p>
                                         </div>
                                     </div>
@@ -100,6 +101,7 @@
                                             <p>
                                                 <span class="kurir_layanan">Layanan Reguler (REG)</span> -
                                                 <span class="kurir_nama">Jalur Eka Nugraha (JNE)</span>
+                                                <span class="pull-right kurir_tipe">-</span>
                                             </p>
                                         </div>
                                     </div>

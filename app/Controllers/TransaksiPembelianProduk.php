@@ -103,7 +103,7 @@ class TransaksiPembelianProduk extends BaseController
 
             if($find->status != 'pending'){
                 return $this->response(null, 500, 'Tidak bisa memverifikasi status pembayaran yang bukan pending');
-            }else if($find->paymentType != 'manual_transfer'){
+            }else if($find->paymentType != 'manual_transfer' && $find->paymentType != 'cod'){
                 return $this->response(null, 500, 'Tidak bisa memverifikasi status pembayaran yang bukan Transfer ke rekening');
             }
 
