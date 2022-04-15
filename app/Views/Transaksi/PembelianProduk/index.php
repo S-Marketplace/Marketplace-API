@@ -213,18 +213,19 @@
                 let hargaDiskon = element.products.harga;
                 let diskonText = '';
                 var variant = '';
+                var variantText = '';
 
                 if(element.products.variant){
                     variant = element.products.variant.find(data => data.id == element.variantId);
                 }
 
-                console.log('VARIANT', variant)
+                console.log('VARIANT', typeof variant)
 
-                if(typeof variant == 'object'){
+                if(variant != '' && variant != null && variant != undefined){
                     hargaNormal = variant.harga;
                     hargaDiskon = variant.harga;
 
-                    variant = `<div class="price d-flex">
+                    variantText = `<div class="price d-flex">
                                     <div class="text-muted me-2">Variant</div>: <code>${variant.nama}</code>
                                 </div>`;
                 }
@@ -245,7 +246,7 @@
                               <div class="price d-flex">
                                 <div class="text-muted me-2">Jumlah</div>: ${element.quantity}
                               </div>
-                              ${variant}
+                              ${variantText}
                               <a class="btn btn-success btn-xs" href="#" data-bs-original-title="" title="">Diskon ${element.products.diskon}%</a>
                             </div>
                           </div>
