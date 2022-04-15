@@ -29,35 +29,42 @@ class KeranjangModel extends MyModel
 
     protected function relationships()
     {
-        $variantQuery = "SELECT *,
-            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
-            FROM `t_produk_variant` 
-            GROUP BY pvarProdukId";
+        // $variantQuery = "SELECT *,
+        //     JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
+        //     FROM `t_produk_variant` 
+        //     GROUP BY pvarProdukId";
 
-        $gambarQuery = "SELECT *,
-            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
-            FROM `t_produk_gambar` 
-            GROUP BY prdgbrProdukId";
+        // $gambarQuery = "SELECT *,
+        //     JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
+        //     FROM `t_produk_gambar` 
+        //     GROUP BY prdgbrProdukId";
 
-        $kategoriQuery = "SELECT *,
-            (JSON_OBJECT(" . $this->entityToMysqlObject(Kategori::class) . ")) AS kategori
-            FROM `m_kategori` 
-            GROUP BY ktgId";
+        // $kategoriQuery = "SELECT *,
+        //     (JSON_OBJECT(" . $this->entityToMysqlObject(Kategori::class) . ")) AS kategori
+        //     FROM `m_kategori` 
+        //     GROUP BY ktgId";
 
-        $productsQuery = "SELECT *,
-            (JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
-            'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
-            'kategori', JSON_EXTRACT(kategori.kategori,'$'),
-            'variant', JSON_EXTRACT(variant.variant,'$')
-            )) AS products
-            FROM `m_produk` 
-            LEFT JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = produkId 
-            LEFT JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = produkKategoriId 
-            LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId 
-            GROUP BY produkId";
+        // $productsQuery = "SELECT *,
+        //     (JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
+        //     'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
+        //     'kategori', JSON_EXTRACT(kategori.kategori,'$'),
+        //     'variant', JSON_EXTRACT(variant.variant,'$')
+        //     )) AS products
+        //     FROM `m_produk` 
+        //     LEFT JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = produkId 
+        //     LEFT JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = produkKategoriId 
+        //     LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId 
+        //     GROUP BY produkId";
 
         return [
-            'products' => ['table' => "({$productsQuery})", 'condition' => 'krjProdukId = produkId', 'field_json' => 'products', 'type' => 'left'],
+            // 'products' => ['table' => "({$productsQuery})", 'condition' => 'krjProdukId = produkId', 'field_json' => 'products', 'type' => 'left'],
+            'products' => $this->belongsTo('m_produk', Produk::class, 'krjProdukId = produkId', 'products', 'produkId', 'left', function($relation){
+                return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');
+            }, function($relation){
+                return $relation->hasMany('t_produk_gambar', ProdukGambar::class, 'prdgbrProdukId = produkId', 'gambar', 'prdgbrProdukId');
+            }, function($relation){
+                return $relation->belongsTo('m_kategori', Kategori::class, 'ktgId = produkKategoriId', 'kategori', 'ktgId');
+            }),
         ];
     }
 

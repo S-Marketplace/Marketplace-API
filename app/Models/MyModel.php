@@ -226,36 +226,36 @@ class MyModel extends Model
     /**
      * Many Array of object Relation
      *
-     * @param $table
-     * @param $entity
-     * @param $condition
-     * @param $alias
-     * @param $group
+     * @param string $table
+     * @param class $entity
+     * @param string $condition
+     * @param string $alias
+     * @param string $group
      * @param string $type
-     * @param ...$callable
-     * @return void
+     * @param function ...$callable
+     * @return array
      */
-    protected function hasMany($table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+    protected function hasMany($table, $entity, $condition, $alias, $group = null, $type = 'LEFT', ...$callable){
         return $this->_templateRelationships(false, $table, $entity, $condition, $alias, $group, $type, ...$callable);
     }
 
     /**
      * One Object Relation
      *
-     * @param $table
-     * @param $entity
-     * @param $condition
-     * @param $alias
-     * @param $group
+     * @param string $table
+     * @param class $entity
+     * @param string $condition
+     * @param string $alias
+     * @param string $group
      * @param string $type
-     * @param ...$callable
-     * @return void
+     * @param function ...$callable
+     * @return array
      */
-    protected function belongTo($table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+    protected function belongsTo($table, $entity, $condition, $alias, $group = null, $type = 'LEFT', ...$callable){
         return $this->_templateRelationships(true, $table, $entity, $condition, $alias, $group, $type, ...$callable);
     }
 
-    private function _templateRelationships($asObject = true, $table, $entity, $condition, $alias, $group, $type = 'LEFT', ...$callable){
+    private function _templateRelationships($asObject = true, $table, $entity, $condition, $alias, $group = null, $type = 'LEFT', ...$callable){
         $callJoin = [];
         $callEntity = [];
         $callSeparator = '';
@@ -265,22 +265,28 @@ class MyModel extends Model
             if (is_callable($callbacks))
             {
                 $callbacksData = $callbacks($this);
+
+                // Not Return callback
+                if(empty($callbacksData)) continue;
              
                 $callAlias = $callbacksData['field_alias'];
                 $callCondition = $callbacksData['condition'];
                 $callType = $callbacksData['type'];
                 $callJoin[] = "$callType JOIN ($callbacksData[table]) $callAlias ON $callCondition";
-                $callEntity[] = "'$callAlias', $callAlias.$callAlias";
+                $callEntity[] = "'$callAlias', JSON_EXTRACT($callAlias.$callAlias,'$')";
                 $callSeparator = ', ';
             }
         }
+
+        // Group Data
+        $hasGroup = !empty($group) ? "GROUP BY $group" : '';
 
         // Insided Query Table
         $query = "SELECT *,
             $asObject(JSON_OBJECT(" . $this->entityToMysqlObject($entity) . $callSeparator . implode(', ', $callEntity) . ")) AS ".$alias."
             FROM ".$table." 
             ".implode(' ', $callJoin)." 
-            GROUP BY ".$group;
+            ".$hasGroup;
 
         // Relationships format
         return ['table' => "({$query})", 'condition' => $condition, 'field_alias' => $alias, 'entity' => $entity, 'type' => $type];

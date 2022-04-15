@@ -32,37 +32,47 @@ class ProdukBerandaModel extends MyModel
     protected function relationships()
     {
         // TODO: JSON jadi sring jika variant bernilai null
-        $variantQuery = "SELECT *,
-            JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
-            FROM `t_produk_variant` 
-            GROUP BY pvarProdukId";
-            
-        $gambarQuery = "SELECT *,
-                JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
-                FROM `t_produk_gambar` 
-                GROUP BY prdgbrProdukId";
+        // $variantQuery = "SELECT *,
+        //     JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukVariant::class) . ")) AS variant
+        //     FROM `t_produk_variant` 
+        //     GROUP BY pvarProdukId";
 
-        $kategoriQuery = "SELECT *,
-                (JSON_OBJECT(" . $this->entityToMysqlObject(Kategori::class) . ")) AS kategori
-                FROM `m_kategori` 
-                GROUP BY ktgId";
+        // $gambarQuery = "SELECT *,
+        //         JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(ProdukGambar::class) . ")) AS gambars
+        //         FROM `t_produk_gambar` 
+        //         GROUP BY prdgbrProdukId";
 
-        $productsQuery = "SELECT *,
-                JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
-                'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
-                'kategori', JSON_EXTRACT(kategori.kategori,'$')
-                /* ,'variant', JSON_EXTRACT(variant.variant,'$') */
-                )) AS products
-                FROM `t_produk_beranda` 
-                JOIN `m_produk` p ON `tpbProdukId` = p.`produkId`
-                JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = p.produkId 
-                JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = p.produkKategoriId 
-                /* LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId  */
-                GROUP BY tpbPbId";
+        // $kategoriQuery = "SELECT *,
+        //         (JSON_OBJECT(" . $this->entityToMysqlObject(Kategori::class) . ")) AS kategori
+        //         FROM `m_kategori` 
+        //         GROUP BY ktgId";
+
+        // $productsQuery = "SELECT *,
+        //         JSON_ARRAYAGG(JSON_OBJECT(" . $this->entityToMysqlObject(Produk::class) . ", 
+        //         'gambar', JSON_EXTRACT(gambar.gambars,'$'), 
+        //         'kategori', JSON_EXTRACT(kategori.kategori,'$')
+        //         /* ,'variant', JSON_EXTRACT(variant.variant,'$') */
+        //         )) AS products
+        //         FROM `t_produk_beranda` 
+        //         JOIN `m_produk` p ON `tpbProdukId` = p.`produkId`
+        //         JOIN (" . $gambarQuery . ") gambar ON gambar.prdgbrProdukId = p.produkId 
+        //         JOIN (" . $kategoriQuery . ") kategori ON kategori.ktgId = p.produkKategoriId 
+        //         /* LEFT JOIN (" . $variantQuery . ") variant ON variant.pvarProdukId = produkId  */
+        //         GROUP BY tpbPbId";
 
         return [
-            'products' => ['table' => "({$productsQuery})", 'condition' => 'tpbPbId = pbId', 'field_json' => "JSON_EXTRACT(products,'$')", 'type' => 'left'],
+            'products' => $this->hasMany('(SELECT * FROM `t_produk_beranda` JOIN `m_produk` p ON `tpbProdukId` = p.`produkId`) as products', Produk::class, 'tpbPbId = pbId', 'products', 'tpbPbId', 'left', function ($relation) {
+                // return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');
+            }, function ($relation) {
+                return $relation->hasMany('t_produk_gambar', ProdukGambar::class, 'prdgbrProdukId = produkId', 'gambar', 'prdgbrProdukId');
+            }, function ($relation) {
+                return $relation->belongsTo('m_kategori', Kategori::class, 'ktgId = produkKategoriId', 'kategori', 'ktgId');
+            }),
         ];
+
+        // return [
+        //     'products' => ['table' => "({$productsQuery})", 'condition' => 'tpbPbId = pbId', 'field_json' => "JSON_EXTRACT(products,'$')", 'type' => 'left'],
+        // ];
     }
 
     // public function withProduk()
