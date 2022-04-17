@@ -25,6 +25,7 @@ class LokasiCodModel extends MyModel
         $radius = $settingModel->getValue(SettingModel::RADIUS_KEY);
         $biaya = $settingModel->getValue(SettingModel::BIAYA_KEY);
         $codData = $this->find();
+        $codResult = [];
 
         foreach ($codData as $key => $value) {
             $jarak = $this->haversineGreatCircleDistance($value->latitude, $value->longitude, $lat, $lng);
@@ -33,10 +34,11 @@ class LokasiCodModel extends MyModel
             }else{
                 $codData[$key]->jarak = round($jarak, 2).' Meter';
                 $codData[$key]->biaya = intval($biaya * $jarak);
+                $codResult[] = $codData[$key];
             }
         }
 
-        return $codData;
+        return $codResult;
     }
 
     /**
