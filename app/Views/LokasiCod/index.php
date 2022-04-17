@@ -266,6 +266,11 @@
             renderMap();
         });
 
+        $(document).on('keyup', '[name="latitude"],[name="longitude"]', function(e) {
+            e.preventDefault();
+            renderMap();
+        });
+
         $(document).on('click', '#btnSimpanPengaturan', function(e) {
 
             let btn = $(e.currentTarget);

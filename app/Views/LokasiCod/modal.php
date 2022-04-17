@@ -17,12 +17,12 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Latitude</label>
-                        <input type="text" name="latitude" readonly id="latitude" class="form-control readonly-background" placeholder="Latitude">
+                        <input type="text" name="latitude" id="latitude" class="form-control readonly-background" placeholder="Latitude">
                         <p class="text-danger" id="er_latitude"></p>
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Longitude</label>
-                        <input type="text" name="longitude" readonly id="longitude" class="form-control readonly-background" placeholder="Longitude">
+                        <input type="text" name="longitude" id="longitude" class="form-control readonly-background" placeholder="Longitude">
                         <p class="text-danger" id="er_longitude"></p>
                     </div>
                     <label class="control-label"><span class="text-danger">*</span> <b>Tarik pin pada map untuk mengubah titik lokasi</b></label><br>
