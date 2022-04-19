@@ -6,8 +6,9 @@ $route->put("firebase_token", 'Api\User::updateFirebaseToken');
 $route->put("lokasi_user", 'Api\User::updateLokasi');
 
 $route->group("alamat", function ($route) {
-    $route->resource("/", ['controller' => 'Api\UserAlamat', 'only' => ['index', 'show', 'create', 'update']]);
+    $route->resource("/", ['controller' => 'Api\UserAlamat', 'only' => ['index', 'show', 'create', 'update', 'delete']]);
     $route->put("/", 'Api\UserAlamat::update');
+    $route->delete("/", 'Api\UserAlamat::delete');
     $route->post("active/(:segment)", 'Api\UserAlamat::setActive/$1');
 });
 

@@ -86,4 +86,41 @@ class UserAlamat extends MyResourceController
             return $this->response(null, 500, 'Alamat id tidak ditemukan');
         }
     }
+
+    public function delete($id = null)
+    {
+        if ($id == null)
+            $this->applyQueryFilter();
+     
+        try {
+            $this->model->where('usralUsrEmail', $this->user['email']);
+            $cek = current($this->model->find($id));
+          
+            if ($cek) {
+                if($cek->isActive == 1){
+                    return $this->response(null, 500, 'Tidak dapat menghapus alamat yang sedang digunakan');
+                }
+
+                if ($id == null)
+                   $this->applyQueryFilter();
+         
+                $status = $this->model->delete($id);
+                $status = $status ? 200 : 500;
+                $message = '';
+            } else {
+                $status = 400;
+                $message = 'Data tidak tersedia';
+            }
+            return $this->response(null, $status, $message);
+        } catch (DatabaseException $ex) {
+            return $this->response(null, 500, $ex->getMessage());
+        } catch (\mysqli_sql_exception $ex) {
+            if ($ex->getCode() === 1451) {
+                return $this->response(null, 500, "Data tidak bisa dihapus karena direferensi oleh data lain");
+            }
+            return $this->response(null, 500, $ex->getMessage());
+        } catch (\Exception $ex) {
+            return $this->response(null, 500, $ex->getMessage());
+        }
+    }
 }
