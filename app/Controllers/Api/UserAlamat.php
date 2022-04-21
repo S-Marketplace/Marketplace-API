@@ -46,6 +46,10 @@ class UserAlamat extends MyResourceController
         'keterangan' => ['label' => 'Catatan ke kurir', 'rules' => 'required'],
     ];
 
+    protected $rulesPengaturan = [
+        'isAlamatUtama' => ['label' => 'Alamat Utama', 'rules' => 'required'],
+    ];
+
     public function index()
     {
         $this->model->where('usralUsrEmail', $this->user['email']);
@@ -85,6 +89,43 @@ class UserAlamat extends MyResourceController
         } else {
             return $this->response(null, 500, 'Alamat id tidak ditemukan');
         }
+    }
+
+    public function pengaturanAlamat($alamatId)
+    {
+        if ($this->validate($this->rulesPengaturan, $this->validationMessage)) {
+            try {
+                $this->model->where('usralUsrEmail', $this->user['email']);
+                $find = $this->model->find($alamatId);
+        
+                if (!empty($find)) {
+                    $isActive = $this->request->getVar('isAlamatUtama');
+
+                    if($isActive == 1) {
+                        $this->model->where('usralUsrEmail', $this->user['email']);
+                        $this->model->update(null, ['usralIsActive' => 0]);
+
+                        $this->model->where('usralUsrEmail', $this->user['email']);
+                        $this->model->update($alamatId, ['usralIsActive' => 1]);
+                        return $this->response(null, 200, 'Berhasil mengubah jadi aktif');
+                    }else{
+                        return $this->response(null, 403, 'Tidak bisa menonaktifkan alamat');
+                    }
+
+                } else {
+                    return $this->response(null, 500, 'Alamat id tidak ditemukan');
+                }
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+      
     }
 
     public function delete($id = null)

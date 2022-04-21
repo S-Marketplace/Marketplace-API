@@ -10,6 +10,7 @@ $route->group("alamat", function ($route) {
     $route->put("/", 'Api\UserAlamat::update');
     $route->delete("/", 'Api\UserAlamat::delete');
     $route->post("active/(:segment)", 'Api\UserAlamat::setActive/$1');
+    $route->post("pengaturan/(:segment)", 'Api\UserAlamat::pengaturanAlamat/$1');
 });
 
 $route->post("top_up/top_up_saldo", 'Api\TopUp::topUpSaldo');
