@@ -272,6 +272,7 @@
         });
 
         $(document).on('click', '#btnSimpanPengaturan', function(e) {
+            e.preventDefault();
 
             let btn = $(e.currentTarget);
             $.ajax({

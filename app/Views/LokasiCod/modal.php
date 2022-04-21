@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm grey btn-outline-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-sm grey btn-primary" id="btnSimpanPengaturan">Simpan</button>
+                    <button type="button" class="btn btn-sm grey btn-primary" id="btnSimpanPengaturan">Simpan</button>
                 </div>
             </form>
         </div>
