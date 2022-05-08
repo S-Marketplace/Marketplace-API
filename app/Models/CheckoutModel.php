@@ -1,7 +1,9 @@
 <?php namespace App\Models;
 
-use App\Entities\CheckoutDetail;
 use App\Models\MyModel;
+use App\Entities\LokasiCod;
+use App\Entities\CheckoutKurir;
+use App\Entities\CheckoutDetail;
 
 class CheckoutModel extends MyModel
 {
@@ -25,7 +27,9 @@ class CheckoutModel extends MyModel
     {
         return [
             'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
-            'kurir' => ['table' => 't_checkout_kurir', 'condition' => 'cktId = ckurCheckoutId', 'entity' => 'App\Entities\CheckoutKurir'],
+            'kurir' =>  $this->belongsTo('t_checkout_kurir', CheckoutKurir::class, 'cktId = ckurCheckoutId', 'kurir', null, 'LEFT', function($e){
+                return $e->belongsTo('m_lokasi_cod', LokasiCod::class, 'lcdId = ckurCodId', 'lokasiCod');
+            }),
             'alamat' => ['table' => 'm_user_alamat', 'condition' => 'cktAlamatId = usralId', 'entity' => 'App\Entities\UserAlamat'],
             'detail' => $this->hasMany('t_checkout_detail', CheckoutDetail::class, 'cktId = cktdtCheckoutId', 'detail', 'cktdtCheckoutId','LEFT'),
         ];
