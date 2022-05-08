@@ -91,6 +91,12 @@ class UserAlamat extends MyResourceController
         }
     }
 
+    /**
+     * Mengubah alamat menjadi alamat utama
+     *
+     * @param [type] $alamatId
+     * @return void
+     */
     public function pengaturanAlamat($alamatId)
     {
         if ($this->validate($this->rulesPengaturan, $this->validationMessage)) {
