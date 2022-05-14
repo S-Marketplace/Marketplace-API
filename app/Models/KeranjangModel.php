@@ -168,6 +168,27 @@ class KeranjangModel extends MyModel
         }
     }
 
+    public function restoreProdukStok($checkoutId)
+    {
+        $data = $this->where('krjCheckoutId', $checkoutId)->find();
+
+        $produkModel = new ProdukModel();
+        $variantModel = new ProdukVariantModel();
+        foreach ($data as $keranjang) {
+            $variantFromStok = 1;
+            if(!empty($keranjang->variantId)){
+                $variantData = $variantModel->find($keranjang->variantId);
+                $variantData->stok = $variantData->stok + $keranjang->krjQuantity;
+                $variantFromStok = $variantData->produkStok;
+                $variantModel->save($variantData);
+            }
+
+            $produkData = $produkModel->find($keranjang->produkId);
+            $produkData->stok = $produkData->stok + ($keranjang->krjQuantity * $variantFromStok);
+            $produkModel->save($produkData);
+        }
+    }
+
     public function getKeranjangDetail($checkoutId = null, $userEmail = null)
     {
         $this->select('*');

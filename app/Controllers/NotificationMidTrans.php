@@ -77,15 +77,16 @@ class NotificationMidTrans extends BaseController
             
             if($status){
                 Notification::sendNotif($find->userEmail, 'Pembayaran Produk', "Status pembayaran anda $transaction_status, dengan ID {$find->orderId}");
+                $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
                 if($transaction_status == 'settlement'){
-                    $checkoutId = $pembayaranModel->find($transaction_id)->checkoutId;
                     $checkoutModel = new CheckoutModel();
                     $checkoutModel->update($checkoutId, [
                         'cktStatus' => 'dikemas'
                     ]);
-
+                }else if(in_array($transaction_status, ['expire', 'cancel', 'failure'])){
+                    // FIXED: RESTORE STOCK
                     $keranjangModel = new KeranjangModel();
-                    $keranjangModel->updateProdukStok($checkoutId);
+                    $keranjangModel->restoreProdukStok($checkoutId);
                 }
             }
         }

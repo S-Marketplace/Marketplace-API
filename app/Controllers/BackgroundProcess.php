@@ -21,6 +21,7 @@ class BackgroundProcess extends BaseController
      * Mengupdate pembayaran yang sudah expired
      * 
      * Cron JOB : php public/index.php background pembayaran_to_expired
+     * Cron JOB Cpanel : /usr/local/bin/php /home/u1068353/public_html/public/index.php background pembayaran_to_expired
      * @return void
      */
     public function pembayaranToExpired()
@@ -38,6 +39,10 @@ class BackgroundProcess extends BaseController
             Notification::sendNotif($value->userEmail, 'Pembayaran Produk', $message);
 
             $modelPembayaran->update($value->id, ['pmbStatus' => 'expire']);
+
+             // FIXED: RESTORE STOCK
+             $keranjangModel = new KeranjangModel();
+             $keranjangModel->restoreProdukStok($value->checkoutId);
         }
 
         return $this->response->setJSON($data);

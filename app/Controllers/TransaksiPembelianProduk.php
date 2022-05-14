@@ -120,9 +120,6 @@ class TransaksiPembelianProduk extends BaseController
                         'cktStatus' => 'dikemas'
                     ]);
 
-                    $keranjangModel = new KeranjangModel();
-                    $keranjangModel->updateProdukStok($checkoutId);
-
                     return $this->response(null, 200, 'Verifikasi Berhasil');
                 }
             }

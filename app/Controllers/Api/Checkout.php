@@ -25,7 +25,13 @@ class Checkout extends MyResourceController
     const SALDO_PAYMENT_ID = 1;
     const COD_PAYMENT_ID = 99;
     const MANUAL_TRANSFER_IDS = [2,3,4,5];
-    const LIMIT_DAY_MANUAL_TRANSFER = 6;
+
+    /**
+     * Limit day payment
+     */
+    const LIMIT_DAY_MANUAL_TRANSFER = 1;
+    const LIMIT_DAY_COD = 1;
+    const LIMIT_DAY_MIDTRANS = 1;
 
     protected $modelName = 'App\Models\CheckoutModel';
     protected $format    = 'json';
@@ -198,7 +204,7 @@ class Checkout extends MyResourceController
                                 'pmbGrossAmount' => $price,
                                 'pmbCurrency' => 'IDR',
                                 'pmbUserEmail' => $this->user['email'],
-                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_MANUAL_TRANSFER." days")),
+                                'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_COD." days")),
                             ]);
 
                             $checkoutModel->transComplete();
@@ -206,6 +212,7 @@ class Checkout extends MyResourceController
                             $checkoutKurirModel->transComplete();
 
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+                            $keranjangModel->updateProdukStok($checkoutId);
 
                             $pembayaranModel = new PembayaranModel();
                             return $this->response($pembayaranModel->find($uuid), 200);
@@ -304,6 +311,7 @@ class Checkout extends MyResourceController
                             $checkoutKurirModel->transComplete();
 
                             $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+                            $keranjangModel->updateProdukStok($checkoutId);
                             
                             $pembayaranModel = new PembayaranModel();
                             return $this->response($pembayaranModel->find($uuid), 200);
@@ -351,7 +359,7 @@ class Checkout extends MyResourceController
                                     'pmbUserEmail' => $this->user['email'],
                                     'pmbPaymentCode' => $data['payment_code'] ?? '',
                                     'pmbStore' => $data['store'] ?? '',
-                                    'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time'] . " +1 days")),
+                                    'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +".self::LIMIT_DAY_MIDTRANS." days")),
                                 ]);
     
                                 $checkoutModel->transComplete();
@@ -359,6 +367,7 @@ class Checkout extends MyResourceController
                                 $checkoutKurirModel->transComplete();
 
                                 $keranjangModel->updateKeranjangToCheckout($checkoutId, $this->user['email']);
+                                $keranjangModel->updateProdukStok($checkoutId);
     
                                 return $this->response($pembayaranModel->find($data['transaction_id']), 200);
                             }
