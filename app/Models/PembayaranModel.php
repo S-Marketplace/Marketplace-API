@@ -19,4 +19,16 @@ class PembayaranModel extends MyModel
     public function getPrimaryKeyName(){
         return $this->primaryKey;
     }
+
+    // public function updatePembayaranToExpired(){
+    //     $this->whereIn('pmbPaymentType', ['cod', 'manual_transfer']);
+    //     $this->where('pmbStatus', 'pending');
+    //     $this->where('pmbExpiredDate <', date('Y-m-d H:i:s'));
+    //     $data = $this->find();
+
+    //     foreach ($data as $value) {
+    //         $this->update($value->id, ['pmbStatus' => 'expire']);
+    //     }
+    //     return $data;
+    // }
 }

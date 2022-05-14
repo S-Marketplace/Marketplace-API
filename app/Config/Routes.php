@@ -32,6 +32,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->cli('generator/run/(:any)', 'Generator::run/$1');
+$routes->cli("background/pembayaran_to_expired", 'BackgroundProcess::pembayaranToExpired');
 
 $routes->get('/', 'Welcome::index');
 

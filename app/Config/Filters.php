@@ -54,7 +54,8 @@ class Filters extends BaseConfig
             'generator/*', 
             'welcome/*', 
             'test/*', 
-            'NotificationMidTrans/*'
+            'NotificationMidTrans/*',
+            'background/*'
             ]
           ],
       ],

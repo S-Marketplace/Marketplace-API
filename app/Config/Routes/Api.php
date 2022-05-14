@@ -20,5 +20,9 @@ $route->group("raja_ongkir", function ($route) {
     $route->get("status_perjalanan/(:segment)", 'Api\RajaOngkir::getStatusPerjalanan/$1', ['filter' => 'apiFilter']);
 });
 
+$route->group("background", function ($route) {
+    $route->put("pembayaran_to_expired", 'BackgroundProcess::pembayaranToExpired');
+});
+
 // TEST EMAIL
 $route->resource("user/test_email", ['controller' => 'Api\User::TestEmail']);
