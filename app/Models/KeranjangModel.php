@@ -97,6 +97,7 @@ class KeranjangModel extends MyModel
         $keranjangModel->with(['products']);
         $data = $keranjangModel->where([
             'krjUserEmail' => $email, 
+            'krjIsChecked' => 1, 
             'krjCheckoutId' => null,
         ])->find();
 
