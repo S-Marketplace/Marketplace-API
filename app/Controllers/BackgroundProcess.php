@@ -25,6 +25,8 @@ class BackgroundProcess extends BaseController
      */
     public function pembayaranToExpired()
     {
+        Notification::sendTelegramBot('Cron JOB RUN `'.base_url().'`');
+
         $modelPembayaran = new PembayaranModel();
         $modelPembayaran->whereIn('pmbPaymentType', ['cod', 'manual_transfer']);
         $modelPembayaran->where('pmbStatus', 'pending');
@@ -32,7 +34,8 @@ class BackgroundProcess extends BaseController
         $data = $modelPembayaran->find();
 
         foreach ($data as $value) {
-            Notification::sendNotif($value->userEmail, 'Pembayaran Produk', "Status pembayaran anda expired, dengan ID {$value->orderId}");
+            $message = "Status pembayaran anda expired, dengan ID {$value->orderId}";
+            Notification::sendNotif($value->userEmail, 'Pembayaran Produk', $message);
 
             $modelPembayaran->update($value->id, ['pmbStatus' => 'expire']);
         }
