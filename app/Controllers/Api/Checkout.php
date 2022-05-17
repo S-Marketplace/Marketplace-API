@@ -143,6 +143,11 @@ class Checkout extends MyResourceController
                 $checkoutKurirModel->transStart();
                 
                 // if(!empty($post['kurirId'])){
+                    // Cek jika bukan cod tapi pembayarannya cod
+                    if($post['kurirId'] != 'cod' && $post['id_metode_pembayaran'] == self::COD_PAYMENT_ID){
+                        return $this->response(null, 400, 'Pembayaran COD tidak didukung jika menggunakan kurir JNE,JNT dll');
+                    }
+                    
                     // Menambahkan Detail Kurir
                     $checkoutKurirModel->insert([
                         'ckurCheckoutId' => $checkoutId,
