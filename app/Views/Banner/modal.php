@@ -1,6 +1,6 @@
 <!-- Modal Tambah dan Edit -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel"><span id="aksi"></span> Data</h5>
@@ -10,20 +10,20 @@
             </div>
             <form id="form">
                 <div class="modal-body">
-                    <div class="form-group mb-3">
+                    <!-- <div class="form-group mb-3">
                         <label for="">Url</label>
                         <input type="text" name="url" id="url" class="form-control readonly-background" placeholder="Url">
                         <p class="text-danger" id="er_url"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">Deskripsi</label>
-                        <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"></textarea>
-                        <p class="text-danger" id="er_deskripsi"></p>
-                    </div>
+                    </div> -->
                     <div class="form-group mb-2">
                         <label for="">Gambar</label>
                         <input class="form-control" type="file" name="gambar" placeholder="gambar">
                         <p class="text-danger" id="er_gambar"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="">Deskripsi</label>
+                        <textarea id="editor1" class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"></textarea>
+                        <p class="text-danger" id="er_deskripsi"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
