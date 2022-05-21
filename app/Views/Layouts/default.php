@@ -68,6 +68,19 @@
             background-color: #e4f9f9 !important;
         }
 
+
+        .dt-top {
+            vertical-align: top;
+        }
+
+        .dt-middle {
+            vertical-align: middle;
+        }
+
+        .dt-bottom {
+            vertical-align: bottom;
+        }
+
         /* END :  Datatable Color Row */
     </style>
     <!-- latest jquery-->
@@ -113,7 +126,7 @@ $username = @$session['username'];
                     </div>
                 </form>
                 <div class="header-logo-wrapper col-auto p-0">
-                    <div class="logo-wrapper"><a href="<?=base_url()?>"><img class="img-fluid" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" width="40" alt=""></a></div>
+                    <div class="logo-wrapper"><a href="<?= base_url() ?>"><img class="img-fluid" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" width="40" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
                 </div>
                 <div class="left-header col horizontal-wrapper ps-0">
@@ -141,7 +154,7 @@ $username = @$session['username'];
             <div class="sidebar-wrapper">
                 <div>
                     <div class="logo-wrapper" style="padding: 20px 30px;">
-                        <a href="<?=base_url()?>">
+                        <a href="<?= base_url() ?>">
                             <img class="img-fluid for-light" src="<?= base_url('assets/images/menyambang/logo_fix.png') ?>" alt="Logo SILAKI" width="40px">
                             <h5 style="display: inline; vertical-align: middle">Menyambang.id</h5>
                         </a>
@@ -232,7 +245,7 @@ $username = @$session['username'];
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 footer-copyright text-center">
-                            <p class="mb-0">Copyright <?= date('Y')?> © Menyambang.id </p>
+                            <p class="mb-0">Copyright <?= date('Y') ?> © Menyambang.id </p>
                         </div>
                     </div>
                 </div>
