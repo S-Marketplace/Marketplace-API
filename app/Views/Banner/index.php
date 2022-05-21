@@ -214,6 +214,7 @@
             var deskripsi = editor.getData();
             console.log('DESKRIPSI', deskripsi)
             $('[name="deskripsi"]').text(deskripsi);
+            $('[name="deskripsi"]').val(deskripsi);
 
             var data = new FormData(this);
             data.append('id', dataRow ? dataRow.id : '');
