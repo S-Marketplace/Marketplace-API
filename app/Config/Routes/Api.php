@@ -24,5 +24,9 @@ $route->group("background", function ($route) {
     $route->put("pembayaran_to_expired", 'BackgroundProcess::pembayaranToExpired');
 });
 
+$route->group("pulsa_bridge", function ($route) {
+    $route->get("/", 'Api\PulsaBridge::index');
+});
+
 // TEST EMAIL
 $route->resource("user/test_email", ['controller' => 'Api\User::TestEmail']);
