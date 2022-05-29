@@ -19,14 +19,15 @@ class Superadmin implements MenuInterface
                 'icon' => 'home',
             ],
             [
-                'title' => 'Master',
+                'title' => 'Banner',
+                'url' => 'Banner',
+                'icon' => 'monitor',
+            ],
+            [
+                'title' => 'Produk Belanja',
                 'url' => '#',
-                'icon' => 'book-open',
+                'icon' => 'shopping-bag',
                 'children' => [
-                    [
-                        'title' => 'Banner',
-                        'url' => 'Banner'
-                    ],
                     [
                         'title' => 'Kategori',
                         'url' => 'Kategori'
@@ -38,6 +39,21 @@ class Superadmin implements MenuInterface
                     [
                         'title' => 'Produk Beranda',
                         'url' => 'ProdukBeranda'
+                    ],
+                ]
+            ],
+            [
+                'title' => 'TopUp & tagihan',
+                'url' => '#',
+                'icon' => 'box',
+                'children' => [
+                    [
+                        'title' => 'Kategori',
+                        'url' => 'KategoriPulsa'
+                    ],
+                    [
+                        'title' => 'Produk',
+                        'url' => 'ProdukPulsa'
                     ],
                 ]
             ],

@@ -30,3 +30,9 @@ $route->group("pulsa_bridge", function ($route) {
 
 // TEST EMAIL
 $route->resource("user/test_email", ['controller' => 'Api\User::TestEmail']);
+
+$route->group("pulsa", function ($route) {
+    $route->resource("kategori/kelompok", ['controller' => 'Api\Pulsa\KategoriPulsa::kelompok']);
+    $route->resource("kategori", ['controller' => 'Api\Pulsa\KategoriPulsa']);
+    $route->resource("produk", ['controller' => 'Api\Pulsa\ProdukPulsa']);
+});
