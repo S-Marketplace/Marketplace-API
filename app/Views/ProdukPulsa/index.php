@@ -28,11 +28,11 @@
                                 <thead>
                                     <tr>
                                         <th width="13%">Kode</th>
+                                        <th width="13%">Kode Suplier</th>
                                         <th width="13%">Nama</th>
                                         <th width="13%">Jenis</th>
                                         <th width="13%">Kategori</th>
                                         <th width="13%">Harga</th>
-                                        <th width="13%">Kode Suplier</th>
                                         <th width="13%">Poin</th>
                                         <th width="13%">Jam Operasional</th>
                                         <th width="5%">Aksi</th>
@@ -219,7 +219,12 @@
                     }
                 },
                 {
-                    data: 'kategori.nama',
+                    data: 'kategori',
+                    render: function(data){
+                        let link = `<?= base_url('File') ?>/get/<?=PATH_ICON_KATEGORI_PULSA?>/${data.icon}`;
+                        return `<a href="${link}" target="_BLANK"><img  width="25px" class="" src="${link}"></a>&nbsp;${data.nama}`;
+                        
+                    }
                 },
                 {
                     data: 'harga',
