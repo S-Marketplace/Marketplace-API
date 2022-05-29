@@ -26,4 +26,18 @@ class KategoriPulsaModel extends MyModel
             'produk' => $this->hasMany('m_produk_pulsa', ProdukPulsa::class, 'ppKpId = kpId', 'produk', 'ppKpId'),
         ];
     }
+
+    public function selectKategori(){
+        $this->select("kpId, kpNama");
+        $this->where("kpDeletedAt", null);
+        $this->orderBy("kpNama", "ASC");
+        $data = $this->findAll();
+
+        $select= [];
+        foreach ($data as $key => $value) {
+            $select[$value->kpId] = $value->kpNama;
+        }
+
+        return $select;
+    }
 }

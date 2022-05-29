@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 
+use App\Models\Pulsa\KategoriPulsaModel;
 use CodeIgniter\Config\Config;
 
 /**
@@ -28,7 +29,17 @@ class ProdukPulsa extends BaseController
  
    public function index()
    {
+       $kategoriModel = new KategoriPulsaModel();
+       
+       $data = [
+           'selectJenis' => [
+               'elektrik' => 'Elektrik',
+               'ppob' => 'PPOB',
+           ],
+           'selectKategori' => $kategoriModel->selectKategori(),
+       ];
+
        return $this->template->setActiveUrl('ProdukPulsa')
-           ->view("ProdukPulsa/index");
+           ->view("ProdukPulsa/index", $data);
    }
 }

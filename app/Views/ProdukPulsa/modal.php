@@ -1,6 +1,6 @@
 <!-- Modal Tambah dan Edit -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel"><span id="aksi"></span> Data</h5>
@@ -10,47 +10,71 @@
             </div>
             <form id="form">
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Kode</label>
+                                <input type="text" name="kode" id="kode" class="form-control readonly-background" placeholder="Kode">
+                                <p class="text-danger" id="er_kode"></p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Kode Suplier</label>
+                                <input type="text" name="kodeSuplier" id="kodeSuplier" class="form-control readonly-background" placeholder="Kode Suplier">
+                                <p class="text-danger" id="er_kodeSuplier"></p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group mb-3">
                         <label for="">Nama</label>
                         <input type="text" name="nama" id="nama" class="form-control readonly-background" placeholder="Nama">
                         <p class="text-danger" id="er_nama"></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="">harga</label>
-                        <input type="text" name="harga" id="harga" class="form-control readonly-background" placeholder="harga">
-                        <p class="text-danger" id="er_harga"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">kode</label>
-                        <input type="text" name="kode" id="kode" class="form-control readonly-background" placeholder="kode">
-                        <p class="text-danger" id="er_kode"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">kodeSuplier</label>
-                        <input type="text" name="kodeSuplier" id="kodeSuplier" class="form-control readonly-background" placeholder="kodeSuplier">
-                        <p class="text-danger" id="er_kodeSuplier"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">poin</label>
-                        <input type="text" name="poin" id="poin" class="form-control readonly-background" placeholder="poin">
-                        <p class="text-danger" id="er_poin"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">jamOperasional</label>
-                        <input type="text" name="jamOperasional" id="jamOperasional" class="form-control readonly-background" placeholder="jamOperasional">
-                        <p class="text-danger" id="er_jamOperasional"></p>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group mb-3">
+                                <label for="">Harga</label>
+                                <input type="text" name="harga" id="harga" class="form-control readonly-background" placeholder="harga">
+                                <p class="text-danger" id="er_harga"></p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group mb-3">
+                                <label for="">Poin</label>
+                                <input type="text" name="poin" id="poin" class="form-control readonly-background" placeholder="Poin">
+                                <p class="text-danger" id="er_poin"></p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+
+                            <div class="form-group mb-3">
+                                <label for="">Jam Operasional</label>
+                                <input type="time" name="jamOperasional" id="jamOperasional" class="form-control readonly-background" placeholder="Jam Operasional">
+                                <p class="text-danger" id="er_jamOperasional"></p>
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label for="">jenis</label>
-                        <input type="text" name="jenis" id="jenis" class="form-control readonly-background" placeholder="jenis">
-                        <p class="text-danger" id="er_jenis"></p>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">kategori</label>
-                        <input type="text" name="kategoriId" id="kategoriId" class="form-control readonly-background" placeholder="kategoriId">
-                        <p class="text-danger" id="er_kategoriId"></p>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Jenis</label>
+                                <?= form_dropdown('jenis', $selectJenis, '', ['class' => 'form-control jenis select2', 'id' => 'jenis']); ?>
+                                <p class="text-danger" id="er_jenis"></p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Kategori</label>
+                                <?= form_dropdown('kategoriId', $selectKategori, '', ['class' => 'form-control kategoriId select2', 'id' => 'kategoriId']); ?>
+                                <p class="text-danger" id="er_kategoriId"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">
@@ -58,7 +82,7 @@
                         <textarea id="editor1" class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"></textarea>
                         <p class="text-danger" id="er_deskripsi"></p>
                     </div>
-                  
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm grey btn-outline-secondary" data-dismiss="modal">Batal</button>

@@ -67,11 +67,14 @@
     var dataRow;
     $(document).ready(function() {
 
+        $('.select2').select2().trigger('change');
+
         $('#btnTambah').click(function(e) {
             e.preventDefault();
             dataRow = null;
             $('#aksi').html('Tambah');
             $('input').val('');
+            $('.select2').val('').trigger('change');
         });
 
         $(document).on('click', '#btnEdit', function(e) {
@@ -84,8 +87,8 @@
             $('[name="nama"]').val(dataRow.nama);
             $('[name="harga"]').val(dataRow.harga);
             $('[name="deskripsi"]').val(dataRow.deskripsi);
-            $('[name="jenis"]').val(dataRow.jenis);
-            $('[name="kategoriId"]').val(dataRow.kategoriId);
+            $('[name="jenis"]').val(dataRow.jenis).trigger('change');
+            $('[name="kategoriId"]').val(dataRow.kategoriId).trigger('change');
             $('[name="kode"]').val(dataRow.kode);
             $('[name="kodeSuplier"]').val(dataRow.kodeSuplier);
             $('[name="poin"]').val(dataRow.poin);
@@ -200,19 +203,29 @@
                     data: 'kode',
                 },
                 {
+                    data: 'kodeSuplier',
+                },
+                {
                     data: 'nama',
                 },
                 {
                     data: 'jenis',
+                    render: function(data){
+                        if(data == 'elektrik'){
+                            return `<span class="badge badge-primary text-light">Elektrik</span>`;
+                        }
+
+                        return `<span class="badge badge-primary text-light">${data.toUpperCase()}</span>`;
+                    }
                 },
                 {
                     data: 'kategori.nama',
                 },
                 {
                     data: 'harga',
-                },
-                {
-                    data: 'kodeSuplier',
+                    render: function(data){
+                        return 'Rp. '+formatRupiah(data.toString());
+                    }
                 },
                 {
                     data: 'poin',
