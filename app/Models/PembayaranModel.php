@@ -9,7 +9,7 @@ class PembayaranModel extends MyModel
     protected $createdField = "";
     protected $updatedField = "";
     protected $returnType = "App\Entities\Pembayaran";
-    protected $allowedFields = ["pmbId","pmbCheckoutId","pmbPaymentCode", "pmbPaymentType", "pmbStore", "pmbStatus","pmbTime","pmbSignatureKey","pmbOrderId","pmbMerchantId","pmbGrossAmount","pmbCurrency","pmbVaNumber","pmbRekNumber","pmbBank","pmbBillerCode","pmbBillKey","pmbUserEmail","pmbExpiredDate"];
+    protected $allowedFields = ["pmbId","pmbPaymentCode", "pmbPaymentType", "pmbStore", "pmbStatus","pmbTime","pmbSignatureKey","pmbOrderId","pmbMerchantId","pmbGrossAmount","pmbCurrency","pmbVaNumber","pmbRekNumber","pmbBank","pmbBillerCode","pmbBillKey","pmbUserEmail","pmbExpiredDate"];
 
     public function getReturnType()
     {

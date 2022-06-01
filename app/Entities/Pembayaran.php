@@ -5,7 +5,6 @@ class Pembayaran extends MyEntity
 {
     protected $datamap = [
         'id' => 'pmbId',
-        'checkoutId' => 'pmbCheckoutId',
         'paymentType' => 'pmbPaymentType',
         'status' => 'pmbStatus',
         'time' => 'pmbTime',
@@ -27,7 +26,6 @@ class Pembayaran extends MyEntity
 
     protected $show = [
 		'id',
-		'checkoutId',
 		'paymentType',
 		'status',
 		'time',

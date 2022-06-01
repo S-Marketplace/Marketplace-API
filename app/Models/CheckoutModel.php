@@ -26,7 +26,7 @@ class CheckoutModel extends MyModel
     protected function relationships()
     {
         return [
-            'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktId = pmbCheckoutId', 'entity' => 'App\Entities\Pembayaran'],
+            'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktPmbId = pmbId', 'entity' => 'App\Entities\Pembayaran'],
             'kurir' =>  $this->belongsTo('t_checkout_kurir', CheckoutKurir::class, 'cktId = ckurCheckoutId', 'kurir', null, 'LEFT', function($e){
                 return $e->belongsTo('m_lokasi_cod', LokasiCod::class, 'lcdId = ckurCodId', 'lokasiCod');
             }),

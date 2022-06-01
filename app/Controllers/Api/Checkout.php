@@ -200,7 +200,7 @@ class Checkout extends MyResourceController
     
                             $pembayaranModel = new PembayaranModel();
                             $pembayaranModel->insert([
-                                'pmbCheckoutId' => $checkoutId,
+                                // 'pmbCheckoutId' => $checkoutId,
                                 'pmbId' => $uuid,
                                 'pmbPaymentType' => 'cod',
                                 'pmbStatus' => 'pending',
@@ -210,6 +210,11 @@ class Checkout extends MyResourceController
                                 'pmbCurrency' => 'IDR',
                                 'pmbUserEmail' => $this->user['email'],
                                 'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_COD." days")),
+                            ]);
+
+                            // Update ID Pembayaran Checkout
+                            $checkoutModel->update($checkoutId, [
+                                'cktPmbId' => $uuid,
                             ]);
 
                             $checkoutModel->transComplete();
@@ -255,7 +260,7 @@ class Checkout extends MyResourceController
                             $pembayaranModel = new PembayaranModel();
                             $uuid = Uuid::uuid4();
                             $pembayaranModel->insert([
-                                'pmbCheckoutId' => $checkoutId,
+                                // 'pmbCheckoutId' => $checkoutId,
                                 'pmbId' => $uuid,
                                 'pmbPaymentType' => 'saldo',
                                 'pmbStatus' => 'settlement',
@@ -270,7 +275,8 @@ class Checkout extends MyResourceController
                             // Update Checkout
                             $checkoutModel = new CheckoutModel();
                             $checkoutModel->update($checkoutId, [
-                                'cktStatus' => 'dikemas'
+                                'cktStatus' => 'dikemas',
+                                'cktPmbId' => $uuid,
                             ]);
 
                             $checkoutModel->transComplete();
@@ -297,7 +303,7 @@ class Checkout extends MyResourceController
     
                             $pembayaranModel = new PembayaranModel();
                             $pembayaranModel->insert([
-                                'pmbCheckoutId' => $checkoutId,
+                                // 'pmbCheckoutId' => $checkoutId,
                                 'pmbId' => $uuid,
                                 'pmbPaymentType' => 'manual_transfer',
                                 'pmbStatus' => 'pending',
@@ -309,6 +315,11 @@ class Checkout extends MyResourceController
                                 'pmbBank' => $bank,
                                 'pmbUserEmail' => $this->user['email'],
                                 'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($dateTime." +".self::LIMIT_DAY_MANUAL_TRANSFER." days")),
+                            ]);
+
+                            // Update ID Pembayaran Checkout
+                            $checkoutModel->update($checkoutId, [
+                                'cktPmbId' => $uuid,
                             ]);
 
                             $checkoutModel->transComplete();
@@ -347,7 +358,7 @@ class Checkout extends MyResourceController
                             if ($data['status_code'] == 201) {
                                 $pembayaranModel = new PembayaranModel();
                                 $pembayaranModel->insert([
-                                    'pmbCheckoutId' => $checkoutId,
+                                    // 'pmbCheckoutId' => $checkoutId,
                                     'pmbId' => $data['transaction_id'],
                                     'pmbPaymentType' => $data['payment_type'],
                                     'pmbStatus' => $data['transaction_status'],
@@ -365,6 +376,11 @@ class Checkout extends MyResourceController
                                     'pmbPaymentCode' => $data['payment_code'] ?? '',
                                     'pmbStore' => $data['store'] ?? '',
                                     'pmbExpiredDate' => date('Y-m-d H:i:s', strtotime($data['transaction_time']." +".self::LIMIT_DAY_MIDTRANS." days")),
+                                ]);
+
+                                // Update ID Pembayaran Checkout
+                                $checkoutModel->update($checkoutId, [
+                                    'cktPmbId' => $data['transaction_id'],
                                 ]);
     
                                 $checkoutModel->transComplete();
