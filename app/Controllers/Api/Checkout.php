@@ -239,7 +239,7 @@ class Checkout extends MyResourceController
                                     'usrSaldo' => $dataUser->saldo - $price,
                                 ]);
                             } else {
-                                return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk emnambahkan saldo anda');
+                                return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk menambahkan saldo anda');
                             }
 
                             $orderId = 'ORDER-'.strtotime("now");

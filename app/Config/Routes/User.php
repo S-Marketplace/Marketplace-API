@@ -29,6 +29,11 @@ $route->group("checkout", function ($route) {
     $route->post("terima/(:segment)", 'Api\Checkout::terimaPaket/$1');
 });
 
+$route->group("checkout_pulsa", function ($route) {
+    $route->get("/", 'Api\CheckoutPulsa::index');
+    $route->post("/", 'Api\CheckoutPulsa::checkout');
+});
+
 $route->group("notifikasi", function ($route) {
     $route->get("/", 'Api\Notifikasi::index');
     $route->get("my_notif", 'Api\Notifikasi::getNotif');
