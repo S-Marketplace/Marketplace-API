@@ -12,6 +12,7 @@ class Checkout extends MyEntity
 
     protected $datamap = [
         'id' => 'cktId',
+        'pmbId' => 'cktPmbId',
         'status' => 'cktStatus',
         'catatan' => 'cktCatatan',
         'alamatId' => 'cktAlamatId',
@@ -22,6 +23,7 @@ class Checkout extends MyEntity
 
     protected $show = [
 		'id',
+		'pmbId',
 		'status',
 		'catatan',
 		'alamatId',
