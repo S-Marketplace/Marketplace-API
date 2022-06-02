@@ -9,12 +9,13 @@ class CheckoutPulsa extends MyEntity
 
   protected $casts = [
     'pembayaran' => 'json',
+    'produk' => 'json',
   ];
 
   protected $datamap = [
     'id' => 'cktpId',
     'email' => 'cktpEmail',
-    'pmbId' => 'cktpPmbId',
+    'usalId' => 'cktpUsalId',
     'idProduk' => 'cktpIdProduk',
     'status' => 'cktpStatus',
     'tujuan' => 'cktpTujuan',
@@ -26,11 +27,12 @@ class CheckoutPulsa extends MyEntity
   protected $show = [
     'id',
     'email',
-    'pmbId',
+    'usalId',
     'idProduk',
     'status',
     'tujuan',
     'pembayaran',
+    'produk',
     'createdAt',
     'updatedAt',
     'deletedAt',

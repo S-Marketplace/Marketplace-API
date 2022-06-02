@@ -17,6 +17,8 @@ class PulsaBridgeApi
     private $pin = '191288';
     private $user = '8222A3';
     private $pass = 'A64564';
+    private $counter = '1';
+    private $idtrx = '10120304';
     private $formData = [];
 
     public function __construct()
@@ -61,6 +63,8 @@ class PulsaBridgeApi
                 'pin' => $this->pin,
                 'user' => $this->user,
                 'pass' => $this->pass,
+                'counter' => $this->counter,
+                'idtrx' => $this->idtrx,
             ],
             $query
         );

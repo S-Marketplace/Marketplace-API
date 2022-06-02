@@ -1,6 +1,8 @@
 <?php namespace App\Models;
 
 use App\Models\MyModel;
+use App\Entities\ProdukPulsa;
+use App\Entities\UserSaldo;
 
 class CheckoutPulsaModel extends MyModel
 {
@@ -9,7 +11,7 @@ class CheckoutPulsaModel extends MyModel
     protected $createdField = "cktpCreatedAt";
     protected $updatedField = "cktpUpdatedAt";
     protected $returnType = "App\Entities\CheckoutPulsa";
-    protected $allowedFields = ["cktpEmail","cktpPmbId","cktpIdProduk","cktpStatus","cktpTujuan"];
+    protected $allowedFields = ["cktpEmail","cktpUsalId","cktpIdProduk","cktpStatus","cktpTujuan"];
 
     public function getReturnType()
     {
@@ -23,7 +25,8 @@ class CheckoutPulsaModel extends MyModel
     protected function relationships()
     {
         return [
-            'pembayaran' => ['table' => 't_pembayaran', 'condition' => 'cktpPmbId = pmbId', 'entity' => 'App\Entities\Pembayaran'],
+            'pembayaran' => ['table' => 't_user_saldo', 'condition' => 'cktpUsalId = usalId', 'entity' => UserSaldo::class],
+            'produk' => $this->belongsTo('m_produk_pulsa', ProdukPulsa::class, 'cktpIdProduk = ppId', 'produk', 'ppId'),
         ];
     }
 }
