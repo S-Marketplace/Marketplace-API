@@ -118,6 +118,7 @@ class CheckoutPulsa extends MyResourceController
                         if($res['success']){
                             $modelUser->update($this->user['email'], [
                                 'usrSaldo' => $dataUser->saldo - $price,
+                                'usrPoin' => $dataUser->poin + $produkPulsa->poin,
                             ]);
                         }else{
                             return $this->response(null, 403, $res['msg']);
@@ -139,6 +140,7 @@ class CheckoutPulsa extends MyResourceController
                         'usalUserEmail' => $this->user['email'],
                         'usalStatusSaldo' => 'pembelian_pulsa',
                         'usalGrossAmount' => -$price,
+                        'usalPoin' => $dataUser->poin,
                     ]);
 
                     // Update Checkout
