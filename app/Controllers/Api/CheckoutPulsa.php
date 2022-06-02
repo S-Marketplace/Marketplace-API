@@ -140,13 +140,13 @@ class CheckoutPulsa extends MyResourceController
                         'usalUserEmail' => $this->user['email'],
                         'usalStatusSaldo' => 'pembelian_pulsa',
                         'usalGrossAmount' => -$price,
-                        'usalPoin' => $dataUser->poin,
+                        'usalPoin' => $produkPulsa->poin,
                     ]);
 
                     // Update Checkout
                     $checkoutModel = new CheckoutPulsaModel();
                     $checkoutModel->update($checkoutId, [
-                        'cktpUsalId' => $produkPulsa->poin,
+                        'cktpUsalId' => $uuid,
                     ]);
 
                     $checkoutModel->transComplete();
