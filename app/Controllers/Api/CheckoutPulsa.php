@@ -146,7 +146,7 @@ class CheckoutPulsa extends MyResourceController
                     // Update Checkout
                     $checkoutModel = new CheckoutPulsaModel();
                     $checkoutModel->update($checkoutId, [
-                        'cktpUsalId' => $uuid,
+                        'cktpUsalId' => $produkPulsa->poin,
                     ]);
 
                     $checkoutModel->transComplete();
