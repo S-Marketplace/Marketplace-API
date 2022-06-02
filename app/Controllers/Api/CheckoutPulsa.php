@@ -100,8 +100,8 @@ class CheckoutPulsa extends MyResourceController
                 if ($checkoutModelStatus) {
                     $produkPulsaModel = new ProdukPulsaModel();
                     $produkPulsa = $produkPulsaModel->find($post['idProduk']);
-                    $price = $produkPulsa->ppHarga;
-
+                    $price = $produkPulsa->harga;
+                  
                     // Pembayaran Menggunakan Saldo
                     $modelUser = new UserModel();
                     $dataUser = $modelUser->find($this->user['email']);
@@ -111,7 +111,7 @@ class CheckoutPulsa extends MyResourceController
 
                         $pulsaBridge = new PulsaBridgeApi();
                         $res = $pulsaBridge->get([
-                            'kodeproduk' => $post['idProduk'],
+                            'kodeproduk' => $produkPulsa->kode,
                             'tujuan' => $post['tujuan'],
                         ]);
 
