@@ -115,13 +115,13 @@ class CheckoutPulsa extends MyResourceController
                             'tujuan' => $post['tujuan'],
                         ]);
 
-                        echo '<pre>';
-                        print_r($res);
-                        echo '</pre>';exit;
-
-                        $modelUser->update($this->user['email'], [
-                            'usrSaldo' => $dataUser->saldo - $price,
-                        ]);
+                        if($res['success']){
+                            $modelUser->update($this->user['email'], [
+                                'usrSaldo' => $dataUser->saldo - $price,
+                            ]);
+                        }else{
+                            return $this->response(null, 403, $res['message']);
+                        }
                     } else {
                         return $this->response(null, 403, 'Saldo anda tidak memenuhi, topup untuk menambahkan saldo anda');
                     }
