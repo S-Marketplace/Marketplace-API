@@ -13,6 +13,11 @@ $route->group("alamat", function ($route) {
     $route->post("pengaturan/(:segment)", 'Api\UserAlamat::pengaturanAlamat/$1');
 });
 
+$route->group("pin", function ($route) {
+    $route->get("checkPin/(:segment)", 'Api\User::checkPin/$1');
+    $route->put("updatePin", 'Api\User::updatePin');
+});
+
 $route->post("top_up/top_up_saldo", 'Api\TopUp::topUpSaldo');
 
 $route->group("keranjang", function ($route) {

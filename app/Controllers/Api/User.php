@@ -337,6 +337,59 @@ class User extends MyResourceController
         }
     }
 
+    /**
+     * Cek PIN Status
+     *
+     * @param [type] $pins
+     * @return void
+     */
+    public function checkPin($pins){
+        $userModel = new UserModel();
+        $userData = $userModel->find($this->user['email']);
+      
+        if($userData->pin == $pins || $userData->pin == null){
+            return $this->response(null, 200, 'Pin Benar');
+        }else{
+            return $this->response(null, 403, 'Pin Salah');
+        }
+    }
+
+    /**
+     * Mengubah PIN
+     *
+     * @return void
+     */
+    public function updatePin(){
+        if ($this->validate([
+            'pinLama' => ['label' => 'Pin Lama', 'rules' => 'required|numeric|min_length[6]|max_length[6]'],
+            'pinBaru' => ['label' => 'Pin Baru', 'rules' => 'required|numeric|min_length[6]|max_length[6]'],
+        ], $this->validationMessage)) {
+            try {
+                $post = $this->request->getVar();
+                $userModel = new UserModel();
+                $userData = $userModel->find($this->user['email']);
+
+                if($userData->pin == $post['pinLama'] || $userData->pin == null){
+                    $userData->pin = $post['pinBaru'];
+                    $userModel->save($userData);
+                    return $this->response(null, 200, 'Pin berhasil di ubah');
+                }else{
+                    return $this->response(null, 403, 'Pin lama salah');
+                }
+
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
+
     public function testEmail()
     {
         $data = Notification::sendEmail('ahmadjuhdi007@gmail.com', 'Verifikasi', view('Template/email/verifikasi', [
