@@ -42,4 +42,50 @@ class ProdukPulsa extends BaseController
        return $this->template->setActiveUrl('ProdukPulsa')
            ->view("ProdukPulsa/index", $data);
    }
+
+   public function simpan($primary = '')
+    {
+        $post = $this->request->getVar();
+        if(empty($primary)){
+            $this->model->where('ppKpId', $post['kategoriId']);
+            $data = $this->model->find();
+            $post['urutan'] = count($data) + 1;
+            $this->request->setGlobal("request", $post);
+        }
+
+        return parent::simpan($primary);
+    }
+
+   public function findAll()
+   {
+       $data = $this->request->getVar();
+      
+       $this->model->where('ppKpId', $data['kategori']);
+       $this->model->orderBy('ppUrutan', 'ASC');
+       return parent::findAll();
+   }
+
+   public function simpanUrutan()
+    {
+        $post = $this->request->getVar('data');
+        $sortedData = [];
+        foreach ($post as $key => $value) {
+            $urutanNumber = ($key + 1);
+            if ($value['urutan'] != $urutanNumber) {
+                $sortedData[] = [
+                    'ppId' => $value['id'],
+                    'ppUrutan' => $urutanNumber,
+                ];
+            }
+        }
+
+        if (!empty($sortedData)) {
+            $this->model->updateBatch($sortedData, 'ppId');
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Data berhasil diurutkan'
+        ]);
+    }
 }

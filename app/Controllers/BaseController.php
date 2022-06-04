@@ -214,4 +214,10 @@ class BaseController extends Controller
 		$data = $this->model->find($id);
 		return $data;
 	}
+
+	public function findAll()
+	{
+		$data = $this->model->find();
+		return $this->response->setJSON($data);
+	}
 }

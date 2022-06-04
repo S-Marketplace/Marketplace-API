@@ -9,6 +9,7 @@
                 </div>
                 <div class="col-6">
                     <button class="btn btn-sm btn-primary pull-right" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Tambah</button>
+                    <button class="btn btn-sm btn-primary pull-right mr-1" id="btnUrutkan" data-toggle="modal" data-target="#modalUrutkan"><i class="fa fa-sort"></i> Urutkan</button>
                 </div>
             </div>
         </div>
@@ -31,7 +32,7 @@
                                         <th width="20%">Kelompok</th>
                                         <th width="20%">Nama</th>
                                         <th width="20%">Icon</th>
-                                        <th width="15%">Aksi</th>
+                                        <th width="4%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +59,9 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('js'); ?>
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/vendors/nestable/nestable.min.css">
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets'); ?>/vendors/nestable/nestable.app.css">
+<script src="<?= base_url('assets'); ?>/vendors/nestable/nestable.min.js"></script>
 <script>
     var grid = null;
     var dataRow;
@@ -207,11 +211,11 @@
                 {
                     data: 'icon',
                     render: function(val, type, row, meta) {
-                        let link = `<?= base_url('File') ?>/get/<?=PATH_ICON_KATEGORI_PULSA?>/${val}`;
+                        let link = `<?= base_url('File') ?>/get/<?= PATH_ICON_KATEGORI_PULSA ?>/${val}`;
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
-                
+
                 {
                     data: 'id',
                     render: function(val, type, row, meta) {
@@ -233,6 +237,114 @@
                 }
             ]
         });
+
+        $(document).on('click', '#btnUrutkan', function(e) {
+            e.preventDefault();
+
+            $('#dataKuesioner').html(`<div class="text-center">
+                        <i class="fa fa-spin fa-spinner fa-4x"></i>
+                        <h3 style="margin-top: 20px;">Memuat data ...</h3></div>`);
+
+            $.ajax({
+                type: "GET",
+                url: `<?= current_url() ?>/findAll`,
+                dataType: "JSON",
+                success: function(res) {
+                    var output = `<ol class='dd-list dd3-list' data-for="root">`;
+                    $.each((res), function(_, item) {
+                        output += buildItem(item);
+                    });
+                    output += `</ol>`;
+                    $('#dataKuesioner').nestable();
+                    $('#dataKuesioner').nestable('destroy');
+                    $('#dataKuesioner').html(output);
+                    $('#dataKuesioner').nestable({
+                        maxDepth: 1,
+                        handleClass: 'draggable',
+                    });
+                },
+                fail: function(xhr) {
+                    Swal.fire('Error', "Server gagal merespon", 'error');
+                },
+                beforeSend: function() {
+                    $("[id^='er_']").html('');
+                    $('#btnSimpan').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                },
+                complete: function(res) {
+                    $('#btnSimpan').removeAttr('disabled').html('Simpan');
+                }
+            });
+        });
+
+        $(document).on('click', '#btnSimpanUrutan', function(e) {
+            e.preventDefault();
+
+            let data = $('#dataKuesioner').nestable('serialize');
+
+            $.ajax({
+                type: "POST",
+                url: `<?= current_url() ?>/simpanUrutan`,
+                dataType: "JSON",
+                data: {
+                    'data': data
+                },
+                success: function(res) {
+                    Swal.fire('Sukses', res.message, res.status);
+                    $('#modalUrutkan').modal('hide');
+                },
+                fail: function(xhr) {},
+                beforeSend: function() {
+                    $('#btnSimpanUrutan').attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                },
+                complete: function(res) {
+                    $('#btnSimpanUrutan').removeAttr('disabled').html('Simpan');
+                }
+            });
+        });
+
+        /**
+         * Generate tampilan tree
+         */
+        function buildItem(item) {
+            let content = '';
+            let urutan = 0;
+
+            content = buildContent(item);
+            urutan = item.urutan;
+
+            var html = `<li class='dd-item' data-id='${item.id}' data-urutan='${urutan}'>`;
+            html += `<div class='dd-handle card mb-1'>${content}</div>`;
+
+            if (item.children) {
+                html += `<ol class='dd-list' data-id='${item.id}'>`;
+                $.each(item.children, function(index, sub) {
+                    html += buildItem(sub);
+                });
+                html += "</ol>";
+            }
+
+            html += "</li>";
+
+            return html;
+        }
+
+        function buildContent(item) {
+            let isDikti = item.isDikti == '1' ? `text-danger` : 'text-primary';
+
+            return `<div class="p-1">
+                    <div class="media-body">
+                        <div class="pull-right">
+                            <div class="draggable pull-right text-default">
+                                <i class="feather icon-layers" data-toggle="tooltip" data-placement="left" title="Tarik untuk pindah posisi"></i> <span class="title"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <small class="font-weight-bold"><span class="text-primary">${item.urutan}</span> ${item.kelompok}</small> 
+                        </div>
+                        <div><b>${item.nama}</b></div>
+                    </div>
+                </div>`;
+        }
 
     });
 </script>

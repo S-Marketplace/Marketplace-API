@@ -1,4 +1,6 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
 
 use CodeIgniter\Config\Config;
 
@@ -18,14 +20,14 @@ class KategoriPulsa extends BaseController
         'kelompok' => ['label' => 'Kelompok', 'rules' => 'required'],
         'icon' => ['label' => 'Icon', 'rules' => 'required|uploaded[icon]|max_size[icon,1024]|ext_in[icon,jpeg,jpg,png]|mime_in[icon, image/jpg,image/jpeg,image/png]'],
     ];
- 
-   public function index()
-   {
-       return $this->template->setActiveUrl('KategoriPulsa')
-           ->view("KategoriPulsa/index");
-   }
 
-   protected function uploadFile($id)
+    public function index()
+    {
+        return $this->template->setActiveUrl('KategoriPulsa')
+            ->view("KategoriPulsa/index");
+    }
+
+    protected function uploadFile($id)
     {
         helper("myfile");
 
@@ -62,7 +64,43 @@ class KategoriPulsa extends BaseController
                 unset($this->rules['icon']);
             }
         }
-        
+
+        $post = $this->request->getVar();
+        if(empty($primary)){
+            $post['urutan'] = count($this->model->find()) + 1;
+            $this->request->setGlobal("request", $post);
+        }
+
         return parent::simpan($primary);
+    }
+
+    public function findAll()
+    {
+        $this->model->orderBy('kpUrutan', 'ASC');
+        return parent::findAll();
+    }
+
+    public function simpanUrutan()
+    {
+        $post = $this->request->getVar('data');
+        $sortedData = [];
+        foreach ($post as $key => $value) {
+            $urutanNumber = ($key + 1);
+            if ($value['urutan'] != $urutanNumber) {
+                $sortedData[] = [
+                    'kpId' => $value['id'],
+                    'kpUrutan' => $urutanNumber,
+                ];
+            }
+        }
+
+        if (!empty($sortedData)) {
+            $this->model->updateBatch($sortedData, 'kpId');
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Data berhasil diurutkan'
+        ]);
     }
 }
