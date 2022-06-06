@@ -43,7 +43,7 @@ class Superadmin implements MenuInterface
                 ]
             ],
             [
-                'title' => 'TopUp & Tagihan',
+                'title' => 'Pulsa',
                 'url' => '#',
                 'icon' => 'box',
                 'children' => [
@@ -105,6 +105,10 @@ class Superadmin implements MenuInterface
                         [
                             'title' => 'No Rekening',
                             'url' => 'NoRekening'
+                        ],
+                        [
+                            'title' => 'Lainnya',
+                            'url' => 'Pengaturan'
                         ],
                     ]
                 ],

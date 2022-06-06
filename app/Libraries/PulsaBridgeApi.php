@@ -2,6 +2,7 @@
 
 namespace App\Libraries;
 
+use App\Models\SettingModel;
 use CodeIgniter\Config\Config;
 use CodeIgniter\Session\Session;
 use Config\App;
@@ -25,7 +26,19 @@ class PulsaBridgeApi
     {
         $this->options = [];
         $options['baseURI'] = $this->baseUri;
-        $this->curl = \Config\Services::curlrequest($options);
+
+        $settingModel = new SettingModel();
+        $settingData = $settingModel->getAllSettingKey();
+
+        $this->baseUri  = @$settingData['h2h_endpoint'];
+        $this->id       = @$settingData['h2h_id'];
+        $this->pin      = @$settingData['h2h_pin'];
+        $this->user     = @$settingData['h2h_user'];
+        $this->pass     = @$settingData['h2h_pass'];
+        $this->counter  = @$settingData['h2h_counter'];
+        $this->idtrx    = @$settingData['h2h_idtrx'];
+
+        $this->curl     = \Config\Services::curlrequest($options);
     }
 
     /**

@@ -43,7 +43,7 @@ class Admin implements MenuInterface
                 ]
             ],
             [
-                'title' => 'TopUp & Tagihan',
+                'title' => 'Pulsa',
                 'url' => '#',
                 'icon' => 'box',
                 'children' => [

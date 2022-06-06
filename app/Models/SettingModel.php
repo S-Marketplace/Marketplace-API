@@ -23,6 +23,17 @@ class SettingModel extends MyModel
         return $this->primaryKey;
     }
 
+    public function getAllSettingKey(){
+        $data = $this->find();
+
+        $res = [];
+        foreach ($data as $key => $value) {
+            $res[$value->key] = $value->value;
+        }
+
+        return $res;
+    }
+
     public function getValue($key){
         $this->where('setKey', $key);
         return $this->first()->value ?? '';

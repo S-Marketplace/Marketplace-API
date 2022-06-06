@@ -257,6 +257,9 @@
         krajeeConfig('.gambar', {
             type: 'image'
         });
+        krajeeConfig('.gambarVariasi', {
+            type: 'image'
+        });
 
 
         $('[name="kategoriId"]').select2().trigger('change');
