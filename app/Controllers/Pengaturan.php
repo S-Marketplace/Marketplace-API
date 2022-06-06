@@ -50,7 +50,7 @@ class Pengaturan extends BaseController
                 // Replace data
                 $this->model->updateBatch($normalData, 'setKey');
 
-                $response =  $this->response(null, 200, 'Pengaturan disimpan');
+                $response =  $this->response(null, 200, 'Pengaturan berhasil disimpan');
                 return $this->response->setJSON($response);
             } catch (DatabaseException $ex) {
                 $response =  $this->response(null, 500, $ex->getMessage());

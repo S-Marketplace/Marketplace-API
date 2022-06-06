@@ -131,7 +131,7 @@
                 contentType: false,
                 success: function(res) {
                     if (res.code == 200) {
-                        Swal.fire('Berhasil!', 'Data berhasil disimpan', 'success');
+                        Swal.fire('Berhasil!', res.message, 'success');
                     } else {
                         $.each(res.message, function(index, val) {
                             if (index == 'gambar[]') index = 'gambar';
