@@ -88,14 +88,14 @@ class CheckoutPulsa extends MyResourceController
             try {
 
                 // Tambahkan data checkout
-                $checkoutModel = new CheckoutPulsaModel();
-                $checkoutModel->transStart();
-                $checkoutId = $checkoutModel->insert([
+                // $checkoutModel = new CheckoutPulsaModel();
+                $this->model->transStart();
+                $checkoutId = $this->model->insert([
                     'cktpTujuan' => $post['tujuan'],
                     'cktpIdProduk' => $post['idProduk'],
                     'cktpEmail' => $this->user['email'],
                 ]);
-                $checkoutModelStatus = $checkoutModel->transStatus();
+                $checkoutModelStatus = $this->model->transStatus();
 
                 if ($checkoutModelStatus) {
                     $produkPulsaModel = new ProdukPulsaModel();
@@ -144,12 +144,12 @@ class CheckoutPulsa extends MyResourceController
                     ]);
 
                     // Update Checkout
-                    $checkoutModel = new CheckoutPulsaModel();
-                    $checkoutModel->update($checkoutId, [
+                    // $checkoutModel = new CheckoutPulsaModel();
+                    $this->model->update($checkoutId, [
                         'cktpUsalId' => $uuid,
                     ]);
 
-                    $checkoutModel->transComplete();
+                    $this->model->transComplete();
 
                     $response = current($userSaldoModel->where('usalId', $uuid)->find());
                     return $this->response($response, 200, $uuid);
