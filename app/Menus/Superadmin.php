@@ -43,7 +43,7 @@ class Superadmin implements MenuInterface
                 ]
             ],
             [
-                'title' => 'Pulsa',
+                'title' => 'Produk Digital',
                 'url' => '#',
                 'icon' => 'box',
                 'children' => [

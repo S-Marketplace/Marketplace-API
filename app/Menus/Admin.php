@@ -43,7 +43,7 @@ class Admin implements MenuInterface
                 ]
             ],
             [
-                'title' => 'Pulsa',
+                'title' => 'Produk Digital',
                 'url' => '#',
                 'icon' => 'box',
                 'children' => [

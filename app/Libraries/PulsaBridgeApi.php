@@ -35,7 +35,7 @@ class PulsaBridgeApi
         $this->pin      = @$settingData['h2h_pin'];
         $this->user     = @$settingData['h2h_user'];
         $this->pass     = @$settingData['h2h_pass'];
-        $this->counter  = @$settingData['h2h_counter'];
+        $this->counter  = $settingData['h2h_counter'] ?? $this->counter;
         $this->idtrx    = @$settingData['h2h_idtrx'];
 
         $this->curl     = \Config\Services::curlrequest($options);

@@ -77,7 +77,7 @@
             e.preventDefault();
             dataRow = null;
             $('#aksi').html('Tambah');
-            $('input').val('');
+            $('input[type="text"]').val('');
             $('.select2').val('').trigger('change');
         });
 
@@ -90,13 +90,15 @@
 
             $('[name="nama"]').val(dataRow.nama);
             $('[name="harga"]').val(dataRow.harga);
+            $('[name="saranHarga"]').val(dataRow.saranHarga);
             $('[name="deskripsi"]').val(dataRow.deskripsi);
             $('[name="jenis"]').val(dataRow.jenis).trigger('change');
             $('[name="kategoriId"]').val(dataRow.kategoriId).trigger('change');
             $('[name="kode"]').val(dataRow.kode);
             $('[name="kodeSuplier"]').val(dataRow.kodeSuplier);
             $('[name="poin"]').val(dataRow.poin);
-            $('[name="jamOperasional"]').val(dataRow.jamOperasional);
+            $('[name="jamOperasionalStart"]').val(dataRow.jamOperasionalStart);
+            $('[name="jamOperasionalEnd"]').val(dataRow.jamOperasionalEnd);
         });
 
         $(document).on('click', '#btnHapus', function(e) {
@@ -184,15 +186,6 @@
             });
         });
 
-        // <th width="1%">No</th>
-        // <th width="13%">Nama</th>
-        // <th width="13%">Jenis</th>
-        // <th width="13%">Kategori</th>
-        // <th width="13%">Kode</th>
-        // <th width="13%">Kode Suplier</th>
-        // <th width="13%">Poin</th>
-        // <th width="13%">Jam Operasional</th>
-        // <th width="5%">Aksi</th>
         grid = $("#datatable").DataTable({
             processing: true,
             serverSide: true,
@@ -239,7 +232,10 @@
                     data: 'poin',
                 },
                 {
-                    data: 'jamOperasional',
+                    data: 'jamOperasionalStart',
+                    render: function(val, type, row, meta) {
+                        return `${val} - ${row.jamOperasionalEnd}`;
+                    },
                 },
                 {
                     data: 'id',

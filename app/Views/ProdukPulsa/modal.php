@@ -37,8 +37,15 @@
                         <div class="col-4">
                             <div class="form-group mb-3">
                                 <label for="">Harga</label>
-                                <input type="text" name="harga" id="harga" class="form-control readonly-background" placeholder="harga">
+                                <input type="text" name="harga" id="harga" class="form-control readonly-background" placeholder="Harga">
                                 <p class="text-danger" id="er_harga"></p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group mb-3">
+                                <label for="">Saran Harga</label>
+                                <input type="text" name="saranHarga" id="saranHarga" class="form-control readonly-background" placeholder="Saran Harga">
+                                <p class="text-danger" id="er_saranHarga"></p>
                             </div>
                         </div>
                         <div class="col-4">
@@ -48,16 +55,23 @@
                                 <p class="text-danger" id="er_poin"></p>
                             </div>
                         </div>
-                        <div class="col-4">
+                    </div>
 
+                    <div class="row">
+                        <div class="col-6">
                             <div class="form-group mb-3">
-                                <label for="">Jam Operasional</label>
-                                <input type="time" name="jamOperasional" id="jamOperasional" class="form-control readonly-background" placeholder="Jam Operasional">
-                                <p class="text-danger" id="er_jamOperasional"></p>
+                                <label for="">Jam Operasional Mulai</label>
+                                <input type="time" name="jamOperasionalStart" id="jamOperasionalStart" class="form-control readonly-background" value="00:00" placeholder="Jam Operasional">
+                                <p class="text-danger" id="er_jamOperasionalStart"></p>
                             </div>
-
                         </div>
-
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Jam Operasional Akhir</label>
+                                <input type="time" name="jamOperasionalEnd" id="jamOperasionalEnd" class="form-control readonly-background" value="23:59" placeholder="Jam Operasional">
+                                <p class="text-danger" id="er_jamOperasionalEnd"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">

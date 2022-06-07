@@ -15,16 +15,18 @@ class ProdukPulsa extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-        'kode' => ['label' => 'kode', 'rules' => 'required'],
-        'kategoriId' => ['label' => 'kategoriId', 'rules' => 'required'],
-        'nama' => ['label' => 'nama', 'rules' => 'required'],
-        'deskripsi' => ['label' => 'deskripsi', 'rules' => 'required'],
+        'kode' => ['label' => 'Kode', 'rules' => 'required'],
+        'kategoriId' => ['label' => 'Kategori', 'rules' => 'required'],
+        'nama' => ['label' => 'Nama', 'rules' => 'required'],
+        'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
         // 'urutan' => ['label' => 'urutan', 'rules' => 'required'],
-        'kodeSuplier' => ['label' => 'kodeSuplier', 'rules' => 'required'],
-        'jenis' => ['label' => 'jenis', 'rules' => 'required'],
-        'poin' => ['label' => 'poin', 'rules' => 'required'],
-        'jamOperasional' => ['label' => 'jamOperasional', 'rules' => 'required'],
-        'harga' => ['label' => 'harga', 'rules' => 'required'],
+        'kodeSuplier' => ['label' => 'Kode Suplier', 'rules' => 'required'],
+        'jenis' => ['label' => 'Jenis', 'rules' => 'required'],
+        'poin' => ['label' => 'Poin', 'rules' => 'required'],
+        'jamOperasionalStart' => ['label' => 'Jam Mulai Operasional', 'rules' => 'required'],
+        'jamOperasionalEnd' => ['label' => 'Jam Akhir Operasional', 'rules' => 'required'],
+        'harga' => ['label' => 'Harga', 'rules' => 'required'],
+        'saranHarga' => ['label' => 'Saran Harga', 'rules' => 'required'],
     ];
  
    public function index()

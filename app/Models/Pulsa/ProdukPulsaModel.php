@@ -10,7 +10,7 @@ class ProdukPulsaModel extends MyModel
     protected $createdField = "ppCreatedAt";
     protected $updatedField = "ppUpdatedAt";
     protected $returnType = "App\Entities\ProdukPulsa";
-    protected $allowedFields = ["ppId", "ppKpId", "ppKode","ppNama","ppDeskripsi","ppUrutan","ppKodeSuplier","ppJenis","ppPoin","ppJamOperasional","ppHarga","ppDeletedAt"];
+    protected $allowedFields = ["ppId", "ppKpId", "ppKode","ppNama","ppDeskripsi","ppUrutan","ppKodeSuplier","ppJenis","ppPoin","ppJamOperasionalStart", "ppJamOperasionalEnd","ppHarga","ppSaranHarga","ppDeletedAt"];
 
     public function getReturnType()
     {

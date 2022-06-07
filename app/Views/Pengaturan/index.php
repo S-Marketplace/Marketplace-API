@@ -18,7 +18,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Pengaturan Pengisian Pulsa</h5>
+                        <h5>Pengaturan Produk Digital</h5>
                     </div>
                     <form class="form theme-form" id="form">
                         <div class="card-body">
@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                    
-                                    <div class="mb-3 row">
+                                    <!-- <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">ID Trx</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="h2h_idtrx" id="h2h_idtrx" class="form-control readonly-background" value="<?= @$settings['h2h_idtrx'] ?>" placeholder="ID Trx">
@@ -52,7 +52,7 @@
                                             <input type="text" name="h2h_counter" id="h2h_counter" class="form-control readonly-background" value="<?= @$settings['h2h_counter'] ?>" placeholder="Counter">
                                             <p class="text-danger" id="er_h2h_counter"></p>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">User</label>
                                         <div class="col-sm-9">
