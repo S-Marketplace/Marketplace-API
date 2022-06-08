@@ -19,7 +19,7 @@ class ProdukBeranda extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-       'banner' => ['label' => 'Banner', 'rules' => 'required|uploaded[banner]|max_size[banner,1024]|ext_in[banner,jpeg,jpg,png]|mime_in[banner, image/jpg,image/jpeg,image/png]'],
+       'banner' => ['label' => 'Banner', 'rules' => 'max_size[banner,1024]|ext_in[banner,jpeg,jpg,png]|mime_in[banner, image/jpg,image/jpeg,image/png]'],
        'judul' => ['label' => 'Judul', 'rules' => 'required'],
        'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
    ];
