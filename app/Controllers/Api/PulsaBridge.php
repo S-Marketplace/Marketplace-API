@@ -22,4 +22,14 @@ class PulsaBridge extends ResourceController
 
         return $this->response->setJSON($res);
     }
+
+    public function xml()
+    {
+        $url = $this->request->getVar();
+
+        $pulsaBridge = new PulsaBridgeApi();
+        $res = $pulsaBridge->post($url);
+
+        return $this->response->setJSON($res);
+    }
 }

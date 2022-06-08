@@ -26,6 +26,7 @@ $route->group("background", function ($route) {
 
 $route->group("pulsa_bridge", function ($route) {
     $route->get("/", 'Api\PulsaBridge::index');
+    $route->post("xml", 'Api\PulsaBridge::xml');
 });
 
 // TEST EMAIL
