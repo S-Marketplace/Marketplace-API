@@ -32,7 +32,10 @@ $route->group("pulsa_bridge", function ($route) {
 $route->resource("user/test_email", ['controller' => 'Api\User::TestEmail']);
 
 $route->group("pulsa", function ($route) {
-    $route->resource("kategori/kelompok", ['controller' => 'Api\Pulsa\KategoriPulsa::kelompok']);
+    // $route->resource("kategori/kelompok", ['controller' => 'Api\Pulsa\KategoriPulsa::kelompok']);
     $route->resource("kategori", ['controller' => 'Api\Pulsa\KategoriPulsa']);
     $route->resource("produk", ['controller' => 'Api\Pulsa\ProdukPulsa']);
+
+    $route->resource("menu_digital/kelompok", ['controller' => 'Api\Pulsa\MenuDigital::kelompok']);
+    $route->resource("menu_digital", ['controller' => 'Api\Pulsa\MenuDigital']);
 });

@@ -48,6 +48,10 @@ class Admin implements MenuInterface
                 'icon' => 'box',
                 'children' => [
                     [
+                        'title' => 'Menu',
+                        'url' => 'MenuDigital'
+                    ],
+                    [
                         'title' => 'Kategori',
                         'url' => 'KategoriPulsa'
                     ],
