@@ -5,10 +5,9 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>Lokasi COD</h3>
+                    <h3>Service Center</h3>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-sm btn-primary pull-right ml-2" id="btnPengaturan" data-toggle="modal" data-target="#modalPengaturan"><i class="fa fa-cogs"></i> Pengaturan</button>
                     <button class="btn btn-sm btn-primary pull-right" id="btnTambah" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
             </div>
@@ -23,15 +22,18 @@
                         <h5 class="m-b-0">Feather Icons</h5>
                     </div> -->
                     <div class="card-body">
-                        <p class="card-text">Data Lokasi COD.</p>
-
+                        <p class="card-text">Service Center.</p>
                         <div class="table-responsive">
                             <table class="display" id="datatable" width="100%">
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th>Nama</th>
-                                        <th width="8%">Aksi</th>
+                                        <th width="10%">Foto</th>
+                                        <th width="20%">Nama</th>
+                                        <th width="10%">Whatsapp</th>
+                                        <th width="10%">No Hp</th>
+                                        <th width="10%">Telegram</th>
+                                        <th width="6%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,29 +44,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="card">
-
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="card-text">Titik Lokasi</h4>
-                    </div>
-                    <!-- <div class="col-4">
-                        <div class="input-group mb-3"><span class="input-group-text">Radius</span>
-                            <input class="form-control" name="radius" type="text"><span class="input-group-text"> Meter </i></span>
-                            <button class="btn btn-sm btn-primary pull-right ml-2" id="btnSimpanRadius"><i class="fa fa-save"></i> Simpan</button>
-                        </div>
-                    </div> -->
-                </div>
-                <p>Menampilkan titik lokasi COD yang tersedia</p>
-                <section id="gmap_geocoding_card"></section>
-            </div>
-        </div>
     </div>
     <!-- Container-fluid Ends-->
 
-    <?= $this->include('LokasiCod/modal'); ?>
+    <?= $this->include('ServiceCenter/modal'); ?>
 </div>
 <?= $this->endSection(); ?>
 
@@ -84,17 +67,10 @@
     var dataRow;
     $(document).ready(function() {
 
-        var lat = -3.4407774;
-        var lng = 114.840804;
-        var radius = <?= $radius ?? 0 ?>;
-        $('[name="radius"]').val(radius);
-        $('[name="biaya"]').val(<?= $biaya ?? 0 ?>);
-
         renderMap();
-
         function renderMap() {
-            lat = $('[name="latitude"]').val() == '' ? lat : parseFloat($('[name="latitude"]').val());
-            lng = $('[name="longitude"]').val() == '' ? lng : parseFloat($('[name="longitude"]').val());
+            var lat = $('[name="latitude"]').val() == '' ? -3.4407774 : parseFloat($('[name="latitude"]').val());
+            var lng = $('[name="longitude"]').val() == '' ? 114.840804 : parseFloat($('[name="longitude"]').val());
 
             map = new google.maps.Map(document.getElementById('gmap_geocoding'), {
                 zoom: 16,
@@ -116,7 +92,6 @@
 
             var circle = new google.maps.Circle({
                 map: map,
-                radius: radius, // 10 miles in metres
                 fillColor: '#5cb85c',
                 strokeColor: '#5cb85c',
                 strokeOpacity: 0.8,
@@ -131,105 +106,16 @@
             });
         }
 
-        renderMapCard();
-
-        var maps;
-        var marker = [];
-
-        function renderMapCard(data = []) {
-            var lat = -3.4407774;
-            var lng = 114.840804;
-            if (data.length) {
-                lat = parseFloat(data[0].latitude);
-                lng = parseFloat(data[0].longitude);
-            }
-
-            maps = new google.maps.Map(document.getElementById('gmap_geocoding_card'), {
-                zoom: 16,
-                center: {
-                    lat: lat,
-                    lng: lng
-                },
-                mapTypeId: 'roadmap',
-                gestureHandling: 'cooperative'
-            });
-            // Long, Lat https://gmapgis.com/
-
-            $.each(data, function(indexInArray, val) {
-                var icon = `https://maps.google.com/mapfiles/ms/icons/red-dot.png`
-
-                marker[val.id] = new google.maps.Marker({
-                    position: {
-                        lat: parseFloat(val.latitude),
-                        lng: parseFloat(val.longitude),
-                    },
-                    animation: google.maps.Animation.DROP,
-                    icon: icon,
-                    map: maps,
-                    title: val.nama,
-                });
-
-
-                marker[val.id].addListener('click', function() {
-                    getContent(val, marker[val.id])
-                });
-
-                var circle = new google.maps.Circle({
-                    map: maps,
-                    radius: radius, // 10 miles in metres
-                    fillColor: '#5cb85c',
-                    strokeColor: '#5cb85c',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 0,
-                });
-
-                circle.bindTo('center', marker[val.id], 'position');
-
-                google.maps.event.addListener(marker[val.id], 'click', function() {
-                    map.panTo(marker[val.id].getPosition());
-                });
-            });
-        }
-
-        function getContent(val, marker) {
-            google.maps.event.trigger(map, 'click');
-
-            function titleTemplate(title, value) {
-                if (value == null) return '-';
-                return `<tr>
-                          <td style="text-align: end"><b>${value}</b></td>
-                      </tr>`;
-            }
-
-            var contentString = `<div class="thumbnail">
-                                <div class="caption">
-                                    <table width="100%">
-                                        ${titleTemplate('Nama', val.nama)}
-                                    </table>
-                                </div>
-                              </div>`;
-
-
-            var infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-
-            infowindow.open(map, marker);
-
-            closeInfoWindow = function() {
-                infowindow.close();
-            };
-            google.maps.event.addListener(map, 'click', closeInfoWindow);
-        }
-
         $('#btnTambah').click(function(e) {
-            e.preventDefault();
             dataRow = null;
+            e.preventDefault();
             $('#aksi').html('Tambah');
-            $('input[name="nama"]').val('');
-            $('input[name="latitude"]').val('');
-            $('input[name="longitude"]').val('');
+            $('input').val('');
             $('textarea').html('');
+            $('form').trigger('reset');
+            krajeeConfig('[name="foto"]', {
+                type: 'image'
+            });
         });
 
         $(document).on('click', '#btnEdit', function(e) {
@@ -240,53 +126,27 @@
             $('#aksi').html('Ubah');
 
             $('[name="nama"]').val(dataRow.nama);
+            $('[name="whatsapp"]').val(dataRow.whatsapp);
+            $('[name="telegram"]').val(dataRow.telegram);
+            $('[name="noHp"]').val(dataRow.noHp);
             $('[name="latitude"]').val(dataRow.latitude);
             $('[name="longitude"]').val(dataRow.longitude);
 
             renderMap();
-        });
 
-        $(document).on('keyup', '[name="latitude"],[name="longitude"]', function(e) {
-            e.preventDefault();
-            renderMap();
-        });
-
-        $(document).on('click', '#btnSimpanPengaturan', function(e) {
-            e.preventDefault();
-
-            let btn = $(e.currentTarget);
-            $.ajax({
-                type: "POST",
-                url: `<?= current_url() ?>/savePengaturan`,
-                data: {
-                    radius: $('[name="radius"]').val(),
-                    biaya: $('[name="biaya"]').val()
-                },
-                dataType: "JSON",
-                success: function(res) {
-                    if (res.code == 200) {
-                        radius = parseInt($('[name="radius"]').val());
-                        renderMap();
-                        grid.draw(false);
-                        $('.modal').modal('hide');
-                        $('.text-danger').html('');
-                        Swal.fire('Berhasil!', res.message, 'success');
-                    } else {
-                        $.each(res.message, function(index, val) {
-                            $('#er_' + index).html(val);
-                        });
-                    }
-                },
-                fail: function(xhr) {
-                    Swal.fire('Error', "Server gagal merespon", 'error');
-                },
-                beforeSend: function() {
-                    btn.attr('disabled', true).html('<i class="fa fa-spin fa-spinner"></i> Simpan');
-                },
-                complete: function(res) {
-                    btn.removeAttr('disabled').html('<i class="feather save"></i> Simpan');
-                }
-            });
+            if (dataRow.foto != '') {
+                krajeeConfig('[name="foto"]', {
+                    url: `<?= base_url('File/get/'.PATH_FOTO_SERVICE_CENTER) ?>/${dataRow.foto}`,
+                    filename: dataRow.foto,
+                    caption: `foto`,
+                    action: true,
+                    type: 'image',
+                });
+            } else {
+                krajeeConfig('[name="foto"]', {
+                    type: 'image'
+                });
+            }
         });
 
         $(document).on('click', '#btnHapus', function(e) {
@@ -381,14 +241,7 @@
                 url: "<?= current_url(); ?>/grid",
                 data: function(d) {
                     d.filter = $("#form-advanced-filter").serialize();
-                },
-                dataSrc: function(json) {
-                    renderMapCard(json.data);
-                    return json.data;
-                },
-            },
-            draw: function(data) {
-                console.log(data)
+                }
             },
             columns: [{
                     data: 'id',
@@ -397,7 +250,23 @@
                     }
                 },
                 {
+                    data: 'foto',
+                    render: function(val, type, row, meta) {
+                        let link = `<?= base_url('File') ?>/get/<?= PATH_FOTO_SERVICE_CENTER ?>/${val}`;
+                        return `<a href="${link}" target="_BLANK"><img style="height: 100px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
+                    }
+                },
+                {
                     data: 'nama',
+                },
+                {
+                    data: 'whatsapp',
+                },
+                {
+                    data: 'noHp',
+                },
+                {
+                    data: 'telegram',
                 },
                 {
                     data: 'id',

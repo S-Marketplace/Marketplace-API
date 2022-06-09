@@ -113,6 +113,7 @@ class CheckoutPulsa extends MyResourceController
                         $res = $pulsaBridge->get([
                             'kodeproduk' => $produkPulsa->kode,
                             'tujuan' => $post['tujuan'],
+                            'idtrx' => $checkoutId,
                         ]);
 
                         if($res['success']){

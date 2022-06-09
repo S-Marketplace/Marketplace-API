@@ -29,4 +29,9 @@ class Produk extends MyResourceController
         $this->model->with(['gambar']);
         return parent::show($id);
     }
+
+    public function rekomendasi(){
+        $this->model->orderBy('produkDilihat', 'DESC');
+        return parent::index();
+    }
 }

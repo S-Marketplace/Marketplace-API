@@ -81,6 +81,25 @@
             vertical-align: bottom;
         }
 
+        @media only screen and (max-width: 1400px) {
+
+            #gmap_geocoding,
+            #gmap_geocoding_card {
+                min-height: 95%;
+                margin-top: 10px;
+            }
+        }
+
+        #gmap_geocoding,
+        #gmap_geocoding_card {
+            min-height: 650px;
+            margin-top: 10px;
+        }
+
+        #tablePreview_wrapper {
+            margin-top: 20px;
+        }
+
         /* END :  Datatable Color Row */
     </style>
     <!-- latest jquery-->

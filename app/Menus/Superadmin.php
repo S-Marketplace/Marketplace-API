@@ -97,6 +97,11 @@ class Superadmin implements MenuInterface
                     'icon' => 'volume-2',
                 ],
                 [
+                    'title' => 'Service Center',
+                    'url' => 'ServiceCenter',
+                    'icon' => 'phone',
+                ],
+                [
                     'title' => 'Lokasi COD',
                     'url' => 'LokasiCod',
                     'icon' => 'shopping-bag',
