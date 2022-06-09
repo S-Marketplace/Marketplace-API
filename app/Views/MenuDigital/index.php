@@ -29,9 +29,9 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
+                                        <th width="5%">Icon</th>
                                         <th width="20%">Kelompok</th>
                                         <th width="20%">Nama</th>
-                                        <th width="20%">Icon</th>
                                         <th width="20%">Jenis Menu</th>
                                         <th width="20%">Status</th>
                                         <th width="4%">Aksi</th>
@@ -212,17 +212,17 @@
                     }
                 },
                 {
-                    data: 'kelompok',
-                },
-                {
-                    data: 'nama',
-                },
-                {
                     data: 'icon',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/<?= PATH_ICON_MENU_DIGITAL ?>/${val}`;
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
+                },
+                {
+                    data: 'kelompok',
+                },
+                {
+                    data: 'nama',
                 },
                 {
                     data: 'jenisMenu',

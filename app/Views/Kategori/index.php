@@ -28,9 +28,9 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Nama</th>
-                                        <th width="20%">Icon</th>
-                                        <th width="15%">Aksi</th>
+                                        <th width="5%">Icon</th>
+                                        <th width="70%">Nama</th>
+                                        <th width="10%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -197,14 +197,14 @@
                     }
                 },
                 {
-                    data: 'nama',
-                },
-                {
                     data: 'icon',
                     render: function(val, type, row, meta) {
                         let link = `<?= base_url('File') ?>/get/icon_kategori/${val}`;
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
+                },
+                {
+                    data: 'nama',
                 },
                 
                 {

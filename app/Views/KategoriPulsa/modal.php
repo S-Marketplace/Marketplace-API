@@ -21,7 +21,7 @@
                         <p class="text-danger" id="er_nama"></p>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="">Prefix</label>
+                        <label for="">Prefix Operator</label>
                         <input type="text" name="prefix" id="prefix" class="form-control readonly-background" placeholder="0812,0822">
                         <p class="text-danger" id="er_prefix"></p>
                     </div>
