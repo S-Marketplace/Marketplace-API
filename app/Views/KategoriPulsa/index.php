@@ -88,6 +88,7 @@
 
             $('[name="nama"]').val(dataRow.nama);
             $('[name="prefix"]').val(dataRow.prefix);
+            $('[name="menuId"]').val(dataRow.menuId).trigger('change');
 
             if (dataRow.icon != '') {
                 krajeeConfig('[name="icon"]', {
