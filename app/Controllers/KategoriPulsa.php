@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Pulsa\MenuDigitalModel;
 use CodeIgniter\Config\Config;
 
 /**
@@ -17,14 +18,26 @@ class KategoriPulsa extends BaseController
 
     protected $rules = [
         'nama' => ['label' => 'Nama', 'rules' => 'required'],
-        'kelompok' => ['label' => 'Kelompok', 'rules' => 'required'],
+        // 'prefix' => ['label' => 'Kelompok', 'rules' => 'required'],
         'icon' => ['label' => 'Icon', 'rules' => 'required|uploaded[icon]|max_size[icon,1024]|ext_in[icon,jpeg,jpg,png]|mime_in[icon, image/jpg,image/jpeg,image/png]'],
     ];
 
     public function index()
     {
+        $menuModel = new MenuDigitalModel();
+        $selectMenu = $menuModel->selectMenu();
         return $this->template->setActiveUrl('KategoriPulsa')
-            ->view("KategoriPulsa/index");
+            ->view("KategoriPulsa/index", [
+                'selectMenu' => $selectMenu
+            ]);
+    }
+
+    public function grid()
+    {
+        $this->model->select('*');
+        $this->model->with(['menu']);
+
+        return parent::grid();
     }
 
     protected function uploadFile($id)

@@ -1,5 +1,6 @@
 <?php namespace App\Models\Pulsa;
 
+use App\Entities\MenuDigital;
 use App\Entities\ProdukPulsa;
 use App\Models\MyModel;
 
@@ -10,7 +11,7 @@ class KategoriPulsaModel extends MyModel
     protected $createdField = "kpCreatedAt";
     protected $updatedField = "kpUpdatedAt";
     protected $returnType = "App\Entities\KategoriPulsa";
-    protected $allowedFields = ["kpId","kpKelompok","kpNama","kpIcon","kpUrutan","kpDeletedAt"];
+    protected $allowedFields = ["kpId","kpPrefix","kpNama","kpIcon","kpUrutan","kpMenuId","kpDeletedAt"];
 
     public function getReturnType()
     {
@@ -24,6 +25,7 @@ class KategoriPulsaModel extends MyModel
     protected function relationships(){
         return [
             'produk' => $this->hasMany('m_produk_pulsa', ProdukPulsa::class, 'ppKpId = kpId', 'produk', 'ppKpId'),
+            'menu' => $this->belongsTo('m_menu_digital', MenuDigital::class, 'mdId = kpMenuId', 'menu', 'mdId'),
         ];
     }
 

@@ -5,14 +5,16 @@ class KategoriPulsa extends MyEntity
 {
   protected $casts = [
     'produk'=>'json',
+    'menu'=>'json',
   ];
 
     protected $datamap = [
         'id' => 'kpId',
-        'kelompok' => 'kpKelompok',
+        'prefix' => 'kpPrefix',
         'nama' => 'kpNama',
         'icon' => 'kpIcon',
         'urutan' => 'kpUrutan',
+        'menuId' => 'kpMenuId',
         'createdAt' => 'kpCreatedAt',
         'updatedAt' => 'kpUpdatedAt',
         'deletedAt' => 'kpDeletedAt',
@@ -20,11 +22,13 @@ class KategoriPulsa extends MyEntity
 
     protected $show = [
 		'id',
-		'kelompok',
+		'prefix',
 		'nama',
 		'icon',
 		'urutan',
+		'menuId',
 		'produk',
+		'menu',
 		'createdAt',
 		'updatedAt',
 		'deletedAt',

@@ -11,14 +11,19 @@
             <form id="form">
                 <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="">Kelompok</label>
-                        <input type="text" name="kelompok" id="kelompok" class="form-control readonly-background" placeholder="Kelompok">
-                        <p class="text-danger" id="er_kelompok"></p>
+                        <label for="">Menu Digital</label>
+                        <?= form_dropdown('menuId', $selectMenu, '', ['class' => 'form-control menuId select2', 'id' => 'menuId']); ?>
+                        <p class="text-danger" id="er_menuId"></p>
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Nama</label>
                         <input type="text" name="nama" id="nama" class="form-control readonly-background" placeholder="Nama">
                         <p class="text-danger" id="er_nama"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="">Prefix</label>
+                        <input type="text" name="prefix" id="prefix" class="form-control readonly-background" placeholder="0812,0822">
+                        <p class="text-danger" id="er_prefix"></p>
                     </div>
                     <div class="form-group mb-2">
                         <label for="">Icon</label>
@@ -48,7 +53,7 @@
             <form id="form">
                 <div class="modal-body">
                     <div class="dd" id="dataKuesioner">
-                    
+
                     </div>
                 </div>
                 <div class="modal-footer">

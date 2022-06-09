@@ -99,48 +99,8 @@ class PulsaBridgeApi
     {
         
         $response = $this->execute('POST', '', [
-            "query" => '<?xml version="1.0"?>
-                        <methodCall>
-                            <methodName>topUpRequest</methodName>
-                            <params>
-                                <param>
-                                    <value>
-                                        <struct>
-                                            <member>
-                                                <name>MSISDN</name>
-                                                <value>
-                                                    <string>089651312000</string>
-                                                </value>
-                                            </member>
-                                            <member>
-                                                <name>REQUESTID</name>
-                                                <value>
-                                                    <string>11002200</string>
-                                                </value>
-                                            </member>
-                                            <member>
-                                                <name>PIN</name>
-                                                <value>
-                                                    <string>191288</string>
-                                                </value>
-                                            </member>
-                                            <member>
-                                                <name>NOHP</name>
-                                                <value>
-                                                    <string>0818882220</string>
-                                                </value>
-                                            </member>
-                                            <member>
-                                                <name>NOM</name>
-                                                <value>
-                                                    <string>T1</string>
-                                                </value>
-                                            </member>
-                                        </struct>
-                                    </value>
-                                </param>
-                            </params>
-                        </methodCall>'
+            "query" => '
+                        '
         ]);
 
         return $response;;

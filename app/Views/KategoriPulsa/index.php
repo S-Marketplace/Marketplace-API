@@ -29,9 +29,10 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="20%">Kelompok</th>
+                                        <th width="20%">Menu</th>
                                         <th width="20%">Nama</th>
                                         <th width="20%">Icon</th>
+                                        <th width="20%">Prefix</th>
                                         <th width="4%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -66,6 +67,7 @@
     var grid = null;
     var dataRow;
     $(document).ready(function() {
+        $('.select2').select2();
 
         $('#btnTambah').click(function(e) {
             e.preventDefault();
@@ -85,7 +87,7 @@
             $('#aksi').html('Ubah');
 
             $('[name="nama"]').val(dataRow.nama);
-            $('[name="kelompok"]').val(dataRow.kelompok);
+            $('[name="prefix"]').val(dataRow.prefix);
 
             if (dataRow.icon != '') {
                 krajeeConfig('[name="icon"]', {
@@ -203,7 +205,7 @@
                     }
                 },
                 {
-                    data: 'kelompok',
+                    data: 'menu.nama',
                 },
                 {
                     data: 'nama',
@@ -215,7 +217,9 @@
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
-
+                {
+                    data: 'prefix',
+                },
                 {
                     data: 'id',
                     render: function(val, type, row, meta) {
@@ -339,7 +343,7 @@
                             </div>
                         </div>
                         <div>
-                            <small class="font-weight-bold"><span class="text-primary">${item.urutan}</span> ${item.kelompok}</small> 
+                            <small class="font-weight-bold"><span class="text-primary">${item.urutan}</span> ${item.prefix}</small> 
                         </div>
                         <div><b>${item.nama}</b></div>
                     </div>
