@@ -39,14 +39,6 @@ $routes->get('/', 'Welcome::index');
 $routes->post("api/auth", 'Api\Auth::create', ['filter' => 'apiKeyFilter']);
 $routes->put("api/auth/refresh", "Api\Auth::update", ['filter' => 'apiKeyFilter']);
 
-$routes->get('api/file/foto_beranda/(:segment)', 'Api\File::fotoBeranda/$1');
-$routes->get('api/file/foto_mekanisme/(:segment)', 'Api\File::fotoMekanisme/$1');
-$routes->get('api/file/foto_setting/(:segment)', 'Api\File::fotoSetting/$1');
-$routes->get('api/file/foto_user_integrasi/(:segment)', 'Api\File::fotoUserIntegrasi/$1');
-
-$routes->get("api/penjamin_integrasi.pdf", 'Api\UserIntegrasi::penjaminIntegrasi');
-$routes->get("api/surat_pernyataan_integrasi.pdf", 'Api\UserIntegrasi::suratPernyataanIntegrasi');
-
 $routes->get("verifikasi", 'Api\User::verifikasi');
 $routes->get("reset_password", 'Api\User::reset_password');
 $routes->post("reset_password", 'Api\User::reset_password');

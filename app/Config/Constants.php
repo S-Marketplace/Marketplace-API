@@ -82,3 +82,4 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest auto
 defined('PATH_ICON_KATEGORI_PULSA')         || define('PATH_ICON_KATEGORI_PULSA', 'icon_kategori_pulsa');
 defined('PATH_ICON_MENU_DIGITAL')           || define('PATH_ICON_MENU_DIGITAL', 'icon_menu_digital');
 defined('PATH_FOTO_SERVICE_CENTER')         || define('PATH_FOTO_SERVICE_CENTER', 'foto_service_center');
+defined('PATH_BANNER')                      || define('PATH_BANNER', 'banner_gambar');

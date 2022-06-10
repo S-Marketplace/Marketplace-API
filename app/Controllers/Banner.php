@@ -21,15 +21,18 @@ class Banner extends BaseController
 
    public function index()
    {
+       $data['selectJenis'] = $this->model->selectJenis();
+       $data['selectTipe'] = $this->model->selectTipe();
+
        return $this->template->setActiveUrl('Banner')
-           ->view("Banner/index");
+           ->view("Banner/index", $data);
    }
 
    protected function uploadFile($id)
     {
         helper("myfile");
 
-        $path = Config::get("App")->uploadPath . "banner_gambar";
+        $path = Config::get("App")->uploadPath . PATH_BANNER;
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }

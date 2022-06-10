@@ -34,6 +34,7 @@ class BaseController extends Controller
 	protected $helpers = [];
 	protected $rules = [];
 	protected $isUploadWithId = false;
+	protected $defaultLimitData = 100;
 	protected $acl = null;
 
 	/**
@@ -59,8 +60,8 @@ class BaseController extends Controller
 
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 
-		if(isset($this->modelName))
-		$this->model = new $this->modelName() ?? '';
+		if (isset($this->modelName))
+			$this->model = new $this->modelName() ?? '';
 	}
 
 	/**
@@ -107,7 +108,7 @@ class BaseController extends Controller
 
 			helper('form');
 			if ($this->validate($this->rules)) {
-				if(!$this->isUploadWithId){
+				if (!$this->isUploadWithId) {
 					try {
 						$this->uploadFile(null);
 					} catch (\Exception $ex) {
@@ -137,7 +138,7 @@ class BaseController extends Controller
 					$this->model->transComplete();
 					$status = $this->model->transStatus();
 
-					if($this->isUploadWithId){
+					if ($this->isUploadWithId) {
 						try {
 							$this->uploadFile($primaryId);
 						} catch (\Exception $ex) {
@@ -219,5 +220,141 @@ class BaseController extends Controller
 	{
 		$data = $this->model->find();
 		return $this->response->setJSON($data);
+	}
+
+	public function show()
+	{
+		$this->applyQueryFilter();
+		$limit = $this->request->getGet("limit") ? $this->request->getGet("limit") : $this->defaultLimitData;
+		$offset = $this->request->getGet("offset") ? $this->request->getGet("offset") : 0;
+		if ($limit != "-1") {
+			$this->model->limit($limit);
+		}
+		$this->model->offset($offset);
+		try {
+			return $this->response->setJSON([
+				'rows' => $this->model->find(),
+				'limit' => $limit,
+				'offset' => $offset,
+			]);
+		} catch (\Exception $ex) {
+			$data = $this->response(null, 500, $ex->getMessage());
+			return $this->response->setJSON($data);
+
+		}
+	}
+
+	protected function applyQueryFilter($isBuilder = false, $paramDatamap = [])
+	{
+		$params = $this->request->getGet();
+		if ($isBuilder === false) {
+			$tableName = $this->model->getTableName();
+			$this->model->select($tableName . ".*");
+		}
+		foreach ($params as $fieldRaw => $filter) {
+			if (!in_array($fieldRaw, ["limit", "offset", "with", "operator"])) {
+				$relationTable = null;
+				$fieldArray = explode("_", $fieldRaw);
+				if (count($fieldArray) == 1) {
+					if ($isBuilder === false) {
+						$entityClass = $this->model->getReturnType();
+						$entity = new $entityClass();
+						$datamap = $entity->getDatamap();
+					} else {
+						$datamap = $paramDatamap;
+					}
+					$field = isset($datamap[$fieldArray[0]]) ? $datamap[$fieldArray[0]] : $fieldArray[0];
+				} else {
+					$relationName = $fieldArray[0];
+					$entityClass = $this->model->getReturnTypeOfRelation($relationName);
+					$entity = new $entityClass();
+					$datamap = $entity->getDatamap();
+					$field = isset($datamap[$fieldArray[1]]) ? $datamap[$fieldArray[1]] : $fieldArray[1];
+					$field = $relationName . "." . $field;
+				}
+				if (is_array($filter)) {
+
+					foreach ($filter as $type => $value) {
+						$type = strtolower($type);
+						switch ($type) {
+							case "eq":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field, $value);
+								} else {
+									$this->model->where($field, $value);
+								}
+								break;
+							case "nq":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field . " !=", $value);
+								} else {
+									$this->model->where($field . " !=", $value);
+								}
+								break;
+							case "gt":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field . " >", $value);
+								} else {
+									$this->model->where($field . " >", $value);
+								}
+								break;
+							case "gte":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field . " >=", $value);
+								} else {
+									$this->model->where($field . " >=", $value);
+								}
+								break;
+							case "lt":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field . " <", $value);
+								} else {
+									$this->model->where($field . " <", $value);
+								}
+								break;
+							case "lte":
+								if (isset($params['operator']) && $params['operator'] == "OR") {
+									$this->model->orWhere($field . " <=", $value);
+								} else {
+									$this->model->where($field . " <=", $value);
+								}
+								break;
+							case "is_null":
+								$this->model->where($field . " IS NULL", null);
+								break;
+							case "not_null":
+								$this->model->where($field . " IS NOT NULL", null);
+								break;
+							case "in":
+								$value = explode(',', $value);
+								$this->model->whereIn($field, $value);
+								break;
+							case "not_in":
+								$value = explode(',', $value);
+								$this->model->whereNotIn($field, $value);
+								break;
+							case "like":
+								$this->model->like($field, $value);
+								break;
+							case "or_like":
+								$this->model->orLike($field, $value);
+								break;
+							case "sort":
+								$this->model->orderBy($field, $value);
+								break;
+							case "group":
+								$this->model->groupBy($field);
+								break;
+						}
+					}
+				}
+			} elseif ($fieldRaw == "with") {
+				if (is_array($filter)) {
+					$this->model->with($filter);
+				} else {
+					$this->model->with([$filter]);
+				}
+			}
+		}
 	}
 }

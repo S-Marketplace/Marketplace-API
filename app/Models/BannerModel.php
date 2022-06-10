@@ -9,7 +9,7 @@ class BannerModel extends MyModel
     protected $createdField = "bnrCreatedAt";
     protected $updatedField = "bnrUpdatedAt";
     protected $returnType = "App\Entities\Banner";
-    protected $allowedFields = ["bnrDeskripsi","bnrGambar","bnrUrl","bnrDeletedAt"];
+    protected $allowedFields = ["bnrDeskripsi","bnrGambar","bnrUrl", "bnrJenis", "bnrKategoriId", "bnrProdukId", "bnrType", "bnrDeletedAt"];
 
     public function getReturnType()
     {
@@ -18,5 +18,23 @@ class BannerModel extends MyModel
     
     public function getPrimaryKeyName(){
         return $this->primaryKey;
+    }
+
+    public function selectJenis(){
+        $select= [];
+        foreach (['Kategori', 'Produk', 'Artikel'] as $key => $value) {
+            $select[$value] = $value;
+        }
+
+        return $select;
+    }
+
+    public function selectTipe(){
+        $select= [];
+        foreach (['Vertical', 'Horizontal'] as $key => $value) {
+            $select[$value] = $value;
+        }
+
+        return $select;
     }
 }

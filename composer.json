@@ -12,7 +12,8 @@
         "firebase/php-jwt": "5.2",
         "notihnio/php-request-parser": "1.0.0",
         "ramsey/uuid": "^4.1",
-        "illuminate/database": "^8.83"
+        "illuminate/database": "^8.83",
+        "bepsvpt/blurhash": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

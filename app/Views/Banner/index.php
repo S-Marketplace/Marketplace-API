@@ -53,7 +53,6 @@
     .readonly-background[readonly] {
         background-color: white !important;
     }
-
 </style>
 <?= $this->endSection(); ?>
 
@@ -65,6 +64,7 @@
 <script>
     var grid = null;
     var dataRow;
+    $('.select2').select2();
 
     CKEDITOR.replace('editor1', {
         toolbar: [{
@@ -234,11 +234,16 @@
 
             $('[name="deskripsi"]').text(dataRow.deskripsi);
             $('[name="url"]').val(dataRow.url);
+            $('[name="jenis"]').val(dataRow.jenis).trigger('change');
+            $('[name="type"]').val(dataRow.type).trigger('change');
+            $('[name="kategoriId"]').val(dataRow.kategoriId).trigger('change');
+            $('[name="produkId"]').val(dataRow.produkId).trigger('change');
+
             editor.setData(dataRow.deskripsi);
 
             if (dataRow.gambar != '') {
                 krajeeConfig('[name="gambar"]', {
-                    url: `<?= base_url('File/get/banner_gambar') ?>/${dataRow.gambar}`,
+                    url: `<?= base_url('File/get/' . PATH_BANNER) ?>/${dataRow.gambar}`,
                     filename: dataRow.gambar,
                     caption: `gambar`,
                     action: true,
@@ -343,8 +348,8 @@
 
         grid = $("#datatable").DataTable({
             columnDefs: [{
-                targets: [0,2,3],
-                className : "dt-top"
+                targets: [0, 2, 3],
+                className: "dt-top"
             }, ],
             processing: true,
             serverSide: true,
@@ -366,7 +371,7 @@
                 {
                     data: 'gambar',
                     render: function(val, type, row, meta) {
-                        let link = `<?= base_url('File') ?>/get/banner_gambar/${val}`;
+                        let link = `<?= base_url('File') ?>/get/<?= PATH_BANNER ?>/${val}`;
                         return `<a href="${link}" target="_BLANK"><img style="height: 100px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
@@ -392,6 +397,84 @@
                 }
             ]
         });
+        
+        // Produk
+        $('[name="produkId"]').select2({
+            ajax: {
+                url: "<?=base_url('produk/show')?>",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        'nama[like]': params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.rows,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Cari Produk',
+            minimumInputLength: 1,
+            templateResult: formatProdukId,
+            templateSelection: formatProdukIdSelection
+        });
+
+
+        function formatProdukId(repo) {
+            return repo.nama || repo.text;
+        }
+
+        function formatProdukIdSelection(repo) {
+            return repo.nama || repo.text;
+        }
+
+        // KATEGORI
+        $('[name="kategoriId"]').select2({
+            ajax: {
+                url: "<?=base_url('kategori/show')?>",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        'nama[like]': params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.rows,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Cari Kaegori',
+            minimumInputLength: 1,
+            templateResult: formatKategoriId,
+            templateSelection: formatKategoriIdSelection
+        });
+
+
+        function formatKategoriId(repo) {
+            return repo.nama || repo.text;
+        }
+
+        function formatKategoriIdSelection(repo) {
+            return repo.nama || repo.text;
+        }
 
     });
 </script>
