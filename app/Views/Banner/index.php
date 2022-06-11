@@ -28,8 +28,10 @@
                                 <thead>
                                     <tr>
                                         <th width="1%">No</th>
-                                        <th width="80%">Deskripsi</th>
+                                        <!-- <th width="80%">Deskripsi</th> -->
                                         <th width="10%">Gambar</th>
+                                        <th width="10%">Jenis</th>
+                                        <th width="10%">Tipe</th>
                                         <th width="5%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -103,7 +105,7 @@
         customConfig: '',
         removePlugins: 'image',
         height: 600,
-        contentsCss: ['https://cdn.ckeditor.com/4.8.0/standard-all/contents.css', 'mystyles.css'],
+        contentsCss: ['https://cdn.ckeditor.com/4.8.0/standard-all/contents.css'],
         bodyClass: 'article-editor',
         format_tags: 'p;h1;h2;h3;pre',
         removeDialogTabs: 'image:advanced;link:advanced',
@@ -223,6 +225,24 @@
             krajeeConfig('[name="gambar"]', {
                 type: 'image'
             });
+            $('[name="jenis"]').val('Artikel').trigger('change');
+            $('[name="produkId"],[name="kategoriId"]').html('').trigger('change');
+        });
+
+        $(document).on('change', '[name="jenis"]', function(e) {
+            let value = $(this).val();
+
+            $('[name="produkId"]').parents('.form-group').hide();
+            $('[name="kategoriId"]').parents('.form-group').hide();
+            $('[name="deskripsi"]').parents('.form-group').hide();
+
+            if (value == 'Produk') {
+                $('[name="produkId"]').parents('.form-group').show();
+            } else if (value == 'Kategori') {
+                $('[name="kategoriId"]').parents('.form-group').show();
+            } else {
+                $('[name="deskripsi"]').parents('.form-group').show();
+            }
         });
 
         $(document).on('click', '#btnEdit', function(e) {
@@ -238,6 +258,16 @@
             $('[name="type"]').val(dataRow.type).trigger('change');
             $('[name="kategoriId"]').val(dataRow.kategoriId).trigger('change');
             $('[name="produkId"]').val(dataRow.produkId).trigger('change');
+
+            if(dataRow.produkId){
+                var newOption = new Option(dataRow.produk.nama, dataRow.produk.id, false, false);
+                $('[name="produkId"]').append(newOption).trigger('change');
+            }
+            
+            if(dataRow.kategoriId){
+                var newOption = new Option(dataRow.kategori.nama, dataRow.kategori.id, false, false);
+                $('[name="kategoriId"]').append(newOption).trigger('change');
+            }
 
             editor.setData(dataRow.deskripsi);
 
@@ -307,7 +337,6 @@
             e.preventDefault();
 
             var deskripsi = editor.getData();
-            console.log('DESKRIPSI', deskripsi)
             $('[name="deskripsi"]').text(deskripsi);
             $('[name="deskripsi"]').val(deskripsi);
 
@@ -365,9 +394,9 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {
-                    data: 'deskripsi',
-                },
+                // {
+                //     data: 'deskripsi',
+                // },
                 {
                     data: 'gambar',
                     render: function(val, type, row, meta) {
@@ -375,7 +404,11 @@
                         return `<a href="${link}" target="_BLANK"><img style="height: 100px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },
-
+                {
+                    data: 'jenis',
+                }, {
+                    data: 'type',
+                },
                 {
                     data: 'id',
                     render: function(val, type, row, meta) {
@@ -397,11 +430,11 @@
                 }
             ]
         });
-        
+
         // Produk
         $('[name="produkId"]').select2({
             ajax: {
-                url: "<?=base_url('produk/show')?>",
+                url: "<?= base_url('produk/show') ?>",
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -440,7 +473,7 @@
         // KATEGORI
         $('[name="kategoriId"]').select2({
             ajax: {
-                url: "<?=base_url('kategori/show')?>",
+                url: "<?= base_url('kategori/show') ?>",
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

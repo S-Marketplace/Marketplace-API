@@ -14,7 +14,8 @@ class Banner extends BaseController
     protected $format    = 'json';
 
     protected $rules = [
-       'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'required'],
+       'type' => ['label' => 'Tipe', 'rules' => 'required'],
+       'jenis' => ['label' => 'Jenis', 'rules' => 'required'],
        'gambar' => ['label' => 'Gambar', 'rules' => 'required|uploaded[gambar]|max_size[gambar,1024]|ext_in[gambar,jpeg,jpg,png]|mime_in[gambar, image/jpg,image/jpeg,image/png]'],
     //    'url' => ['label' => 'Url', 'rules' => 'required'],
    ];
@@ -26,6 +27,14 @@ class Banner extends BaseController
 
        return $this->template->setActiveUrl('Banner')
            ->view("Banner/index", $data);
+   }
+
+   public function grid()
+   {
+       $this->model->select('*');
+       $this->model->with(['kategori', 'produk']);
+
+       return parent::grid();
    }
 
    protected function uploadFile($id)

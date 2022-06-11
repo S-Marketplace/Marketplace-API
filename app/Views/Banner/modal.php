@@ -20,15 +20,22 @@
                         <input class="form-control" type="file" name="gambar" placeholder="gambar">
                         <p class="text-danger" id="er_gambar"></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="">Jenis</label>
-                        <?= form_dropdown('jenis', $selectJenis, '', ['class' => 'form-control jenis select2', 'id' => 'jenis']); ?>
-                        <p class="text-danger" id="er_jenis"></p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="">Tipe</label>
-                        <?= form_dropdown('type', $selectTipe, 'Horizontal', ['class' => 'form-control type select2', 'id' => 'type']); ?>
-                        <p class="text-danger" id="er_type"></p>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Jenis</label>
+                                <?= form_dropdown('jenis', $selectJenis, '', ['class' => 'form-control jenis select2', 'id' => 'jenis']); ?>
+                                <p class="text-danger" id="er_jenis"></p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="">Tipe</label>
+                                <?= form_dropdown('type', $selectTipe, 'Horizontal', ['class' => 'form-control type select2', 'id' => 'type']); ?>
+                                <p class="text-danger" id="er_type"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Kategori</label>
@@ -40,7 +47,7 @@
                         <?= form_dropdown('produkId', [], '', ['class' => 'form-control produkId select2', 'id' => 'produkId']); ?>
                         <p class="text-danger" id="er_produkId"></p>
                     </div>
-                   
+
                     <div class="form-group mb-3">
                         <label for="">Artikel</label>
                         <textarea id="editor1" class="form-control" name="deskripsi" id="deskripsi" rows="5" cols="5" placeholder="Deskripsi"></textarea>

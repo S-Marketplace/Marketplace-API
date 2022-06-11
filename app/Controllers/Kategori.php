@@ -28,7 +28,7 @@ class Kategori extends BaseController
     {
         helper("myfile");
 
-        $path = Config::get("App")->uploadPath . "icon_kategori";
+        $path = Config::get("App")->uploadPath . PATH_KATEGORI_PRODUK;
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }

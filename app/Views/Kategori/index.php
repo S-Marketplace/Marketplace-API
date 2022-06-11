@@ -83,7 +83,7 @@
 
             if (dataRow.icon != '') {
                 krajeeConfig('[name="icon"]', {
-                    url: `<?= base_url('File/get/icon_kategori') ?>/${dataRow.icon}`,
+                    url: `<?= base_url('File/get/'.PATH_KATEGORI_PRODUK) ?>/${dataRow.icon}`,
                     filename: dataRow.icon,
                     caption: `Icon Kategori`,
                     action: true,
@@ -199,7 +199,7 @@
                 {
                     data: 'icon',
                     render: function(val, type, row, meta) {
-                        let link = `<?= base_url('File') ?>/get/icon_kategori/${val}`;
+                        let link = `<?= base_url('File') ?>/get/<?=PATH_KATEGORI_PRODUK?>/${val}`;
                         return `<a href="${link}" target="_BLANK"><img  width="60px" class="img-fluid img-thumbnail js-tilt" src="${link}"  ></a>`;
                     }
                 },

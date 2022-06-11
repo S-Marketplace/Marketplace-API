@@ -6,6 +6,11 @@ use App\Entities\MyEntity;
 
 class Banner extends MyEntity
 {
+  protected $casts = [
+    'kategori' => 'json',
+    'produk' => 'json',
+  ];
+
   protected $datamap = [
     'id' => 'bnrId',
     'deskripsi' => 'bnrDeskripsi',
@@ -29,6 +34,8 @@ class Banner extends MyEntity
     'type',
     'kategoriId',
     'produkId',
+    'produk',
+    'kategori',
     'createdAt',
     'updatedAt',
     'deletedAt',

@@ -83,3 +83,4 @@ defined('PATH_ICON_KATEGORI_PULSA')         || define('PATH_ICON_KATEGORI_PULSA'
 defined('PATH_ICON_MENU_DIGITAL')           || define('PATH_ICON_MENU_DIGITAL', 'icon_menu_digital');
 defined('PATH_FOTO_SERVICE_CENTER')         || define('PATH_FOTO_SERVICE_CENTER', 'foto_service_center');
 defined('PATH_BANNER')                      || define('PATH_BANNER', 'banner_gambar');
+defined('PATH_KATEGORI_PRODUK')             || define('PATH_KATEGORI_PRODUK', 'icon_kategori');
