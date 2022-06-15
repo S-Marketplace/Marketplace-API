@@ -96,14 +96,14 @@ class MenuDigital extends BaseController
             $urutanNumber = ($key + 1);
             if ($value['urutan'] != $urutanNumber) {
                 $sortedData[] = [
-                    'kpId' => $value['id'],
-                    'kpUrutan' => $urutanNumber,
+                    'mdId' => $value['id'],
+                    'mdUrutan' => $urutanNumber,
                 ];
             }
         }
 
         if (!empty($sortedData)) {
-            $this->model->updateBatch($sortedData, 'kpId');
+            $this->model->updateBatch($sortedData, 'mdId');
         }
 
         return $this->response->setJSON([

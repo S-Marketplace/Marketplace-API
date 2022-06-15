@@ -1,8 +1,9 @@
 <?php namespace App\Models;
 
 use App\Models\MyModel;
-use App\Entities\ProdukPulsa;
 use App\Entities\UserSaldo;
+use App\Entities\ProdukPulsa;
+use App\Entities\KategoriPulsa;
 
 class CheckoutPulsaModel extends MyModel
 {
@@ -26,7 +27,9 @@ class CheckoutPulsaModel extends MyModel
     {
         return [
             'pembayaran' => ['table' => 't_user_saldo', 'condition' => 'cktpUsalId = usalId', 'entity' => UserSaldo::class],
-            'produk' => $this->belongsTo('m_produk_pulsa', ProdukPulsa::class, 'cktpIdProduk = ppId', 'produk', 'ppId'),
+            'produk' => $this->belongsTo('m_produk_pulsa', ProdukPulsa::class, 'cktpIdProduk = ppId', 'produk', 'ppId', 'LEFT', function($e){
+                return $this->belongsTo('m_kategori_pulsa', KategoriPulsa::class, 'kpId = ppKpId', 'kategori', 'kpId');
+            }),
         ];
     }
 }
