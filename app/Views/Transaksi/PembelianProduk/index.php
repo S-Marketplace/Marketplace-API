@@ -77,6 +77,16 @@
             $('#modalVerifikasi').modal('show');
         });
 
+        $(document).on('click', '#btnInvoice', function(e) {
+            e.preventDefault();
+
+            let row = $(this).data('row');
+            dataRow = grid.row(row).data();
+            id = dataRow.id;
+
+            window.open('<?= base_url('TransaksiPembelianProduk/invoice/')?>/'+id, '_blank');
+        });
+
         $(document).on('click', '#btnAksiVerifikasi', function(e) {
             e.preventDefault();
 
@@ -404,6 +414,15 @@
                             show: true
                         });
 
+                        var btnInvoice = btnDatatableConfig('custom', {
+                            'id': 'btnInvoice',
+                            'data-row': meta.row,
+                        }, {
+                            'textBtn': 'Invoice',
+                            'iconBtn': 'fa fa-print',
+                            show: true
+                        });
+
                         var btnEdit = btnDatatableConfig('update', {
                             'id': 'btnEdit',
                             'data-row': meta.row,
@@ -423,7 +442,7 @@
                             });
                         }
 
-                        return `${btnDetail} ${btnEdit} ${btnVerifikasi}`;
+                        return `${btnDetail} ${btnEdit} ${btnVerifikasi} ${btnInvoice}`;
                     }
                 }
             ]

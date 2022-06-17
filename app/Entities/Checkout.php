@@ -8,6 +8,7 @@ class Checkout extends MyEntity
     'kurir' => 'json',
     'detail' => 'json',
     'alamat' => 'json',
+    'user' => 'json',
 ];
 
     protected $datamap = [
@@ -34,5 +35,6 @@ class Checkout extends MyEntity
     'kurir',
     'detail',
     'alamat',
+    'user',
     ];
 }

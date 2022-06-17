@@ -214,6 +214,7 @@
 
                         if(val == 'top_up') return `<span class="badge badge-primary text-light">Top UP</span>`;
                         else if(val == 'top_down') return `<span class="badge badge-success text-light">Pembayaran</span>`;
+                        else if(val == 'pembelian_pulsa') return `<span class="badge badge-primary text-light">Produk Digital</span>`;
                         
                         text = val;
 

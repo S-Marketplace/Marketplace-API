@@ -7,6 +7,7 @@ use App\Entities\Produk;
 use App\Entities\Kategori;
 use App\Entities\ProdukGambar;
 use App\Entities\ProdukVariant;
+use App\Entities\User;
 
 class KeranjangModel extends MyModel
 {
@@ -57,6 +58,7 @@ class KeranjangModel extends MyModel
         //     GROUP BY produkId";
 
         return [
+            'user' =>  $this->belongsTo('m_user', User::class, 'usrEmail = krjUserEmail', 'user'),
             // 'products' => ['table' => "({$productsQuery})", 'condition' => 'krjProdukId = produkId', 'field_json' => 'products', 'type' => 'left'],
             'products' => $this->belongsTo('m_produk', Produk::class, 'krjProdukId = produkId', 'products', 'produkId', 'left', function($relation){
                 return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');

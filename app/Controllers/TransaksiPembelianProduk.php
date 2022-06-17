@@ -95,6 +95,20 @@ class TransaksiPembelianProduk extends BaseController
         return $this->response->setJSON($pembayaran);
     }
 
+    public function invoice($id){
+        $keranjangModel = new KeranjangModel();
+        $detail =  $keranjangModel->getKeranjangDetail($id);
+
+        $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat', 'detail', 'user']);
+        $data =  $this->model->find($id);
+
+        return $this->template
+            ->view("Transaksi/PembelianProduk/invoice",[
+                'data' => $data,
+                'detail' => $detail,
+            ]);
+    }
+
     private function _setPembayaranProduk($transaction_status, $transaction_id){
         $pembayaranModel = new PembayaranModel();
         $find = $pembayaranModel->find($transaction_id);
