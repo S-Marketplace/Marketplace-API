@@ -99,6 +99,10 @@ class TransaksiPembelianProduk extends BaseController
         $keranjangModel = new KeranjangModel();
         $detail =  $keranjangModel->getKeranjangDetail($id);
 
+        if(empty($detail)){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
         $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat', 'detail', 'user']);
         $data =  $this->model->find($id);
 

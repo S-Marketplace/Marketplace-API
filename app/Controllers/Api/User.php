@@ -4,10 +4,11 @@ namespace App\Controllers\Api;
 
 use Ramsey\Uuid\Uuid;
 use App\Models\UserModel;
+use CodeIgniter\Config\Config;
 use App\Libraries\Notification;
-use App\Controllers\MyResourceController;
-use App\Entities\User as EntitiesUser;
 use App\Models\UserAlamatModel;
+use App\Entities\User as EntitiesUser;
+use App\Controllers\MyResourceController;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 /**
@@ -59,6 +60,15 @@ class User extends MyResourceController
         'otpCode' => ['label' => 'Kode OTP', 'rules' => 'required'],
     ];
 
+    protected $rulesUpdateProfile = [
+        'username' => [
+            'label' => 'Username', 'rules' => 'required'],
+        'jk' => ['label' => 'Jenis Kelamin', 'rules' => 'required|in_list[Laki-Laki,Perempuan]'],
+        'tglLahir' => ['label' => 'Tanggal Lahir', 'rules' => 'required|valid_date[Y-m-d]'],
+        'bio' => ['label' => 'Biodata', 'rules' => 'required'],
+        'foto' => ['label' => 'Foto Profil', 'rules' => 'required|is_image[foto]|max_size[foto,1024]|mime_in[foto, image/jpg,image/jpeg,image/png,image/x-png]'],
+    ];
+
     /**
      * Get My Profile
      *
@@ -70,6 +80,69 @@ class User extends MyResourceController
 
         $data = $modelUser->find($this->user['email']);
         return $this->response($data, 200, '');
+    }
+
+    protected function uploadFile()
+    {
+        helper("myfile");
+
+        $path = Config::get("App")->uploadPath . PATH_FOTO_USER;
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $this->request->getFile("foto");
+        if ($file && $file->getError() == 0) {
+
+            $filename = date("Ymdhis") . "." . $file->getExtension();
+
+            rename2($file->getRealPath(), $path . DIRECTORY_SEPARATOR . $filename);
+            $post = $this->request->getVar();
+            $post['foto'] = $filename;
+            $this->request->setGlobal("request", $post);
+        }
+    }
+
+    public function updateProfile()
+    {
+        $file = $this->request->getFile("foto");
+        if ($file && $file->getError() == 0) {
+            $post = $this->request->getVar();
+            $post['foto'] = '-';
+            $this->request->setGlobal("request", $post);
+        }
+      
+        $keyUpdate = current(array_keys($this->request->getVar()));
+
+        if (!isset($this->rulesUpdateProfile[$keyUpdate])) {
+            return $this->response(null, 400, 'Key Update Tidak Ditemukan');
+        }
+
+        if ($this->validate([$keyUpdate => $this->rulesUpdateProfile[$keyUpdate]], $this->validationMessage)) {
+            // Upload Foto
+            try {
+                $this->uploadFile();
+            } catch (\Exception $ex) {
+                $response =  $this->response(null, 500, $ex->getMessage());
+                return $this->response->setJSON($response);
+            }
+
+            try {
+                $data = $this->model->find($this->user['email']);
+                $data->{$keyUpdate} = $this->request->getVar($keyUpdate);
+                $status = $this->model->save($data);
+
+                return $this->response('Berhasil mengubah data', ($status ? 200 : 500));
+            } catch (DatabaseException $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\mysqli_sql_exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
     }
 
     /**
@@ -343,13 +416,14 @@ class User extends MyResourceController
      * @param [type] $pins
      * @return void
      */
-    public function checkPin($pins){
+    public function checkPin($pins)
+    {
         $userModel = new UserModel();
         $userData = $userModel->find($this->user['email']);
-      
-        if($userData->pin == $pins || $userData->pin == null){
+
+        if ($userData->pin == $pins || $userData->pin == null) {
             return $this->response(null, 200, 'Pin Benar');
-        }else{
+        } else {
             return $this->response(null, 403, 'Pin Salah');
         }
     }
@@ -359,7 +433,8 @@ class User extends MyResourceController
      *
      * @return void
      */
-    public function updatePin(){
+    public function updatePin()
+    {
         if ($this->validate([
             'pinLama' => ['label' => 'Pin Lama', 'rules' => 'required|numeric|min_length[6]|max_length[6]'],
             'pinBaru' => ['label' => 'Pin Baru', 'rules' => 'required|numeric|min_length[6]|max_length[6]'],
@@ -369,14 +444,13 @@ class User extends MyResourceController
                 $userModel = new UserModel();
                 $userData = $userModel->find($this->user['email']);
 
-                if($userData->pin == $post['pinLama'] || $userData->pin == null){
+                if ($userData->pin == $post['pinLama'] || $userData->pin == null) {
                     $userData->pin = $post['pinBaru'];
                     $userModel->save($userData);
                     return $this->response(null, 200, 'Pin berhasil di ubah');
-                }else{
+                } else {
                     return $this->response(null, 403, 'Pin lama salah');
                 }
-
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {

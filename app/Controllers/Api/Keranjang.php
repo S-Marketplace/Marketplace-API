@@ -133,42 +133,13 @@ class Keranjang extends MyResourceController
         $this->model->select('*');
         $this->model->with(['products']);
         return parent::index();
-        
-        // UNUSED
-        $keranjangModel = new KeranjangModel();
-        $keranjangModel->select('*');
-        $keranjangModel->where(['krjUserEmail' => $this->user['email']]);
-        $keranjangModel->where(['krjCheckoutId' => null]);
-        $keranjangModel->with(['products']);
-        $this->applyQueryFilter();
-        $limit = $this->request->getGet("limit") ? $this->request->getGet("limit") : $this->defaultLimitData;
-        $offset = $this->request->getGet("offset") ? $this->request->getGet("offset") : 0;
-        if ($limit != "-1") {
-            $keranjangModel->limit($limit);
-        }
-        $keranjangModel->offset($offset);
+    }
 
-        $data = $keranjangModel->find();
-
-        $data = array_map(function ($e) {
-            $e = $e;
-            $produkGambarModel = new ProdukGambarModel();
-            $kategoriModel = new KategoriModel();
-            $combine['kategori'] = $kategoriModel->find($e->products->kategoriId);
-            $combine['gambar'] = $produkGambarModel->where(['prdgbrProdukId' => $e->products->id])->find();
-            $e->products = array_merge((array)$e->products, $combine);
-            return $e;
-        }, $data);
-
-        try {
-            return $this->response([
-                'rows' => $data,
-                'limit' => $limit,
-                'offset' => $offset,
-            ]);
-        } catch (\Exception $ex) {
-            return $this->response(null, 500, $ex->getMessage());
-        }
+    public function orderUlang()
+    {
+        $this->model->where(['krjUserEmail' => $this->user['email']]);
+        return parent::index();
+     
     }
 
     public function keranjangCheckoutDetail($id){

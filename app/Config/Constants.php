@@ -84,6 +84,7 @@ defined('PATH_ICON_MENU_DIGITAL')           || define('PATH_ICON_MENU_DIGITAL', 
 defined('PATH_FOTO_SERVICE_CENTER')         || define('PATH_FOTO_SERVICE_CENTER', 'foto_service_center');
 defined('PATH_BANNER')                      || define('PATH_BANNER', 'banner_gambar');
 defined('PATH_KATEGORI_PRODUK')             || define('PATH_KATEGORI_PRODUK', 'icon_kategori');
+defined('PATH_FOTO_USER')                   || define('PATH_FOTO_USER', 'foto_user');
 
 
 defined('PAYMENT_TYPE')                     || define('PAYMENT_TYPE', ['manual_transfer' => 'Manual Transfer']);

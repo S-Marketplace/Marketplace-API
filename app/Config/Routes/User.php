@@ -22,6 +22,7 @@ $route->post("top_up/top_up_saldo", 'Api\TopUp::topUpSaldo');
 
 $route->group("keranjang", function ($route) {
     $route->get("/", 'Api\Keranjang::index');
+    $route->get("order_ulang", 'Api\Keranjang::orderUlang');
     $route->post("/", 'Api\Keranjang::ubahKeranjang');
     $route->post("checkout", 'Api\Keranjang::checkout');
     $route->post("checked", 'Api\Keranjang::checkedKeranjang');
@@ -44,7 +45,10 @@ $route->group("notifikasi", function ($route) {
     $route->get("my_notif", 'Api\Notifikasi::getNotif');
 });
 
-$route->get("profile", 'Api\User::getMyProfile');
+$route->group("profile", function ($route) {
+    $route->get("/", 'Api\User::getMyProfile');
+    $route->put("update", 'Api\User::updateProfile');
+});
 
 $route->get("saldo", 'Api\User::getMyProfile');
 $route->get("saldo/riwayat", 'Api\UserSaldo::index');

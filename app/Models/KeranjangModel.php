@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\Checkout;
 use App\Models\MyModel;
 use App\Entities\Produk;
 use App\Entities\Kategori;
@@ -67,6 +68,8 @@ class KeranjangModel extends MyModel
             }, function($relation){
                 return $relation->belongsTo('m_kategori', Kategori::class, 'ktgId = produkKategoriId', 'kategori', 'ktgId');
             }),
+        'checkout' =>  $this->belongsTo('t_checkout', Checkout::class, 'cktId = krjCheckoutId', 'checkout'),
+
         ];
     }
 

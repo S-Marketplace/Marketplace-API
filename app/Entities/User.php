@@ -1,10 +1,13 @@
-<?php namespace App\Entities;
+<?php
+
+namespace App\Entities;
+
 use App\Entities\MyEntity;
 
 class User extends MyEntity
 {
     protected $casts = [
-        'alamat'=>'json',
+        'alamat' => 'json',
     ];
 
     protected $datamap = [
@@ -25,20 +28,25 @@ class User extends MyEntity
         'otpCode' => 'usrOtpCode',
         'latitude' => 'usrLatitude',
         'longitude' => 'usrLongitude',
+        'username' => 'usrUsername',
+        'jk' => 'usrJk',
+        'tglLahir' => 'usrTglLahir',
+        'bio' => 'usrBio',
+        'foto' => 'usrFoto',
     ];
 
     protected $show = [
-		'email',
-		'nama',
-		// 'password',
-		'saldo',
-		'poin',
-		'isActive',
-		'createdAt',
-		'updatedAt',
-		'deletedAt',
-		'firebaseToken',
-		'pin',
+        'email',
+        'nama',
+        // 'password',
+        'saldo',
+        'poin',
+        'isActive',
+        'createdAt',
+        'updatedAt',
+        'deletedAt',
+        'firebaseToken',
+        'pin',
         'noHp',
         'noWa',
         'activeCode',
@@ -46,6 +54,11 @@ class User extends MyEntity
         'latitude',
         'longitude',
         'alamat',
+        'username',
+        'jk',
+        'tglLahir',
+        'bio',
+        'foto',
     ];
 
     public function hashPassword($password)
