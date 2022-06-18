@@ -85,7 +85,7 @@ defined('PATH_FOTO_SERVICE_CENTER')         || define('PATH_FOTO_SERVICE_CENTER'
 defined('PATH_BANNER')                      || define('PATH_BANNER', 'banner_gambar');
 defined('PATH_KATEGORI_PRODUK')             || define('PATH_KATEGORI_PRODUK', 'icon_kategori');
 defined('PATH_FOTO_USER')                   || define('PATH_FOTO_USER', 'foto_user');
-
+defined('PATH_GAMBAR_NOTIFIKASI')           || define('PATH_GAMBAR_NOTIFIKASI', 'gambar_notifikasi');
 
 defined('PAYMENT_TYPE')                     || define('PAYMENT_TYPE', ['manual_transfer' => 'Manual Transfer']);
 defined('BANK_NAME')                        || define('BANK_NAME', ['bca' => 'BCA', 'bni' => 'BNI', 'mandiri' => 'Mandiri', 'permata' => 'Permata']);

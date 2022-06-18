@@ -61,15 +61,14 @@ class KeranjangModel extends MyModel
         return [
             'user' =>  $this->belongsTo('m_user', User::class, 'usrEmail = krjUserEmail', 'user'),
             // 'products' => ['table' => "({$productsQuery})", 'condition' => 'krjProdukId = produkId', 'field_json' => 'products', 'type' => 'left'],
-            'products' => $this->belongsTo('m_produk', Produk::class, 'krjProdukId = produkId', 'products', 'produkId', 'left', function($relation){
+            'products' => $this->belongsTo('m_produk', Produk::class, 'krjProdukId = produkId', 'products', 'produkId', 'left', function ($relation) {
                 return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');
-            }, function($relation){
+            }, function ($relation) {
                 return $relation->hasMany('t_produk_gambar', ProdukGambar::class, 'prdgbrProdukId = produkId', 'gambar', 'prdgbrProdukId');
-            }, function($relation){
+            }, function ($relation) {
                 return $relation->belongsTo('m_kategori', Kategori::class, 'ktgId = produkKategoriId', 'kategori', 'ktgId');
             }),
-        'checkout' =>  $this->belongsTo('t_checkout', Checkout::class, 'cktId = krjCheckoutId', 'checkout'),
-
+            'checkout' =>  $this->belongsTo('t_checkout', Checkout::class, 'cktId = krjCheckoutId', 'checkout'),
         ];
     }
 
@@ -101,8 +100,8 @@ class KeranjangModel extends MyModel
         $keranjangModel->select('*');
         $keranjangModel->with(['products']);
         $data = $keranjangModel->where([
-            'krjUserEmail' => $email, 
-            'krjIsChecked' => 1, 
+            'krjUserEmail' => $email,
+            'krjIsChecked' => 1,
             'krjCheckoutId' => null,
         ])->find();
 
@@ -110,19 +109,18 @@ class KeranjangModel extends MyModel
         foreach ($data as $key => $value) {
             $variant = $value->products->variant;
 
-            if(!empty($variant)){
+            if (!empty($variant)) {
                 $variantId = $value->variantId;
-                $variantSearch = current(array_filter($variant, function($e) use($variantId){
+                $variantSearch = current(array_filter($variant, function ($e) use ($variantId) {
                     return $e->id == $variantId;
                 }));
 
-                if(!empty($variantSearch)){
+                if (!empty($variantSearch)) {
                     $harga += $variantSearch->harga;
-                }
-                else{
+                } else {
                     $harga += $value->products->harga;
                 }
-            }else{
+            } else {
                 $harga += $value->products->harga;
             }
         }
@@ -160,7 +158,7 @@ class KeranjangModel extends MyModel
         $variantModel = new ProdukVariantModel();
         foreach ($data as $keranjang) {
             $variantFromStok = 1;
-            if(!empty($keranjang->variantId)){
+            if (!empty($keranjang->variantId)) {
                 $variantData = $variantModel->find($keranjang->variantId);
                 $variantData->stok = $variantData->stok - $keranjang->krjQuantity;
                 $variantFromStok = $variantData->produkStok;
@@ -181,7 +179,7 @@ class KeranjangModel extends MyModel
         $variantModel = new ProdukVariantModel();
         foreach ($data as $keranjang) {
             $variantFromStok = 1;
-            if(!empty($keranjang->variantId)){
+            if (!empty($keranjang->variantId)) {
                 $variantData = $variantModel->find($keranjang->variantId);
                 $variantData->stok = $variantData->stok + $keranjang->krjQuantity;
                 $variantFromStok = $variantData->produkStok;
