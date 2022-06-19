@@ -33,7 +33,7 @@ $route->group("checkout", function ($route) {
     $route->post("/", 'Api\Checkout::checkout');
     $route->get("keranjang/(:segment)", 'Api\Checkout::detailKeranjang/$1');
     $route->post("terima/(:segment)", 'Api\Checkout::terimaPaket/$1');
-    $route->get("invoice/(:segment)", 'Api\Checkout::invoice/$1');
+    // $route->get("invoice/(:segment)", 'Api\Checkout::invoice/$1');
 });
 
 $route->group("checkout_pulsa", function ($route) {

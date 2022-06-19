@@ -43,6 +43,8 @@ $routes->get("verifikasi", 'Api\User::verifikasi');
 $routes->get("reset_password", 'Api\User::reset_password');
 $routes->post("reset_password", 'Api\User::reset_password');
 
+$routes->get("api/user/checkout/invoice/(:segment)", 'Api\Checkout::invoice/$1');
+
 $routes->group("api", ['filter' => 'apiKeyFilter'], function ($route) {
 	require_once APPPATH . "Config/Routes/Api.php";
 
