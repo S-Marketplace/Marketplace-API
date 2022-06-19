@@ -409,4 +409,22 @@ class Checkout extends MyResourceController
         }
     }
 
+    // Invoice
+    public function invoice($id){
+        $keranjangModel = new KeranjangModel();
+        $detail =  $keranjangModel->getKeranjangDetail($id);
+
+        if(empty($detail)){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $this->model->with(['kategori', 'pembayaran', 'kurir', 'alamat', 'detail', 'user']);
+        $data =  $this->model->find($id);
+
+        return view("Transaksi/PembelianProduk/invoice",[
+                'data' => $data,
+                'detail' => $detail,
+            ]);
+    }
+
 }
