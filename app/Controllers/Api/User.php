@@ -132,7 +132,7 @@ class User extends MyResourceController
                 $data->{$keyUpdate} = $this->request->getVar($keyUpdate);
                 $status = $this->model->save($data);
 
-                return $this->response('Berhasil mengubah data', ($status ? 200 : 500));
+                return $this->response(null, ($status ? 200 : 500), 'Berhasil mengupdate profil');
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
