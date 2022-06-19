@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="media">
-                            <div class="media-left"><img class="media-object rounded-circle img-60" src="<?= base_url('File/get/'.PATH_FOTO_USER.'/'.$data->user->foto) ?>" alt=""></div>
+                            <div class="media-left"><img class="media-object rounded-circle" style=" width: 60px !important; height: 60px !important; " src="<?= base_url('File/get/'.PATH_FOTO_USER.'/'.$data->user->foto) ?>" alt=""></div>
                             <div class="media-body m-l-20">
                                 <h4 class="media-heading"><?= $data->user->nama ?></h4>
                                 <p><?= $data->user->email ?><br><span><?= $data->user->noHp ?></span></p>
