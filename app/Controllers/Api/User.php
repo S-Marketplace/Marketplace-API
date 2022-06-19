@@ -61,6 +61,7 @@ class User extends MyResourceController
     ];
 
     protected $rulesUpdateProfile = [
+        'nama' => ['label' => 'nama', 'rules' => 'required'],
         'username' => [
             'label' => 'Username', 'rules' => 'required'],
         'jk' => ['label' => 'Jenis Kelamin', 'rules' => 'required|in_list[Laki-Laki,Perempuan]'],
