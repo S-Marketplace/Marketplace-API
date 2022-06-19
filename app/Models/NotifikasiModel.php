@@ -18,7 +18,7 @@ class NotifikasiModel extends MyModel
     protected function relationships()
     {
         return [
-            'produk' => $this->hasMany('m_produk', Produk::class, 'notifProdukId = produkId', 'produk', 'produkId', 'left', function ($relation) {
+            'produk' => $this->belongsTo('m_produk', Produk::class, 'notifProdukId = produkId', 'produk', 'produkId', 'left', function ($relation) {
                 // return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');
             }, function ($relation) {
                 return $relation->hasMany('t_produk_gambar', ProdukGambar::class, 'prdgbrProdukId = produkId', 'gambar', 'prdgbrProdukId');
