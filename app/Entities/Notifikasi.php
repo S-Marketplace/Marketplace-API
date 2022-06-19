@@ -17,6 +17,9 @@ class Notifikasi extends MyEntity
     'pesan' => 'notifPesan',
     'gambar' => 'notifGambar',
     'type' => 'notifType',
+    'createdAt' => 'notifCreatedAt',
+    'updatedAt' => 'notifUpdatedAt',
+    'deletedAt' => 'notifDeletedAt',
   ];
 
   protected $show = [
@@ -27,5 +30,8 @@ class Notifikasi extends MyEntity
     'type',
     'produk',
     'penerima',
+    'createdAt',
+    'updatedAt',
+    'deletedAt',
   ];
 }
