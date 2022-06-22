@@ -41,6 +41,10 @@ $route->group("checkout_pulsa", function ($route) {
     $route->post("/", 'Api\CheckoutPulsa::checkout');
 });
 
+$route->resource("notifikasi_to", ['controller' => 'Api\NotifikasiTo', 'only' => ['index', 'show', 'delete']]);
+$route->put("notifikasi_to/mark_read/(:segment)", 'Api\NotifikasiTo::markRead/$1');
+// $route->put("notifikasi_to", 'Api\User::updateProfile');
+
 $route->group("notifikasi", function ($route) {
     $route->get("/", 'Api\Notifikasi::index');
     $route->get("my_notif", 'Api\Notifikasi::getNotif');
