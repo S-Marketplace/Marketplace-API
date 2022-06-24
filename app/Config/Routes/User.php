@@ -57,3 +57,5 @@ $route->group("profile", function ($route) {
 
 $route->get("saldo", 'Api\User::getMyProfile');
 $route->get("saldo/riwayat", 'Api\UserSaldo::index');
+
+$route->get("statistik", 'Api\Statistik::index');
