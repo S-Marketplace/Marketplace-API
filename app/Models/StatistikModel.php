@@ -32,26 +32,31 @@ class StatistikModel extends MyModel
         return $this->db->query($query)->getRow() ;
     }
 
-    // TODO: BELUMM FIX
     public function getTahunIni($username)
     {
         $query = "SELECT 
-        YEAR(NOW()) AS tahun,
-        COUNT(DISTINCT ckt.`cktId`) AS jumlahPesanan, 
-        COUNT(krj.`krjProdukId`) AS jumlahProduk, 
-        SUM(krj.`krjQuantity`) AS jumlahProdukPcs,
-        SUM(cktdt.`cktdtBiaya`) jumlahPesananRp
+            YEAR(NOW()) AS tahun,
+            SUM(total.jumlahProduk) AS jumlahProduk,
+            SUM(total.jumlahProdukPcs) AS jumlahProdukPcs,
+            COUNT(DISTINCT ckt.`cktId`) AS jumlahPesanan, 
+            SUM(cktdt.`cktdtBiaya`) jumlahPesananRp
+            
+            FROM `t_checkout` ckt
+            JOIN `t_checkout_detail` cktdt ON cktdt.`cktdtCheckoutId` = ckt.`cktId`
+            JOIN (
+                SELECT  krj.krjCheckoutId,
+                COUNT(krj.`krjProdukId`) AS jumlahProduk,
+                SUM(krj.`krjQuantity`) AS jumlahProdukPcs
+                FROM `t_keranjang`  krj
+                JOIN `m_produk` prd ON krj.`krjProdukId` = prd.`produkId`
+                AND krj.`krjUserEmail` = ".$this->db->escape($username)."
+
+                GROUP BY krjCheckoutId
+            ) AS total ON total.krjCheckoutId = ckt.`cktId`
         
-        FROM `t_checkout` ckt
-        JOIN `t_keranjang` krj ON krj.`krjCheckoutId` = ckt.`cktId`
-        JOIN `m_produk` prd ON prd.`produkId` = krj.`krjProdukId`
-        JOIN `t_checkout_detail` cktdt ON cktdt.`cktdtCheckoutId` = ckt.`cktId`
-       
-        WHERE ckt.`cktStatus` = 'selesai'
-        AND cktdt.`cktdtKeterangan` = 'Subtotal produk'
-        AND krj.`krjUserEmail` = ".$this->db->escape($username)."
-        AND YEAR(ckt.`cktCreatedAt`) = YEAR(NOW())
-        GROUP BY  tahun
+            WHERE ckt.`cktStatus` = 'selesai'
+            AND YEAR(ckt.`cktCreatedAt`) = YEAR(NOW())
+            GROUP BY  tahun
         ";
         
         return $this->db->query($query)->getRow() ;
