@@ -29,7 +29,19 @@ class StatistikModel extends MyModel
         
         ";
         
-        return $this->db->query($query)->getRow() ;
+        $data = $this->db->query($query)->getRow();
+
+        if(empty($data)){
+            return [
+                'bulan' => '0',
+                'jumlahPesanan' => '0',
+                'jumlahProduk' => '0',
+                'jumlahProdukPcs' => '0',
+                'jumlahPesananRp' => '0',
+            ];
+        }
+
+        return $data;
     }
 
     public function getTahunIni($username)
@@ -59,7 +71,19 @@ class StatistikModel extends MyModel
             GROUP BY  tahun
         ";
         
-        return $this->db->query($query)->getRow() ;
+        $data = $this->db->query($query)->getRow();
+
+        if(empty($data)){
+            return [
+                'tahun' => '0',
+                'jumlahPesanan' => '0',
+                'jumlahProduk' => '0',
+                'jumlahProdukPcs' => '0',
+                'jumlahPesananRp' => '0',
+            ];
+        }
+
+        return $data;
     }
 
 
