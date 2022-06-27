@@ -33,6 +33,7 @@ class User extends MyEntity
         'tglLahir' => 'usrTglLahir',
         'bio' => 'usrBio',
         'foto' => 'usrFoto',
+        'fotoKtp' => 'usrFotoKtp',
     ];
 
     protected $show = [
@@ -59,6 +60,7 @@ class User extends MyEntity
         'tglLahir',
         'bio',
         'foto',
+        'fotoKtp',
     ];
 
     public function hashPassword($password)

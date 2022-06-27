@@ -67,7 +67,8 @@ class User extends MyResourceController
         'jk' => ['label' => 'Jenis Kelamin', 'rules' => 'required|in_list[Laki-Laki,Perempuan]'],
         'tglLahir' => ['label' => 'Tanggal Lahir', 'rules' => 'required|valid_date[Y-m-d]'],
         'bio' => ['label' => 'Biodata', 'rules' => 'required'],
-        'foto' => ['label' => 'Foto Profil', 'rules' => 'required|is_image[foto]|max_size[foto,1024]|mime_in[foto, image/jpg,image/jpeg,image/png,image/x-png]'],
+        'foto' => ['label' => 'Foto Profil', 'rules' => 'required|is_image[foto]|max_size[foto,5024]|mime_in[foto, image/jpg,image/jpeg,image/png,image/x-png]'],
+        'fotoKtp' => ['label' => 'Foto KTP', 'rules' => 'required|is_image[fotoKtp]|max_size[fotoKtp,5024]|mime_in[fotoKtp, image/jpg,image/jpeg,image/png,image/x-png]'],
     ];
 
     /**
@@ -83,7 +84,7 @@ class User extends MyResourceController
         return $this->response($data, 200, '');
     }
 
-    protected function uploadFile()
+    protected function uploadFile($uploadName)
     {
         helper("myfile");
 
@@ -92,26 +93,32 @@ class User extends MyResourceController
             mkdir($path, 0777, true);
         }
 
-        $file = $this->request->getFile("foto");
+        $file = $this->request->getFile($uploadName);
         if ($file && $file->getError() == 0) {
 
             $filename = date("Ymdhis") . "." . $file->getExtension();
 
             rename2($file->getRealPath(), $path . DIRECTORY_SEPARATOR . $filename);
             $post = $this->request->getVar();
-            $post['foto'] = $filename;
+            $post[$uploadName] = $filename;
             $this->request->setGlobal("request", $post);
         }
     }
 
     public function updateProfile()
     {
+        $post = $this->request->getVar();
+
         $file = $this->request->getFile("foto");
         if ($file && $file->getError() == 0) {
-            $post = $this->request->getVar();
             $post['foto'] = '-';
-            $this->request->setGlobal("request", $post);
         }
+
+        $file = $this->request->getFile("fotoKtp");
+        if ($file && $file->getError() == 0) {
+            $post['fotoKtp'] = '-';
+        }
+        $this->request->setGlobal("request", $post);
       
         $keyUpdate = current(array_keys($this->request->getVar()));
 
@@ -122,7 +129,8 @@ class User extends MyResourceController
         if ($this->validate([$keyUpdate => $this->rulesUpdateProfile[$keyUpdate]], $this->validationMessage)) {
             // Upload Foto
             try {
-                $this->uploadFile();
+                $this->uploadFile('foto');
+                $this->uploadFile('fotoKtp');
             } catch (\Exception $ex) {
                 $response =  $this->response(null, 500, $ex->getMessage());
                 return $this->response->setJSON($response);
