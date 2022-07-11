@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Firebase\JWT\BeforeValidException;
 use App\Controllers\MyResourceController;
 use App\Controllers\BaseResourceController;
+use App\Entities\User;
+use App\Models\FingerprintDevicesModel;
 use Firebase\JWT\SignatureInvalidException;
 
 /**
@@ -19,22 +21,23 @@ use Firebase\JWT\SignatureInvalidException;
  */
 class Auth extends MyResourceController
 {
-    const LIFETIME_MINUTE = 60*24*30*364; // 30 TAHUN
+    const LIFETIME_MINUTE = 60 * 24 * 30 * 364; // 30 TAHUN
     const LIFETIME_ACCESS_TOKEN = (60 * self::LIFETIME_MINUTE);
     const LIFETIME_REFRESH_TOKEN = (60 * 60 * 24 * self::LIFETIME_MINUTE);
 
     protected $format = "json";
 
     protected $rulesCreate = [
-        'username'=>['rules'=>'required'],
-        'password'=>['rules'=>'required'],
+        'username' => ['rules' => 'required'],
+        'password' => ['rules' => 'required'],
     ];
 
     protected $rulesUpdate = [
-        'tokenRefresh'=>['rules'=>'required']
+        'tokenRefresh' => ['rules' => 'required']
     ];
 
-    public function auth($username, $password, $apiKeys){
+    public function auth($username, $password, $apiKeys)
+    {
         $keyAccess = config("App")->JWTKeyAccess;
         $keyRefresh = config("App")->JWTKeyRefresh;
 
@@ -43,7 +46,7 @@ class Auth extends MyResourceController
         $user = $model->find($username);
 
         if (isset($user) && $user->verifyPassword($password)) {
-            if($user->isActive == 0){
+            if ($user->isActive == 0) {
                 return [
                     'code' => self::CODE_UNACTIVATED,
                     'message' => 'Akun belum di aktivasi',
@@ -86,6 +89,67 @@ class Auth extends MyResourceController
         }
     }
 
+    public function authFingerprint()
+    {
+        if ($this->validate(['devicesId' => 'required'])) {
+            $apiKeys = $this->request->getHeader("X-ApiKey");
+            $userEntity = new User();
+
+            $devicesId = $this->request->getPost("devicesId");
+
+            $keyAccess = config("App")->JWTKeyAccess;
+            $keyRefresh = config("App")->JWTKeyRefresh;
+
+            $fingerModel = new FingerprintDevicesModel();
+            $devices = $fingerModel->where(['fdDeviceId' => $userEntity->hashPassword($devicesId)])->find();
+            $devices = current($devices);
+
+            if (empty($devices)) {
+                return $this->response(null, 400, 'Fingerprint belum teregistrasi');
+            }
+
+            $username = $devices->userEmail;
+
+            $model = new UserModel();
+            $model->select('*');
+            $user = $model->find($username);
+
+            if (isset($user)) {
+                if ($user->isActive == 0) {
+                    return $this->response(null, self::CODE_UNACTIVATED, 'Akun belum di aktivasi');
+                }
+
+                $accessPayload = [
+                    "iss" => base_url(),
+                    "aud" => base_url(),
+                    "iat" => time(),
+                    "nbf" => time(),
+                    "exp" => time() + self::LIFETIME_ACCESS_TOKEN,
+                    "user" => $user->toArray(),
+                    "key" => $apiKeys
+                ];
+                $refreshPayload = [
+                    "iss" => base_url(),
+                    "aud" => base_url(),
+                    "iat" => time(),
+                    "nbf" => time(),
+                    "exp" => time() + self::LIFETIME_REFRESH_TOKEN,
+                    "user" => $user->toArray(),
+                    "key" => $apiKeys
+                ];
+
+                $accessToken = JWT::encode($accessPayload, $keyAccess);
+                $refreshToken = JWT::encode($refreshPayload, $keyRefresh);
+
+                return $this->response(['accessToken' => $accessToken, 'refreshToken' => $refreshToken], 200);
+            } else {
+                return $this->response(null, 400, 'User tidak ditemukan');
+            }
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
     /**
      * @note Ambil access token dan refresh token menggunakan Api Key yang telah terdaftar
      * @url /api/token
@@ -97,13 +161,12 @@ class Auth extends MyResourceController
     {
         if ($this->validate(['username' => 'required', 'password' => 'required'])) {
             $apiKeys = $this->request->getHeader("X-ApiKey");
-            
+
             $username = $this->request->getPost("username");
             $password = $this->request->getPost("password");
 
             $auth = $this->auth($username, $password, $apiKeys->getValue());
             return $this->response($auth['data'], $auth['code'], $auth['message']);
-
         } else {
             return $this->response(null, 400, $this->validator->getErrors());
         }

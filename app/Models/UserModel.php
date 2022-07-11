@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Entities\FingerprintDevices;
 use App\Models\MyModel;
 
 class UserModel extends MyModel
@@ -25,6 +26,7 @@ class UserModel extends MyModel
     {
         return [
             'alamat' => ['table' => 'm_user_alamat', 'condition' => 'usralUsrEmail = usrEmail', 'entity' => 'App\Entities\UserAlamat'],
+            'fingerprint' => ['table' => 'm_fingerprint_devices', 'condition' => 'fdUserEmail = usrEmail', 'entity' => FingerprintDevices::class],
         ];
     }
 }

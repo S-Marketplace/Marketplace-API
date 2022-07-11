@@ -37,6 +37,7 @@ $routes->cli("background/pembayaran_to_expired", 'BackgroundProcess::pembayaranT
 $routes->get('/', 'Welcome::index');
 
 $routes->post("api/auth", 'Api\Auth::create', ['filter' => 'apiKeyFilter']);
+$routes->post("api/auth_fingerprint", 'Api\Auth::authFingerprint', ['filter' => 'apiKeyFilter']);
 $routes->put("api/auth/refresh", "Api\Auth::update", ['filter' => 'apiKeyFilter']);
 
 $routes->get("verifikasi", 'Api\User::verifikasi');

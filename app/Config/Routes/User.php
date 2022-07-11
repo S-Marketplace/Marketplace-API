@@ -13,6 +13,12 @@ $route->group("alamat", function ($route) {
     $route->post("pengaturan/(:segment)", 'Api\UserAlamat::pengaturanAlamat/$1');
 });
 
+$route->group("fingerprint_devices", function ($route) {
+    $route->resource("/", ['controller' => 'Api\FingerprintDevices', 'only' => ['index', 'show', 'create', 'update', 'delete']]);
+    $route->post("register", 'Api\FingerprintDevices::register');
+    $route->post("unregister", 'Api\FingerprintDevices::unregister');
+});
+
 $route->group("pin", function ($route) {
     $route->get("checkPin/(:segment)", 'Api\User::checkPin/$1');
     $route->put("updatePin", 'Api\User::updatePin');

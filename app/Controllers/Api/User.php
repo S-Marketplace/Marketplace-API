@@ -79,7 +79,8 @@ class User extends MyResourceController
     public function getMyProfile()
     {
         $modelUser = new UserModel();
-
+        $modelUser->select('*');
+        $modelUser->with(['fingerprint']);
         $data = $modelUser->find($this->user['email']);
         return $this->response($data, 200, '');
     }

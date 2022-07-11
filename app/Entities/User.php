@@ -8,6 +8,7 @@ class User extends MyEntity
 {
     protected $casts = [
         'alamat' => 'json',
+        'fingerprint' => 'json',
     ];
 
     protected $datamap = [
@@ -61,6 +62,7 @@ class User extends MyEntity
         'bio',
         'foto',
         'fotoKtp',
+        'fingerprint',
     ];
 
     public function hashPassword($password)
