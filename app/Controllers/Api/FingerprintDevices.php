@@ -81,7 +81,7 @@ class FingerprintDevices extends MyResourceController
                 $find = current($find);
 
                 if (!empty($find)) {
-                    $this->model->delete($find->id);
+                    $this->model->where(['fdUserEmail' => $find->userEmail])->delete();
 
                     return $this->response(( null), (200), 'Fingerprint berhasil dihapus');
                 }else{
