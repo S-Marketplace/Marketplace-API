@@ -52,7 +52,7 @@ class FingerprintDevices extends MyResourceController
                     if ($this->model->getInsertID() > 0) {
                         $entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
                     }
-                    return $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 500));
+                    return $this->response(($status ? $entity->toArray() : null), 200, 'Fingerprint berhasil diregistrasi');
                 }else{
                     return $this->response(null, 400, 'Fingerprint sudah diregistrasi');
                 }
