@@ -26,7 +26,7 @@ class UserModel extends MyModel
     {
         return [
             'alamat' => ['table' => 'm_user_alamat', 'condition' => 'usralUsrEmail = usrEmail', 'entity' => 'App\Entities\UserAlamat'],
-            'fingerprint' => ['table' => 'm_fingerprint_devices', 'condition' => 'fdUserEmail = usrEmail', 'entity' => FingerprintDevices::class],
+            'fingerprint' => ['table' => 'm_fingerprint_devices', 'condition' => 'fdUserEmail = usrEmail', 'entity' => FingerprintDevices::class, 'type' => 'left'],
         ];
     }
 }
