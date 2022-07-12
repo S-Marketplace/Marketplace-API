@@ -35,7 +35,7 @@ class FingerprintDevices extends MyResourceController
             $hashDevicesId = $userEntity->hashPassword($this->request->getVar('deviceId'));
             
             try {
-                $find = $this->model->where(['fdUserEmail' => $this->user['email'], 'fdDeviceId' => $hashDevicesId])->find();
+                $find = $this->model->where(['fdDeviceId' => $hashDevicesId])->find();
 
                 if (empty($find)) {
                     $entityClass = $this->model->getReturnType();
@@ -43,8 +43,12 @@ class FingerprintDevices extends MyResourceController
                     $entity->fill($this->request->getVar());
                     $entity->userEmail = $this->user['email'];
                     $entity->deviceId = $hashDevicesId;
-    
+                    
+                    // Delete email yang terkoneksi dengan perangkat lain
+                    $this->model->where(['fdUserEmail' => $this->user['email']])->delete();
+
                     $status = $this->model->insert($entity, false);
+                    
                     if ($this->model->getInsertID() > 0) {
                         $entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
                     }
@@ -73,7 +77,7 @@ class FingerprintDevices extends MyResourceController
             $hashDevicesId = $userEntity->hashPassword($this->request->getVar('deviceId'));
             
             try {
-                $find = $this->model->where(['fdUserEmail' => $this->user['email'], 'fdDeviceId' => $hashDevicesId])->find();
+                $find = $this->model->where(['fdDeviceId' => $hashDevicesId])->find();
                 $find = current($find);
 
                 if (!empty($find)) {
