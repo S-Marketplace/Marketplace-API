@@ -84,7 +84,7 @@ class Notification
 
         try {
 
-            $host       = 'mail.menyambang.id';
+            $host       = 'srv99.niagahoster.com';
             $username   = 'notification@menyambang.id';
             $password   = 'menyambang007';
             $name       = 'Menyambang.id';
