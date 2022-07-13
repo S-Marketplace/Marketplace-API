@@ -41,8 +41,8 @@ $routes->post("api/auth_fingerprint", 'Api\Auth::authFingerprint', ['filter' => 
 $routes->put("api/auth/refresh", "Api\Auth::update", ['filter' => 'apiKeyFilter']);
 
 $routes->get("verifikasi", 'Api\User::verifikasi');
-$routes->get("reset_password", 'Api\User::reset_password');
-$routes->post("reset_password", 'Api\User::reset_password');
+$routes->get("user/reset_password", 'Api\User::reset_password');
+$routes->post("user/reset_password", 'Api\User::reset_password');
 
 $routes->get("api/user/checkout/invoice/(:segment)", 'Api\Checkout::invoice/$1');
 

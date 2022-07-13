@@ -24,7 +24,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'hakAkses' => [
-          // \App\Filters\LoginFilter::class,
+          \App\Filters\LoginFilter::class,
           \App\Filters\RoleFilter::class
         ],
         'apiKeyFilter' => \App\Filters\ApiKeyFilter::class,
@@ -54,6 +54,7 @@ class Filters extends BaseConfig
             'generator/*', 
             'welcome/*', 
             'test/*', 
+            'user/*', 
             'NotificationMidTrans/*',
             'background/*'
             ]

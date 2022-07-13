@@ -106,7 +106,7 @@
 
         $.ajax({
           type: "POST",
-          url: "<?= base_url('reset_password') ?>?key=<?=$key?>",
+          url: "<?= base_url('user/reset_password') ?>?key=<?=$key?>",
           data: $("#form").serialize(),
           dataType: "JSON",
           success: function(res) {
