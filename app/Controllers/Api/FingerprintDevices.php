@@ -52,7 +52,7 @@ class FingerprintDevices extends MyResourceController
                     if ($this->model->getInsertID() > 0) {
                         $entity->{$this->model->getPrimaryKeyName()} = $this->model->getInsertID();
                     }
-                    return $this->response(($status ? $entity->toArray() : null), 200, 'Fingerprint berhasil diregistrasi');
+                    return $this->response(($status ? $entity->toArray() : null), ($status ? 200 : 400), ($status ? 'Fingerprint berhasil diregistrasi' : 'Fingerprint gagal diregistrasi'));
                 }else{
                     return $this->response(null, 400, 'Fingerprint sudah diregistrasi');
                 }
@@ -72,21 +72,21 @@ class FingerprintDevices extends MyResourceController
     {
         $userEntity = new User();
 
-        if ($this->validate($this->rulesCreate, $this->validationMessage)) {
+        // if ($this->validate($this->rulesCreate, $this->validationMessage)) {
             
             $hashDevicesId = $userEntity->hashPassword($this->request->getVar('deviceId'));
             
             try {
-                $find = $this->model->where(['fdDeviceId' => $hashDevicesId])->find();
-                $find = current($find);
+                // $find = $this->model->where(['fdDeviceId' => $hashDevicesId])->find();
+                // $find = current($find);
 
-                if (!empty($find)) {
-                    $this->model->where(['fdUserEmail' => $find->userEmail])->delete();
+                // if (!empty($find)) {
+                    $this->model->where(['fdUserEmail' => $this->user['email']])->delete();
 
                     return $this->response(( null), (200), 'Fingerprint berhasil dihapus');
-                }else{
-                    return $this->response(null, 400, 'Fingerprint tidak tersedia');
-                }
+                // }else{
+                //     return $this->response(null, 400, 'Fingerprint tidak tersedia');
+                // }
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
@@ -94,8 +94,8 @@ class FingerprintDevices extends MyResourceController
             } catch (\Exception $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             }
-        } else {
-            return $this->response(null, 400, $this->validator->getErrors());
-        }
+        // } else {
+        //     return $this->response(null, 400, $this->validator->getErrors());
+        // }
     }
 }
