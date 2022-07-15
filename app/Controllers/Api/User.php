@@ -403,11 +403,7 @@ class User extends MyResourceController
                 $userModel = new UserModel();
                 $userData = $userModel->find($email);
                 
-                helper('string');
-                $filterNoHp = phone_number_sensor($userData->noWa);
-                $waMessage = "Anda mengirim permintaan reset password, silahkan buka email atau wa anda di nomor {$filterNoHp} untuk mengubah password baru anda";
-                Notification::sendWa($userData->noWa, $waMessage);
-
+               
                 $status = Notification::sendEmail($email, 'Ubah Password', view('Template/email/reset_password', [
                     'nama' => $userData->nama,
                     'key' => $uuidV4,
@@ -417,7 +413,13 @@ class User extends MyResourceController
                     $waMessage = "Anda telah mengirim permintaan reset password, jika itu memang anda maka silahkan buka tautan ini untuk mengubah password anda akun anda. ".base_url('user/reset_password?key='.$uuidV4);
                     Notification::sendWa($userData->noWa, $waMessage);
                 }
-                return $this->response(null, ($status ? 200 : 500), ($status ? 'Anda mengirim permintaan reset password, silahkan buka email anda untuk mengubah password baru anda' : null));
+
+                helper('string');
+                $filterNoHp = phone_number_sensor($userData->noWa);
+                $waMessage = "Anda mengirim permintaan reset password, silahkan buka email atau wa anda di nomor {$filterNoHp} untuk mengubah password baru anda";
+                // Notification::sendWa($userData->noWa, $waMessage);
+
+                return $this->response(null, ($status ? 200 : 500), ($status ? $waMessage : null));
             } catch (DatabaseException $ex) {
                 return $this->response(null, 500, $ex->getMessage());
             } catch (\mysqli_sql_exception $ex) {
