@@ -1,6 +1,8 @@
 <?php namespace App\Models;
 
 use App\Models\MyModel;
+use App\Entities\Produk;
+use App\Entities\Kategori;
 use App\Entities\ProdukGambar;
 
 class ProdukBerandaTransModel extends MyModel
@@ -23,6 +25,16 @@ class ProdukBerandaTransModel extends MyModel
 
     protected function relationships()
     {
+        return [
+            'produk' => $this->belongsTo('m_produk', Produk::class, 'tpbProdukId = produkId', 'produk', 'produkId', 'left', function ($relation) {
+                // return $relation->hasMany('t_produk_variant', ProdukVariant::class, 'pvarProdukId = produkId', 'variant', 'pvarProdukId');
+            }, function ($relation) {
+                return $relation->hasMany('t_produk_gambar', ProdukGambar::class, 'prdgbrProdukId = produkId', 'gambar', 'prdgbrProdukId');
+            }, function ($relation) {
+                return $relation->belongsTo('m_kategori', Kategori::class, 'ktgId = produkKategoriId', 'kategori', 'ktgId');
+            }),
+        ];
+
         return [
             'produk' => ['table' => 'm_produk', 'condition' => 'tpbProdukId = produkId', 'entity' => 'App\Entities\Produk'],
         ];
