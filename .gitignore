@@ -54,6 +54,7 @@ writable/cache/*
 
 writable/logs/*
 writable/notification_mid_trans/*
+writable/cookie/*
 !writable/logs/index.html
 
 writable/session/*
