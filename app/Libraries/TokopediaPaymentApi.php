@@ -105,6 +105,53 @@ class TokopediaPaymentApi
             ->execute('POST', '/v2/payment');
     }
 
+    public function paymentGenerateCode($body)
+    {
+        return $this
+            ->setBody($body)
+            ->execute('POST', '/v3/payment/json');
+    }
+
+    public function paymentConfirmMitraVa($data)
+    {
+        $body = [
+            "back_url" => "https://mitra.tokopedia.com/digital/pulsa/",
+            "bank_code" => "",
+            "bid" => "",
+            "cfee" => 0,
+            "gateway_code" => "MITRAVA",
+            "history_state" => 0,
+            "is_combine_va" => false,
+            "is_mobile" => true,
+            "is_quickpay" => false,
+            "is_topup" => false,
+            "is_use_cash_points" => 0,
+            "is_use_ovo" => 0,
+            "is_use_ovopoints" => 0,
+            "is_use_pemuda" => 0,
+            "is_use_pemudapoints" => 0,
+            "is_use_phoenix" => 0,
+            "is_use_points_only" => 0,
+            "is_use_saldo" => 0,
+            "is_use_saldopenghasilan" => 0,
+            "kfee" => 0,
+            "ksig" => "d2b8fda24f3c5004479392ae7e1546278361d5b77974d6df65c3540ffd270752",
+            "merchant_code" => "tokopediapulsa",
+            "merchant_id" => 3,
+            "ovo_points_amount" => 0,
+            "phoenix_conversion_rate" => "0:0",
+            "profile_code" => "PULSA_MITRA_DEFAULT",
+            "topup_amount" => 0,
+            "topup_fee" => 0,
+            "voucher_code" => ""
+        ];
+        $body = array_merge($body, $data);
+
+        return $this
+            ->setBody(http_build_query($body))
+            ->execute('POST', '/v2/payment/confirm/MITRAVA');
+    }
+
     // ======================= END  PAYMENT ============================= //
 
 }
