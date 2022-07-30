@@ -14,13 +14,19 @@ class TokopediaApi
     private $mssidn = '6281251554104';
     private $key = 'BCet';
 
-    public function __construct()
+    /**
+     * Expired 1 Bulan
+     *
+     * @param [type] $SID_TOKOPEDIA
+     */
+    public function __construct($SID_TOKOPEDIA)
     {
         $this->options = [];
         $options['http_errors'] = true;
         $options['baseURI'] = 'https://gql.tokopedia.com';
         $options['headers'] = [
             'Host' => 'gql.tokopedia.com',
+            'Cookie' => '_SID_Tokopedia_='.$SID_TOKOPEDIA,
             'X-Version' => '27a71d9',
             'Origin' => 'https://mitra.tokopedia.com',
             'X-Mitra-Device' => 'others',
@@ -39,11 +45,11 @@ class TokopediaApi
         $this->curl = \Config\Services::curlrequest($options);
     }
 
-    public static function getInstance(): TokopediaApi
+    public static function getInstance($SID_TOKOPEDIA): TokopediaApi
     {
         $cls = static::class;
         if (!isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static();
+            self::$instances[$cls] = new static($SID_TOKOPEDIA);
         }
 
         return self::$instances[$cls];
@@ -117,10 +123,7 @@ class TokopediaApi
         $body = '[{"operationName":"OTPRequest","variables":{"msisdn":"'.$this->mssidn.'","otpType":"112","mode":"sms","otpDigit":6},"query":"query OTPRequest($otpType: String!, $mode: String, $msisdn: String, $email: String, $otpDigit: Int, $ValidateToken: String, $UserIDEnc: String, $UserIDSigned: Int, $Signature: String, $MsisdnEnc: String, $EmailEnc: String) {\n  OTPRequest(otpType: $otpType, mode: $mode, msisdn: $msisdn, email: $email, otpDigit: $otpDigit, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserIDSigned: $UserIDSigned, Signature: $Signature, MsisdnEnc: $MsisdnEnc, EmailEnc: $EmailEnc) {\n    success\n    message\n    errorMessage\n    sse_session_id\n    list_device_receiver\n    error_code\n    message_title\n    message_sub_title\n    message_img_link\n    __typename\n  }\n}\n"}]';
         $response = $this
                         ->setBody($body)
-                        ->execute('POST', '/graphql/OTPRequest', [
-                            'headers' => [
-                            ],
-                        ]);
+                        ->execute('POST', '/graphql/OTPRequest');
 
         return $response;
     }
@@ -160,11 +163,7 @@ class TokopediaApi
       
         $response = $this
                         ->setBody($body)
-                        ->execute('POST', '/graphql/isAuthenticatedQuery', [
-                            'headers' => [
-                                'Cookie' => '_SID_Tokopedia_=3h-2S5hWjPoAGUBdhe6H2rL_wjamS6KnMYXusPcHOD9vktg3eoaF0xIxQbkDTkVC0Mg487zfp_Mfqxlk8pBbiDdFBhl9RSeHFVPc0-5y0kK6am1GvKMZcBh02YIEuWQd',
-                            ],
-                        ]);
+                        ->execute('POST', '/graphql/isAuthenticatedQuery');
 
         return $response;
     }
@@ -175,11 +174,7 @@ class TokopediaApi
       
         $response = $this
                         ->setBody($body)
-                        ->execute('POST', '/graphql/vaMitraBalance', [
-                            'headers' => [
-                                'Cookie' => '_SID_Tokopedia_=3h-2S5hWjPoAGUBdhe6H2rL_wjamS6KnMYXusPcHOD9vktg3eoaF0xIxQbkDTkVC0Mg487zfp_Mfqxlk8pBbiDdFBhl9RSeHFVPc0-5y0kK6am1GvKMZcBh02YIEuWQd',
-                            ],
-                        ]);
+                        ->execute('POST', '/graphql/vaMitraBalance');
 
         return $response;
     }
@@ -190,13 +185,18 @@ class TokopediaApi
       
         $response = $this
                         ->setBody($body)
-                        ->execute('POST', '/graphql/VAMitraGetVANumberQuery', [
-                            'headers' => [
-                                'Cookie' => '_SID_Tokopedia_=3h-2S5hWjPoAGUBdhe6H2rL_wjamS6KnMYXusPcHOD9vktg3eoaF0xIxQbkDTkVC0Mg487zfp_Mfqxlk8pBbiDdFBhl9RSeHFVPc0-5y0kK6am1GvKMZcBh02YIEuWQd',
-                            ],
-                        ]);
+                        ->execute('POST', '/graphql/VAMitraGetVANumberQuery');
 
         return $response;
+    }
+
+    public function checkAkun()
+    {
+        $body = '[ { "operationName": "userProfileRole", "variables": {}, "query": "query userProfileRole {\n  userProfileCompletion {\n    isActive\n    fullName\n    email\n    msisdn\n    __typename\n  }\n}\n" } ]';
+      
+        return $this
+                ->setBody($body)
+                ->execute('POST', '/graphql/userProfileRole');
     }
 
 }

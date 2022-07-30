@@ -32,14 +32,20 @@ $route->group("background", function ($route) {
 
 $route->group("tokopedia", function ($route) {
     $route->group("auth", function ($route) {
-        $route->post("sendOTP", 'Api/Tokopedia::sendOTP');
-        $route->post("/", 'Api/Tokopedia::auth');
-        $route->get("isAuth", 'Api/Tokopedia::isAuth');
+
+        $route->post("/", 'Api/Tokopedia/Auth::auth');
+        $route->post("sendOTP", 'Api/Tokopedia/Auth::sendOTP');
+        $route->put("refresh", 'Api/Tokopedia/Auth::refresh');
+
+        $route->group("isAuth", ['filter' => 'apiFilter'],  function ($route) {
+            $route->get("/", 'Api/Tokopedia/Auth::isAuth');
+        });
     });
 
-    $route->group("user", function ($route) {
-        $route->get("cekVaNumber", 'Api/Tokopedia::cekVaNumber');
-        $route->get("cekSaldoMitra", 'Api/Tokopedia::cekSaldoMitra');
+    $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("cekVaNumber", 'Api/Tokopedia/User::cekVaNumber');
+        $route->get("cekSaldoMitra", 'Api/Tokopedia/User::cekSaldoMitra');
+        $route->get("cekAkun", 'Api/Tokopedia/User::cekAkun');
     });
 });
 
