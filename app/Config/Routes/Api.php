@@ -47,6 +47,10 @@ $route->group("tokopedia", function ($route) {
         $route->get("cekSaldoMitra", 'Api/Tokopedia/User::cekSaldoMitra');
         $route->get("cekAkun", 'Api/Tokopedia/User::cekAkun');
     });
+
+    $route->group("payment", ['filter' => 'apiFilter'],  function ($route) {
+        $route->post("beliPulsa", 'Api/Tokopedia/Payment::beliPulsa');
+    });
 });
 
 $route->group("pulsa_bridge", function ($route) {

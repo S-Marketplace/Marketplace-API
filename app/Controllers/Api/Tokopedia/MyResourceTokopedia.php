@@ -4,6 +4,7 @@ use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
 use App\Libraries\TokopediaApi;
 use Firebase\JWT\ExpiredException;
+use App\Libraries\TokopediaPaymentApi;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\BeforeValidException;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -23,6 +24,7 @@ class MyResourceTokopedia extends ResourceController
     const LIFETIME_REFRESH_TOKEN = (60 * 60 * 24 * self::LIFETIME_MINUTE); // 1 Tahun
 
     protected $tokopediaApi;
+    protected $tokpedPaymentApi;
     protected $validationMessage = [];
     protected $user;
 
@@ -31,6 +33,7 @@ class MyResourceTokopedia extends ResourceController
         parent::initController($request, $response, $logger);
         $this->user = count($request->fetchGlobal('decoded')) > 0 ? $request->fetchGlobal('decoded') : ['role' => '', 'filterIdentifier' => ''];
         $this->tokpedApi = new TokopediaApi($this->user['sid'] ?? '');
+        $this->tokpedPaymentApi = new TokopediaPaymentApi($this->user['sid'] ?? '');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
     }
 

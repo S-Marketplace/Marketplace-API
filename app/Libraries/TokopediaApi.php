@@ -116,7 +116,9 @@ class TokopediaApi
 
         return $statusLog;
     }
-   
+    
+    // ========================== AUTH =============================== //
+
     public function sendOTP($msisdn)
     {
         $body = '[{"operationName":"OTPRequest","variables":{"msisdn":"'.$msisdn.'","otpType":"112","mode":"sms","otpDigit":6},"query":"query OTPRequest($otpType: String!, $mode: String, $msisdn: String, $email: String, $otpDigit: Int, $ValidateToken: String, $UserIDEnc: String, $UserIDSigned: Int, $Signature: String, $MsisdnEnc: String, $EmailEnc: String) {\n  OTPRequest(otpType: $otpType, mode: $mode, msisdn: $msisdn, email: $email, otpDigit: $otpDigit, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserIDSigned: $UserIDSigned, Signature: $Signature, MsisdnEnc: $MsisdnEnc, EmailEnc: $EmailEnc) {\n    success\n    message\n    errorMessage\n    sse_session_id\n    list_device_receiver\n    error_code\n    message_title\n    message_sub_title\n    message_img_link\n    __typename\n  }\n}\n"}]';
@@ -167,6 +169,10 @@ class TokopediaApi
         return $response;
     }
 
+    // ========================== END AUTH =============================== //
+
+    // ========================== USER =============================== //
+
     public function checkSaldoMitraBRI()
     {
         $body = '[ { "operationName": "vaMitraBalance", "variables": {}, "query": "query vaMitraBalance {\n  vaMitraGetBalance {\n    balance\n    balance_str\n    error {\n      error\n      __typename\n    }\n    __typename\n  }\n}\n" } ]';
@@ -189,13 +195,29 @@ class TokopediaApi
         return $response;
     }
 
+    
     public function checkAkun()
     {
         $body = '[ { "operationName": "userProfileRole", "variables": {}, "query": "query userProfileRole {\n  userProfileCompletion {\n    isActive\n    fullName\n    email\n    msisdn\n    __typename\n  }\n}\n" } ]';
       
         return $this
-                ->setBody($body)
-                ->execute('POST', '/graphql/userProfileRole');
+        ->setBody($body)
+        ->execute('POST', '/graphql/userProfileRole');
     }
+    
+    // ========================== END USER =============================== //
+
+    // ========================== PAYMENT =============================== //
+
+    public function beliPulsa($msisdn, $productId)
+    {
+        $body = '[ { "operationName": "AtcDigitalMutation", "variables": { "instant_checkout": false, "fields": [ { "label": "No. Tujuan", "name": "client_number", "value": "'.$msisdn.'" }, { "label": "Pulsa", "name": "operator_id", "value": "4" } ], "device_id": 13, "voucher_code": "", "transactionAmount": 0, "product_id": '.$productId.', "is_pulsa_trx": true }, "query": "mutation AtcDigitalMutation($product_id: Int!, $device_id: Int!, $instant_checkout: Boolean!, $fields: [MitraRechargeField]!, $paymentGatewayCode: String, $isUsePointsOnly: String, $transactionAmount: Int, $voucher_code: String, $is_pulsa_trx: Boolean!, $validate_token: String) {\n  express_checkout: mitraappDGExpressCheckout(input: {device_id: $device_id, fields: $fields, instant_checkout: $instant_checkout, product_id: $product_id, payment_gateway_code: $paymentGatewayCode, is_use_points_only: $isUsePointsOnly, transaction_amount: $transactionAmount, voucher_code: $voucher_code, is_pulsa_trx: $is_pulsa_trx, validate_token: $validate_token}) {\n    status\n    message\n    is_trusted_device\n    meta {\n      order_id\n      __typename\n    }\n    data {\n      attributes {\n        popup_message {\n          title\n          content\n          __typename\n        }\n        redirect_url\n        callback_url_success\n        callback_url_failed\n        query_string\n        parameter {\n          transaction_id\n          transaction_code\n          transaction_date\n          customer_name\n          customer_email\n          customer_msisdn\n          amount\n          currency\n          signature\n          language\n          user_defined_value\n          nid\n          state\n          fee\n          pid\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    status\n    message\n    __typename\n  }\n}\n" } ]';
+      
+        return $this
+        ->setBody($body)
+        ->execute('POST', '/graphql/AtcDigitalMutation');
+    }
+
+    // ======================= END  PAYMENT ============================= //
 
 }
