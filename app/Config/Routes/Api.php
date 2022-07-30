@@ -30,6 +30,19 @@ $route->group("background", function ($route) {
     $route->put("pembayaran_to_expired", 'BackgroundProcess::pembayaranToExpired');
 });
 
+$route->group("tokopedia", function ($route) {
+    $route->group("auth", function ($route) {
+        $route->post("sendOTP", 'Api/Tokopedia::sendOTP');
+        $route->post("/", 'Api/Tokopedia::auth');
+        $route->get("isAuth", 'Api/Tokopedia::isAuth');
+    });
+
+    $route->group("user", function ($route) {
+        $route->get("cekVaNumber", 'Api/Tokopedia::cekVaNumber');
+        $route->get("cekSaldoMitra", 'Api/Tokopedia::cekSaldoMitra');
+    });
+});
+
 $route->group("pulsa_bridge", function ($route) {
     $route->get("/", 'Api\PulsaBridge::index');
     $route->post("xml", 'Api\PulsaBridge::xml');
