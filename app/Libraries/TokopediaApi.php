@@ -11,7 +11,6 @@ class TokopediaApi
     private static $instances = [];
 
     private $curl = null;
-    private $mssidn = '6281251554104';
     private $key = 'BCet';
 
     /**
@@ -118,9 +117,9 @@ class TokopediaApi
         return $statusLog;
     }
    
-    public function sendOTP()
+    public function sendOTP($msisdn)
     {
-        $body = '[{"operationName":"OTPRequest","variables":{"msisdn":"'.$this->mssidn.'","otpType":"112","mode":"sms","otpDigit":6},"query":"query OTPRequest($otpType: String!, $mode: String, $msisdn: String, $email: String, $otpDigit: Int, $ValidateToken: String, $UserIDEnc: String, $UserIDSigned: Int, $Signature: String, $MsisdnEnc: String, $EmailEnc: String) {\n  OTPRequest(otpType: $otpType, mode: $mode, msisdn: $msisdn, email: $email, otpDigit: $otpDigit, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserIDSigned: $UserIDSigned, Signature: $Signature, MsisdnEnc: $MsisdnEnc, EmailEnc: $EmailEnc) {\n    success\n    message\n    errorMessage\n    sse_session_id\n    list_device_receiver\n    error_code\n    message_title\n    message_sub_title\n    message_img_link\n    __typename\n  }\n}\n"}]';
+        $body = '[{"operationName":"OTPRequest","variables":{"msisdn":"'.$msisdn.'","otpType":"112","mode":"sms","otpDigit":6},"query":"query OTPRequest($otpType: String!, $mode: String, $msisdn: String, $email: String, $otpDigit: Int, $ValidateToken: String, $UserIDEnc: String, $UserIDSigned: Int, $Signature: String, $MsisdnEnc: String, $EmailEnc: String) {\n  OTPRequest(otpType: $otpType, mode: $mode, msisdn: $msisdn, email: $email, otpDigit: $otpDigit, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserIDSigned: $UserIDSigned, Signature: $Signature, MsisdnEnc: $MsisdnEnc, EmailEnc: $EmailEnc) {\n    success\n    message\n    errorMessage\n    sse_session_id\n    list_device_receiver\n    error_code\n    message_title\n    message_sub_title\n    message_img_link\n    __typename\n  }\n}\n"}]';
         $response = $this
                         ->setBody($body)
                         ->execute('POST', '/graphql/OTPRequest');
@@ -128,9 +127,9 @@ class TokopediaApi
         return $response;
     }
 
-    public function validasiOTP($otpCode)
+    public function validasiOTP($otpCode, $msisdn)
     {
-        $body = '[{"operationName":"OTPValidate","variables":{"msisdn":"'.$this->mssidn.'","code":"'.$otpCode.'","otpType":"112","mode":"sms"},"query":"query OTPValidate($msisdn: String, $code: String!, $otpType: String, $fpData: String, $getSL: String, $email: String, $mode: String, $ValidateToken: String, $UserIDEnc: String, $UserID: Int, $signature: String, $UsePINHash: Boolean, $PIN: String, $PINHash: String) {\n  OTPValidate(code: $code, otpType: $otpType, msisdn: $msisdn, fpData: $fpData, getSL: $getSL, email: $email, mode: $mode, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserID: $UserID, signature: $signature, UsePINHash: $UsePINHash, PIN: $PIN, PINHash: $PINHash) {\n    success\n    message\n    errorMessage\n    validateToken\n    cookieList {\n      key\n      value\n      expire\n      __typename\n    }\n    __typename\n  }\n}\n"}]';
+        $body = '[{"operationName":"OTPValidate","variables":{"msisdn":"'.$msisdn.'","code":"'.$otpCode.'","otpType":"112","mode":"sms"},"query":"query OTPValidate($msisdn: String, $code: String!, $otpType: String, $fpData: String, $getSL: String, $email: String, $mode: String, $ValidateToken: String, $UserIDEnc: String, $UserID: Int, $signature: String, $UsePINHash: Boolean, $PIN: String, $PINHash: String) {\n  OTPValidate(code: $code, otpType: $otpType, msisdn: $msisdn, fpData: $fpData, getSL: $getSL, email: $email, mode: $mode, ValidateToken: $ValidateToken, UserIDEnc: $UserIDEnc, UserID: $UserID, signature: $signature, UsePINHash: $UsePINHash, PIN: $PIN, PINHash: $PINHash) {\n    success\n    message\n    errorMessage\n    validateToken\n    cookieList {\n      key\n      value\n      expire\n      __typename\n    }\n    __typename\n  }\n}\n"}]';
         $response = $this
                         ->setBody($body)
                         ->execute('POST', '/graphql/OTPValidate');
@@ -139,11 +138,11 @@ class TokopediaApi
     }
 
      
-    public function loginMutationV2($key)
+    public function loginMutationV2($key, $msisdn)
     {
         $password = base64_encode($key);
-        $username = base64_encode($this->mssidn);
-        $body = '[{"operationName":"LoginMutationV2","variables":{"input":{"grant_type":"cGFzc3dvcmQ='.$this->key.'","password_type":"lpn","code":"'.$this->mssidn.'","username":"'.$username.''.$this->key.'","password":"'.$password.''.$this->key.'","supported":"true","fpt":"285cff84ee19aef49551dd12b9f83390"}},"query":"mutation LoginMutationV2($input: TokenRequestV2!) {\n  login_token: web_token_v2(input: $input) {\n    access_token\n    refresh_token\n    token_type\n    sid\n    acc_sid\n    errors {\n      name\n      message\n      __typename\n    }\n    popup_error {\n      header\n      body\n      action\n      __typename\n    }\n    sq_check\n    cotp_url\n    uid\n    action\n    event_code\n    expires_in\n    __typename\n  }\n}\n"}]';
+        $username = base64_encode($msisdn);
+        $body = '[{"operationName":"LoginMutationV2","variables":{"input":{"grant_type":"cGFzc3dvcmQ='.$this->key.'","password_type":"lpn","code":"'.$msisdn.'","username":"'.$username.''.$this->key.'","password":"'.$password.''.$this->key.'","supported":"true","fpt":"285cff84ee19aef49551dd12b9f83390"}},"query":"mutation LoginMutationV2($input: TokenRequestV2!) {\n  login_token: web_token_v2(input: $input) {\n    access_token\n    refresh_token\n    token_type\n    sid\n    acc_sid\n    errors {\n      name\n      message\n      __typename\n    }\n    popup_error {\n      header\n      body\n      action\n      __typename\n    }\n    sq_check\n    cotp_url\n    uid\n    action\n    event_code\n    expires_in\n    __typename\n  }\n}\n"}]';
       
         $response = $this
                         ->setBody($body)

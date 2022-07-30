@@ -11,15 +11,24 @@ class Auth extends MyResourceTokopedia
   
     public function sendOTP()
     {
-        $response = $this->tokpedApi->sendOTP();
+        if ($this->validate([
+            'msisdn' => 'required|numeric',
+        ], $this->validationMessage)) {
+            $msisdn = $this->request->getPost('msisdn');
 
-        return $this->response($response);
+            $response = $this->tokpedApi->sendOTP($msisdn);
+
+            return $this->response($response);
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
     }
 
     public function auth()
     {
         if ($this->validate([
             'otp' => 'required|numeric|min_length[6]|max_length[6]',
+            'msisdn' => 'required|numeric',
         ], $this->validationMessage)) {
             
             try {
@@ -49,10 +58,13 @@ class Auth extends MyResourceTokopedia
                 }', true);
 
                 $otp = $this->request->getPost('otp');
-                $response = $this->tokpedApi->validasiOTP($otp);
-                $response = $this->tokpedApi->loginMutationV2($response['OTPValidate']['validateToken']);
+                $msisdn = $this->request->getPost('msisdn');
 
+                $response = $this->tokpedApi->validasiOTP($otp, $msisdn);
+                $response = $this->tokpedApi->loginMutationV2($response['OTPValidate']['validateToken'], $msisdn);
+                
                 if(!empty($response['login_token']['access_token'])){
+                    $response['login_token']['msisdn'] = $msisdn;
                     $apiKeys = $this->request->getHeaderLine("X-ApiKey");
                     $keyAccess = config("App")->JWTKeyAccess;
                     $keyRefresh = config("App")->JWTKeyRefresh;
@@ -132,26 +144,4 @@ class Auth extends MyResourceTokopedia
 
         return $this->response($response);
     }
-
-    public function cekVaNumber()
-    {
-        $response = $this->tokpedApi->checkVaNumberMitraBRI();
-
-        return $this->response($response);
-    }
-
-    public function cekSaldoMitra()
-    {
-        $response = $this->tokpedApi->checkSaldoMitraBRI();
-
-        return $this->response($response);
-    }
-
-    public function cekAkun()
-    {
-        $response = $this->tokpedApi->checkSaldoMitraBRI();
-
-        return $this->response($response);
-    }
-
 }
