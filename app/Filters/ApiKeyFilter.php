@@ -9,6 +9,7 @@ use CodeIgniter\Filters\FilterInterface;
 
 class ApiKeyFilter implements FilterInterface
 {
+    public const API_KEY_TOKPED = 'tokpedauthtenticator';
     /**
      * Cek Keberadaan Api Key di header request.
      * @param RequestInterface $request
@@ -34,7 +35,7 @@ class ApiKeyFilter implements FilterInterface
             $request->setGlobal("request", $param->params);
         }
 
-        $apiKeys = [config("App")->apiKeys];
+        $apiKeys = [config("App")->apiKeys, self::API_KEY_TOKPED];
 
         $apiKeyHeader = $request->getHeader("X-ApiKey");
 

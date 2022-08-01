@@ -51,6 +51,15 @@ $route->group("tokopedia", function ($route) {
     $route->group("payment", ['filter' => 'apiFilter'],  function ($route) {
         $route->post("beliPulsa", 'Api/Tokopedia/Payment::beliPulsa');
     });
+
+    $route->group("transaksi", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("active", 'Api/Tokopedia/Transaksi::getTransactionList');
+        $route->get("waiting", 'Api/Tokopedia/Transaksi::getTransactionWaitingList');
+    });
+
+    $route->group("product",  function ($route) {
+        $route->post("/", 'Api/Tokopedia/Product::getProduct');
+    });
 });
 
 $route->group("pulsa_bridge", function ($route) {

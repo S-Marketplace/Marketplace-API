@@ -220,4 +220,39 @@ class TokopediaApi
 
     // ======================= END  PAYMENT ============================= //
 
+    // ========================== PRODUCT =============================== //
+
+    public function getProduct(string $categoryId)
+    {
+        $body = '[ { "operationName": "retailDigitalMainQuery", "variables": { "category_id": '.$categoryId.', "device_id": 13 }, "query": "query retailDigitalMainQuery($category_id: Int, $device_id: Int) {\n  rechargeCategoryDetail: rechargeCategoryDetailMitra(category_id: $category_id, device_id: $device_id) {\n    id\n    name\n    title\n    operator_label\n    operator_style\n    default_operator_id\n    icon\n    render_operator {\n      input_fields {\n        name\n        type\n        text\n        placeholder\n        default\n        additional_button {\n          type\n          button_text\n          __typename\n        }\n        validation {\n          regex\n          error\n          __typename\n        }\n        __typename\n      }\n      render_group_product {\n        group_name\n        operators {\n          input_fields {\n            name\n            type\n            text\n            help\n            placeholder\n            default\n            additional_button {\n              type\n              button_text\n              __typename\n            }\n            validation {\n              regex\n              error\n              __typename\n            }\n            __typename\n          }\n          operator {\n            operator_id: id\n            attributes {\n              default_product_id\n              image\n              name\n              first_color\n              second_color\n              prefix\n              description\n              product(include_status: {status: [1, 3, 5]}) {\n                id\n                attributes {\n                  info\n                  status\n                  detail\n                  detail_url\n                  detail_url_text\n                  desc\n                  price\n                  price_plain\n                  promo {\n                    promo_id: id\n                    new_price\n                    new_price_plain\n                    __typename\n                  }\n                  custom_attributes {\n                    name\n                    value\n                    __typename\n                  }\n                  __typename\n                }\n                __typename\n              }\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n" } ]';
+      
+        return $this
+        ->setBody($body)
+        ->execute('POST', '/graphql/retailDigitalMainQuery');
+    }
+
+    // ======================= END  PRODUCT ============================= //
+
+    // ========================== PRODUCT =============================== //
+
+    public function getTransactionList()
+    {
+        $body = '[ { "operationName": "GetUOHOrderList", "variables": { "input": { "uuid": "", "vertical_id": "", "vertical_category": "mitra", "status": "", "searchable_text": "", "create_time_start": "", "create_time_end": "", "page": 1, "limit": 10, "sort_by": "", "is_sort_asc": false } }, "query": "query GetUOHOrderList($input: NewretailUOHOrderListParams!) {\n  newretailUOH(input: $input) {\n    is_success\n    status\n    data {\n      orders {\n        order_uuid\n        vertical_id\n        vertical_category\n        user_id\n        status\n        vertical_status\n        metadata {\n          upstream\n          vertical_logo\n          vertical_label\n          payment_date\n          query_params {\n            invoice_ref_num\n            payment_id\n            shop_id\n            __typename\n          }\n          query_params_str\n          list_products\n          products {\n            title\n            image_url\n            inline1 {\n              label\n              text_color\n              bg_color\n              __typename\n            }\n            inline2 {\n              label\n              text_color\n              bg_color\n              __typename\n            }\n            __typename\n          }\n          status {\n            label\n            text_color\n            bg_color\n            __typename\n          }\n          total_price {\n            value\n            label\n            text_color\n            bg_color\n            logo\n            __typename\n          }\n          dot_menus {\n            action_type\n            app_url\n            web_url\n            label\n            text_color\n            bg_color\n            __typename\n          }\n          buttons {\n            Label\n            variantColor\n            type\n            actionType\n            appURL\n            webURL\n            __typename\n          }\n          __typename\n        }\n        create_time\n        __typename\n      }\n      mitra_categories {\n        value\n        label\n        text_color\n        bg_color\n        logo\n        __typename\n      }\n      filters_v2 {\n        label\n        value\n        is_primary\n        __typename\n      }\n      date_limit\n      next\n      prev\n      __typename\n    }\n    __typename\n  }\n}\n" } ]';
+      
+        return $this
+        ->setBody($body)
+        ->execute('POST', '/graphql/GetUOHOrderList');
+    }
+
+    public function getTransactionWaitingList()
+    {
+        $body = '[ { "operationName": "PaymentListQuery", "variables": { "perPage": 20 }, "query": "query PaymentListQuery($lang: String, $cursor: String, $perPage: Int) {\n  paymentList(lang: $lang, cursor: $cursor, perPage: $perPage) {\n    has_next_page\n    last_cursor\n    payment_list {\n      transaction_id\n      transaction_date\n      transaction_expire\n      merchant_code\n      payment_amount\n      invoice_url\n      product_name\n      product_img\n      gateway_name\n      gateway_img\n      payment_code\n      is_va\n      is_klikbca\n      bank_img\n      user_bank_account {\n        acc_no\n        acc_name\n        bank_id\n        __typename\n      }\n      dest_bank_account {\n        acc_no\n        acc_name\n        bank_id\n        __typename\n      }\n      show_upload_button\n      show_edit_transfer_button\n      show_edit_klikbca_button\n      show_cancel_button\n      show_help_page\n      ticker_message\n      app_link\n      how_to_pay_url\n      transaction_expire_unix\n      __typename\n    }\n    __typename\n  }\n}\n" } ]';
+      
+        return $this
+        ->setBody($body)
+        ->execute('POST', '/graphql/PaymentListQuery');
+    }
+
+    // ======================= END  PRODUCT ============================= //
+
 }
