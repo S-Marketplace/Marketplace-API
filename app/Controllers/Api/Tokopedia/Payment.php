@@ -67,7 +67,7 @@ class Payment extends MyResourceTokopedia
                 
                 return $this->response($response);
             } else {
-                return $this->response(null, 400, $response);
+                return $this->response($response, 400, 'Gagal membeli pulsa');
             }
 
             return $this->response($response);
