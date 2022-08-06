@@ -62,6 +62,30 @@ $route->group("tokopedia", function ($route) {
     });
 });
 
+$route->group("rita", function ($route) {
+    $route->group("auth", function ($route) {
+
+        $route->post("/", 'Api/Rita/Auth::auth');
+        $route->post("sendOTP", 'Api/Rita/Auth::sendOTP');
+        $route->put("refresh", 'Api/Rita/Auth::refresh');
+    });
+
+    $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("profile", 'Api/Rita/User::getProfile');
+        $route->get("balance", 'Api/Rita/User::getBalance');
+        $route->get("home", 'Api/Rita/User::getHome');
+    });
+
+    $route->group("transaksi", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("/", 'Api/Rita/Transaksi::getTransactionList');
+    });
+
+    $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
+        $route->post("/", 'Api/Rita/Product::getProduct');
+        $route->post("recharge", 'Api/Rita/Product::rechargeProduct');
+    });
+});
+
 $route->group("pulsa_bridge", function ($route) {
     $route->get("/", 'Api\PulsaBridge::index');
     $route->post("xml", 'Api\PulsaBridge::xml');
