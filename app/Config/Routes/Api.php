@@ -86,6 +86,22 @@ $route->group("rita", function ($route) {
     });
 });
 
+$route->group("digipos", function ($route) {
+    $route->group("auth", function ($route) {
+
+        $route->post("/", 'Api/Digipos/Auth::auth');
+        $route->post("sendOTP", 'Api/Digipos/Auth::sendOTP');
+        $route->put("refresh", 'Api/Digipos/Auth::refresh');
+        $route->get("cryptographyPlayground", 'Api/Digipos/Auth::cryptographyPlayground');
+    });
+
+    $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("profile", 'Api/Digipos/User::getProfile');
+        $route->get("balance", 'Api/Digipos/User::getBalance');
+        $route->get("home", 'Api/Digipos/User::getHome');
+    });
+});
+
 $route->group("pulsa_bridge", function ($route) {
     $route->get("/", 'Api\PulsaBridge::index');
     $route->post("xml", 'Api\PulsaBridge::xml');
