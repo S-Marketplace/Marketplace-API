@@ -35,14 +35,55 @@ class DigiposApi
         $this->curl = \Config\Services::curlrequest($options, null, null, false);
     }
 
-    private function generateAuthorization()
+    
+    function generateSecretKey($authorization = '', $nonce = '', $nonce1 = '')
     {
-        $secretKeyPin = $this->secretKeyPin . strtotime(date('Y-m-d H:i:s'));
+        // Authorization
+        $str = $authorization;
+        // X-DGP-nonce
+        $bigInteger = $nonce;
+        // X-DGP-nonce1
+        $bigInteger2 = $nonce1;
+        $sb = "";
 
-        return md5($secretKeyPin);
+        $length = strlen($bigInteger);
+        $valueOf = $length;
+        $iArr = array_fill(0, $length, 0);
+        for ($i = 0; $i < $length; $i++) {
+            $iArr[intval(bcmod($bigInteger2, $valueOf))] = intval(bcmod($bigInteger, 10));
+            $bigInteger = bcdiv($bigInteger, 10);
+            $bigInteger2 = bcdiv($bigInteger2, $valueOf);
+        }
+
+        $i2 = 0;
+        for ($i3 = 0; $i3 < $length; $i3++) {
+            $i2 += $iArr[$i3];
+            $i4 = $i2 * 2;
+            $sb .= substr($str, $i4, 2);
+            $str = substr_replace($str, '', $i4, 2);
+        }
+
+        $result = implode(array_map("chr", $this->_generateBase64Format($sb)));
+        $result = md5(($this->base64url_decode($result)));
+        return $result;
     }
 
-    private function getSigNature()
+    function base64url_decode($data) {
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), 4 - ((strlen($data) % 4) ?: 4), '=', STR_PAD_RIGHT));
+      }
+
+    private function _generateBase64Format($str)
+    {
+        $length = (int)(strlen($str) / 2);
+        $bArr = array_fill(0, $length, 0);
+        for ($i = 0; $i < $length; $i++) {
+            $i2 = $i * 2;
+            $bArr[$i] = intval(substr($str, $i2, 2), 16);
+        }
+        return $bArr;
+    }
+
+    private function generateAuthorization()
     {
         $secretKeyPin = $this->secretKeyPin . strtotime(date('Y-m-d H:i:s'));
 

@@ -11,12 +11,14 @@ class Cryptography
     protected $iv = '';
     protected $option = 0;
     protected $method = 'AES-128-ECB';
+    protected $encReturn = 'base64';
 
-    public function __construct($key, $method, $iv = '')
+    public function __construct($key, $method, $encReturn = 'hex', $iv = '')
     {
         $this->key = $key;
         $this->method = $method;
         $this->iv = $iv;
+        $this->encReturn = $encReturn;
     }
 
     public function sslEncrypt($string)
@@ -28,6 +30,10 @@ class Cryptography
             $this->option,
             $this->iv
         );
+
+        if($this->encReturn == 'base64'){
+            return $data;
+        }
 
         return bin2hex(base64_decode($data));
     }
