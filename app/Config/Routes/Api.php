@@ -96,9 +96,7 @@ $route->group("digipos", function ($route) {
     });
 
     $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("profile", 'Api/Digipos/User::getProfile');
-        $route->get("balance", 'Api/Digipos/User::getBalance');
-        $route->get("home", 'Api/Digipos/User::getHome');
+        $route->get("kategori", 'Api/Digipos/User::getKategori');
     });
 });
 

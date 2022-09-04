@@ -1,26 +1,12 @@
-<?php namespace App\Controllers\Api\Rita;
+<?php namespace App\Controllers\Api\Digipos;
 
-use App\Controllers\Api\Rita\MyResourceRita;
+use App\Controllers\Api\Digipos\MyResourceDigipos;
 
-class User extends MyResourceRita
+class User extends MyResourceDigipos
 {
-    public function getProfile()
+    public function getKategori()
     {
-        $response = $this->ritaApi->getProfile();
-
-        return $this->response($response);
-    }
-
-    public function getBalance()
-    {
-        $response = $this->ritaApi->getBalance();
-
-        return $this->response($response);
-    }
-
-    public function getHome()
-    {
-        $response = $this->ritaApi->getHome();
+        $response = $this->digiposApi->getKategori();
 
         return $this->response($response);
     }
