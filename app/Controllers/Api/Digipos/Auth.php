@@ -72,7 +72,830 @@ class Auth extends MyResourceDigipos
                 $this->digiposApi->generateSecretKey($authorization, $nonce, $nonce1);
             
                 $response = (object)[
-                    'data' => (object)[]
+                    'data' => (object)json_decode('{
+                        "tncStatus": {
+                          "tncUpdate": false,
+                          "tncCode": null
+                        },
+                        "checksum": "ac4e397b701bf4a2423d5831fbaa48e467329fdef88ad4e6afd99cba96c9c5bc",
+                        "user": {
+                          "userId": 5560996516,
+                          "code": "AHM2054104",
+                          "name": "Ahmad Juhdi",
+                          "roleId": 204,
+                          "contactNumber": "81251554104",
+                          "createdAt": "2022-08-06 21:58:18.000+0000",
+                          "createdBy": null,
+                          "updatedAt": null,
+                          "updatedBy": null,
+                          "rsOutlet": {
+                            "userId": null,
+                            "rsNumber": "81251554104",
+                            "outletId": "4101039552",
+                            "outlet": {
+                              "outletId": "4101039552",
+                              "name": "Ahmad Juhdi",
+                              "userOutlets": null,
+                              "owner": null,
+                              "ownerId": null,
+                              "channelCategory": null,
+                              "tipe": null,
+                              "bank": null,
+                              "bankAccount": null,
+                              "longitude": null,
+                              "latitude": null,
+                              "address": null,
+                              "salesTerritoryId": null,
+                              "createdAt": null,
+                              "createdBy": null,
+                              "updatedAt": null,
+                              "updatedBy": null,
+                              "rsOutlets": null,
+                              "salesTerritory": null,
+                              "kelurahan": null,
+                              "kelId": null,
+                              "kecamatan": null,
+                              "kecamatanId": null,
+                              "kabupaten": null,
+                              "kabupatenId": null,
+                              "kotaId": null,
+                              "tcashNo": null,
+                              "outletCategory": null,
+                              "outletLocationType": null,
+                              "nik": null,
+                              "city": null,
+                              "postalCode": null,
+                              "email": null,
+                              "nokk": null,
+                              "npwp": null,
+                              "multichipNumber": null,
+                              "sfSchedule": null,
+                              "isPilot": null,
+                              "isPhysical": null,
+                              "enabled": null,
+                              "company": null,
+                              "companyId": null,
+                              "siup": null,
+                              "bankBranchName": null,
+                              "bankAccountName": null,
+                              "status": null,
+                              "notifMsisdn": null,
+                              "area": null,
+                              "region": null,
+                              "branch": null,
+                              "subBranch": null,
+                              "cluster": null,
+                              "territoryMapping": null,
+                              "imageKtp": null,
+                              "imageSelfieKtp": null,
+                              "outletPhotoList": [],
+                              "isUberNewOutlet": null,
+                              "isUberAchieved": null,
+                              "outletTypeId": 1,
+                              "idExpiryDate": null,
+                              "areaCode": null,
+                              "regionalCode": null,
+                              "regionalName": null,
+                              "idKtpUrl": null,
+                              "clusterName": null,
+                              "dealerCode": null,
+                              "changeOrgStatusRequests": null,
+                              "balance": null,
+                              "outletDetailJourney": null,
+                              "stock": null,
+                              "cityTypeIds": null,
+                              "rewardClassification": null,
+                              "specialRewardParticipant": null,
+                              "bidIds": null,
+                              "ruleIds": [],
+                              "groupIds": [],
+                              "isSpektaDealer": null,
+                              "isGenerateOutletProfile": false
+                            },
+                            "user": null,
+                            "rsStatus": null,
+                            "isPic": true,
+                            "createdAt": null,
+                            "createdBy": null,
+                            "updatedAt": null,
+                            "updatedBy": null,
+                            "rsRedeem": null
+                          },
+                          "salesTerritory": null,
+                          "email": "ahmadjuhdi007@gmail.com",
+                          "status": null,
+                          "userType": "OLT",
+                          "positionId": 40,
+                          "position": {
+                            "positionID": 40,
+                            "roleId": 204,
+                            "positionName": "Outlet Owner",
+                            "companyType": null,
+                            "parentPosition": 0,
+                            "createdAt": null,
+                            "createdBy": null,
+                            "updatedAt": null,
+                            "updatedBy": null,
+                            "enabled": true,
+                            "userType": null
+                          },
+                          "company": null,
+                          "companyId": null,
+                          "isPilot": true,
+                          "isEmployee": null,
+                          "motherName": null,
+                          "territoryLevel": {
+                            "salesTerritoryLevel": 6,
+                            "salesTerritoryName": "CLUSTER"
+                          },
+                          "salesTerritoryLevel": 6,
+                          "salesTerritoryValue": 60,
+                          "appMenuRoles": null,
+                          "appMenuRoleOutlets": [
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-DATA"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-DATA",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-DATA",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-DATA",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Paket Data",
+                                "isShowBanner": true,
+                                "orderNo": 1,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-PULSA"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-PULSA",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-PULSA",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-PULSA",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Pulsa",
+                                "isShowBanner": true,
+                                "orderNo": 2,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-PULSA&outletTypeId=1",
+                                "iconFile": "ic_pulsa.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-VOICESMS"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-VOICESMS",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-VOICESMS",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-VOICESMS",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Telepon & SMS",
+                                "isShowBanner": true,
+                                "orderNo": 3,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-VOICESMS&outletTypeId=1",
+                                "iconFile": "ic_voice_sms.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-DIGITAL"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-DIGITAL",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-DIGITAL",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-DIGITAL",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Digital",
+                                "isShowBanner": true,
+                                "orderNo": 4,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-DIGITAL&outletTypeId=1",
+                                "iconFile": "ic_digital.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-PPOB"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-PPOB",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-PPOB",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-PPOB",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Bayar Tagihan",
+                                "isShowBanner": null,
+                                "orderNo": 5,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-PPOB&outletTypeId=1",
+                                "iconFile": "icon_ppob.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": null
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-VF"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-VF",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-VF",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-VF",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Inject VF",
+                                "isShowBanner": null,
+                                "orderNo": 6,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-VF&outletTypeId=1",
+                                "iconFile": "ic_voucher_fisik.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-STOCK-FISIK"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-STOCK-FISIK",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-STOCK-FISIK",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-STOCK-FISIK",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Perdana & VF",
+                                "isShowBanner": null,
+                                "orderNo": 7,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-STOCK-FISIK&outletTypeId=1",
+                                "iconFile": "ic_stok_fisik.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-STOCK-SAYA"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-STOCK-SAYA",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-STOCK-SAYA",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-STOCK-SAYA",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Stok Saya",
+                                "isShowBanner": null,
+                                "orderNo": 8,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-STOCK-SAYA&outletTypeId=1",
+                                "iconFile": "ic_stok_saya.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-PERDANA"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-PERDANA",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-PERDANA",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-PERDANA",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Perdana Internet",
+                                "isShowBanner": true,
+                                "orderNo": 9,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-PERDANA&outletTypeId=1",
+                                "iconFile": "ic_nsb.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-NSP"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-NSP",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-NSP",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-NSP",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "NSP",
+                                "isShowBanner": true,
+                                "orderNo": 10,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-USIM"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-USIM",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-USIM",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-USIM",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Migrasi USIM",
+                                "isShowBanner": null,
+                                "orderNo": 11,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-USIM&outletTypeId=1",
+                                "iconFile": "ic_migrasi_usim.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-DIGISTAR"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-DIGISTAR",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-DIGISTAR",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-DIGISTAR",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Digistar",
+                                "isShowBanner": null,
+                                "orderNo": 12,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-DIGISTAR&outletTypeId=1",
+                                "iconFile": "ic_digistar.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-ROAMING"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-ROAMING",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-ROAMING",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-ROAMING",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Roaming",
+                                "isShowBanner": true,
+                                "orderNo": 13,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-ROAMING&outletTypeId=1",
+                                "iconFile": "ic_roaming.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-TRADEIN"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-TRADEIN",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-TRADEIN",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-TRADEIN",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "NEW IMEI",
+                                "isShowBanner": null,
+                                "orderNo": 14,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-TRADEIN&outletTypeId=1",
+                                "iconFile": "ic_tradein.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-LOAN"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-LOAN",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-LOAN",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-LOAN",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Pinjaman",
+                                "isShowBanner": null,
+                                "orderNo": 15,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-LOAN&outletTypeId=1",
+                                "iconFile": "ic_loan.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-ORBIT"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-ORBIT",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-ORBIT",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-ORBIT",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "HP & Orbit",
+                                "isShowBanner": true,
+                                "orderNo": 16,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-ORBIT&outletTypeId=1",
+                                "iconFile": "orbit_icon_menu.png",
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-DEALING"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-DEALING",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-DEALING",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-DEALING",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Flash Sale",
+                                "isShowBanner": null,
+                                "orderNo": 17,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-DEALING&outletTypeId=1",
+                                "iconFile": "ic_tradein.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": null
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-EVOUCHER"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-EVOUCHER",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-EVOUCHER",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-EVOUCHER",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "E-Voucher",
+                                "isShowBanner": null,
+                                "orderNo": 20,
+                                "iconUrl": "https://digipos.telkomsel.com/api/secure/mwa/icon/get-image?menuId=DGP-OLT-VF&outletTypeId=1",
+                                "iconFile": "ic_voucher_fisik.png",
+                                "whitelistType": "TERRITORY"
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "OLT-ADD-FL"
+                              },
+                              "roleId": 204,
+                              "menuId": "OLT-ADD-FL",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "OLT-ADD-FL",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "OLT-ADD-FL",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Add Frontliner",
+                                "isShowBanner": true,
+                                "orderNo": null,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "DGP-OLT-WALLET"
+                              },
+                              "roleId": 204,
+                              "menuId": "DGP-OLT-WALLET",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "DGP-OLT-WALLET",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "DGP-OLT-WALLET",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Aktivasi DigiPOS Wallet",
+                                "isShowBanner": true,
+                                "orderNo": null,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "OLT-CHG-PIN"
+                              },
+                              "roleId": 204,
+                              "menuId": "OLT-CHG-PIN",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "OLT-CHG-PIN",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "OLT-CHG-PIN",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Change PIN Outlet",
+                                "isShowBanner": null,
+                                "orderNo": null,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "OLT-MNG-RS"
+                              },
+                              "roleId": 204,
+                              "menuId": "OLT-MNG-RS",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "OLT-MNG-RS",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "OLT-MNG-RS",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Manage RS",
+                                "isShowBanner": true,
+                                "orderNo": null,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            },
+                            {
+                              "id": {
+                                "roleId": 204,
+                                "outletTypeId": 1,
+                                "menuId": "OLT-DEL-FL"
+                              },
+                              "roleId": 204,
+                              "menuId": "OLT-DEL-FL",
+                              "outletTypeId": 1,
+                              "appMenuOutlet": {
+                                "id": {
+                                  "menuId": "OLT-DEL-FL",
+                                  "outletTypeId": 1
+                                },
+                                "menuId": "OLT-DEL-FL",
+                                "outletTypeId": 1,
+                                "appId": "OLT",
+                                "menuName": "Delete Frontliner",
+                                "isShowBanner": true,
+                                "orderNo": null,
+                                "iconUrl": null,
+                                "iconFile": null,
+                                "whitelistType": null
+                              },
+                              "allowed": true,
+                              "companyType": "OLT"
+                            }
+                          ],
+                          "nik": "6203010706980003",
+                          "npwp": "1234567890123456",
+                          "enabled": true,
+                          "preferredNotificationChannel": "1001",
+                          "address": "Jl Mahakam Gg 2 Abadi",
+                          "stock": null,
+                          "userDsi": null,
+                          "userAccess": null,
+                          "roleName": null,
+                          "areaName": null,
+                          "regionName": null,
+                          "branchName": null,
+                          "subbranchName": null,
+                          "clusterName": null,
+                          "areaId": null,
+                          "regionId": null,
+                          "branchId": null,
+                          "subbranchId": null,
+                          "clusterId": null,
+                          "isActivated": true,
+                          "ruleProfileId": null,
+                          "ruleProfileName": null,
+                          "kelurahan": {
+                            "name": "TAMBAN BARU SELATAN",
+                            "kecamatanId": 4592,
+                            "id": 55185
+                          },
+                          "kelId": 55185,
+                          "kecamatan": {
+                            "name": "KAPUAS KUALA",
+                            "kotaId": 326,
+                            "id": 4592
+                          },
+                          "kecamatanId": 4592,
+                          "kabupaten": {
+                            "name": "KAPUAS",
+                            "provId": 21,
+                            "id": 326
+                          },
+                          "kabupatenId": 326,
+                          "hobi": null,
+                          "dateOfBirth": null,
+                          "paymentMethods": [
+                            {
+                              "paymentMethod": "NGRS",
+                              "isActive": true,
+                              "isAvailable": true
+                            },
+                            {
+                              "paymentMethod": "LINKAJA",
+                              "isActive": true,
+                              "isAvailable": true
+                            }
+                          ],
+                          "imgProfile": null,
+                          "territoryMapping": null
+                        },
+                        "secretKey": {
+                          "md5Hex": "004ed0c940883465f4abeb230c182747",
+                          "base64": "xzwoSKm1e7Qy8-6UoftL0g=="
+                        }
+                      }')
                 ];
 
                 $apiKeys = $this->request->getHeaderLine("X-ApiKey");

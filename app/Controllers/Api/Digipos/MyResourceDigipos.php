@@ -27,6 +27,9 @@ class MyResourceDigipos extends ResourceController
     {
         parent::initController($request, $response, $logger);
         $this->user = count($request->fetchGlobal('decoded')) > 0 ? $request->fetchGlobal('decoded') : ['role' => '', 'filterIdentifier' => ''];
+        // echo '<pre>';
+        // print_r(json_decode($this->user['userJson']));
+        // echo '</pre>';exit;
         $this->digiposApi = new DigiposApi((object)$request->fetchGlobal('secret') ?? [], $request->fetchGlobal('version')['app_version'] ?? '');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
     }

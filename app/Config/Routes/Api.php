@@ -105,6 +105,10 @@ $route->group("digipos", function ($route) {
         $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Product::getProduct/$1/$2');
         $route->post("recharge", 'Api\Digipos\Product::recharge');
         $route->post("confirm", 'Api\Digipos\Product::confirm');
+        
+        $route->get("paket_data/(:segment)/(:segment)", 'Api\Digipos\Product::getPaketData/$1/$2');
+        $route->post("rechargePaketData", 'Api\Digipos\Product::rechargePaketData');
+        $route->post("confirmPaketData", 'Api\Digipos\Product::confirmPaketData');
     });
 });
 
