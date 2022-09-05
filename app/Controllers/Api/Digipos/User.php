@@ -8,14 +8,14 @@ class User extends MyResourceDigipos
     {
         $response = $this->digiposApi->getKategori();
 
-        return $this->response($response);
+        return $this->convertResponse($response);
     }
 
     public function getProfile()
     {
         $response = $this->digiposApi->getProfile();
 
-        return $this->response($response);
+        return $this->convertResponse($response);
     }
 
 }

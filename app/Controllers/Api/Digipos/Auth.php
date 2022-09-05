@@ -51,7 +51,7 @@ class Auth extends MyResourceDigipos
 
             $response = $this->digiposApi->sendOTP($username, $password);
 
-            return $this->response($response);
+            return $this->convertResponse($response);
         } else {
             return $this->response(null, 400, $this->validator->getErrors());
         }
@@ -70,11 +70,11 @@ class Auth extends MyResourceDigipos
             try {
                 $response = $this->digiposApi->auth($otp, $token);
            
-                if ($response['status'] == 0) {
+                if ($response->status == 0) {
                     $apiKeys = $this->request->getHeaderLine("X-ApiKey");
                     $keyAccess = config("App")->JWTKeyAccess;
                     $keyRefresh = config("App")->JWTKeyRefresh;
-                    $response['data']['secretKey'] = $this->digiposApi->secretKey;
+                    $response->data->secretKey = $this->digiposApi->secretKey;
 
                     $accessPayload = [
                         "iss" => base_url(),
@@ -83,7 +83,7 @@ class Auth extends MyResourceDigipos
                         "nbf" => time(),
                         "exp" => time() + self::LIFETIME_ACCESS_TOKEN,
                         "secret" => $this->digiposApi->secretKey,
-                        "user" => $response['data'],
+                        "user" => $response->data,
                         "key" => $apiKeys
                     ];
                     $refreshPayload = [
@@ -93,7 +93,7 @@ class Auth extends MyResourceDigipos
                         "nbf" => time(),
                         "exp" => time() + self::LIFETIME_REFRESH_TOKEN,
                         "secret" => $this->digiposApi->secretKey,
-                        "user" => $response['data'],
+                        "user" => $response->data,
                         "key" => $apiKeys
                     ];
 
@@ -128,6 +128,7 @@ class Auth extends MyResourceDigipos
                     "iat" => time(),
                     "nbf" => time(),
                     "exp" => time() + self::LIFETIME_ACCESS_TOKEN,
+                    "secret" => (array) $decoded->secret,
                     "user" => (array) $decoded->user,
                     "key" => $apiKeys
                 ];

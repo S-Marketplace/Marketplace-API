@@ -18,13 +18,17 @@ class DigiposApi
      *
      * @param [type] $userToken
      */
-    public function __construct($secretKeyUser)
+    public function __construct($secretKeyUser, $versionApk = '')
     {
         $this->secretKey = $secretKeyUser;
 
         $userToken = [];
         if (isset($secretKeyUser->md5Hex)) {
             $userToken = $this->generateAuthorization($secretKeyUser);
+        }
+
+        if(!empty($versionApk)){
+            $this->versionApk = $versionApk;
         }
 
         $this->options = [];
@@ -272,15 +276,15 @@ class DigiposApi
                 }
             }
         
-            $data = json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody());
 
             return $data;
         }
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody());
 
         // return $data;
-        throw new Exception($data['message'] ?? $response->getBody());
+        throw new Exception($data->message ?? $response->getBody());
     }
 
     // ========================== AUTH =============================== //

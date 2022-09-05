@@ -19,6 +19,8 @@ class TokenFilter implements FilterInterface
         $response = service("response");
         if (isset($tokenHeader)) {
             $apiKeys = $request->getHeader("X-ApiKey");
+            $appVersion = $request->getHeader("X-AppVersion");
+        
             if($apiKeys->getValue() == "378987bc194f741e732f339c5072a9e1" && $_SERVER['SERVER_NAME'] == "git.ulm.ac.id"){
                 $request->setGlobal("decoded", json_decode($tokenHeader->getValue(),true));
             }else{
@@ -26,6 +28,12 @@ class TokenFilter implements FilterInterface
                 try {
                     $decoded = JWT::decode($tokenHeader->getValue(), $keyAccess, ['HS256']);
                     $request->setGlobal("decoded", (array) $decoded->user);
+                    try {
+                        $request->setGlobal("version", [
+                            'app_version' => $appVersion->getValue()
+                        ]);
+                    } catch (\Throwable $th) {
+                    }
                     try {
                         $request->setGlobal("secret", (array) $decoded->secret);
                     } catch (\Throwable $th) {

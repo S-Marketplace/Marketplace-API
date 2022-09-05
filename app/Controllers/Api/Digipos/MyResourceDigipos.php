@@ -27,7 +27,7 @@ class MyResourceDigipos extends ResourceController
     {
         parent::initController($request, $response, $logger);
         $this->user = count($request->fetchGlobal('decoded')) > 0 ? $request->fetchGlobal('decoded') : ['role' => '', 'filterIdentifier' => ''];
-        $this->digiposApi = new DigiposApi((object)$request->fetchGlobal('secret') ?? []);
+        $this->digiposApi = new DigiposApi((object)$request->fetchGlobal('secret') ?? [], $request->fetchGlobal('version')['app_version'] ?? '');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
     }
 
@@ -38,5 +38,22 @@ class MyResourceDigipos extends ResourceController
             'message' => $message,
             'data' => $data
         ]);
+    }
+
+    protected function convertResponse($data = null)
+    {
+        try {
+            return parent::respond([
+                'code' => $data->status == '0' ? 200 : 500,
+                'message' => $data->message,
+                'data' => $data->data
+            ]);
+        } catch (\Throwable $th) {
+            return parent::respond([
+                'code' => 200,
+                'message' => '',
+                'data' => $data
+            ]);
+        }
     }
 }

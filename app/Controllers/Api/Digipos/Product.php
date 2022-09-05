@@ -8,6 +8,6 @@ class Product extends MyResourceDigipos
     {
         $response = $this->digiposApi->getProduct($mssidn, $paymentMethod);
 
-        return $this->response($response);
+        return $this->convertResponse($response);
     }
 }
