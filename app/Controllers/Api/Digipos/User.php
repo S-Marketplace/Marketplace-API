@@ -18,4 +18,11 @@ class User extends MyResourceDigipos
         return $this->convertResponse($response);
     }
 
+    public function cekSaldo($type = 'linkaja')
+    {
+        $response = $this->digiposApi->cekSaldo($type);
+
+        return $this->convertResponse($response);
+    }
+
 }

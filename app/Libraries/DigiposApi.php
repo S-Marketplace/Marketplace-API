@@ -351,7 +351,7 @@ class DigiposApi
     public function cekSaldo($type = 'linkaja')
     {
         $response = $this
-            ->execute('GET', "/api/secure/reward/summary");
+            ->execute('GET', "/api/secure/balance/v2/$type");
 
         return $response;
     }

@@ -99,6 +99,7 @@ $route->group("digipos", function ($route) {
     $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
         $route->get("kategori", 'Api\Digipos\User::getKategori');
         $route->get("profile", 'Api\Digipos\User::getProfile');
+        $route->get("cekSaldo/(:segment)", 'Api\Digipos\User::cekSaldo/$1');
     });
 
     $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
