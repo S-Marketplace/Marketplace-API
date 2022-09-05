@@ -92,6 +92,7 @@ $route->group("digipos", function ($route) {
         $route->post("/", 'Api\Digipos\Auth::auth');
         $route->post("sendOTP", 'Api\Digipos\Auth::sendOTP');
         $route->put("refresh", 'Api\Digipos\Auth::refresh');
+        $route->get("bypass", 'Api\Digipos\Auth::bypass');
         $route->get("cryptographyPlayground", 'Api\Digipos\Auth::cryptographyPlayground');
     });
 
@@ -102,6 +103,8 @@ $route->group("digipos", function ($route) {
 
     $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
         $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Product::getProduct/$1/$2');
+        $route->post("recharge", 'Api\Digipos\Product::recharge');
+        $route->post("confirm", 'Api\Digipos\Product::confirm');
     });
 });
 

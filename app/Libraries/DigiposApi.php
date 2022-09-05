@@ -144,10 +144,15 @@ class DigiposApi
             'nonce1' => $nonce1,
         ]);
 
-        return (object)[
+        $secretKeyResponse = (object)[
             'md5Hex' => $result,
             'base64' => $secretKeyBase64,
         ];
+
+        $this->secretKey = $secretKeyResponse;
+
+        return $secretKeyResponse;
+
     }
 
     private function _base64url_decode($data)
@@ -250,9 +255,8 @@ class DigiposApi
             if(!empty($this->secretKey) || $url == "/api/secure/auth/otp/v2"){
                 // Generate Pas Logiin
                 if($url == "/api/secure/auth/otp/v2"){
-                    $secretKeyResponse = $this->generateSecretKey($authorization, $nonce, $nonce1);
+                    $this->generateSecretKey($authorization, $nonce, $nonce1);
 
-                    $this->secretKey = $secretKeyResponse;
                 }else{
                     try {
                         $this->saveCookieFile(WRITEPATH . 'cookie/digipos/' . $this->secretKey->md5Hex . '.json', [
@@ -350,6 +354,34 @@ class DigiposApi
     {
         $response = $this
             ->execute('GET', "/api/secure/recharge/denom?msisdn=$msisdn&paymentMethod=$paymentMethod");
+
+        return $response;
+    }
+
+    public function recharge($data)
+    {
+        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+        
+        $formData = $cryptResponse->sslEncrypt(json_encode($data));
+      
+        $response = $this
+            ->setBody($formData)
+            ->execute('POST', "/api/secure/recharge/v3");
+
+        return $response;
+    }
+
+    public function confirm($data)
+    {
+        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+        $cryptPin = new Cryptography('e19bfde71b2141cef379691aa53f7251', 'AES-128-ECB');
+        $data['pin'] =  $cryptPin->sslEncrypt($data['pin']);
+        
+        $formData = $cryptResponse->sslEncrypt(json_encode($data));
+      
+        $response = $this
+            ->setBody($formData)
+            ->execute('POST', "/api/secure/recharge/confirm/v2");
 
         return $response;
     }

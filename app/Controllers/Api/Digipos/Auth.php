@@ -28,17 +28,16 @@ class Auth extends MyResourceDigipos
         //     ], 
             // 'authorization' => $this->digiposApi->generateAuthorization('be1d1aac4a2db00a207f502883d93794')
         ]);
-        
     }
 
-    function hexToStr($hex)
-    {
-        $string = '';
-        for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
-            $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
-        }
-        return $string;
-    }
+    // function hexToStr($hex)
+    // {
+    //     $string = '';
+    //     for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
+    //         $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
+    //     }
+    //     return $string;
+    // }
 
     public function sendOTP()
     {
@@ -52,6 +51,65 @@ class Auth extends MyResourceDigipos
             $response = $this->digiposApi->sendOTP($username, $password);
 
             return $this->convertResponse($response);
+        } else {
+            return $this->response(null, 400, $this->validator->getErrors());
+        }
+    }
+
+    public function bypass()
+    {
+        if ($this->validate([
+            'authorization' => 'required',
+            'nonce' => 'required',
+            'nonce1' => 'required',
+        ], $this->validationMessage)) {
+
+            $authorization = $this->request->getPost('authorization');
+            $nonce = $this->request->getPost('nonce');
+            $nonce1 = $this->request->getPost('nonce1');
+
+            try {
+                $this->digiposApi->generateSecretKey($authorization, $nonce, $nonce1);
+            
+                $response = (object)[
+                    'data' => (object)[]
+                ];
+
+                $apiKeys = $this->request->getHeaderLine("X-ApiKey");
+                $keyAccess = config("App")->JWTKeyAccess;
+                $keyRefresh = config("App")->JWTKeyRefresh;
+                $response->data->secretKey = $this->digiposApi->secretKey;
+
+                $accessPayload = [
+                    "iss" => base_url(),
+                    "aud" => base_url(),
+                    "iat" => time(),
+                    "nbf" => time(),
+                    "exp" => time() + self::LIFETIME_ACCESS_TOKEN,
+                    "secret" => $this->digiposApi->secretKey,
+                    "user" => $response->data,
+                    "key" => $apiKeys
+                ];
+                $refreshPayload = [
+                    "iss" => base_url(),
+                    "aud" => base_url(),
+                    "iat" => time(),
+                    "nbf" => time(),
+                    "exp" => time() + self::LIFETIME_REFRESH_TOKEN,
+                    "secret" => $this->digiposApi->secretKey,
+                    "user" => $response->data,
+                    "key" => $apiKeys
+                ];
+
+                $accessToken = JWT::encode($accessPayload, $keyAccess);
+                $refreshToken = JWT::encode($refreshPayload, $keyRefresh);
+
+                return $this->response(['accessToken' => $accessToken, 'refreshToken' => $refreshToken, 'secret' => $this->digiposApi->secretKey], 200);
+
+                return $this->response($response, 403, 'Login gagal');
+            } catch (\Exception $ex) {
+                return $this->response(null, 500, $ex->getMessage());
+            }
         } else {
             return $this->response(null, 400, $this->validator->getErrors());
         }
