@@ -33,70 +33,75 @@ $route->group("background", function ($route) {
 $route->group("tokopedia", function ($route) {
     $route->group("auth", function ($route) {
 
-        $route->post("/", 'Api/Tokopedia/Auth::auth');
-        $route->post("sendOTP", 'Api/Tokopedia/Auth::sendOTP');
-        $route->put("refresh", 'Api/Tokopedia/Auth::refresh');
+        $route->post("/", 'Api\Tokopedia\Auth::auth');
+        $route->post("sendOTP", 'Api\Tokopedia\Auth::sendOTP');
+        $route->put("refresh", 'Api\Tokopedia\Auth::refresh');
 
         $route->group("isAuth", ['filter' => 'apiFilter'],  function ($route) {
-            $route->get("/", 'Api/Tokopedia/Auth::isAuth');
+            $route->get("/", 'Api\Tokopedia\Auth::isAuth');
         });
     });
 
     $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("cekVaNumber", 'Api/Tokopedia/User::cekVaNumber');
-        $route->get("cekSaldoMitra", 'Api/Tokopedia/User::cekSaldoMitra');
-        $route->get("cekAkun", 'Api/Tokopedia/User::cekAkun');
+        $route->get("cekVaNumber", 'Api\Tokopedia\User::cekVaNumber');
+        $route->get("cekSaldoMitra", 'Api\Tokopedia\User::cekSaldoMitra');
+        $route->get("cekAkun", 'Api\Tokopedia\User::cekAkun');
     });
 
     $route->group("payment", ['filter' => 'apiFilter'],  function ($route) {
-        $route->post("beliPulsa", 'Api/Tokopedia/Payment::beliPulsa');
+        $route->post("beliPulsa", 'Api\Tokopedia\Payment::beliPulsa');
     });
 
     $route->group("transaksi", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("active", 'Api/Tokopedia/Transaksi::getTransactionList');
-        $route->get("waiting", 'Api/Tokopedia/Transaksi::getTransactionWaitingList');
+        $route->get("active", 'Api\Tokopedia\Transaksi::getTransactionList');
+        $route->get("waiting", 'Api\Tokopedia\Transaksi::getTransactionWaitingList');
     });
 
     $route->group("product",  function ($route) {
-        $route->post("/", 'Api/Tokopedia/Product::getProduct');
+        $route->post("/", 'Api\Tokopedia\Product::getProduct');
     });
 });
 
 $route->group("rita", function ($route) {
     $route->group("auth", function ($route) {
 
-        $route->post("/", 'Api/Rita/Auth::auth');
-        $route->post("sendOTP", 'Api/Rita/Auth::sendOTP');
-        $route->put("refresh", 'Api/Rita/Auth::refresh');
+        $route->post("/", 'Api\Rita\Auth::auth');
+        $route->post("sendOTP", 'Api\Rita\Auth::sendOTP');
+        $route->put("refresh", 'Api\Rita\Auth::refresh');
     });
 
     $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("profile", 'Api/Rita/User::getProfile');
-        $route->get("balance", 'Api/Rita/User::getBalance');
-        $route->get("home", 'Api/Rita/User::getHome');
+        $route->get("profile", 'Api\Rita\User::getProfile');
+        $route->get("balance", 'Api\Rita\User::getBalance');
+        $route->get("home", 'Api\Rita\User::getHome');
     });
 
     $route->group("transaksi", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("/", 'Api/Rita/Transaksi::getTransactionList');
+        $route->get("/", 'Api\Rita\Transaksi::getTransactionList');
     });
 
     $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
-        $route->post("/", 'Api/Rita/Product::getProduct');
-        $route->post("recharge", 'Api/Rita/Product::rechargeProduct');
+        $route->post("/", 'Api\Rita\Product::getProduct');
+        $route->post("recharge", 'Api\Rita\Product::rechargeProduct');
     });
 });
 
 $route->group("digipos", function ($route) {
     $route->group("auth", function ($route) {
 
-        $route->post("/", 'Api/Digipos/Auth::auth');
-        $route->post("sendOTP", 'Api/Digipos/Auth::sendOTP');
-        $route->put("refresh", 'Api/Digipos/Auth::refresh');
-        $route->get("cryptographyPlayground", 'Api/Digipos/Auth::cryptographyPlayground');
+        $route->post("/", 'Api\Digipos\Auth::auth');
+        $route->post("sendOTP", 'Api\Digipos\Auth::sendOTP');
+        $route->put("refresh", 'Api\Digipos\Auth::refresh');
+        $route->get("cryptographyPlayground", 'Api\Digipos\Auth::cryptographyPlayground');
     });
 
     $route->group("user", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("kategori", 'Api/Digipos/User::getKategori');
+        $route->get("kategori", 'Api\Digipos\User::getKategori');
+        $route->get("profile", 'Api\Digipos\User::getProfile');
+    });
+
+    $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Product::getProduct/$1/$2');
     });
 });
 

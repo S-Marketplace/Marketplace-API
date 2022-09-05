@@ -26,6 +26,10 @@ class TokenFilter implements FilterInterface
                 try {
                     $decoded = JWT::decode($tokenHeader->getValue(), $keyAccess, ['HS256']);
                     $request->setGlobal("decoded", (array) $decoded->user);
+                    try {
+                        $request->setGlobal("secret", (array) $decoded->secret);
+                    } catch (\Throwable $th) {
+                    }
                 } catch (BeforeValidException $ex) {
                     $response->setJSON(['code' => 401, 'data' => null, 'message' => 'Token belum valid']);
                     return $response;

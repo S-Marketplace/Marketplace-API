@@ -11,4 +11,11 @@ class User extends MyResourceDigipos
         return $this->response($response);
     }
 
+    public function getProfile()
+    {
+        $response = $this->digiposApi->getProfile();
+
+        return $this->response($response);
+    }
+
 }

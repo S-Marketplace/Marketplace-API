@@ -21,15 +21,13 @@ class MyResourceDigipos extends ResourceController
     protected $digiposApi;
     protected $validationMessage = [];
     protected $user;
+    protected $secret;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
         $this->user = count($request->fetchGlobal('decoded')) > 0 ? $request->fetchGlobal('decoded') : ['role' => '', 'filterIdentifier' => ''];
-        $this->digiposApi = new DigiposApi((object)[
-                "md5Hex"=> "fb261eb4fa751c76cba7000cd52ce7fc",
-                "base64"=> "0gf7Mak9-BQ3WfGk-t6r3g=="
-        ]);
+        $this->digiposApi = new DigiposApi((object)$request->fetchGlobal('secret') ?? []);
 		date_default_timezone_set('Asia/Kuala_Lumpur');
     }
 

@@ -23,7 +23,7 @@ class DigiposApi
         $this->secretKey = $secretKeyUser;
 
         $userToken = [];
-        if (!empty($secretKeyUser)) {
+        if (isset($secretKeyUser->md5Hex)) {
             $userToken = $this->generateAuthorization($secretKeyUser);
         }
 
@@ -135,7 +135,7 @@ class DigiposApi
 
         // Save Cookie Files
         $this->saveCookieFile(WRITEPATH . 'cookie/digipos/' . $result . '.json', [
-            'authorization' => $authorization,
+            'authorization' => $str,
             'nonce' => $nonce,
             'nonce1' => $nonce1,
         ]);
@@ -248,23 +248,28 @@ class DigiposApi
                 if($url == "/api/secure/auth/otp/v2"){
                     $secretKeyResponse = $this->generateSecretKey($authorization, $nonce, $nonce1);
 
-                    $this->secretKey = $secretKeyResponse->md5Hex;
+                    $this->secretKey = $secretKeyResponse;
+                }else{
+                    try {
+                        $this->saveCookieFile(WRITEPATH . 'cookie/digipos/' . $this->secretKey->md5Hex . '.json', [
+                            'authorization' => $authorization,
+                            'nonce' => $nonce,
+                            'nonce1' => $nonce1,
+                        ]);
+                    } catch (\Throwable $th) {
+                    }
                 }
 
-                try {
-                    $this->saveCookieFile(WRITEPATH . 'cookie/digipos/' . $this->secretKey . '.json', [
-                        'authorization' => $authorization,
-                        'nonce' => $nonce,
-                        'nonce1' => $nonce1,
-                    ]);
-                } catch (\Throwable $th) {
-                }
             }
-            $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
-            $responseDec = $cryptResponse->sslDecrypt((hex2bin($response->getBody())));
 
-            if(!empty($responseDec)){
-                return ($responseDec);
+            // Cek hexdecimal response
+            if(ctype_xdigit($response->getBody())){
+                $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+                $responseDec = $cryptResponse->sslDecrypt((hex2bin($response->getBody())));
+    
+                if(!empty($responseDec)){
+                    return ($responseDec);
+                }
             }
         
             $data = json_decode($response->getBody(), true);
@@ -274,6 +279,7 @@ class DigiposApi
 
         $data = json_decode($response->getBody(), true);
 
+        // return $data;
         throw new Exception($data['message'] ?? $response->getBody());
     }
 
@@ -322,6 +328,24 @@ class DigiposApi
     {
         $response = $this
             ->execute('GET', "/api/secure/messages/categories");
+
+        return $response;
+    }
+
+    public function getProfile()
+    {
+        $response = $this
+            ->execute('GET', "/api/secure/reward/summary");
+
+        return $response;
+    }
+
+    // ========================== PRODUCT =============================== //
+
+    public function getProduct($msisdn, $paymentMethod = 'LINKAJA')
+    {
+        $response = $this
+            ->execute('GET', "/api/secure/recharge/denom?msisdn=$msisdn&paymentMethod=$paymentMethod");
 
         return $response;
     }
