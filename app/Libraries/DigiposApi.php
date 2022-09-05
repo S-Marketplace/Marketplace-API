@@ -12,13 +12,14 @@ class DigiposApi
     private $versionApk = '5.13.1.235';
     private $secretKeyPin = 'digiposoutletapp';
     public $secretKey = '';
+    private object $userData;
 
     /**
      * Expired 1 Bulan
      *
      * @param [type] $userToken
      */
-    public function __construct($secretKeyUser, $versionApk = '')
+    public function __construct($secretKeyUser, $versionApk = '', $userData = [])
     {
         $this->secretKey = $secretKeyUser;
 
@@ -29,6 +30,10 @@ class DigiposApi
 
         if(!empty($versionApk)){
             $this->versionApk = $versionApk;
+        }
+
+        if(!empty($userData)){
+            $this->userData = $userData;
         }
 
         $this->options = [];
@@ -368,6 +373,9 @@ class DigiposApi
 
     public function recharge($data)
     {
+        $data['userId'] = $this->userData->userId;
+        $data['outletId'] = $this->userData->rsOutlet->outletId;
+     
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
         
         $formData = $cryptResponse->sslEncrypt(json_encode($data));
@@ -405,6 +413,9 @@ class DigiposApi
 
     public function rechargePaketData($data)
     {
+        $data['userId'] = $this->userData->userId;
+        $data['outletId'] = $this->userData->rsOutlet->outletId;
+     
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
         
         $formData = $cryptResponse->sslEncrypt(json_encode($data));

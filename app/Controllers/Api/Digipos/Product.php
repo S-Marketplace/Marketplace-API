@@ -23,23 +23,19 @@ class Product extends MyResourceDigipos
         if ($this->validate([
             'denomRecharge' => 'required',
             'msisdn' => 'required',
-            'outletId' => 'required',
             'paymentMethod' => 'required',
             'price' => 'required',
             'rechargeType' => 'required',
             'rsNumber' => 'required',
-            'userId' => 'required',
         ], $this->validationMessage)) {
 
             $response = $this->digiposApi->recharge([
                 'denomRecharge' => $this->request->getPost('denomRecharge'),
                 'msisdn' => $this->request->getPost('msisdn'),
-                'outletId' => $this->request->getPost('outletId'),
                 'paymentMethod' => $this->request->getPost('paymentMethod'),
                 'price' => $this->request->getPost('price'),
                 'rechargeType' => $this->request->getPost('rechargeType'),
                 'rsNumber' => $this->request->getPost('rsNumber'),
-                'userId' => $this->request->getPost('userId'),
             ]);
 
             return $this->convertResponse($response);
@@ -71,25 +67,21 @@ class Product extends MyResourceDigipos
         if ($this->validate([
             'msisdn' => 'required',
             'originTrxType' => 'required',
-            'outletId' => 'required',
             'packageId' => 'required',
             'paymentMethod' => 'required',
             'price' => 'required',
             'rsNumber' => 'required',
             'trxType' => 'required',
-            'userId' => 'required',
         ], $this->validationMessage)) {
             
             $response = $this->digiposApi->rechargePaketData([
                 'msisdn' => $this->request->getPost('msisdn'),
                 'originTrxType' => $this->request->getPost('originTrxType'),
-                'outletId' => $this->request->getPost('outletId'),
                 'packageId' => $this->request->getPost('packageId'),
                 'paymentMethod' => $this->request->getPost('paymentMethod'),
                 'price' => $this->request->getPost('price'),
                 'rsNumber' => $this->request->getPost('rsNumber'),
                 'trxType' => $this->request->getPost('trxType'),
-                'userId' => $this->request->getPost('userId'),
             ]);
 
             return $this->convertResponse($response);
