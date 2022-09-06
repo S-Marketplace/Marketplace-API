@@ -113,6 +113,13 @@ $route->group("digipos", function ($route) {
         $route->post("recharge", 'Api\Digipos\PaketData::recharge');
         $route->post("confirm", 'Api\Digipos\PaketData::confirm');
     });
+
+    $route->group("digital", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Digital::getDigital/$1/$2');
+        $route->post("check", 'Api\Digipos\Digital::check');
+        $route->post("recharge", 'Api\Digipos\Digital::recharge');
+        $route->post("confirm", 'Api\Digipos\Digital::confirm');
+    });
 });
 
 $route->group("pulsa_bridge", function ($route) {

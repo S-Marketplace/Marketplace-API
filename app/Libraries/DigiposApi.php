@@ -363,14 +363,7 @@ class DigiposApi
 
     // ========================== PRODUCT =============================== //
 
-    public function getProduct($msisdn, $paymentMethod = 'LINKAJA', $url = 'pulsa')
-    {
-        $response = $this
-            ->execute('GET', $this->urlMap[$url]['product']."msisdn=$msisdn&paymentMethod=$paymentMethod");
-
-        return $response;
-    }
-
+   
     private $urlMap = [
         'pulsa' => [
             'product' => '/api/secure/recharge/denom?',
@@ -382,7 +375,34 @@ class DigiposApi
             'recharge' => "/api/secure/package-activation/v7",
             'confirm' => "/api/secure/package-activation/confirm/v7",
         ],
+        'digital' => [
+            'product' => '/api/secure/product/v6?categoryCode=DIGITAL&digitalProductType=DIRECT_TOP_UP&',
+            'check' => "/api/secure/package-activation/submit/dtu/v2",
+            'recharge' => "/api/secure/package-activation/v7",
+            'confirm' => "/api/secure/package-activation/confirm/v7",
+        ],
     ];
+
+    public function getProduct($msisdn, $paymentMethod = 'LINKAJA', $url = 'pulsa')
+    {
+        $response = $this
+            ->execute('GET', $this->urlMap[$url]['product']."msisdn=$msisdn&paymentMethod=$paymentMethod");
+
+        return $response;
+    }
+
+    public function check($data, $url = 'pulsa')
+    {
+        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+        
+        $formData = $cryptResponse->sslEncrypt(json_encode($data));
+        
+        $response = $this
+            ->setBody($formData)
+            ->execute('POST', $this->urlMap[$url]['check']);
+
+        return $response;
+    }
 
     public function recharge($data, $url = 'pulsa')
     {
