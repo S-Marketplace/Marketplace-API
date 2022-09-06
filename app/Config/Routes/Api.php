@@ -120,6 +120,19 @@ $route->group("digipos", function ($route) {
         $route->post("recharge", 'Api\Digipos\Digital::recharge');
         $route->post("confirm", 'Api\Digipos\Digital::confirm');
     });
+
+    $route->group("perdana_internet", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\PerdanaInternet::getPerdanaInternet/$1/$2');
+        $route->post("check", 'Api\Digipos\PerdanaInternet::check');
+        $route->post("recharge", 'Api\Digipos\PerdanaInternet::recharge');
+        $route->post("confirm", 'Api\Digipos\PerdanaInternet::confirm');
+    });
+
+    $route->group("roaming", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Roaming::getRoaming/$1/$2');
+        $route->post("recharge", 'Api\Digipos\Roaming::recharge');
+        $route->post("confirm", 'Api\Digipos\Roaming::confirm');
+    });
 });
 
 $route->group("pulsa_bridge", function ($route) {

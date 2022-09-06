@@ -22,6 +22,7 @@ class DigiposApi
     public function __construct($secretKeyUser, $versionApk = '', $userData = [])
     {
         $this->secretKey = $secretKeyUser;
+        $this->secretKeyPin = md5($this->secretKeyPin);
 
         $userToken = [];
         if (isset($secretKeyUser->md5Hex)) {
@@ -371,7 +372,7 @@ class DigiposApi
             'confirm' => "/api/secure/recharge/confirm/v2",
         ],
         'paket_data' => [
-            'product' => '/api/secure/product/v6?categoryCode=HVC&',
+            'product' => '/api/secure/product/v6?categoryCode=DATA&', // HVC = PRODUK Rekomendasi
             'recharge' => "/api/secure/package-activation/v7",
             'confirm' => "/api/secure/package-activation/confirm/v7",
         ],
@@ -380,6 +381,17 @@ class DigiposApi
             'check' => "/api/secure/package-activation/submit/dtu/v2",
             'recharge' => "/api/secure/package-activation/v7",
             'confirm' => "/api/secure/package-activation/confirm/v7",
+        ],
+        'perdana_internet' => [
+            'product' => '/api/secure/product/v6?trxType=ARP&categoryCode=NSB&paymentMethod=LINKAJA&brand=SIMPATI&',
+            'check' => "/api/secure/package-activation/submit/dtu/v2",
+            'recharge' => "/api/secure/package-activation/v7",
+            'confirm' => "/api/secure/package-activation/confirm/v7",
+        ],
+        'roaming' => [
+            'product' => '/api/secure/product/v6?categoryCode=ROAMING&',
+            'recharge' => "/api/secure/package-activation/v6",
+            'confirm' => "/api/secure/package-activation/confirm/v6",
         ],
     ];
 
@@ -423,7 +435,7 @@ class DigiposApi
     public function confirm($data, $url = 'pulsa')
     {
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
-        $cryptPin = new Cryptography('e19bfde71b2141cef379691aa53f7251', 'AES-128-ECB');
+        $cryptPin = new Cryptography($this->secretKeyPin, 'AES-128-ECB');
         $data['pin'] =  $cryptPin->sslEncrypt($data['pin']);
         
         $formData = $cryptResponse->sslEncrypt(json_encode($data));
@@ -434,5 +446,7 @@ class DigiposApi
 
         return $response;
     }
+
+    // ========================== END PRODUCT =============================== //
 
 }
