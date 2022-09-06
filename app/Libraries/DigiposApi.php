@@ -363,15 +363,28 @@ class DigiposApi
 
     // ========================== PRODUCT =============================== //
 
-    public function getProduct($msisdn, $paymentMethod = 'LINKAJA')
+    public function getProduct($msisdn, $paymentMethod = 'LINKAJA', $url = 'pulsa')
     {
         $response = $this
-            ->execute('GET', "/api/secure/recharge/denom?msisdn=$msisdn&paymentMethod=$paymentMethod");
+            ->execute('GET', $this->urlMap[$url]['product']."msisdn=$msisdn&paymentMethod=$paymentMethod");
 
         return $response;
     }
 
-    public function recharge($data)
+    private $urlMap = [
+        'pulsa' => [
+            'product' => '/api/secure/recharge/denom?',
+            'recharge' => "/api/secure/recharge/v3", 
+            'confirm' => "/api/secure/recharge/confirm/v2",
+        ],
+        'paket_data' => [
+            'product' => '/api/secure/product/v6?categoryCode=HVC&',
+            'recharge' => "/api/secure/package-activation/v7",
+            'confirm' => "/api/secure/package-activation/confirm/v7",
+        ],
+    ];
+
+    public function recharge($data, $url = 'pulsa')
     {
         $data['userId'] = $this->userData->userId;
         $data['outletId'] = $this->userData->rsOutlet->outletId;
@@ -379,15 +392,15 @@ class DigiposApi
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
         
         $formData = $cryptResponse->sslEncrypt(json_encode($data));
-      
+        
         $response = $this
             ->setBody($formData)
-            ->execute('POST', "/api/secure/recharge/v3");
+            ->execute('POST', $this->urlMap[$url]['recharge']);
 
         return $response;
     }
 
-    public function confirm($data)
+    public function confirm($data, $url = 'pulsa')
     {
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
         $cryptPin = new Cryptography('e19bfde71b2141cef379691aa53f7251', 'AES-128-ECB');
@@ -397,47 +410,7 @@ class DigiposApi
       
         $response = $this
             ->setBody($formData)
-            ->execute('POST', "/api/secure/recharge/confirm/v2");
-
-        return $response;
-    }
-
-    
-    public function getPaketData($msisdn, $paymentMethod = 'LINKAJA')
-    {
-        $response = $this
-            ->execute('GET', "/api/secure/product/v6?categoryCode=HVC&msisdn=$msisdn&paymentMethod=$paymentMethod");
-
-        return $response;
-    }
-
-    public function rechargePaketData($data)
-    {
-        $data['userId'] = $this->userData->userId;
-        $data['outletId'] = $this->userData->rsOutlet->outletId;
-     
-        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
-        
-        $formData = $cryptResponse->sslEncrypt(json_encode($data));
-      
-        $response = $this
-            ->setBody($formData)
-            ->execute('POST', "/api/secure/package-activation/v7");
-
-        return $response;
-    }
-
-    public function confirmPaketData($data)
-    {
-        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
-        $cryptPin = new Cryptography('e19bfde71b2141cef379691aa53f7251', 'AES-128-ECB');
-        $data['pin'] =  $cryptPin->sslEncrypt($data['pin']);
-        
-        $formData = $cryptResponse->sslEncrypt(json_encode($data));
-      
-        $response = $this
-            ->setBody($formData)
-            ->execute('POST', "/api/secure/package-activation/confirm/v7");
+            ->execute('POST', $this->urlMap[$url]['confirm']);
 
         return $response;
     }

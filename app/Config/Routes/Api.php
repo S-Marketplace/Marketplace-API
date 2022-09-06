@@ -102,14 +102,16 @@ $route->group("digipos", function ($route) {
         $route->get("cekSaldo/(:segment)", 'Api\Digipos\User::cekSaldo/$1');
     });
 
-    $route->group("product", ['filter' => 'apiFilter'],  function ($route) {
-        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Product::getProduct/$1/$2');
-        $route->post("recharge", 'Api\Digipos\Product::recharge');
-        $route->post("confirm", 'Api\Digipos\Product::confirm');
-        
-        $route->get("paket_data/(:segment)/(:segment)", 'Api\Digipos\Product::getPaketData/$1/$2');
-        $route->post("rechargePaketData", 'Api\Digipos\Product::rechargePaketData');
-        $route->post("confirmPaketData", 'Api\Digipos\Product::confirmPaketData');
+    $route->group("pulsa", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\Pulsa::getPulsa/$1/$2');
+        $route->post("recharge", 'Api\Digipos\Pulsa::recharge');
+        $route->post("confirm", 'Api\Digipos\Pulsa::confirm');
+    });
+
+    $route->group("paket_data", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("detail/(:segment)/(:segment)", 'Api\Digipos\PaketData::getPaketData/$1/$2');
+        $route->post("recharge", 'Api\Digipos\PaketData::recharge');
+        $route->post("confirm", 'Api\Digipos\PaketData::confirm');
     });
 });
 
