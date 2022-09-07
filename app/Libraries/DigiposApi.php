@@ -419,6 +419,7 @@ class DigiposApi
     public function recharge($data, $url = 'pulsa')
     {
         $data['userId'] = $this->userData->userId;
+        $data['rsNumber'] = $this->userData->rsOutlet->rsNumber;
         $data['outletId'] = $this->userData->rsOutlet->outletId;
      
         $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
@@ -448,5 +449,70 @@ class DigiposApi
     }
 
     // ========================== END PRODUCT =============================== //
+
+    // ========================== PPOB =============================== //
+
+    public function ppobList()
+    {
+        $response = $this
+            ->execute('GET', '/api/secure/ppob/ppob-list/v2');
+
+        return $response;
+    }
+
+    public function ppobDetail($code = 'BPJS')
+    {
+        $response = $this
+            ->execute('GET', '/api/secure/ppob/ppob-list/detail?code='.$code);
+
+        return $response;
+    }
+
+    public function ppobPrice($shortCode = 'pdam_bukittinggi')
+    {
+        $response = $this
+            ->execute('GET', '/api/secure/ppob/ppob-list/detail/price?shortcode='.$shortCode);
+
+        return $response;
+    }
+
+    public function ppobPreInquiry($data)
+    {
+        $data['userId'] = $this->userData->userId;
+        $data['rsNumber'] = $this->userData->rsOutlet->rsNumber;
+        $data['outletId'] = $this->userData->rsOutlet->outletId;
+     
+        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+        
+        $formData = $cryptResponse->sslEncrypt(json_encode($data));
+        
+        $response = $this
+            ->setBody($formData)
+            ->execute('POST', '/api/secure/ppob/pre-ppob-with-inquiry/v2');
+
+        return $response;
+    }
+
+    public function ppobConfirm($data)
+    {
+        $data['userId'] = $this->userData->userId;
+        $data['rsNumber'] = $this->userData->rsOutlet->rsNumber;
+        $data['outletId'] = $this->userData->rsOutlet->outletId;
+
+        $cryptResponse = new Cryptography($this->secretKey->md5Hex, 'AES-128-ECB');
+        $cryptPin = new Cryptography($this->secretKeyPin, 'AES-128-ECB');
+        $data['securityCredential'] =  $cryptPin->sslEncrypt($data['securityCredential']);
+
+        $formData = $cryptResponse->sslEncrypt(json_encode($data));
+      
+        $response = $this
+            ->setBody($formData)
+            ->execute('POST', '/api/secure/ppob/confirmation');
+
+        return $response;
+    }
+
+    // ========================== END PPOB =============================== //
+
 
 }

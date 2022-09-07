@@ -133,6 +133,14 @@ $route->group("digipos", function ($route) {
         $route->post("recharge", 'Api\Digipos\Roaming::recharge');
         $route->post("confirm", 'Api\Digipos\Roaming::confirm');
     });
+
+    $route->group("ppob", ['filter' => 'apiFilter'],  function ($route) {
+        $route->get("list", 'Api\Digipos\Ppob::getList');
+        $route->get("detail/(:segment)", 'Api\Digipos\Ppob::getDetail/$1');
+        $route->get("price/(:segment)", 'Api\Digipos\Ppob::getPrice/$1');
+        $route->post("preInquiry", 'Api\Digipos\Ppob::preInquiry');
+        $route->post("confirm", 'Api\Digipos\Ppob::confirm');
+    });
 });
 
 $route->group("pulsa_bridge", function ($route) {

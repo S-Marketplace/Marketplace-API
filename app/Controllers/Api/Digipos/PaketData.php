@@ -19,7 +19,6 @@ class PaketData extends MyResourceDigipos
             'packageId' => 'required',
             'paymentMethod' => 'required',
             'price' => 'required',
-            'rsNumber' => 'required',
             'trxType' => 'required',
         ], $this->validationMessage)) {
             
@@ -29,7 +28,6 @@ class PaketData extends MyResourceDigipos
                 'packageId' => $this->request->getPost('packageId'),
                 'paymentMethod' => $this->request->getPost('paymentMethod'),
                 'price' => $this->request->getPost('price'),
-                'rsNumber' => $this->request->getPost('rsNumber'),
                 'trxType' => $this->request->getPost('trxType'),
             ], 'paket_data');
 

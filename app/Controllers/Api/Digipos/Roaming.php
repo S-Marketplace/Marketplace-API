@@ -19,7 +19,6 @@ class Roaming extends MyResourceDigipos
             "paymentMethod" => "required",
             "price" => 'required',
             "reserveDate" => "required",
-            "rsNumber" => "required",
             "trxType" => "required",
         ], $this->validationMessage)) {
 
@@ -30,7 +29,6 @@ class Roaming extends MyResourceDigipos
                 'price' => $this->request->getPost('price'),
                 'trxType' => $this->request->getPost('trxType'),
                 'reserveDate' => $this->request->getPost('reserveDate'),
-                'rsNumber' => $this->request->getPost('rsNumber'),
             ], 'roaming');
 
             return $this->convertResponse($response);

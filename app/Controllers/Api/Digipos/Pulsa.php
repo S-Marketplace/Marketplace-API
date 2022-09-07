@@ -19,7 +19,6 @@ class Pulsa extends MyResourceDigipos
             'paymentMethod' => 'required',
             'price' => 'required',
             'rechargeType' => 'required',
-            'rsNumber' => 'required',
         ], $this->validationMessage)) {
 
             $response = $this->digiposApi->recharge([
@@ -28,7 +27,6 @@ class Pulsa extends MyResourceDigipos
                 'paymentMethod' => $this->request->getPost('paymentMethod'),
                 'price' => $this->request->getPost('price'),
                 'rechargeType' => $this->request->getPost('rechargeType'),
-                'rsNumber' => $this->request->getPost('rsNumber'),
             ], 'pulsa');
 
             return $this->convertResponse($response);
