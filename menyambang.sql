@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.1 (64 bit)
-MySQL - 10.3.32-MariaDB-cll-lve : Database - u1068353_menyambang
+MySQL - 8.2.0 : Database - marketplace
 *********************************************************************
 */
 
@@ -12,43 +12,63 @@ MySQL - 10.3.32-MariaDB-cll-lve : Database - u1068353_menyambang
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`u1068353_menyambang` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`marketplace` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `u1068353_menyambang`;
+USE `marketplace`;
 
 /*Table structure for table `m_banner` */
 
 DROP TABLE IF EXISTS `m_banner`;
 
 CREATE TABLE `m_banner` (
-  `bnrId` int(11) NOT NULL AUTO_INCREMENT,
-  `bnrDeskripsi` text DEFAULT NULL,
+  `bnrId` int NOT NULL AUTO_INCREMENT,
+  `bnrDeskripsi` text,
   `bnrGambar` varchar(40) DEFAULT NULL,
   `bnrUrl` varchar(200) DEFAULT NULL,
-  `bnrCreatedAt` datetime DEFAULT current_timestamp(),
-  `bnrUpdatedAt` datetime DEFAULT current_timestamp(),
-  `bnrDeletedAt` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `bnrProdukId` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `bnrKategoriId` int DEFAULT NULL,
+  `bnrCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `bnrUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `bnrDeletedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`bnrId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `m_banner` */
 
-insert  into `m_banner`(`bnrId`,`bnrDeskripsi`,`bnrGambar`,`bnrUrl`,`bnrCreatedAt`,`bnrUpdatedAt`,`bnrDeletedAt`) values 
-(16,'-','20220119110203.jpg','https://menyambang.id','2022-01-19 22:02:03','2022-01-19 22:02:03',NULL),
-(17,'-','20220119110223.jpg','https://menyambang.id','2022-01-19 22:02:23','2022-01-19 22:02:23',NULL),
-(18,'-','20220119110238.jpg','https://menyambang.id','2022-01-19 22:02:38','2022-01-19 22:02:38',NULL);
+insert  into `m_banner`(`bnrId`,`bnrDeskripsi`,`bnrGambar`,`bnrUrl`,`bnrProdukId`,`bnrKategoriId`,`bnrCreatedAt`,`bnrUpdatedAt`,`bnrDeletedAt`) values 
+(16,'-','20220119110203.jpg','https://menyambang.id',NULL,NULL,'2022-01-19 22:02:03','2022-01-19 22:02:03',NULL),
+(17,'-','20220119110223.jpg','https://menyambang.id',NULL,NULL,'2022-01-19 22:02:23','2022-01-19 22:02:23',NULL),
+(18,'-','20220119110238.jpg','https://menyambang.id',NULL,NULL,'2022-01-19 22:02:38','2022-01-19 22:02:38',NULL);
+
+/*Table structure for table `m_broadcast` */
+
+DROP TABLE IF EXISTS `m_broadcast`;
+
+CREATE TABLE `m_broadcast` (
+  `brdId` int NOT NULL AUTO_INCREMENT,
+  `brdJudul` varchar(100) DEFAULT NULL,
+  `brdDeskripsi` text,
+  `brdGambar` varchar(60) DEFAULT NULL,
+  `brdUrl` varchar(200) DEFAULT NULL,
+  `brdCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `brdUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `brdDeletedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`brdId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `m_broadcast` */
 
 /*Table structure for table `m_kategori` */
 
 DROP TABLE IF EXISTS `m_kategori`;
 
 CREATE TABLE `m_kategori` (
-  `ktgId` int(11) NOT NULL AUTO_INCREMENT,
+  `ktgId` int NOT NULL AUTO_INCREMENT,
   `ktgNama` varchar(40) DEFAULT NULL,
   `ktgIcon` varchar(40) DEFAULT NULL,
-  `ktgCreatedAt` datetime DEFAULT current_timestamp(),
-  `ktgUpdatedAt` datetime DEFAULT current_timestamp(),
-  `ktgDeletedAt` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `ktgCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ktgUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ktgDeletedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ktgId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
@@ -63,20 +83,37 @@ insert  into `m_kategori`(`ktgId`,`ktgNama`,`ktgIcon`,`ktgCreatedAt`,`ktgUpdated
 (13,'Rumah Tangga','20220119105908.png','2022-01-18 20:09:12','2022-01-18 20:09:12',NULL),
 (14,'Travel & Entertainment','20220119105916.png','2022-01-18 20:09:28','2022-01-18 20:09:28',NULL);
 
+/*Table structure for table `m_lokasi_cod` */
+
+DROP TABLE IF EXISTS `m_lokasi_cod`;
+
+CREATE TABLE `m_lokasi_cod` (
+  `lcdId` int NOT NULL AUTO_INCREMENT,
+  `lcdNama` varchar(100) DEFAULT NULL,
+  `lcdLatitude` double DEFAULT NULL,
+  `lcdLongitude` double DEFAULT NULL,
+  `lcdCreatedAt` datetime DEFAULT NULL,
+  `lcdUpdatedAt` datetime DEFAULT NULL,
+  `lcdDeletedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`lcdId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `m_lokasi_cod` */
+
 /*Table structure for table `m_metode_pembayaran` */
 
 DROP TABLE IF EXISTS `m_metode_pembayaran`;
 
 CREATE TABLE `m_metode_pembayaran` (
-  `mpbId` int(10) NOT NULL AUTO_INCREMENT,
+  `mpbId` int NOT NULL AUTO_INCREMENT,
   `mpbNama` varchar(20) DEFAULT NULL,
   `mpbDeskripsi` varchar(200) DEFAULT NULL,
   `mpbTipe` enum('bank_transfer','echannel','saldo') DEFAULT NULL,
   `mpbGambar` varchar(40) DEFAULT NULL,
   `mpbVaNumber` varchar(20) DEFAULT NULL,
   `mpbBank` enum('bni','bri','permata','bca') DEFAULT NULL,
-  `mpbCreatedAt` datetime DEFAULT current_timestamp(),
-  `mpbUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `mpbCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `mpbUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `mpbDeletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`mpbId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
@@ -96,10 +133,10 @@ insert  into `m_metode_pembayaran`(`mpbId`,`mpbNama`,`mpbDeskripsi`,`mpbTipe`,`m
 DROP TABLE IF EXISTS `m_notifikasi`;
 
 CREATE TABLE `m_notifikasi` (
-  `noifId` int(11) NOT NULL AUTO_INCREMENT,
+  `noifId` int NOT NULL AUTO_INCREMENT,
   `notifJudul` varchar(40) DEFAULT NULL,
-  `notifPesan` text DEFAULT NULL,
-  `notifTanggal` datetime DEFAULT current_timestamp(),
+  `notifPesan` text,
+  `notifTanggal` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`noifId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -112,16 +149,16 @@ DROP TABLE IF EXISTS `m_produk`;
 CREATE TABLE `m_produk` (
   `produkId` varchar(15) NOT NULL,
   `produkNama` varchar(100) DEFAULT NULL,
-  `produkDeskripsi` text DEFAULT NULL,
-  `produkHarga` int(11) DEFAULT NULL,
-  `produkStok` int(11) DEFAULT NULL,
+  `produkDeskripsi` text,
+  `produkHarga` int DEFAULT NULL,
+  `produkStok` int DEFAULT NULL,
   `produkHargaPer` varchar(10) DEFAULT NULL,
   `produkDiskon` double DEFAULT NULL,
   `produkBerat` double DEFAULT NULL COMMENT 'GRAM',
-  `produkDilihat` int(11) DEFAULT NULL,
-  `produkKategoriId` int(11) DEFAULT NULL,
-  `produkCreatedAt` datetime DEFAULT current_timestamp(),
-  `produkUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `produkDilihat` int DEFAULT NULL,
+  `produkKategoriId` int DEFAULT NULL,
+  `produkCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `produkUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `produkDeletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`produkId`),
   KEY `m_produk_ibfk_1` (`produkKategoriId`),
@@ -143,13 +180,13 @@ insert  into `m_produk`(`produkId`,`produkNama`,`produkDeskripsi`,`produkHarga`,
 DROP TABLE IF EXISTS `m_produk_beranda`;
 
 CREATE TABLE `m_produk_beranda` (
-  `pbId` int(11) NOT NULL AUTO_INCREMENT,
+  `pbId` int NOT NULL AUTO_INCREMENT,
   `pbBanner` varchar(40) DEFAULT NULL,
   `pbJudul` varchar(100) DEFAULT NULL,
-  `pbDeskripsi` text DEFAULT NULL,
-  `pbUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `pbDeskripsi` text,
+  `pbUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pbDeletedAt` datetime DEFAULT NULL,
-  `pbCreatedAt` datetime DEFAULT current_timestamp(),
+  `pbCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pbId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -165,8 +202,8 @@ DROP TABLE IF EXISTS `m_setting`;
 CREATE TABLE `m_setting` (
   `setKey` varchar(40) NOT NULL,
   `setValue` varchar(300) DEFAULT NULL,
-  `setCreatedAt` datetime DEFAULT current_timestamp(),
-  `setUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `setCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `setUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `setDeletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`setKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -190,9 +227,9 @@ CREATE TABLE `m_user` (
   `usrNama` varchar(40) DEFAULT NULL,
   `usrPassword` varchar(40) DEFAULT NULL,
   `usrSaldo` double DEFAULT NULL,
-  `usrIsActive` tinyint(4) DEFAULT 0,
-  `usrCreatedAt` datetime DEFAULT current_timestamp(),
-  `usrUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `usrIsActive` tinyint DEFAULT '0',
+  `usrCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `usrUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `usrDeletedAt` datetime DEFAULT NULL,
   `usrFirebaseToken` varchar(200) DEFAULT NULL,
   `usrPin` varchar(40) DEFAULT NULL,
@@ -215,24 +252,25 @@ insert  into `m_user`(`usrEmail`,`usrNama`,`usrPassword`,`usrSaldo`,`usrIsActive
 DROP TABLE IF EXISTS `m_user_alamat`;
 
 CREATE TABLE `m_user_alamat` (
-  `usralId` int(11) NOT NULL AUTO_INCREMENT,
+  `usralId` int NOT NULL AUTO_INCREMENT,
   `usralUsrEmail` varchar(40) DEFAULT NULL,
   `usralNama` varchar(40) DEFAULT NULL,
-  `usralCreatedAt` datetime DEFAULT current_timestamp(),
-  `usralUpdatedAt` datetime DEFAULT current_timestamp(),
-  `usralDeletedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `usralCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `usralUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `usralDeletedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `usralLatitude` double DEFAULT NULL,
   `usralLongitude` double DEFAULT NULL,
-  `usralKotaId` int(11) DEFAULT NULL,
+  `usralKotaId` int DEFAULT NULL,
   `usralKotaNama` varchar(30) DEFAULT NULL,
   `usralKotaTipe` varchar(30) DEFAULT NULL,
-  `usralProvinsiId` int(11) DEFAULT NULL,
+  `usralProvinsiId` int DEFAULT NULL,
   `usralProvinsiNama` varchar(30) DEFAULT NULL,
-  `usralKecamatanId` int(11) DEFAULT NULL,
+  `usralKecamatanId` int DEFAULT NULL,
   `usralKecamatanNama` varchar(30) DEFAULT NULL,
-  `usralIsActive` tinyint(4) DEFAULT 0,
-  `usralIsFirst` tinyint(4) DEFAULT 0,
+  `usralIsActive` tinyint DEFAULT '0',
+  `usralIsFirst` tinyint DEFAULT '0',
   `usralKeterangan` varchar(100) DEFAULT NULL COMMENT 'Keterangan untuk kurir',
+  `usralJalan` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`usralId`),
   KEY `usralUsrEmail` (`usralUsrEmail`),
   CONSTRAINT `m_user_alamat_ibfk_1` FOREIGN KEY (`usralUsrEmail`) REFERENCES `m_user` (`usrEmail`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -240,11 +278,11 @@ CREATE TABLE `m_user_alamat` (
 
 /*Data for the table `m_user_alamat` */
 
-insert  into `m_user_alamat`(`usralId`,`usralUsrEmail`,`usralNama`,`usralCreatedAt`,`usralUpdatedAt`,`usralDeletedAt`,`usralLatitude`,`usralLongitude`,`usralKotaId`,`usralKotaNama`,`usralKotaTipe`,`usralProvinsiId`,`usralProvinsiNama`,`usralKecamatanId`,`usralKecamatanNama`,`usralIsActive`,`usralIsFirst`,`usralKeterangan`) values 
-(8,'ahmad@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-08 21:54:23',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL),
-(9,'ahmadjuhdi007@gmail.comss','Rumah','2022-02-10 03:06:10','2022-02-10 03:06:10','2022-02-10 03:06:10',11111,11111,11111,'11111','Kecamatan',11111,'11111',1111,'1111',1,1,NULL),
-(11,'ahmadjuhdi007@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-10 03:30:55',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL),
-(12,'gjuhdi@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-10 04:30:35',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL);
+insert  into `m_user_alamat`(`usralId`,`usralUsrEmail`,`usralNama`,`usralCreatedAt`,`usralUpdatedAt`,`usralDeletedAt`,`usralLatitude`,`usralLongitude`,`usralKotaId`,`usralKotaNama`,`usralKotaTipe`,`usralProvinsiId`,`usralProvinsiNama`,`usralKecamatanId`,`usralKecamatanNama`,`usralIsActive`,`usralIsFirst`,`usralKeterangan`,`usralJalan`) values 
+(8,'ahmad@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-08 21:54:23',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL,NULL),
+(9,'ahmadjuhdi007@gmail.comss','Rumah','2022-02-10 03:06:10','2022-02-10 03:06:10','2022-02-10 03:06:10',11111,11111,11111,'11111','Kecamatan',11111,'11111',1111,'1111',1,1,NULL,NULL),
+(11,'ahmadjuhdi007@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-10 03:30:55',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL,NULL),
+(12,'gjuhdi@gmail.com','Rumah','2022-02-08 21:54:23','2022-02-08 21:54:23','2022-02-10 04:30:35',-3.4483395,114.8430029,8,'Aceh Tengah','Kabupaten',21,'Nanggroe Aceh Darussalam (NAD)',105,'Lut Tawar',1,1,NULL,NULL);
 
 /*Table structure for table `m_user_web` */
 
@@ -255,8 +293,8 @@ CREATE TABLE `m_user_web` (
   `usrwebNama` varchar(40) DEFAULT NULL,
   `usrwebRole` enum('admin','superadmin') DEFAULT NULL,
   `usrwebPassword` varchar(40) DEFAULT NULL,
-  `usrwebCreatedAt` datetime DEFAULT current_timestamp(),
-  `usrwebUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `usrwebCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `usrwebUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `usrwebDeletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`usrwebUsername`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -272,15 +310,16 @@ insert  into `m_user_web`(`usrwebUsername`,`usrwebNama`,`usrwebRole`,`usrwebPass
 DROP TABLE IF EXISTS `t_checkout`;
 
 CREATE TABLE `t_checkout` (
-  `cktId` int(11) NOT NULL AUTO_INCREMENT,
+  `cktId` int NOT NULL AUTO_INCREMENT,
   `cktStatus` enum('dikemas','belum_bayar','dikirim','selesai','dibatalkan') DEFAULT NULL,
   `cktKurir` varchar(20) DEFAULT NULL,
   `cktNoResiKurir` varchar(40) DEFAULT NULL,
   `cktCatatan` varchar(40) DEFAULT NULL,
-  `cktAlamatId` int(11) DEFAULT NULL,
-  `cktCreatedAt` datetime DEFAULT current_timestamp(),
-  `cktUpdatedAt` datetime DEFAULT current_timestamp(),
-  `cktDeletedAt` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `cktAlamatId` int DEFAULT NULL,
+  `cktCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `cktUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `cktDeletedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `cktPmbId` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cktId`),
   KEY `cktAlamatId` (`cktAlamatId`),
   CONSTRAINT `t_checkout_ibfk_1` FOREIGN KEY (`cktAlamatId`) REFERENCES `m_user_alamat` (`usralId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -288,26 +327,26 @@ CREATE TABLE `t_checkout` (
 
 /*Data for the table `t_checkout` */
 
-insert  into `t_checkout`(`cktId`,`cktStatus`,`cktKurir`,`cktNoResiKurir`,`cktCatatan`,`cktAlamatId`,`cktCreatedAt`,`cktUpdatedAt`,`cktDeletedAt`) values 
-(5,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:33:28','2022-02-13 21:33:28',NULL),
-(6,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:28','2022-02-13 21:42:28',NULL),
-(7,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:36','2022-02-13 21:42:36',NULL),
-(8,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:56','2022-02-13 21:42:56',NULL),
-(9,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:43:17','2022-02-13 21:43:17',NULL),
-(10,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:43:29','2022-02-13 21:43:29',NULL),
-(11,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:48:02','2022-02-13 21:48:02',NULL);
+insert  into `t_checkout`(`cktId`,`cktStatus`,`cktKurir`,`cktNoResiKurir`,`cktCatatan`,`cktAlamatId`,`cktCreatedAt`,`cktUpdatedAt`,`cktDeletedAt`,`cktPmbId`) values 
+(5,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:33:28','2022-02-13 21:33:28',NULL,NULL),
+(6,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:28','2022-02-13 21:42:28',NULL,NULL),
+(7,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:36','2022-02-13 21:42:36',NULL,NULL),
+(8,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:42:56','2022-02-13 21:42:56',NULL,NULL),
+(9,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:43:17','2022-02-13 21:43:17',NULL,NULL),
+(10,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:43:29','2022-02-13 21:43:29',NULL,NULL),
+(11,'belum_bayar','jne',NULL,'Di kemas yang rapi',11,'2022-02-13 21:48:02','2022-02-13 21:48:02',NULL,NULL);
 
 /*Table structure for table `t_checkout_detail` */
 
 DROP TABLE IF EXISTS `t_checkout_detail`;
 
 CREATE TABLE `t_checkout_detail` (
-  `cktdtId` int(11) NOT NULL AUTO_INCREMENT,
-  `cktdtCheckoutId` int(11) DEFAULT NULL,
+  `cktdtId` int NOT NULL AUTO_INCREMENT,
+  `cktdtCheckoutId` int DEFAULT NULL,
   `cktdtKeterangan` varchar(50) DEFAULT NULL,
   `cktdtBiaya` double DEFAULT NULL,
-  `cktdtCreatedAt` datetime DEFAULT current_timestamp(),
-  `cktdtUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cktdtCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `cktdtUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `cktdtDeletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`cktdtId`),
   KEY `cktdtCheckoutId` (`cktdtCheckoutId`),
@@ -332,21 +371,44 @@ insert  into `t_checkout_detail`(`cktdtId`,`cktdtCheckoutId`,`cktdtKeterangan`,`
 (17,11,'Subtotal produk',64083,'2022-02-13 21:48:02','2022-02-13 21:48:02',NULL),
 (18,11,'Ongkos Kirim',20000,'2022-02-13 21:48:02','2022-02-13 21:48:02',NULL);
 
+/*Table structure for table `t_checkout_kurir` */
+
+DROP TABLE IF EXISTS `t_checkout_kurir`;
+
+CREATE TABLE `t_checkout_kurir` (
+  `ckurId` int NOT NULL AUTO_INCREMENT,
+  `ckurCheckoutId` int DEFAULT NULL,
+  `ckurKurir` varchar(30) DEFAULT NULL,
+  `ckurNama` varchar(30) DEFAULT NULL,
+  `ckurService` varchar(100) DEFAULT NULL,
+  `ckurDeskripsi` text,
+  `ckurCost` double DEFAULT NULL,
+  `ckurTipePengiriman` varchar(10) DEFAULT NULL,
+  `ckurCodId` int DEFAULT NULL,
+  `ckurNoResi` varchar(50) DEFAULT NULL,
+  `ckurCreatedAt` datetime DEFAULT NULL,
+  `ckurUpdatedAt` datetime DEFAULT NULL,
+  `ckurDeletedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ckurId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `t_checkout_kurir` */
+
 /*Table structure for table `t_keranjang` */
 
 DROP TABLE IF EXISTS `t_keranjang`;
 
 CREATE TABLE `t_keranjang` (
-  `krjId` int(11) NOT NULL AUTO_INCREMENT,
+  `krjId` int NOT NULL AUTO_INCREMENT,
   `krjProdukId` varchar(15) DEFAULT NULL,
-  `krjQuantity` int(11) DEFAULT NULL,
+  `krjQuantity` int DEFAULT NULL,
   `krjPesan` varchar(200) DEFAULT NULL,
-  `krjCheckoutId` int(11) DEFAULT NULL,
-  `krjCreatedAt` datetime DEFAULT current_timestamp(),
-  `krjUpdatedAt` datetime DEFAULT current_timestamp(),
-  `krjDeletedAt` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `krjCheckoutId` int DEFAULT NULL,
+  `krjCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `krjUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `krjDeletedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `krjUserEmail` varchar(40) DEFAULT NULL,
-  `krjIsChecked` tinyint(4) DEFAULT 0,
+  `krjIsChecked` tinyint DEFAULT '0',
   PRIMARY KEY (`krjId`),
   KEY `krjUserEmail` (`krjUserEmail`),
   KEY `krjProdukId` (`krjProdukId`),
@@ -373,9 +435,9 @@ insert  into `t_keranjang`(`krjId`,`krjProdukId`,`krjQuantity`,`krjPesan`,`krjCh
 DROP TABLE IF EXISTS `t_notifikasi_to`;
 
 CREATE TABLE `t_notifikasi_to` (
-  `tnotifId` int(11) NOT NULL AUTO_INCREMENT,
+  `tnotifId` int NOT NULL AUTO_INCREMENT,
   `tnotifEmail` varchar(40) DEFAULT NULL,
-  `tnotifNotifId` int(11) DEFAULT NULL,
+  `tnotifNotifId` int DEFAULT NULL,
   PRIMARY KEY (`tnotifId`),
   KEY `tnotifNotifId` (`tnotifNotifId`),
   CONSTRAINT `t_notifikasi_to_ibfk_1` FOREIGN KEY (`tnotifNotifId`) REFERENCES `m_notifikasi` (`noifId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -389,7 +451,7 @@ DROP TABLE IF EXISTS `t_pembayaran`;
 
 CREATE TABLE `t_pembayaran` (
   `pmbId` varchar(50) NOT NULL,
-  `pmbCheckoutId` int(11) DEFAULT NULL,
+  `pmbCheckoutId` int DEFAULT NULL,
   `pmbPaymentType` enum('echannel','bank_transfer','gopay') DEFAULT NULL,
   `pmbStatus` enum('pending','cancel','settlement','failure','expire') DEFAULT NULL,
   `pmbTime` datetime DEFAULT NULL,
@@ -404,6 +466,9 @@ CREATE TABLE `t_pembayaran` (
   `pmbBillKey` varchar(15) DEFAULT NULL COMMENT 'Pembayaran Echannel',
   `pmbUserEmail` varchar(50) DEFAULT NULL,
   `pmbExpiredDate` datetime DEFAULT NULL,
+  `pmbRekNumber` varchar(20) DEFAULT NULL,
+  `pmbPaymentCode` varchar(10) DEFAULT NULL,
+  `pmbStore` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`pmbId`),
   KEY `usalUserEmail` (`pmbUserEmail`),
   KEY `pmbCheckoutId` (`pmbCheckoutId`),
@@ -412,20 +477,20 @@ CREATE TABLE `t_pembayaran` (
 
 /*Data for the table `t_pembayaran` */
 
-insert  into `t_pembayaran`(`pmbId`,`pmbCheckoutId`,`pmbPaymentType`,`pmbStatus`,`pmbTime`,`pmbSignatureKey`,`pmbOrderId`,`pmbMerchantId`,`pmbGrossAmount`,`pmbCurrency`,`pmbVaNumber`,`pmbBank`,`pmbBillerCode`,`pmbBillKey`,`pmbUserEmail`,`pmbExpiredDate`) values 
-('fc83e587-0acb-4e8b-b82b-442687cd2440',11,'echannel','pending','2022-02-13 21:48:03','','ORDER-1644763629','G005407818',84083,'IDR','','','70012','175059187783','ahmadjuhdi007@gmail.com','2022-02-14 21:48:03');
+insert  into `t_pembayaran`(`pmbId`,`pmbCheckoutId`,`pmbPaymentType`,`pmbStatus`,`pmbTime`,`pmbSignatureKey`,`pmbOrderId`,`pmbMerchantId`,`pmbGrossAmount`,`pmbCurrency`,`pmbVaNumber`,`pmbBank`,`pmbBillerCode`,`pmbBillKey`,`pmbUserEmail`,`pmbExpiredDate`,`pmbRekNumber`,`pmbPaymentCode`,`pmbStore`) values 
+('fc83e587-0acb-4e8b-b82b-442687cd2440',11,'echannel','pending','2022-02-13 21:48:03','','ORDER-1644763629','G005407818',84083,'IDR','','','70012','175059187783','ahmadjuhdi007@gmail.com','2022-02-14 21:48:03',NULL,NULL,NULL);
 
 /*Table structure for table `t_produk_beranda` */
 
 DROP TABLE IF EXISTS `t_produk_beranda`;
 
 CREATE TABLE `t_produk_beranda` (
-  `tpbId` int(11) NOT NULL AUTO_INCREMENT,
+  `tpbId` int NOT NULL AUTO_INCREMENT,
   `tpbProdukId` varchar(15) DEFAULT NULL,
-  `tpbPbId` int(11) DEFAULT NULL,
-  `tpbUpdatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tpbPbId` int DEFAULT NULL,
+  `tpbUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `tpbDeletedAt` datetime DEFAULT NULL,
-  `tpbCreatedAt` datetime DEFAULT current_timestamp(),
+  `tpbCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tpbId`),
   KEY `tpbPbId` (`tpbPbId`),
   KEY `tpbProdukId` (`tpbProdukId`),
@@ -446,12 +511,13 @@ insert  into `t_produk_beranda`(`tpbId`,`tpbProdukId`,`tpbPbId`,`tpbUpdatedAt`,`
 DROP TABLE IF EXISTS `t_produk_gambar`;
 
 CREATE TABLE `t_produk_gambar` (
-  `prdgbrId` int(11) NOT NULL AUTO_INCREMENT,
+  `prdgbrId` int NOT NULL AUTO_INCREMENT,
   `prdgbrProdukId` varchar(15) DEFAULT NULL,
   `prdgbrFile` varchar(40) DEFAULT NULL,
-  `prdgbrCreatedAt` datetime DEFAULT current_timestamp(),
-  `prdgbrUpdatedAt` datetime DEFAULT current_timestamp(),
-  `prdgbrDeletedAt` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `prdgbrIsThumbnail` tinyint DEFAULT NULL,
+  `prdgbrCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `prdgbrUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `prdgbrDeletedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`prdgbrId`),
   KEY `prdgbrProdukId` (`prdgbrProdukId`),
   CONSTRAINT `t_produk_gambar_ibfk_1` FOREIGN KEY (`prdgbrProdukId`) REFERENCES `m_produk` (`produkId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -459,24 +525,44 @@ CREATE TABLE `t_produk_gambar` (
 
 /*Data for the table `t_produk_gambar` */
 
-insert  into `t_produk_gambar`(`prdgbrId`,`prdgbrProdukId`,`prdgbrFile`,`prdgbrCreatedAt`,`prdgbrUpdatedAt`,`prdgbrDeletedAt`) values 
-(62,'K001','1642605036_be30a4ad06d5bc8d19a9.jpg','2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
-(63,'K001','1642605036_af42d0f59295fa64d2de.jpg','2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
-(64,'K001','1642605036_9b48a74be00b9a7e73b5.png','2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
-(70,'K0033','1642779153_f799281ac32003fbef05.jpg','2022-01-21 22:33:09','2022-01-21 22:33:09',NULL),
-(75,'K0033','1642834433_6739135f1d8788bc9e78.jpg','2022-01-22 13:54:29','2022-01-22 13:54:29',NULL),
-(76,'K002','1643203870_2106b5e60e894c3d951a.jpg','2022-01-26 20:31:10','2022-01-26 20:31:10',NULL),
-(77,'K002','1643203870_54f858d742680fb10b9f.jpg','2022-01-26 20:31:10','2022-01-26 20:31:10',NULL),
-(78,'K0033','1643291008_e13c22518d246ae58511.jpg','2022-01-27 20:44:08','2022-01-27 20:44:08',NULL),
-(82,'K003','1643297891_260c8ba782956212ab24.jpg','2022-01-27 22:38:11','2022-01-27 22:38:11',NULL),
-(83,'K003','1643297891_9dd95b769ac42a2154e6.jpg','2022-01-27 22:38:11','2022-01-27 22:38:11',NULL),
-(92,'K001','1643334965_1a303e1b0b89b94449ec.jpg','2022-01-28 08:56:05','2022-01-28 08:56:05',NULL),
-(93,'K007','1643421416_364587bb9e10a233d5c4.jpg','2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
-(94,'K007','1643421416_757273c4f1f59a0f5036.jpg','2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
-(95,'K007','1643421416_52ae73f3b86f91133f46.jpg','2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
-(96,'K008','1643422389_8f90893424e02fb0f74e.png','2022-01-29 09:13:09','2022-01-29 09:13:09',NULL),
-(97,'K008','1643422402_9e788e082057a4631d83.png','2022-01-29 09:13:22','2022-01-29 09:13:22',NULL),
-(98,'K008','1643422402_de1dcaa230c8938eea4d.png','2022-01-29 09:13:22','2022-01-29 09:13:22',NULL);
+insert  into `t_produk_gambar`(`prdgbrId`,`prdgbrProdukId`,`prdgbrFile`,`prdgbrIsThumbnail`,`prdgbrCreatedAt`,`prdgbrUpdatedAt`,`prdgbrDeletedAt`) values 
+(62,'K001','1642605036_be30a4ad06d5bc8d19a9.jpg',NULL,'2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
+(63,'K001','1642605036_af42d0f59295fa64d2de.jpg',NULL,'2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
+(64,'K001','1642605036_9b48a74be00b9a7e73b5.png',NULL,'2022-01-19 22:10:36','2022-01-19 22:10:36',NULL),
+(70,'K0033','1642779153_f799281ac32003fbef05.jpg',NULL,'2022-01-21 22:33:09','2022-01-21 22:33:09',NULL),
+(75,'K0033','1642834433_6739135f1d8788bc9e78.jpg',NULL,'2022-01-22 13:54:29','2022-01-22 13:54:29',NULL),
+(76,'K002','1643203870_2106b5e60e894c3d951a.jpg',NULL,'2022-01-26 20:31:10','2022-01-26 20:31:10',NULL),
+(77,'K002','1643203870_54f858d742680fb10b9f.jpg',NULL,'2022-01-26 20:31:10','2022-01-26 20:31:10',NULL),
+(78,'K0033','1643291008_e13c22518d246ae58511.jpg',NULL,'2022-01-27 20:44:08','2022-01-27 20:44:08',NULL),
+(82,'K003','1643297891_260c8ba782956212ab24.jpg',NULL,'2022-01-27 22:38:11','2022-01-27 22:38:11',NULL),
+(83,'K003','1643297891_9dd95b769ac42a2154e6.jpg',NULL,'2022-01-27 22:38:11','2022-01-27 22:38:11',NULL),
+(92,'K001','1643334965_1a303e1b0b89b94449ec.jpg',NULL,'2022-01-28 08:56:05','2022-01-28 08:56:05',NULL),
+(93,'K007','1643421416_364587bb9e10a233d5c4.jpg',NULL,'2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
+(94,'K007','1643421416_757273c4f1f59a0f5036.jpg',NULL,'2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
+(95,'K007','1643421416_52ae73f3b86f91133f46.jpg',NULL,'2022-01-29 08:56:56','2022-01-29 08:56:56',NULL),
+(96,'K008','1643422389_8f90893424e02fb0f74e.png',NULL,'2022-01-29 09:13:09','2022-01-29 09:13:09',NULL),
+(97,'K008','1643422402_9e788e082057a4631d83.png',NULL,'2022-01-29 09:13:22','2022-01-29 09:13:22',NULL),
+(98,'K008','1643422402_de1dcaa230c8938eea4d.png',NULL,'2022-01-29 09:13:22','2022-01-29 09:13:22',NULL);
+
+/*Table structure for table `t_produk_variant` */
+
+DROP TABLE IF EXISTS `t_produk_variant`;
+
+CREATE TABLE `t_produk_variant` (
+  `pvarId` int NOT NULL AUTO_INCREMENT,
+  `pvarProdukId` varchar(15) DEFAULT NULL,
+  `pvarStok` int DEFAULT NULL,
+  `pvarProdukStok` int DEFAULT NULL,
+  `pvarHarga` double DEFAULT NULL,
+  `pvarGambar` varchar(60) DEFAULT NULL,
+  `pvarNama` varchar(200) DEFAULT NULL,
+  `pvarCreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `pvarUpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pvarDeletedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`pvarId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `t_produk_variant` */
 
 /*Table structure for table `t_user_saldo` */
 
